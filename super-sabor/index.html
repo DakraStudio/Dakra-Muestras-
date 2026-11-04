@@ -288,19 +288,31 @@
                 en:{hi:"Hi! 👋 I'm Super Sabor's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call the store at ${TEL} and they'll gladly help.`}};
   const ans=k=>{const it=INTENTS.find(i=>i.k===k);return it?it[lang]():BOTTXT[lang].fb};
   const match=q=>{const it=INTENTS.find(i=>i.re.test(q));return it?it.k:null};
+  /* La conversación se guarda como historial y se vuelve a dibujar en el idioma actual. */
   const log=document.getElementById("botLog");
-  function say(html,who){const m=document.createElement("div");m.className="bm "+who;if(who==="u")m.textContent=html;else m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight}
-  function reply(k){const t=document.createElement("div");t.className="bm b";t.textContent="…";log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(()=>{t.innerHTML=ans(k);log.scrollTop=log.scrollHeight},450)}
+  const HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function bubble(who,html,isText){const m=document.createElement("div");m.className="bm "+who;if(isText)m.textContent=html;else m.innerHTML=html;log.appendChild(m)}
+  function draw(){
+    log.innerHTML="";
+    HIST.forEach(h=>{
+      if(h.who==="hi")bubble("b",BOTTXT[lang].hi);
+      else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,lang)||h.q):h.q,true);
+      else if(h.pending)bubble("b","…",true);
+      else bubble("b",ans(h.k||match(h.q)));
+    });
+    log.scrollTop=log.scrollHeight;
+  }
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
   function botChips(){document.getElementById("botChips").innerHTML=CHIPS[lang].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
-    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");reply(b.dataset.k)}));
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
     document.getElementById("botIn").placeholder=BOTTXT[lang].ph}
-  let botStarted=false;
   function botOpen(o){document.getElementById("bot").hidden=!o;document.getElementById("botBtn").setAttribute("aria-expanded",o);
-    if(o&&!botStarted){botStarted=true;say(BOTTXT[lang].hi,"b")} if(o){botChips();document.getElementById("botIn").focus({preventScroll:true})}}
+    if(o&&!HIST.length)HIST.push({who:"hi"}); if(o){botChips();draw()}}
   document.getElementById("botBtn").addEventListener("click",()=>botOpen(document.getElementById("bot").hidden));
   document.getElementById("botX").addEventListener("click",()=>botOpen(false));
-  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");reply(match(q))});
-  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{if(!document.getElementById("bot").hidden)botChips()}));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{botChips();draw()}));
   render(); setInterval(render,60000);
 </script>
 </body>

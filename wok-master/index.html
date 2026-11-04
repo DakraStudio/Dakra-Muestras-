@@ -297,19 +297,36 @@ footer .credit a{text-decoration:underline}
     if(asksPrice)return l==="es"?`Mira todos los precios en el menú de esta página o en ${OL.es}. 💵`:`See all prices in this page's menu or ${OL.en}. 💵`;
     return TXT[l].fb;
   }
+  /* La conversación se guarda como historial y se vuelve a dibujar en el idioma actual,
+     así al cambiar de idioma cambian el saludo, las respuestas y los botones. */
   const log=document.getElementById("botLog");
-  function say(html,who){const m=document.createElement("div");m.className="bm "+who;if(who==="u")m.textContent=html;else m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight}
-  function reply(q,k){const t=document.createElement("div");t.className="bm b";t.textContent="…";log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(()=>{t.innerHTML=answer(q,k);log.scrollTop=log.scrollHeight},450)}
+  const HIST=[]; // {who:"hi"} | {who:"u",q,k} | {who:"b",q,k}
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function bubble(who,html,isText){const m=document.createElement("div");m.className="bm "+who;if(isText)m.textContent=html;else m.innerHTML=html;log.appendChild(m);return m}
+  function draw(){
+    const l=L();log.innerHTML="";
+    HIST.forEach(h=>{
+      if(h.who==="hi")bubble("b",TXT[l].hi);
+      else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);
+      else if(h.pending)bubble("b","…",true);
+      else bubble("b",answer(h.q,h.k));
+    });
+    log.scrollTop=log.scrollHeight;
+  }
+  function ask(q,k){
+    HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();
+    setTimeout(()=>{r.pending=false;draw()},450);
+  }
   function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
-    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");reply(b.textContent,b.dataset.k)}));
-    document.getElementById("botIn").placeholder=TXT[l].ph}
-  let started=false;
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    document.getElementById("botIn").placeholder=TXT[l].ph;
+    document.getElementById("botIn").setAttribute("aria-label",l==="es"?"Escribe tu pregunta":"Type your question")}
   const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
-  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!started){started=true;say(TXT[L()].hi,"b")}if(o)chips()}
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length){HIST.push({who:"hi"})}if(o){chips();draw()}}
   btn.addEventListener("click",()=>open(bot.hidden));
   document.getElementById("botX").addEventListener("click",()=>open(false));
-  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");reply(q,null)});
-  if(sw)sw.addEventListener("change",()=>{if(!bot.hidden)chips()});
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  if(sw)sw.addEventListener("change",()=>{chips();draw()});
 })();
 </script>
 
