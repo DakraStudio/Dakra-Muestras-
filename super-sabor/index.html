@@ -210,57 +210,96 @@
   }));
   document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
 
-  /* ---- Asistente de chat (demostración, sin servidor) ---- */
-  const BOT={
-    es:{hi:"¡Hola! 👋 Soy el asistente de Super Sabor. ¿En qué te ayudo?",
-        chips:[["horario","¿A qué hora abren?"],["ubicacion","¿Dónde están?"],["comida","¿Qué comida tienen?"],["pinatas","¿Venden piñatas?"],["salsas","Salsas picantes"],["llamar","Quiero llamar"]],
-        ph:"Escribe tu pregunta…",
-        fallback:"Esa no me la sé todavía 😅. Llama a la tienda al (931) 422-2220 y con gusto te ayudan."},
-    en:{hi:"Hi! 👋 I'm Super Sabor's assistant. How can I help?",
-        chips:[["horario","What are your hours?"],["ubicacion","Where are you?"],["comida","What food do you have?"],["pinatas","Do you sell piñatas?"],["salsas","Hot sauces"],["llamar","I want to call"]],
-        ph:"Type your question…",
-        fallback:"I don't know that one yet 😅. Call the store at (931) 422-2220 and they'll gladly help."}
+  /* ---- Asistente de chat (demostración, sin servidor) ----
+     Cada tema tiene palabras clave y respuesta en español e inglés.
+     Lo que el negocio no ha confirmado se responde invitando a llamar. */
+  const TEL='<a href="tel:+19314222220">(931) 422-2220</a>';
+  const MAPS='https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN';
+  const hoursTxt=()=>[1,2,3,4,5,6,0].map(d=>`${D[lang][d]}: ${fmt(H[d][0])} – ${fmt(H[d][1])}`).join("\n");
+  const openNow=()=>{const t=now(),r=H[t.d];return {open:t.h>=r[0]&&t.h<r[1],r}};
+  const INTENTS=[
+    {k:"saludo",re:/^(hola|buenas|buen d[ií]a|buenos|que tal|qué tal|hi|hello|hey|good (morning|afternoon|evening))\b/i,
+     es:()=>"¡Hola! 😊 Pregúntame por el horario, la comida, pedidos para llevar, piñatas o cómo llegar.",
+     en:()=>"Hi there! 😊 Ask me about hours, food, takeout, piñatas or directions."},
+    {k:"gracias",re:/gracias|thank/i,
+     es:()=>"¡Con gusto! Aquí estamos para lo que necesites. 🙌",en:()=>"You're welcome! We're here whenever you need us. 🙌"},
+    {k:"pinatas",re:/pi[ñn]ata|cumplea|posada|decoraci|birthday|party/i,
+     es:()=>"¡Sí! Tenemos piñatas para cumpleaños, posadas y cualquier fiesta 🎉. Pasa a escoger la tuya.",
+     en:()=>"Yes! We have piñatas for birthdays, posadas and any party 🎉. Come pick yours."},
+    {k:"domicilio",re:/domicilio|entreg|delivery|deliver|doordash|uber ?eats|grubhub|a mi casa|env[ií]o|llevan/i,
+     es:()=>`Para saber si hoy hay entrega a domicilio, llama a la tienda al ${TEL} y te confirman al momento. 🚗`,
+     en:()=>`To check if delivery is available today, call the store at ${TEL} and they'll confirm right away. 🚗`},
+    {k:"llevar",re:/para llevar|llevar|to ?go|take ?out|pick ?up|recoger|ordenar|pedir|order|pedido|encargar/i,
+     es:()=>`Puedes hacer tu pedido llamando al ${TEL} y pasar a recogerlo a 635 N 2nd Ave. Así no esperas en la tienda. 🛍️`,
+     en:()=>`You can order by calling ${TEL} and pick it up at 635 N 2nd Ave, so you don't wait in the store. 🛍️`},
+    {k:"evento",re:/evento|fiesta|\d+ ?(personas|people|guests)|catering|banquete|pedido grande|muchas personas|grupo|party tray|large order|event/i,
+     es:()=>`¿Pedido grande para un evento o fiesta? Llama con anticipación al ${TEL} para ver cantidades y fecha. 🎉`,
+     en:()=>`Large order for an event or party? Call ahead at ${TEL} to plan amounts and the date. 🎉`},
+    {k:"pago",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|apple ?pay|zelle|ebt|snap|aceptan/i,
+     es:()=>`Para confirmar qué formas de pago aceptan (efectivo, tarjeta u otras), llama al ${TEL}. 💳`,
+     en:()=>`To confirm which payment methods are accepted (cash, card or others), call ${TEL}. 💳`},
+    {k:"abierto",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today/i,
+     es:()=>{const {open,r}=openNow();return open?`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`:"Ahorita estamos cerrados. Abrimos todos los días a las 8 am. ⏰"},
+     en:()=>{const {open,r}=openNow();return open?`Yes! We're open right now ✅ until ${fmt(r[1])}.`:"We're closed right now. We open every day at 8 am. ⏰"}},
+    {k:"horario",re:/hora|horario|abre|abren|cierra|cierran|domingo|s[aá]bado|hours|close|when|sunday|saturday/i,
+     es:()=>{const {open,r}=openNow();return (open?`Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`:"Ahorita estamos cerrados.")+"\n\n"+hoursTxt()},
+     en:()=>{const {open,r}=openNow();return (open?`We're open right now ✅ until ${fmt(r[1])}.`:"We're closed right now.")+"\n\n"+hoursTxt()}},
+    {k:"ubicacion",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction/i,
+     es:()=>`Estamos en 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="${MAPS}" target="_blank" rel="noopener">Abrir en Google Maps</a> 📍`,
+     en:()=>`We're at 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="${MAPS}" target="_blank" rel="noopener">Open in Google Maps</a> 📍`},
+    {k:"estacionamiento",re:/estaciona|parqueo|parking|park/i,
+     es:()=>`Si tienes dudas sobre dónde estacionarte, llama al ${TEL} y te orientan. 🅿️`,
+     en:()=>`If you have questions about parking, call ${TEL} and they'll point you in the right direction. 🅿️`},
+    {k:"alergia",re:/alerg|vegetari|vegan|sin carne|gluten|cacahuate|man[ií]|nuez|lactosa|picante no|allerg|vegetarian|vegan|peanut|nut|dairy/i,
+     es:()=>`Para alergias o comida sin carne, pregunta directamente en la cocina o llama al ${TEL}: ellos saben exactamente qué lleva cada platillo. 🥗`,
+     en:()=>`For allergies or meat-free options, ask the kitchen directly or call ${TEL}; they know exactly what goes into each dish. 🥗`},
+    {k:"especial",re:/especial|del d[ií]a|promoci|oferta|descuento|special|deal|discount/i,
+     es:()=>`Los especiales cambian. Llama al ${TEL} o pasa a la tienda para ver qué hay hoy. ⭐`,
+     en:()=>`Specials change. Call ${TEL} or stop by to see what's on today. ⭐`},
+    {k:"espera",re:/cu[aá]nto (tarda|tiempo)|tardan|espera|r[aá]pido|how long|wait|fast/i,
+     es:()=>"La comida se prepara al momento. Si tienes prisa, llama antes y la tienen lista cuando llegues. ⏱️",
+     en:()=>"Food is made to order. In a hurry? Call ahead and it'll be ready when you arrive. ⏱️"},
+    {k:"comida",re:/comida|taco|burrito|flauta|men[uú]|comer|cocina|platillo|almuerzo|desayuno|food|eat|kitchen|menu|lunch|breakfast/i,
+     es:()=>"En la cocina preparamos tacos de carne asada, burrito de asada con arroz y frijoles bien sazonados, y flautas doraditas. ¡Todo al momento! 🌮",
+     en:()=>"Our kitchen makes carne asada tacos, carne asada burritos with well-seasoned rice and beans, and crispy flautas. Everything made to order! 🌮"},
+    {k:"precio",re:/precio|cu[aá]nto (cuesta|vale|es)|caro|barato|price|cost|how much/i,
+     es:()=>`Los precios te los confirman en la tienda o por teléfono al ${TEL}. 💵`,
+     en:()=>`Please check current prices in store or by phone at ${TEL}. 💵`},
+    {k:"salsas",re:/salsa|picante|chile|hot|spicy|sauce/i,
+     es:()=>"Tenemos una pared entera de salsas picantes 🌶️, incluida la que ponemos en la mesa. También la vendemos para llevar.",
+     en:()=>"We have a whole wall of hot sauces 🌶️, including the one on our tables. You can take a bottle home."},
+    {k:"tienda",re:/tienda|producto|abarrote|despensa|dulce|carne|mexican[oa]s?|latin|grocery|candy|sweets|meat|store|products/i,
+     es:()=>"Somos tienda latina: productos de despensa, carnes y dulces que no encuentras en otros lugares, además de la cocina. 🛒",
+     en:()=>"We're a Latin grocery: pantry items, meats and sweets you won't find elsewhere, plus our kitchen. 🛒"},
+    {k:"ropa",re:/ropa|camisa|playera|clothes|clothing|shirt/i,
+     es:()=>"Sí tenemos ropa. Pregunta en la tienda por lo que llegó esta semana. 👕",
+     en:()=>"Yes, we carry clothing. Ask in store what's new this week. 👕"},
+    {k:"persona",re:/persona|humano|due[ñn]o|encargado|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|owner|manager|call|phone/i,
+     es:()=>`Claro, habla directo con la tienda al ${TEL}. 📞`,en:()=>`Sure, talk to the store directly at ${TEL}. 📞`},
+    {k:"idioma",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan/i,
+     es:()=>"Te atendemos en español, y esta página también está en inglés. 🗣️",
+     en:()=>"This page is in English and Spanish, and the store is happy to help you. 🗣️"},
+  ];
+  const CHIPS={
+    es:[["abierto","¿Están abiertos?"],["comida","¿Qué comida tienen?"],["llevar","Pedir para llevar"],["domicilio","¿Hacen entregas?"],["horario","Horario"],["ubicacion","¿Dónde están?"],["pago","Formas de pago"],["evento","Pedido para evento"],["pinatas","Piñatas"],["alergia","Alergias / sin carne"],["salsas","Salsas picantes"],["persona","Hablar con alguien"]],
+    en:[["abierto","Are you open?"],["comida","What food do you have?"],["llevar","Order to go"],["domicilio","Do you deliver?"],["horario","Hours"],["ubicacion","Where are you?"],["pago","Payment options"],["evento","Event order"],["pinatas","Piñatas"],["alergia","Allergies / meat-free"],["salsas","Hot sauces"],["persona","Talk to someone"]]
   };
-  const KEYS={
-    horario:/hora|horario|abre|abren|cierra|abierto|open|close|hours|when/i,
-    ubicacion:/donde|dónde|direcci|ubica|llegar|mapa|where|address|location|direction/i,
-    comida:/comida|taco|burrito|flauta|menu|menú|comer|cocina|food|eat|kitchen/i,
-    pinatas:/piñata|pinata|fiesta|cumple|party|birthday/i,
-    salsas:/salsa|picante|chile|hot|spicy|sauce/i,
-    llamar:/llam|tel|n[uú]mero|call|phone/i,
-    ropa:/ropa|camisa|clothes|clothing|shirt/i,
-    precio:/precio|cu[aá]nto|cuesta|price|cost|how much/i
-  };
-  function botAnswer(k){
-    const t=now(),r=H[t.d],open=t.h>=r[0]&&t.h<r[1];
-    const es=lang==="es";
-    switch(k){
-      case "horario":{const rows=[1,2,3,4,5,6,0].map(d=>`${D[lang][d]}: ${fmt(H[d][0])} – ${fmt(H[d][1])}`).join("\n");
-        return (es?(open?`Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`:"Ahorita estamos cerrados. Abrimos a las 8 am.")
-                  :(open?`We're open right now ✅ until ${fmt(r[1])}.`:"We're closed right now. We open at 8 am."))+"\n\n"+rows;}
-      case "ubicacion":return es?`Estamos en 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN" target="_blank" rel="noopener">Abrir en Google Maps</a>`
-                                :`We're at 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN" target="_blank" rel="noopener">Open in Google Maps</a>`;
-      case "comida":return es?"En la cocina preparamos tacos de carne asada, burrito de asada con arroz y frijoles, y flautas doraditas. ¡Todo al momento! 🌮":"Our kitchen makes carne asada tacos, carne asada burritos with rice and beans, and crispy flautas. Everything made to order! 🌮";
-      case "pinatas":return es?"¡Sí! Tenemos piñatas para cumpleaños, posadas y cualquier fiesta 🎉. Pasa a escoger la tuya.":"Yes! We have piñatas for birthdays, posadas and any party 🎉. Come pick yours.";
-      case "salsas":return es?"Tenemos una pared entera de salsas picantes 🌶️, incluida la que ponemos en la mesa. También la vendemos para llevar.":"We have a whole wall of hot sauces 🌶️, including the one on our tables. You can take a bottle home.";
-      case "llamar":return es?`Llámanos al <a href="tel:+19314222220">(931) 422-2220</a> 📞`:`Call us at <a href="tel:+19314222220">(931) 422-2220</a> 📞`;
-      case "ropa":return es?"Sí tenemos ropa. Pregunta en la tienda por lo que llegó esta semana 👕.":"Yes, we carry clothing. Ask in store what's new this week 👕.";
-      case "precio":return es?"Los precios los confirmamos en la tienda o por teléfono al (931) 422-2220.":"Please check prices in store or call (931) 422-2220.";
-    }
-    return BOT[lang].fallback;
-  }
+  const BOTTXT={es:{hi:"¡Hola! 👋 Soy el asistente de Super Sabor. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama a la tienda al ${TEL} y con gusto te ayudan.`},
+                en:{hi:"Hi! 👋 I'm Super Sabor's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call the store at ${TEL} and they'll gladly help.`}};
+  const ans=k=>{const it=INTENTS.find(i=>i.k===k);return it?it[lang]():BOTTXT[lang].fb};
+  const match=q=>{const it=INTENTS.find(i=>i.re.test(q));return it?it.k:null};
   const log=document.getElementById("botLog");
   function say(html,who){const m=document.createElement("div");m.className="bm "+who;if(who==="u")m.textContent=html;else m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight}
-  function botChips(){document.getElementById("botChips").innerHTML=BOT[lang].chips.map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
-    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");setTimeout(()=>say(botAnswer(b.dataset.k),"b"),350)}));
-    document.getElementById("botIn").placeholder=BOT[lang].ph}
+  function reply(k){const t=document.createElement("div");t.className="bm b";t.textContent="…";log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(()=>{t.innerHTML=ans(k);log.scrollTop=log.scrollHeight},450)}
+  function botChips(){document.getElementById("botChips").innerHTML=CHIPS[lang].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");reply(b.dataset.k)}));
+    document.getElementById("botIn").placeholder=BOTTXT[lang].ph}
   let botStarted=false;
   function botOpen(o){document.getElementById("bot").hidden=!o;document.getElementById("botBtn").setAttribute("aria-expanded",o);
-    if(o&&!botStarted){botStarted=true;say(BOT[lang].hi,"b")} if(o)botChips()}
+    if(o&&!botStarted){botStarted=true;say(BOTTXT[lang].hi,"b")} if(o){botChips();document.getElementById("botIn").focus({preventScroll:true})}}
   document.getElementById("botBtn").addEventListener("click",()=>botOpen(document.getElementById("bot").hidden));
   document.getElementById("botX").addEventListener("click",()=>botOpen(false));
-  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");
-    const k=Object.keys(KEYS).find(k=>KEYS[k].test(q));setTimeout(()=>say(botAnswer(k),"b"),350)});
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");reply(match(q))});
   document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{if(!document.getElementById("bot").hidden)botChips()}));
   render(); setInterval(render,60000);
 </script>
