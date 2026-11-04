@@ -43,7 +43,7 @@ def check(page_path: Path):
                 maps = pg.eval_on_selector_all("a[href*='google.com/maps'], iframe[src*='google.com/maps']", "els=>els.length")
                 (res["ok"] if maps else res["fallas"]).append("mapa/cómo llegar " + ("presente" if maps else "FALTA"))
                 # Botón de idioma
-                lang = pg.query_selector("[data-lang], #langBtn, button.lang")
+                lang = pg.query_selector("[data-lang], #langBtn, button.lang, label.lang, label[for=langSw]")
                 if lang:
                     before = pg.inner_text("main") if pg.query_selector("main") else body
                     lang.click(); pg.wait_for_timeout(150)
