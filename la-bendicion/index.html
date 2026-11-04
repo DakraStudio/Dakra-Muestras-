@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panadería La Bendición · Columbia, TN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--rosa:#F7D6D9;--rosa2:#E79AA4;--cafe:#6B3B22;--miel:#E8B86B;--crema:#FFF8F1;--tinta:#3A2418;--gris:#7C6559}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--crema);color:var(--tinta);font:17px/1.65 "Nunito Sans",system-ui,sans-serif}
+  :focus-visible{outline:3px solid var(--cafe);outline-offset:3px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--cafe);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:var(--miel)}
+  .serif{font-family:"Gloock",Georgia,serif;font-weight:400}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+  .logo{text-decoration:none;color:var(--cafe);font-size:24px;line-height:1}
+  .logo small{display:block;font:800 11px "Nunito Sans";letter-spacing:2px;color:var(--gris)}
+  .lang{background:var(--rosa);border:0;color:var(--cafe);font:800 13px "Nunito Sans";padding:8px 14px;border-radius:999px;cursor:pointer}
+
+  /* Hero: concha gigante */
+  .hero{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;padding:20px 0 50px}
+  .hero h1{font-size:clamp(42px,7.5vw,74px);line-height:1.02;margin:0 0 14px;color:var(--cafe)}
+  .hero p{font-size:19px;color:var(--gris);margin:0 0 22px;max-width:36ch}
+  .open{display:inline-flex;align-items:center;gap:10px;background:#fff;border-radius:999px;padding:9px 18px;font-weight:800;box-shadow:0 4px 0 var(--rosa)}
+  .open i{width:10px;height:10px;border-radius:50%;background:#2E9E5B}
+  .open.closed i{background:#C44}
+  .concha{width:min(78vw,360px);aspect-ratio:1.25;margin:0 auto;border-radius:50% 50% 38% 38%/62% 62% 38% 38%;
+     background:repeating-radial-gradient(circle at 50% 105%,var(--rosa) 0 26px,var(--rosa2) 27px 30px);
+     box-shadow:inset 0 -26px 0 #E2A867,0 14px 0 #C98A4A,0 26px 30px rgba(107,59,34,.18)}
+  /* Charola */
+  section{padding:50px 0}
+  h2{font-size:clamp(32px,5vw,46px);line-height:1.05;margin:0 0 6px;color:var(--cafe)}
+  .lead{color:var(--gris);margin:0 0 24px}
+  .tray{background:#C9CDD2;border-radius:22px;padding:18px;box-shadow:inset 0 0 0 6px #B4B9BF;
+     background-image:radial-gradient(#B0B5BB 1.5px,transparent 2px);background-size:16px 16px}
+  .breads{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .bread{background:var(--crema);border-radius:16px;padding:16px 12px;text-align:center}
+  .shape{height:74px;margin:0 auto 10px;width:84px}
+  .s-concha{border-radius:50% 50% 40% 40%;background:repeating-radial-gradient(circle at 50% 100%,var(--rosa) 0 9px,var(--rosa2) 10px 11px)}
+  .s-cuerno{border-radius:60% 60% 20% 20%/80% 80% 20% 20%;background:repeating-linear-gradient(100deg,#D9984F 0 12px,#B9772F 13px 15px);height:52px;margin-top:14px;margin-bottom:18px}
+  .s-oreja{border-radius:50%;background:repeating-radial-gradient(circle at 30% 50%,#E2AA60 0 6px,#C8873B 7px 8px),repeating-radial-gradient(circle at 70% 50%,#E2AA60 0 6px,#C8873B 7px 8px);background-size:50% 100%;background-repeat:no-repeat;background-position:0 0,100% 0;height:60px;margin-top:8px;margin-bottom:16px}
+  .s-polvo{border-radius:50%;width:66px;height:66px;background:radial-gradient(circle,#F4E1C8 0 60%,#E9CDA8 61%);box-shadow:inset 0 -6px 0 #DDBB8E;margin-top:4px;margin-bottom:14px}
+  .bread b{display:block;font-size:17px}
+  .bread span{font-size:13px;color:var(--gris)}
+
+  .extras{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  .ex{background:var(--rosa);border-radius:22px;padding:24px}
+  .ex.alt{background:#fff;border:2px solid var(--rosa)}
+  .ex h3{margin:0 0 4px;font-size:26px;color:var(--cafe)}
+  .ex p{margin:0;color:var(--gris)}
+
+  .quote{text-align:center;max-width:720px;margin:0 auto}
+  .quote p{font:400 clamp(24px,4vw,34px)/1.3 "Gloock",serif;color:var(--cafe);margin:0}
+  .quote span{display:block;margin-top:12px;color:var(--gris);font-size:14px}
+
+  .visit{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:center}
+  .big{font:400 clamp(30px,5vw,44px)/1.1 "Gloock",serif;color:var(--cafe);margin:0 0 6px}
+  .btn{display:inline-block;margin:14px 8px 0 0;background:var(--cafe);color:#fff;text-decoration:none;font-weight:800;padding:13px 22px;border-radius:999px}
+  .btn.alt{background:var(--rosa);color:var(--cafe)}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:24px;background:var(--rosa)}
+  footer{padding:26px 0;font-size:14px;color:var(--gris)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+  footer a{color:var(--cafe)}
+  @media (max-width:760px){.hero,.extras,.visit{grid-template-columns:1fr}.breads{grid-template-columns:repeat(2,1fr)}.concha{width:min(70vw,300px)}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Página de muestra creada por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> para Panadería La Bendición" data-en="Sample website made by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> for Panadería La Bendición"></div>
+<div class="wrap">
+  <nav><a class="logo serif" href="#">La Bendición<small data-es="PANADERÍA · COLUMBIA, TN" data-en="MEXICAN BAKERY · COLUMBIA, TN"></small></a><button class="lang" data-lang>English</button></nav>
+  <header class="hero">
+    <div>
+      <h1 class="serif" data-es="Pan dulce recién hecho, todos los días" data-en="Fresh pan dulce, every single day"></h1>
+      <p data-es="Conchas, cuernitos, orejas y el pan de siempre. Pasa por el tuyo para el café de la tarde." data-en="Conchas, cuernitos, orejas and all the classics. Stop by for your afternoon coffee."></p>
+      <span class="open" id="open"><i></i><span id="openTxt"></span></span>
+    </div>
+    <div class="concha" role="img" aria-label="Concha"></div>
+  </header>
+</div>
+
+<main>
+<section>
+  <div class="wrap">
+    <h2 class="serif" data-es="La charola de hoy" data-en="Today's tray"></h2>
+    <p class="lead" data-es="Agarra tu charola y tus pinzas, como en casa." data-en="Grab a tray and tongs, just like back home."></p>
+    <div class="tray">
+      <div class="breads">
+        <div class="bread"><div class="shape s-concha"></div><b>Conchas</b><span data-es="Vainilla y chocolate" data-en="Vanilla & chocolate"></span></div>
+        <div class="bread"><div class="shape s-cuerno"></div><b>Cuernitos</b><span data-es="Suaves y dorados" data-en="Soft and golden"></span></div>
+        <div class="bread"><div class="shape s-oreja"></div><b>Orejas</b><span data-es="Crujientes con azúcar" data-en="Crispy, sugar-glazed"></span></div>
+        <div class="bread"><div class="shape s-polvo"></div><b>Polvorones</b><span data-es="Se deshacen en la boca" data-en="Melt-in-your-mouth"></span></div>
+      </div>
+    </div>
+    <div class="extras">
+      <div class="ex"><h3 class="serif" data-es="Y no solo pan" data-en="More than bread"></h3><p data-es="También tenemos artículos de la tienda, como jerseys de la Selección Mexicana." data-en="We also carry store items, like Mexico national team jerseys."></p></div>
+      <div class="ex alt"><h3 class="serif" data-es="Abiertos hasta tarde" data-en="Open late"></h3><p data-es="De 9 de la mañana a 10 de la noche, los 7 días de la semana." data-en="9 am to 10 pm, seven days a week."></p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap quote">
+    <p>“Everyone was very friendly and I really like that place.”</p>
+    <span data-es="Reseña real de Google" data-en="Real Google review"></span>
+  </div>
+</section>
+
+<section>
+  <div class="wrap visit">
+    <div>
+      <p class="big" data-es="Te esperamos" data-en="Come see us"></p>
+      <p>408 James M Campbell Blvd S<br>Columbia, TN 38401</p>
+      <a class="btn" href="tel:+16152943509" data-es="Llamar" data-en="Call"></a><a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=408+James+M+Campbell+Blvd+S+Columbia+TN" target="_blank" rel="noopener" data-es="Cómo llegar" data-en="Directions"></a>
+    </div>
+    <iframe class="map" title="Mapa" loading="lazy" src="https://www.google.com/maps?q=408+James+M+Campbell+Blvd+S+Columbia+TN+38401&output=embed"></iframe>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© Panadería La Bendición · Columbia, TN</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  let lang="es";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"English":"Español");
+    const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());
+    const g=t=>p.find(x=>x.type===t).value,h=(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60,open=h>=9&&h<22;
+    document.getElementById("open").className="open"+(open?"":" closed");
+    document.getElementById("openTxt").textContent=open?(lang==="es"?"Abierto ahora · hasta las 10 pm":"Open now · until 10 pm"):(lang==="es"?"Cerrado · abrimos a las 9 am":"Closed · we open at 9 am");
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+  render(); setInterval(render,60000);
+</script>
+</body>
+</html>

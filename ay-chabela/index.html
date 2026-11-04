@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ay! Chabela · Mexican Food Truck · Pulaski, TN</title>
+<meta name="description" content="Tacos de calle, burritos y quesadillas en 901 W College St, Pulaski, TN. Abierto de lunes a viernes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --talavera:#1F3FA6;
+    --talavera-dark:#162C78;
+    --maiz:#F6C445;
+    --rosa:#E4007C;
+    --papel:#FFFDF7;
+    --tinta:#1B1B2F;
+    --gris:#5A5A6E;
+    --verde:#1E8A4C;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--papel);color:var(--tinta);font-family:"Work Sans",system-ui,sans-serif;font-size:17px;line-height:1.55}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--rosa);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+  /* Aviso de muestra */
+  .demo{background:var(--tinta);color:#fff;font-size:14px;text-align:center;padding:8px 16px}
+  .demo a{color:var(--maiz)}
+
+  /* Barra superior */
+  .top{display:flex;justify-content:space-between;align-items:center;padding:14px 0}
+  .brand{font-family:"Bungee",sans-serif;font-size:20px;color:var(--talavera);text-decoration:none}
+  .lang{border:2px solid var(--talavera);background:transparent;color:var(--talavera);font:700 14px "Work Sans";padding:6px 12px;border-radius:999px;cursor:pointer}
+  .lang:hover{background:var(--talavera);color:#fff}
+
+  /* Hero: el letrero del truck */
+  .hero{background:var(--talavera);color:#fff;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+      radial-gradient(circle at 12px 12px, rgba(255,255,255,.09) 3px, transparent 4px) 0 0/28px 28px}
+  .hero .wrap{position:relative;padding-top:48px;padding-bottom:56px}
+  .sign{display:inline-block;background:var(--maiz);color:var(--talavera-dark);padding:18px 26px 14px;border-radius:14px;
+        box-shadow:0 0 0 6px var(--talavera),0 0 0 10px var(--maiz);transform:rotate(-1.5deg)}
+  .sign h1{font-family:"Bungee",sans-serif;font-weight:400;font-size:clamp(44px,11vw,104px);line-height:.95;margin:0;letter-spacing:.5px}
+  .sign p{margin:6px 0 0;font-weight:700;font-size:clamp(14px,2.6vw,18px);color:var(--talavera-dark)}
+  .tagline{font-size:clamp(19px,3vw,24px);max-width:32ch;margin:34px 0 22px}
+  .status{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);padding:10px 16px;border-radius:12px;font-weight:500}
+  .dot{width:12px;height:12px;border-radius:50%;background:#aaa;flex:none}
+  .status.open .dot{background:#3BE07B;box-shadow:0 0 0 4px rgba(59,224,123,.25)}
+  .status.closed .dot{background:#FF6B6B}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;padding:14px 22px;border-radius:12px;font-size:17px}
+  .btn-main{background:var(--rosa);color:#fff}
+  .btn-main:hover{background:#c4006b}
+  .btn-ghost{border:2px solid #fff;color:#fff}
+  .btn-ghost:hover{background:#fff;color:var(--talavera)}
+
+  section{padding:64px 0}
+  h2{font-family:"Bungee",sans-serif;font-weight:400;font-size:clamp(28px,5vw,40px);color:var(--talavera);margin:0 0 8px;line-height:1.1}
+  .lead{color:var(--gris);margin:0 0 32px;max-width:60ch}
+
+  /* Menú */
+  .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0 40px}
+  .item{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:2px dotted #d9d4c3}
+  .item h3{margin:0;font-size:19px}
+  .item p{margin:4px 0 0;color:var(--gris);font-size:15px}
+  .price{font-family:"Bungee",sans-serif;color:var(--rosa);white-space:nowrap}
+  .salsas{margin-top:32px;background:var(--maiz);border-radius:14px;padding:20px 24px}
+  .salsas strong{color:var(--talavera-dark)}
+  .note{font-size:14px;color:var(--gris);margin-top:14px}
+
+  /* Reseñas */
+  .reviews{background:#fff;border-top:6px solid var(--maiz);border-bottom:6px solid var(--maiz)}
+  .quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+  blockquote{margin:0;font-size:21px;line-height:1.4;font-weight:500}
+  blockquote::before{content:"“";display:block;font-family:"Bungee",sans-serif;font-size:56px;color:var(--rosa);line-height:.6;margin-bottom:6px}
+  cite{display:block;margin-top:10px;font-style:normal;font-size:14px;color:var(--gris)}
+  .stars{color:#E8A400;letter-spacing:2px}
+
+  /* Horario y ubicación */
+  .visit{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+  table{width:100%;border-collapse:collapse;font-size:17px}
+  td{padding:10px 0;border-bottom:1px solid #e7e2d2}
+  td:last-child{text-align:right;font-weight:500}
+  tr.today td{color:var(--talavera);font-weight:700}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:14px;background:#e8e4d6}
+  .addr{margin:18px 0 0;font-weight:500}
+
+  footer{background:var(--talavera-dark);color:#dfe4ff;padding:36px 0;font-size:15px}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+  footer a{color:var(--maiz)}
+
+  @media (max-width:760px){
+    .visit{grid-template-columns:1fr}
+    section{padding:48px 0}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo" data-es="Esta es una página de muestra creada por Dakra Studio para Ay! Chabela. Contacto: <a href='mailto:dakrastudio@gmail.com'>dakrastudio@gmail.com</a>" data-en="This is a sample website made by Dakra Studio for Ay! Chabela. Contact: <a href='mailto:dakrastudio@gmail.com'>dakrastudio@gmail.com</a>"></div>
+
+<div class="wrap top">
+  <a class="brand" href="#">Ay! Chabela</a>
+  <button class="lang" id="langBtn" aria-label="Cambiar idioma">English</button>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="sign">
+      <h1>¡Ay!<br>Chabela</h1>
+      <p data-es="Mexican Food Truck · Pulaski, TN" data-en="Mexican Food Truck · Pulaski, TN"></p>
+    </div>
+    <p class="tagline" data-es="Tacos de calle, burritos bien llenos y salsas hechas aquí. Pasa a la hora de la comida." data-en="Street tacos, loaded burritos and house-made salsas. Swing by for lunch."></p>
+    <div class="status" id="status" role="status"><span class="dot"></span><span id="statusText"></span></div>
+    <div class="actions">
+      <a class="btn btn-main" href="tel:+19313098135" data-es="Llamar para ordenar" data-en="Call to order"></a>
+      <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=901+W+College+St+Pulaski+TN+38478" target="_blank" rel="noopener" data-es="Cómo llegar" data-en="Get directions"></a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="menu">
+    <div class="wrap">
+      <h2 data-es="El menú" data-en="The menu"></h2>
+      <p class="lead" data-es="Todo se prepara al momento. Ordena en el truck y en minutos está listo." data-en="Everything is made to order. Order at the truck and it's ready in minutes."></p>
+      <div class="menu">
+        <div class="item"><div><h3 data-es="Tacos de calle" data-en="Street tacos"></h3><p data-es="Asada, pollo o pastor en tortilla de maíz, con cebolla y cilantro." data-en="Steak, chicken or al pastor on corn tortillas with onion and cilantro."></p></div><span class="price">$—</span></div>
+        <div class="item"><div><h3>California Burrito</h3><p data-es="Carne asada, papas y queso, todo envuelto en tortilla de harina." data-en="Carne asada, fries and cheese wrapped in a flour tortilla."></p></div><span class="price">$—</span></div>
+        <div class="item"><div><h3 data-es="Burrito mixto grande" data-en="Big mixed burrito"></h3><p data-es="Dos carnes, arroz, frijoles y salsa. Para llegar con hambre." data-en="Two meats, rice, beans and salsa. Come hungry."></p></div><span class="price">$—</span></div>
+        <div class="item"><div><h3 data-es="Quesadillas" data-en="Quesadillas"></h3><p data-es="Tortilla grande con queso derretido y la carne que prefieras." data-en="Large tortilla with melted cheese and your choice of meat."></p></div><span class="price">$—</span></div>
+      </div>
+      <div class="salsas">
+        <strong data-es="La barra de salsas:" data-en="The salsa bar:"></strong>
+        <span data-es=" salsa verde, cebollas encurtidas picantes y más. Pregúntale a Andrés cuál pica más." data-en=" green salsa, spicy pickled onions and more. Ask Andrés which one is the hottest."></span>
+      </div>
+      <p class="note" data-es="Muestra: los platillos y precios se ajustan con el menú real del truck." data-en="Sample: dishes and prices will be updated with the truck's real menu."></p>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="wrap">
+      <h2 data-es="Lo que dice la gente" data-en="What people say"></h2>
+      <p class="lead" data-es="4.8 estrellas en Google." data-en="4.8 stars on Google."></p>
+      <div class="quotes">
+        <blockquote>Hands down the best Mexican I've had in Pulaski.<cite><span class="stars">★★★★★</span> · Google</cite></blockquote>
+        <blockquote>The street tacos are some of the best I've had.<cite><span class="stars">★★★★★</span> · Google</cite></blockquote>
+        <blockquote data-es="Andrés te recibe con una sonrisa y siempre te recomienda algo bueno." data-en="Andrés greets you with a smile and always recommends something good."></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="wrap visit">
+      <div>
+        <h2 data-es="Horario" data-en="Hours"></h2>
+        <table id="hours" aria-label="Horario"></table>
+        <p class="addr">901 W College St<br>Pulaski, TN 38478<br><a href="tel:+19313098135">(931) 309-8135</a></p>
+      </div>
+      <iframe class="map" title="Mapa" loading="lazy" src="https://www.google.com/maps?q=901+W+College+St+Pulaski+TN+38478&output=embed"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Ay! Chabela Mexican Food · Pulaski, TN</span>
+    <span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span>
+  </div>
+</footer>
+
+<script>
+  // Horario: [abre, cierra] en horas decimales; null = cerrado. Índice 0 = domingo.
+  const HOURS = [null,[10,20],[10,20],[10,20],[10,20],[10,20.5],null];
+  const DAYS = {
+    es:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],
+    en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  };
+  let lang = "es";
+
+  function fmt(h){
+    const hr = Math.floor(h), min = Math.round((h-hr)*60);
+    const ampm = hr >= 12 ? "pm" : "am";
+    const h12 = ((hr + 11) % 12) + 1;
+    return h12 + (min ? ":" + String(min).padStart(2,"0") : "") + " " + ampm;
+  }
+
+  function nowCentral(){
+    const parts = new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());
+    const get = t => parts.find(p => p.type === t).value;
+    const day = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(get("weekday"));
+    return {day, h: (parseInt(get("hour"),10) % 24) + parseInt(get("minute"),10)/60};
+  }
+
+  function render(){
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-es]").forEach(el => { el.innerHTML = el.dataset[lang]; });
+    document.getElementById("langBtn").textContent = lang === "es" ? "English" : "Español";
+
+    const {day, h} = nowCentral();
+    const table = document.getElementById("hours");
+    const closedTxt = lang === "es" ? "Cerrado" : "Closed";
+    table.innerHTML = [1,2,3,4,5,6,0].map(d => {
+      const r = HOURS[d];
+      return `<tr class="${d===day?"today":""}"><td>${DAYS[lang][d]}</td><td>${r ? fmt(r[0])+" – "+fmt(r[1]) : closedTxt}</td></tr>`;
+    }).join("");
+
+    const status = document.getElementById("status");
+    const text = document.getElementById("statusText");
+    const today = HOURS[day];
+    if (today && h >= today[0] && h < today[1]) {
+      status.className = "status open";
+      text.textContent = lang === "es" ? `Abierto ahora · hasta las ${fmt(today[1])}` : `Open now · until ${fmt(today[1])}`;
+    } else {
+      status.className = "status closed";
+      let next = day, add = 0;
+      do { next = (next + 1) % 7; add++; } while (!HOURS[next] && add < 7);
+      const opensLaterToday = today && h < today[0];
+      const when = opensLaterToday
+        ? (lang === "es" ? `hoy a las ${fmt(today[0])}` : `today at ${fmt(today[0])}`)
+        : (lang === "es" ? `${DAYS.es[next].toLowerCase()} a las ${fmt(HOURS[next][0])}` : `${DAYS.en[next]} at ${fmt(HOURS[next][0])}`);
+      text.textContent = lang === "es" ? `Cerrado · abre ${when}` : `Closed · opens ${when}`;
+    }
+  }
+
+  document.getElementById("langBtn").addEventListener("click", () => {
+    lang = lang === "es" ? "en" : "es";
+    render();
+  });
+  render();
+  setInterval(render, 60000);
+</script>
+</body>
+</html>

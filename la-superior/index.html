@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Superior · Carnicería y Taquería La Victoria · Lewisburg, TN</title>
+<meta name="description" content="Carnicería y taquería en 313 E Commerce St, Lewisburg, TN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--negro:#151312;--vino:#7A0E1A;--mostaza:#E3A92C;--hueso:#F3EBDD;--gris:#8D847A;--tinta:#151312}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--negro);color:var(--hueso);font:18px/1.55 "Barlow Semi Condensed",system-ui,sans-serif;padding-bottom:76px}
+  :focus-visible{outline:3px solid var(--mostaza);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--mostaza);color:var(--negro);text-align:center;font-size:14px;font-weight:600;padding:7px 16px}
+  .demo a{color:var(--negro)}
+  .rye{font-family:"Rye",Georgia,serif;font-weight:400}
+
+  /* Encabezado */
+  .bar{display:flex;justify-content:space-between;align-items:center;padding-top:16px;padding-bottom:16px}
+  .bar .rye{font-size:20px;color:var(--mostaza);text-decoration:none}
+  .lang{background:none;border:1.5px solid var(--hueso);color:var(--hueso);font:600 14px "Barlow Semi Condensed";padding:6px 14px;border-radius:999px;cursor:pointer}
+  .lang:hover{background:var(--hueso);color:var(--negro)}
+
+  /* Hero: letrero con sello giratorio */
+  .hero{position:relative;padding:28px 0 60px;text-align:center}
+  .stamp{width:min(78vw,330px);aspect-ratio:1;margin:0 auto 22px;position:relative}
+  .stamp svg{width:100%;height:100%}
+  .ring{animation:spin 40s linear infinite;transform-origin:50% 50%}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.ring{animation:none}html{scroll-behavior:auto}}
+  .hero h1{font-size:clamp(46px,11vw,96px);line-height:.95;margin:0;color:var(--hueso)}
+  .hero h1 span{display:block;color:var(--mostaza);font-size:.42em;margin-top:10px}
+  .hero p{max-width:40ch;margin:18px auto 0;color:#CFC5B7;font-size:20px}
+
+  /* Piso de azulejo */
+  .tiles{height:44px;background:conic-gradient(var(--hueso) 25%,var(--negro) 0 50%,var(--hueso) 0 75%,var(--negro) 0) 0 0/44px 44px}
+
+  /* Carnicería: la vaca */
+  .light{background:var(--hueso);color:var(--tinta)}
+  section{padding:60px 0}
+  .h2{font-size:clamp(32px,6vw,52px);line-height:1;margin:0 0 10px}
+  .light .h2{color:var(--vino)}
+  .sub{margin:0 0 28px;color:#5E564E;max-width:56ch}
+  .cow-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center}
+  .cow{width:100%;height:auto}
+  .cow .cut{fill:#E6D6BF;stroke:var(--tinta);stroke-width:3;cursor:pointer;transition:fill .15s}
+  .cow .cut:hover,.cow .cut.on{fill:var(--vino)}
+  .cow .cut:focus-visible{outline:none;fill:var(--mostaza)}
+  .cow text{font:700 22px "Barlow Semi Condensed";fill:var(--tinta);pointer-events:none}
+  .cow .cut.on + text,.cow .cut:hover + text{fill:#fff}
+  .info{border:3px solid var(--tinta);border-radius:16px;padding:22px 24px;background:#fff;min-height:170px}
+  .info small{display:block;font-weight:700;color:var(--vino);font-size:15px}
+  .info h3{margin:2px 0 6px;font:400 30px "Rye",serif}
+  .info p{margin:0;color:#5E564E}
+  .info .px{margin-top:12px;font-weight:700;font-size:20px}
+  .hint{font-size:15px;color:#5E564E;margin-top:10px}
+
+  /* Taquería: carrusel horizontal */
+  .taq .h2{color:var(--mostaza)}
+  .taq .sub{color:#CFC5B7}
+  .rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;margin:0 -20px;padding-left:20px;padding-right:20px}
+  .plate{flex:0 0 min(72vw,260px);scroll-snap-align:start;background:#221F1D;border:1.5px solid #3A3532;border-radius:20px;padding:22px}
+  .plate .n{font:400 46px/1 "Rye",serif;color:var(--vino);-webkit-text-stroke:1px var(--mostaza)}
+  .plate h3{margin:14px 0 4px;font-size:24px}
+  .plate p{margin:0;color:#B9AFA3;font-size:16px}
+  .plate .px{margin-top:14px;color:var(--mostaza);font-weight:700}
+  .salsa{margin-top:28px;border:2px dashed var(--vino);border-radius:16px;padding:18px 22px;color:#E8DCCB}
+  .salsa b{color:var(--mostaza)}
+
+  /* Reseñas tipo ticket de turno */
+  .turns{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .turn{background:#fff;border-radius:6px;padding:18px 18px 16px;position:relative;color:var(--tinta)}
+  .turn::before{content:attr(data-n);position:absolute;top:-16px;right:16px;background:var(--vino);color:#fff;font:400 18px "Rye",serif;padding:4px 10px;border-radius:6px}
+  .turn q{display:block;font-size:19px;font-weight:600;line-height:1.35}
+  .turn span{display:block;margin-top:8px;font-size:14px;color:#5E564E}
+
+  /* Visítanos */
+  .visit .wrap{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .hrs{list-style:none;padding:0;margin:0}
+  .hrs li{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #3A3532}
+  .hrs b{color:var(--mostaza)}
+  .live{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;font-weight:600}
+  .dot{width:11px;height:11px;border-radius:50%;background:#999}
+  .live.open .dot{background:#3BD16F;box-shadow:0 0 0 4px rgba(59,209,111,.25)}
+  .live.closed .dot{background:#E5484D}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:16px;background:#221F1D}
+
+  /* Barra de acciones fija */
+  .dock{position:fixed;left:0;right:0;bottom:0;background:var(--vino);display:grid;grid-template-columns:1fr 1fr;z-index:5;box-shadow:0 -6px 20px rgba(0,0,0,.35)}
+  .dock a{display:flex;align-items:center;justify-content:center;gap:8px;padding:18px 10px;color:#fff;text-decoration:none;font-weight:700;font-size:18px}
+  .dock a + a{border-left:1px solid rgba(255,255,255,.25)}
+  .dock a:hover{background:#5E0A14}
+  footer{padding:28px 0;font-size:14px;color:var(--gris)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+  footer a{color:var(--mostaza)}
+  @media (max-width:760px){.cow-grid,.visit .wrap,.turns{grid-template-columns:1fr}.turns{gap:28px}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Página de muestra creada por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> para La Superior y La Victoria" data-en="Sample website made by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> for La Superior and La Victoria"></div>
+
+<div class="wrap bar">
+  <a class="rye" href="#">La Superior</a>
+  <button class="lang" data-lang>English</button>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="stamp" aria-hidden="true">
+      <svg viewBox="0 0 300 300">
+        <defs><path id="c" d="M150,150 m-118,0 a118,118 0 1,1 236,0 a118,118 0 1,1 -236,0"/></defs>
+        <circle cx="150" cy="150" r="146" fill="var(--vino)"/>
+        <circle cx="150" cy="150" r="96" fill="none" stroke="var(--mostaza)" stroke-width="2"/>
+        <g class="ring"><text font-family="Rye" font-size="21" fill="var(--hueso)" letter-spacing="3"><textPath href="#c">CARNICERÍA ★ TAQUERÍA ★ LEWISBURG, TN ★ </textPath></text></g>
+        <text x="150" y="140" text-anchor="middle" font-family="Rye" font-size="44" fill="var(--mostaza)">LA</text>
+        <text x="150" y="186" text-anchor="middle" font-family="Rye" font-size="34" fill="var(--hueso)">SUPERIOR</text>
+      </svg>
+    </div>
+    <h1 class="rye"><span data-es="Carnicería &amp; Taquería La Victoria" data-en="Butcher Shop &amp; La Victoria Taquería"></span></h1>
+    <p data-es="Cortes frescos para tu carne asada y tacos hechos al momento. Todo bajo el mismo techo, en el centro de Lewisburg." data-en="Fresh cuts for your cookout and tacos made to order. All under one roof, in downtown Lewisburg."></p>
+  </div>
+</header>
+
+<div class="tiles" aria-hidden="true"></div>
+
+<main>
+<section class="light" id="carniceria">
+  <div class="wrap">
+    <h2 class="h2 rye" data-es="Escoge tu corte" data-en="Pick your cut"></h2>
+    <p class="sub" data-es="Toca una parte de la res para ver qué cortes preparamos." data-en="Tap a section of the steer to see the cuts we prepare."></p>
+    <div class="cow-grid">
+      <svg class="cow" viewBox="0 0 560 330" role="group" aria-label="Diagrama de cortes">
+        <!-- patas y cola -->
+        <path d="M120 250 l0 60 h22 l4 -60z M180 250 l0 60 h22 l4 -60z M380 250 l0 60 h22 l4 -60z M440 250 l0 60 h22 l4 -60z" fill="var(--tinta)"/>
+        <path d="M498 120 q40 30 26 110" fill="none" stroke="var(--tinta)" stroke-width="6" stroke-linecap="round"/>
+        <!-- cabeza -->
+        <path d="M100 95 L40 70 L10 120 L30 165 L95 160 Z" fill="var(--tinta)"/>
+        <path d="M60 72 l-14 -34 l26 26z M88 86 l10 -36 l8 40z" fill="var(--tinta)"/>
+        <!-- cortes -->
+        <path class="cut" tabindex="0" data-cut="0" d="M100 95 L210 85 L210 175 L95 160 Z"/><text x="135" y="137">1</text>
+        <path class="cut" tabindex="0" data-cut="1" d="M210 85 L330 82 L330 160 L210 175 Z"/><text x="262" y="132">2</text>
+        <path class="cut" tabindex="0" data-cut="2" d="M330 82 L420 85 L420 165 L330 160 Z"/><text x="368" y="128">3</text>
+        <path class="cut" tabindex="0" data-cut="3" d="M420 85 L500 100 L505 215 L420 230 L420 165 Z"/><text x="455" y="165">4</text>
+        <path class="cut" tabindex="0" data-cut="4" d="M95 160 L210 175 L210 255 L110 250 Z"/><text x="148" y="218">5</text>
+        <path class="cut" tabindex="0" data-cut="5" d="M210 175 L330 160 L420 165 L420 230 L380 255 L210 255 Z"/><text x="305" y="215">6</text>
+      </svg>
+      <div>
+        <div class="info" id="info" aria-live="polite"></div>
+        <p class="hint" data-es="Además: chorizo hecho aquí, carne al pastor adobada y pierna para carnitas." data-en="Also: house-made chorizo, marinated al pastor and pork leg for carnitas."></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tiles" aria-hidden="true"></div>
+
+<section class="taq" id="taqueria">
+  <div class="wrap">
+    <h2 class="h2 rye" data-es="La Victoria" data-en="La Victoria"></h2>
+    <p class="sub" data-es="La taquería abre todos los días de 7 am a 8 pm. Desliza para ver el menú →" data-en="The taquería is open every day, 7 am to 8 pm. Swipe for the menu →"></p>
+    <div class="rail">
+      <article class="plate"><div class="n">01</div><h3>Tacos</h3><p data-es="Asada, pastor y chorizo en tortilla de maíz, con cebolla y cilantro." data-en="Steak, al pastor and chorizo on corn tortillas with onion and cilantro."></p><div class="px">$—</div></article>
+      <article class="plate"><div class="n">02</div><h3>Sopes</h3><p data-es="Frijol, carne, crema y queso fresco." data-en="Beans, meat, crema and queso fresco."></p><div class="px">$—</div></article>
+      <article class="plate"><div class="n">03</div><h3>Gorditas</h3><p data-es="Bien doraditas, rellenas al gusto." data-en="Golden and crispy, stuffed your way."></p><div class="px">$—</div></article>
+      <article class="plate"><div class="n">04</div><h3>Tortas</h3><p data-es="Doble carne, aguacate, jalapeño y jitomate." data-en="Double meat, avocado, jalapeño and tomato."></p><div class="px">$—</div></article>
+    </div>
+    <div class="salsa" data-es="<b>Con cada orden:</b> nuestra salsa roja de la casa. Pica rico, sin quedarse para siempre." data-en="<b>With every order:</b> our house red salsa. A good kick that doesn't linger."></div>
+  </div>
+</section>
+
+<section class="taq">
+  <div class="wrap">
+    <h2 class="h2 rye" data-es="Turno de los clientes" data-en="Now serving: reviews"></h2>
+    <p class="sub" data-es="Reseñas reales de Google." data-en="Real Google reviews."></p>
+    <div class="turns">
+      <div class="turn" data-n="#1"><q>Best tacos in town!!! The sopes are always perfect!!!</q><span>★★★★★ · La Victoria</span></div>
+      <div class="turn" data-n="#2"><q>The best authentic homemade Mexican food. And the price is just right.</q><span>★★★★★ · La Victoria</span></div>
+      <div class="turn" data-n="#3"><q>Friendly service. Akin to being in someone's kitchen.</q><span>★★★★★ · La Superior</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="taq visit" id="visita">
+  <div class="wrap">
+    <div>
+      <h2 class="h2 rye" data-es="Visítanos" data-en="Visit us"></h2>
+      <div class="live" id="live"><span class="dot"></span><span id="liveTxt"></span></div>
+      <ul class="hrs">
+        <li><span data-es="Carnicería · Lun–Sáb" data-en="Butcher · Mon–Sat"></span><b>9 am – 8 pm</b></li>
+        <li><span data-es="Carnicería · Domingo" data-en="Butcher · Sunday"></span><b>9 am – 6 pm</b></li>
+        <li><span data-es="Taquería · Todos los días" data-en="Taquería · Every day"></span><b>7 am – 8 pm</b></li>
+      </ul>
+      <p>313 E Commerce St, Lewisburg, TN 37091<br>(931) 422-7062</p>
+    </div>
+    <iframe class="map" title="Mapa" loading="lazy" src="https://www.google.com/maps?q=313+E+Commerce+St+Lewisburg+TN+37091&output=embed"></iframe>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© La Superior · La Victoria</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<nav class="dock" aria-label="Acciones">
+  <a href="tel:+19314227062" data-es="☎ Llamar" data-en="☎ Call"></a>
+  <a href="https://www.google.com/maps/search/?api=1&query=313+E+Commerce+St+Lewisburg+TN+37091" target="_blank" rel="noopener" data-es="➤ Cómo llegar" data-en="➤ Directions"></a>
+</nav>
+
+<script>
+  const CUTS={
+    es:[["Del pecho","Pecho y diezmillo","Para guisos, caldo de res y barbacoa."],
+        ["Del lomo","Rib eye y chuletas","Cortes gruesos o delgados, como los pidas."],
+        ["Del lomo bajo","Sirloin y T-bone","Perfectos para el asador del domingo."],
+        ["De la pierna","Bola y pulpa","Para milanesa y carne molida al momento."],
+        ["Del brazuelo","Chambarete","Con hueso, para el caldo de res de la casa."],
+        ["De la falda","Arrachera y carne para asar","Marinada o natural, cortada delgadita."]],
+    en:[["Chuck","Brisket & chuck steak","For stews, beef soup and barbacoa."],
+        ["Rib","Rib eye & chops","Thick or thin, cut the way you want."],
+        ["Loin","Sirloin & T-bone","Perfect for the Sunday grill."],
+        ["Round","Round & top round","For milanesa and fresh-ground beef."],
+        ["Shank","Beef shank","Bone-in, for homestyle beef soup."],
+        ["Flank & plate","Skirt steak & carne asada","Marinated or plain, thinly sliced."]]
+  };
+  let lang="es",sel=5;
+  function showCut(i){
+    sel=i; const c=CUTS[lang][i];
+    document.querySelectorAll(".cut").forEach(p=>p.classList.toggle("on",+p.dataset.cut===i));
+    document.getElementById("info").innerHTML=`<small>${i+1} · ${c[0]}</small><h3>${c[1]}</h3><p>${c[2]}</p><div class="px">$— / lb</div>`;
+  }
+  document.querySelectorAll(".cut").forEach(p=>{
+    p.addEventListener("click",()=>showCut(+p.dataset.cut));
+    p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();showCut(+p.dataset.cut);}});
+  });
+  function live(){
+    const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());
+    const g=t=>p.find(x=>x.type===t).value, d=g("weekday"), h=(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60;
+    const carn=h>=9&&h<(d==="Sun"?18:20), taq=h>=7&&h<20;
+    const el=document.getElementById("live"), t=document.getElementById("liveTxt");
+    el.className="live "+(carn||taq?"open":"closed");
+    if(carn&&taq) t.textContent=lang==="es"?"Abiertos ahora: carnicería y taquería":"Open now: butcher shop and taquería";
+    else if(taq) t.textContent=lang==="es"?"Abierta ahora: la taquería":"Open now: the taquería";
+    else t.textContent=lang==="es"?"Cerrado ahora · la taquería abre a las 7 am":"Closed now · the taquería opens at 7 am";
+  }
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"English":"Español");
+    showCut(sel); live();
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+  render(); setInterval(live,60000);
+</script>
+</body>
+</html>

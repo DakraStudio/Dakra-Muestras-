@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Super Sabor · Tienda y Cocina · Lewisburg, TN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--rosa:#E6177A;--turq:#00A6A6;--amar:#FFC93C;--nar:#FF7A1A;--fondo:#FFFBF4;--tinta:#2A1E2C;--gris:#6D6170}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--fondo);color:var(--tinta);font:17px/1.6 "Nunito",system-ui,sans-serif}
+  :focus-visible{outline:3px solid var(--turq);outline-offset:3px}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--tinta);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:var(--amar)}
+
+  /* Papel picado */
+  .picado{display:flex;height:64px;overflow:hidden}
+  .picado span{flex:1;min-width:56px;clip-path:polygon(0 0,100% 0,100% 72%,85% 100%,70% 72%,50% 100%,30% 72%,15% 100%,0 72%);
+    -webkit-mask:radial-gradient(circle at 50% 38%,#0000 7px,#000 8px) ;mask:radial-gradient(circle at 50% 38%,#0000 7px,#000 8px)}
+  .picado span:nth-child(4n+1){background:var(--rosa)}
+  .picado span:nth-child(4n+2){background:var(--turq)}
+  .picado span:nth-child(4n+3){background:var(--amar)}
+  .picado span:nth-child(4n+4){background:var(--nar)}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:8px 0 4px}
+  .logo{font:800 30px/1 "Baloo 2",sans-serif;color:var(--rosa);text-decoration:none}
+  .logo b{color:var(--turq)}
+  .lang{background:#fff;border:2px solid var(--tinta);color:var(--tinta);font:700 14px "Nunito";padding:6px 14px;border-radius:999px;cursor:pointer}
+
+  .hero{padding:26px 0 40px;text-align:center}
+  .hero h1{font:800 clamp(40px,8.5vw,80px)/1.02 "Baloo 2",sans-serif;margin:0 auto;max-width:15ch}
+  .hero p{font-size:clamp(18px,2.6vw,21px);color:var(--gris);max-width:42ch;margin:14px auto 22px}
+  .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+  .pill{background:#fff;border:2px solid var(--tinta);border-radius:999px;padding:7px 16px;font-weight:700;font-size:15px}
+  .pill.ok{border-color:#1E9E57;color:#1E9E57}
+  .pill.no{border-color:#C83737;color:#C83737}
+
+  /* Pasillos */
+  section{padding:48px 0}
+  h2{font:800 clamp(30px,5vw,44px)/1.05 "Baloo 2",sans-serif;margin:0 0 6px}
+  .lead{color:var(--gris);margin:0 0 22px}
+  .aisles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .aisle{border:0;cursor:pointer;font:800 17px "Baloo 2",sans-serif;padding:10px 18px;border-radius:14px;background:#fff;color:var(--tinta);box-shadow:inset 0 0 0 2px var(--tinta)}
+  .aisle[aria-pressed=true]{background:var(--tinta);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+  .prod{background:#fff;border-radius:18px;padding:20px;border:2px solid #F0E6D8;position:relative;overflow:hidden}
+  .prod::before{content:"";position:absolute;inset:0 auto 0 0;width:8px;background:var(--c,var(--rosa))}
+  .prod small{font-weight:700;color:var(--c,var(--rosa));font-size:13px}
+  .prod h3{margin:2px 0 4px;font:800 22px "Baloo 2",sans-serif}
+  .prod p{margin:0;color:var(--gris);font-size:15px}
+  .cocina{--c:var(--nar)} .despensa{--c:var(--turq)} .fiesta{--c:var(--rosa)} .ropa{--c:#7B4BD8}
+
+  /* Salsas */
+  .hot{background:var(--tinta);color:#fff;border-radius:28px;padding:34px 28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+  .hot h2{color:var(--amar)}
+  .hot p{margin:0;color:#E6DCE8}
+  .meter{display:flex;gap:6px}
+  .meter i{width:22px;height:46px;border-radius:12px 12px 6px 6px;background:var(--nar);display:block}
+  .meter i:nth-child(n+4){background:#C21E1E}
+
+  .revs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .rev{background:#fff;border-radius:18px;padding:20px;border:2px solid #F0E6D8}
+  .rev p{margin:0;font-weight:600}
+  .rev span{display:block;margin-top:8px;font-size:14px;color:var(--gris)}
+  .visit{display:grid;grid-template-columns:1fr 1.1fr;gap:28px}
+  .visit ul{list-style:none;padding:0;margin:0 0 16px}
+  .visit li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:2px dotted #E9DCCB}
+  .visit li.today{color:var(--rosa);font-weight:800}
+  .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font:800 18px "Baloo 2";padding:12px 22px;border-radius:14px;background:var(--rosa);color:#fff}
+  .btn.alt{background:var(--turq)}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:22px;background:#F0E6D8}
+  footer{padding:26px 0;font-size:14px;color:var(--gris)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+  footer a{color:var(--rosa)}
+  @media (max-width:760px){.revs,.visit,.hot{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Página de muestra creada por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> para Super Sabor" data-en="Sample website made by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> for Super Sabor"></div>
+<div class="picado" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<div class="wrap">
+  <nav><a class="logo" href="#">Super <b>Sabor</b></a><button class="lang" data-lang>English</button></nav>
+  <header class="hero">
+    <h1 data-es="Todo lo de allá, aquí en Lewisburg" data-en="A taste of home, right here in Lewisburg"></h1>
+    <p data-es="Tienda latina con cocina: tacos y burritos al momento, despensa, salsas picantes, ropa y piñatas para tu fiesta." data-en="A Latin grocery with a kitchen: fresh tacos and burritos, pantry staples, hot sauces, clothing and piñatas for your party."></p>
+    <div class="stats"><span class="pill" id="now"></span><span class="pill">★ 4.8 Google</span><span class="pill">635 N 2nd Ave</span></div>
+  </header>
+</div>
+
+<main>
+<section>
+  <div class="wrap">
+    <h2 data-es="Recorre los pasillos" data-en="Browse the aisles"></h2>
+    <p class="lead" data-es="Toca un pasillo para ver lo que hay." data-en="Tap an aisle to see what's there."></p>
+    <div class="aisles" role="group">
+      <button class="aisle" data-f="all" aria-pressed="true" data-es="Todo" data-en="All"></button>
+      <button class="aisle" data-f="cocina" aria-pressed="false" data-es="🌮 Cocina" data-en="🌮 Kitchen"></button>
+      <button class="aisle" data-f="despensa" aria-pressed="false" data-es="🛒 Despensa" data-en="🛒 Pantry"></button>
+      <button class="aisle" data-f="fiesta" aria-pressed="false" data-es="🎉 Fiesta" data-en="🎉 Party"></button>
+      <button class="aisle" data-f="ropa" aria-pressed="false" data-es="👕 Ropa" data-en="👕 Clothing"></button>
+    </div>
+    <div class="grid" id="grid">
+      <div class="prod cocina"><small data-es="COCINA" data-en="KITCHEN"></small><h3 data-es="Tacos de carne asada" data-en="Carne asada tacos"></h3><p data-es="Los favoritos de la casa." data-en="A house favorite."></p></div>
+      <div class="prod cocina"><small data-es="COCINA" data-en="KITCHEN"></small><h3 data-es="Burrito de asada" data-en="Carne asada burrito"></h3><p data-es="Con arroz y frijoles bien sazonados." data-en="With well-seasoned rice and beans."></p></div>
+      <div class="prod cocina"><small data-es="COCINA" data-en="KITCHEN"></small><h3>Flautas</h3><p data-es="Doraditas, con crema y queso." data-en="Crispy, with crema and cheese."></p></div>
+      <div class="prod despensa"><small data-es="DESPENSA" data-en="PANTRY"></small><h3 data-es="Salsas picantes" data-en="Hot sauces"></h3><p data-es="Una pared entera, incluida la que ponemos en la mesa." data-en="A whole wall, including the one we put on the table."></p></div>
+      <div class="prod despensa"><small data-es="DESPENSA" data-en="PANTRY"></small><h3 data-es="Carnes y dulces" data-en="Meats & sweets"></h3><p data-es="Lo que no encuentras en otras tiendas." data-en="Things you won't find anywhere else."></p></div>
+      <div class="prod fiesta"><small data-es="FIESTA" data-en="PARTY"></small><h3 data-es="Piñatas" data-en="Piñatas"></h3><p data-es="Para cumpleaños, posadas y lo que celebres." data-en="For birthdays, posadas and anything you celebrate."></p></div>
+      <div class="prod ropa"><small data-es="ROPA" data-en="CLOTHING"></small><h3 data-es="Ropa" data-en="Clothing"></h3><p data-es="Pregunta por lo que llegó esta semana." data-en="Ask what's new this week."></p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="hot">
+      <div>
+        <h2 data-es="¿Te gusta el picante?" data-en="Like it spicy?"></h2>
+        <p data-es="Nuestros clientes vienen desde lejos por las salsas. Pregunta por la que ponemos en la mesa: también la vendemos para llevar." data-en="Customers drive from out of town for our hot sauces. Ask about the one on our tables — you can take a bottle home."></p>
+      </div>
+      <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-es="Lo que dicen" data-en="What people say"></h2>
+    <div class="revs" style="margin-top:18px">
+      <div class="rev"><p>“Such a cute Mexican grocery store and the food is so amazing!!”</p><span>★★★★★ Google</span></div>
+      <div class="rev"><p>“Best tacos I've ever had from an establishment!”</p><span>★★★★★ Google</span></div>
+      <div class="rev"><p>“A store for eating anytime, Latin items, clothing and piñatas. Good service.”</p><span>★★★★★ Google</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap visit">
+    <div>
+      <h2 data-es="Ven a visitarnos" data-en="Come visit"></h2>
+      <ul id="hours"></ul>
+      <p>635 N 2nd Ave, Lewisburg, TN 37091</p>
+      <div class="btns">
+        <a class="btn" href="tel:+19314222220" data-es="Llamar" data-en="Call"></a>
+        <a class="btn alt" href="https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN" target="_blank" rel="noopener" data-es="Cómo llegar" data-en="Directions"></a>
+      </div>
+    </div>
+    <iframe class="map" title="Mapa" loading="lazy" src="https://www.google.com/maps?q=635+N+2nd+Ave+Lewisburg+TN+37091&output=embed"></iframe>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© Super Sabor · Lewisburg, TN</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  const H=[[8,20],[8,21],[8,21],[8,21],[8,21],[8,22],[8,22]]; // 0 = domingo
+  const D={es:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  let lang="es",filter="all";
+  const fmt=h=>(((h+11)%12)+1)+(h>=12?" pm":" am");
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"English":"Español");
+    const t=now(),r=H[t.d],open=t.h>=r[0]&&t.h<r[1],pill=document.getElementById("now");
+    pill.className="pill "+(open?"ok":"no");
+    pill.textContent=open?(lang==="es"?`● Abierto hasta las ${fmt(r[1])}`:`● Open until ${fmt(r[1])}`):(lang==="es"?"● Cerrado ahora · abre a las 8 am":"● Closed now · opens at 8 am");
+    document.getElementById("hours").innerHTML=[1,2,3,4,5,6,0].map(d=>`<li class="${d===t.d?"today":""}"><span>${D[lang][d]}</span><span>${fmt(H[d][0])} – ${fmt(H[d][1])}</span></li>`).join("");
+  }
+  document.querySelectorAll(".aisle").forEach(b=>b.addEventListener("click",()=>{
+    filter=b.dataset.f;
+    document.querySelectorAll(".aisle").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    document.querySelectorAll(".prod").forEach(p=>p.hidden=filter!=="all"&&!p.classList.contains(filter));
+  }));
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+  render(); setInterval(render,60000);
+</script>
+</body>
+</html>

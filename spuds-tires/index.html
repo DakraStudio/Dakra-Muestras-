@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spuds Economy Tires · Lewisburg, TN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--crema:#F6EFDF;--teal:#0F5E5C;--naranja:#F06A1D;--tinta:#1D2623;--gris:#5D6863}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--crema);color:var(--tinta);font:17px/1.6 "Figtree",system-ui,sans-serif}
+  :focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--tinta);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:#FFB98F}
+  .bowl{font-family:"Bowlby One",sans-serif;font-weight:400}
+
+  /* Banda de emergencia */
+  .alert{background:var(--naranja);color:#fff;font-weight:800;text-align:center;padding:10px 16px}
+  .alert a{color:#fff}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+  .badge{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--tinta)}
+  .tire{width:48px;height:48px;border-radius:50%;background:
+     radial-gradient(circle,var(--crema) 0 7px,var(--teal) 8px 12px,var(--crema) 13px 14px,transparent 15px),
+     repeating-conic-gradient(var(--tinta) 0 10deg,#3a4642 10deg 20deg)}
+  .badge b{font:400 20px/1 "Bowlby One";display:block}
+  .badge small{font-weight:600;color:var(--gris);font-size:13px}
+  .lang{background:none;border:2px solid var(--tinta);font:800 13px "Figtree";padding:6px 12px;border-radius:8px;cursor:pointer;color:var(--tinta)}
+
+  .hero{background:var(--teal);color:var(--crema);border-radius:28px;padding:44px 32px;position:relative;overflow:hidden;margin-bottom:28px}
+  .hero::after{content:"";position:absolute;right:-90px;bottom:-90px;width:300px;height:300px;border-radius:50%;
+     background:radial-gradient(circle,var(--teal) 0 40px,var(--naranja) 41px 60px,var(--teal) 61px 70px,transparent 71px),repeating-conic-gradient(#0B4746 0 12deg,#14706d 12deg 24deg);opacity:.9}
+  .hero h1{font-size:clamp(40px,8vw,74px);line-height:1;margin:0 0 16px;max-width:12ch;position:relative;z-index:1}
+  .hero p{max-width:40ch;font-size:19px;margin:0 0 24px;position:relative;z-index:1;color:#DCEAE6}
+  .cta{position:relative;z-index:1;display:inline-block;background:var(--naranja);color:#fff;text-decoration:none;font-weight:800;font-size:18px;padding:14px 24px;border-radius:12px}
+  .cta:hover{background:#D25812}
+
+  /* ¿Abierto ahora? semana */
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:0 0 8px}
+  .day{background:#fff;border-radius:14px;padding:12px 6px;text-align:center;border:2px solid transparent}
+  .day b{display:block;font:400 18px "Bowlby One"}
+  .day span{font-size:13px;color:var(--gris);font-weight:600}
+  .day.off{background:transparent;border:2px dashed #C9BFA9}
+  .day.off span{color:#B44}
+  .day.today{border-color:var(--naranja)}
+  .status{font-weight:800;margin:6px 0 0}
+  .status.open{color:#1C8A4A}.status.closed{color:#B33}
+
+  section{padding:46px 0}
+  h2{font-size:clamp(28px,5vw,42px);line-height:1.05;margin:0 0 8px}
+  .lead{color:var(--gris);margin:0 0 24px;max-width:60ch}
+  .svc{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .s{display:flex;gap:16px;background:#fff;border-radius:18px;padding:18px}
+  .s .ic{flex:none;width:48px;height:48px;border-radius:12px;background:var(--crema);display:grid;place-items:center;font-size:24px}
+  .s h3{margin:0;font-size:19px}
+  .s p{margin:2px 0 0;color:var(--gris);font-size:15px}
+
+  .stories{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .story{background:var(--tinta);color:var(--crema);border-radius:20px;padding:22px}
+  .story .tag{display:inline-block;background:var(--naranja);color:#fff;font-weight:800;font-size:12px;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+  .story p{margin:0;font-size:16px}
+  .story span{display:block;margin-top:10px;color:#9DB0AA;font-size:13px}
+
+  .visit{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:center}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:20px;background:#E7DDC8}
+  footer{padding:26px 0;font-size:14px;color:var(--gris);border-top:2px solid #E7DDC8}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+  footer a{color:var(--teal)}
+  @media (max-width:760px){.svc,.stories,.visit{grid-template-columns:1fr}.week{gap:4px}.day{padding:10px 2px}.day b{font-size:14px}.day span{font-size:11px}.hero{padding:34px 22px}}
+</style>
+</head>
+<body>
+<div class="demo" data-en="Sample website made by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> for Spuds Economy Tires" data-es="Página de muestra creada por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> para Spuds Economy Tires"></div>
+<div class="alert" data-en="Flat tire? We're open Sundays, 12–6 pm · <a href='tel:+19316378566'>(931) 637-8566</a>" data-es="¿Llanta ponchada? Abrimos los domingos de 12 a 6 pm · <a href='tel:+19316378566'>(931) 637-8566</a>"></div>
+
+<div class="wrap">
+  <nav>
+    <a class="badge" href="#"><span class="tire" aria-hidden="true"></span><span><b>Spuds</b><small data-en="Economy Tires · Lewisburg" data-es="Llantas económicas · Lewisburg"></small></span></a>
+    <button class="lang" data-lang>Español</button>
+  </nav>
+
+  <header class="hero">
+    <h1 class="bowl" data-en="Back on the road, fast." data-es="De vuelta al camino, rápido."></h1>
+    <p data-en="Family-owned tire shop on N Ellington Pkwy. New and used tires, patches and honest advice — we'll only sell you a tire if you really need one." data-es="Llantera familiar en N Ellington Pkwy. Llantas nuevas y usadas, parches y un consejo honesto: solo te vendemos una llanta si de verdad la necesitas."></p>
+    <a class="cta" href="tel:+19316378566" data-en="Call the shop" data-es="Llamar al taller"></a>
+  </header>
+
+  <div class="week" id="week"></div>
+  <p class="status" id="status"></p>
+</div>
+
+<main>
+<section>
+  <div class="wrap">
+    <h2 class="bowl" data-en="What we do" data-es="Lo que hacemos"></h2>
+    <p class="lead" data-en="Cars, trucks and SUVs." data-es="Carros, camionetas y trocas."></p>
+    <div class="svc">
+      <div class="s"><span class="ic">🛞</span><div><h3 data-en="New & used tires" data-es="Llantas nuevas y usadas"></h3><p data-en="Good options for every budget." data-es="Buenas opciones para cada presupuesto."></p></div></div>
+      <div class="s"><span class="ic">🩹</span><div><h3 data-en="Flat repair" data-es="Reparación de ponchaduras"></h3><p data-en="Patches done while you wait." data-es="Parches mientras esperas."></p></div></div>
+      <div class="s"><span class="ic">⚖️</span><div><h3 data-en="Mount & balance" data-es="Montaje y balanceo"></h3><p data-en="Smooth ride, no shaking." data-es="Manejo suave, sin vibraciones."></p></div></div>
+      <div class="s"><span class="ic">🔍</span><div><h3 data-en="Tire check" data-es="Revisión de llantas"></h3><p data-en="We find the problem before selling you anything." data-es="Encontramos el problema antes de venderte algo."></p></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="bowl" data-en="Road stories" data-es="Historias del camino"></h2>
+    <p class="lead" data-en="Real Google reviews · 4.9 ★" data-es="Reseñas reales de Google · 4.9 ★"></p>
+    <div class="stories">
+      <div class="story"><span class="tag" data-en="SUNDAY RESCUE" data-es="RESCATE EN DOMINGO"></span><p>“They got my tire patched on a Sunday after 3 other shops turned me away.”</p><span>★★★★★ Google</span></div>
+      <div class="story"><span class="tag" data-en="ON THE WAY TO VACATION" data-es="RUMBO A VACACIONES"></span><p>“They put on two new tires and had us back on the road in less than an hour.”</p><span>★★★★★ Google</span></div>
+      <div class="story"><span class="tag" data-en="HONEST ADVICE" data-es="CONSEJO HONESTO"></span><p>“She didn't want me to even spend money on a new tire if I didn't have to.”</p><span>★★★★★ Google</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap visit">
+    <div>
+      <h2 class="bowl" data-en="Find us" data-es="Encuéntranos"></h2>
+      <p>1175 N Ellington Pkwy<br>Lewisburg, TN 37091</p>
+      <a class="cta" style="background:var(--teal)" href="https://www.google.com/maps/search/?api=1&query=1175+N+Ellington+Pkwy+Lewisburg+TN" target="_blank" rel="noopener" data-en="Get directions" data-es="Cómo llegar"></a>
+    </div>
+    <iframe class="map" title="Map" loading="lazy" src="https://www.google.com/maps?q=1175+N+Ellington+Pkwy+Lewisburg+TN+37091&output=embed"></iframe>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>© Spuds Economy Tires of Lewisburg</span><span data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  const H=[[12,18],[8,18],[8,18],null,[8,18],[8,18],[8,18]]; // 0 = domingo, miércoles cerrado
+  const D={en:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],es:["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"]};
+  let lang="en";
+  const fmt=h=>(((h+11)%12)+1)+(h>=12?"p":"a");
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="en"?"Español":"English");
+    const t=now();
+    document.getElementById("week").innerHTML=[1,2,3,4,5,6,0].map(d=>{const r=H[d];return `<div class="day ${r?"":"off"} ${d===t.d?"today":""}"><b>${D[lang][d]}</b><span>${r?fmt(r[0])+"–"+fmt(r[1]):(lang==="en"?"Closed":"Cerrado")}</span></div>`}).join("");
+    const r=H[t.d],open=r&&t.h>=r[0]&&t.h<r[1],s=document.getElementById("status");
+    s.className="status "+(open?"open":"closed");
+    s.textContent=open?(lang==="en"?"● Open right now":"● Abierto ahora"):(lang==="en"?"● Closed right now — call and leave a message":"● Cerrado ahora — llama y deja tu mensaje");
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render();}));
+  render(); setInterval(render,60000);
+</script>
+</body>
+</html>
