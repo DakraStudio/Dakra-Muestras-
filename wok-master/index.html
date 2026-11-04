@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wok Master · Comida china y mexicana · Cornersville, TN</title>
+<meta name="description" content="Comida china y mexicana en 126 S Main St, Cornersville, TN. Pide en línea para recoger o a domicilio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{--tinta:#14110F;--papel:#FBF7F0;--rojo:#D7261E;--jade:#0E7C66;--oro:#F2B33D;--gris:#6A615A;--linea:#E8DFD2}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--papel);color:var(--tinta);font:17px/1.6 "Manrope",system-ui,sans-serif;padding-bottom:70px}
+  :focus-visible{outline:3px solid var(--jade);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--tinta);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:var(--oro)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tinta)}
+  .seal{width:42px;height:42px;border-radius:10px;background:var(--rojo);color:#fff;display:grid;place-items:center;font:400 22px "Righteous";transform:rotate(-6deg)}
+  .logo b{font:400 24px "Righteous",sans-serif;letter-spacing:.5px}
+  .lang{background:#fff;border:2px solid var(--tinta);color:var(--tinta);font:800 13px "Manrope";padding:6px 14px;border-radius:999px;cursor:pointer}
+
+  /* Hero: dos cocinas */
+  .hero{display:grid;grid-template-columns:1fr 1fr;border-radius:26px;overflow:hidden;margin:6px 0 22px;min-height:320px}
+  .half{padding:34px 28px;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;position:relative;overflow:hidden}
+  .half.cn{background:var(--rojo);color:#fff}
+  .half.mx{background:var(--jade);color:#fff}
+  .half .big{font:400 clamp(42px,8vw,76px)/.95 "Righteous",sans-serif}
+  .half small{font-weight:600;opacity:.9}
+  .half.cn::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:22px solid rgba(255,255,255,.12)}
+  .half.mx::before{content:"";position:absolute;left:-30px;top:-30px;width:180px;height:180px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.1) 0 10px,transparent 10px 20px);border-radius:50%}
+  .intro{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .intro p{margin:0;max-width:46ch;font-size:19px;color:var(--gris)}
+  .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-block;text-decoration:none;font-weight:800;padding:14px 22px;border-radius:14px}
+  .btn.order{background:var(--tinta);color:#fff}
+  .btn.call{border:2px solid var(--tinta);color:var(--tinta)}
+  .status{display:inline-flex;gap:8px;align-items:center;font-weight:800;margin-top:6px}
+  .dot{width:11px;height:11px;border-radius:50%;background:#999}
+  .status.open .dot{background:#1FAE5C;box-shadow:0 0 0 4px rgba(31,174,92,.2)}
+  .status.closed .dot{background:var(--rojo)}
+
+  section{padding:46px 0}
+  h2{font:400 clamp(30px,5vw,44px)/1.05 "Righteous",sans-serif;margin:0 0 8px}
+  .lead{color:var(--gris);margin:0 0 22px;max-width:60ch}
+  .switch{display:inline-flex;background:#fff;border:2px solid var(--tinta);border-radius:999px;padding:4px;gap:4px;margin-bottom:22px}
+  .switch button{border:0;background:none;font:800 15px "Manrope";padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--tinta)}
+  .switch button[aria-pressed=true].c{background:var(--rojo);color:#fff}
+  .switch button[aria-pressed=true].m{background:var(--jade);color:#fff}
+  .boxes{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .tk{background:#fff;border:2px solid var(--linea);border-radius:18px 18px 8px 8px;padding:16px 16px 14px;position:relative}
+  .tk::before{content:"";position:absolute;left:16px;right:16px;top:-2px;height:6px;border-radius:0 0 6px 6px;background:var(--c,var(--rojo))}
+  .tk h3{margin:6px 0 2px;font-size:18px}
+  .tk p{margin:0;color:var(--gris);font-size:14px}
+  .tk .px{display:block;margin-top:10px;font-weight:800;color:var(--c,var(--rojo))}
+  .mx-panel .tk{--c:var(--jade)}
+  .mxnote{background:#fff;border:2px dashed var(--jade);border-radius:18px;padding:20px;max-width:640px}
+  .note{font-size:14px;color:var(--gris);margin-top:14px}
+
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .q{background:var(--tinta);color:#fff;border-radius:20px;padding:22px}
+  .q p{margin:0;font-size:17px;font-weight:600}
+  .q span{display:block;margin-top:10px;color:var(--oro);font-size:13px}
+  .visit{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:start}
+  .hrs{list-style:none;margin:0;padding:0}
+  .hrs li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--linea)}
+  .hrs li.today{color:var(--rojo);font-weight:800}
+  .map{width:100%;aspect-ratio:4/3;border:0;border-radius:20px;background:var(--linea)}
+  footer{padding:26px 0;font-size:14px;color:var(--gris);border-top:1px solid var(--linea)}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+  footer a{color:var(--rojo)}
+
+  /* Asistente de chat */
+  .bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border:0;cursor:pointer;background:var(--rojo);color:#fff;font:800 16px "Manrope",sans-serif;padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(20,17,15,.3);display:flex;align-items:center;gap:8px}
+  .bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+  section.bot{padding:0}
+  .bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:21;width:min(360px,calc(100vw - 32px));height:min(520px,calc(100vh - 120px));background:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(20,17,15,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--tinta)}
+  .bot header{background:var(--tinta);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .bot header b{font:400 19px "Righteous",sans-serif;display:block;line-height:1.1}
+  .bot header small{font-size:12px;color:#E8DFD2}
+  .bot .x{background:none;border:0;color:#fff;font-size:24px;cursor:pointer;line-height:1;padding:4px 8px}
+  .bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--papel)}
+  .bm{max-width:85%;padding:9px 12px;border-radius:16px;font-size:15px;line-height:1.4;white-space:pre-line}
+  .bm.b{background:#fff;border:2px solid var(--linea);align-self:flex-start;border-bottom-left-radius:4px}
+  .bm.u{background:var(--jade);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+  .bm a{color:var(--rojo);font-weight:800}
+  .bot .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:2px solid var(--linea);background:#fff}
+  .bot .chips button{flex:none;border:2px solid var(--tinta);background:#fff;border-radius:999px;padding:5px 12px;font:700 14px "Manrope";cursor:pointer;color:var(--tinta)}
+  .bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:2px solid var(--linea)}
+  .bot input{flex:1;min-width:0;border:2px solid var(--linea);border-radius:12px;padding:10px 12px;font:16px "Manrope";color:var(--tinta)}
+  .bot form button{border:0;background:var(--rojo);color:#fff;font:800 15px "Manrope";border-radius:12px;padding:0 16px;cursor:pointer}
+  .bot .demo-tag{font-size:11px;text-align:center;color:var(--gris);padding:4px 0 8px;background:#fff}
+  @media (max-width:760px){.hero{grid-template-columns:1fr;min-height:0}.half{padding:26px 22px}.quotes,.visit{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Página de muestra creada por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> para Wok Master" data-en="Sample website made by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a> for Wok Master"></div>
+<div class="wrap">
+  <nav><a class="logo" href="#"><span class="seal" aria-hidden="true">W</span><b>Wok Master</b></a><button class="lang" data-lang>English</button></nav>
+
+  <div class="hero" aria-label="Dos cocinas">
+    <div class="half cn"><small data-es="Cocina china" data-en="Chinese kitchen"></small><span class="big">Wok</span></div>
+    <div class="half mx"><small data-es="Cocina mexicana" data-en="Mexican kitchen"></small><span class="big" data-es="Sazón" data-en="Sazón"></span></div>
+  </div>
+
+  <div class="intro">
+    <div>
+      <p data-es="Comida china y mexicana hecha al momento, en el centro de Cornersville. Come aquí, pide para llevar o con entrega." data-en="Chinese and Mexican food made to order in downtown Cornersville. Dine in, take out or get it delivered."></p>
+      <div class="status" id="status"><span class="dot"></span><span id="statusTxt"></span></div>
+    </div>
+    <div class="btns">
+      <a class="btn order" href="https://order.online/business/wok-master-12844609" target="_blank" rel="noopener" data-es="Pedir en línea" data-en="Order online"></a>
+      <a class="btn call" href="tel:+19312932512" data-es="Llamar" data-en="Call"></a>
+    </div>
+  </div>
+</div>
+
+<main>
+<section id="menu">
+  <div class="wrap">
+    <h2 data-es="El menú" data-en="The menu"></h2>
+    <p class="lead" data-es="Elige la cocina. Los precios actuales están en la página de pedidos en línea." data-en="Pick a kitchen. Current prices are on the online ordering page."></p>
+    <div class="switch" role="group" aria-label="Cocina">
+      <button type="button" class="c" data-k="cn" aria-pressed="true" data-es="Cocina china" data-en="Chinese"></button>
+      <button type="button" class="m" data-k="mx" aria-pressed="false" data-es="Cocina mexicana" data-en="Mexican"></button>
+    </div>
+    <div data-panel="cn" class="boxes">
+      <div class="tk"><h3>Crab rangoons</h3><p data-es="Crujientes, para empezar." data-en="Crispy starter."></p><span class="px">$—</span></div>
+      <div class="tk"><h3>Kung pao chicken</h3><p data-es="Pollo salteado al wok." data-en="Wok-tossed chicken."></p><span class="px">$—</span></div>
+      <div class="tk"><h3>Black pepper chicken</h3><p data-es="Pollo a la pimienta negra." data-en="Chicken with black pepper sauce."></p><span class="px">$—</span></div>
+      <div class="tk"><h3>Almond chicken</h3><p data-es="Pollo con almendras." data-en="Chicken with almonds."></p><span class="px">$—</span></div>
+      <div class="tk"><h3>General Tso's chicken</h3><p data-es="Un clásico." data-en="A classic."></p><span class="px">$—</span></div>
+      <div class="tk"><h3 data-es="Arroz frito" data-en="Fried rice"></h3><p data-es="Para acompañar cualquier platillo." data-en="Goes with any entrée."></p><span class="px">$—</span></div>
+      <div class="tk"><h3 data-es="Alitas" data-en="Wings"></h3><p data-es="Por orden o para compartir." data-en="By the order or to share."></p><span class="px">$—</span></div>
+      <div class="tk"><h3>Egg rolls &amp; pot stickers</h3><p data-es="Para picar." data-en="For snacking."></p><span class="px">$—</span></div>
+    </div>
+    <div data-panel="mx" class="mx-panel" hidden>
+      <div class="mxnote"><b data-es="La cocina mexicana se arma con el menú del dueño." data-en="The Mexican menu will be filled in with the owner's dishes."></b><p style="margin:6px 0 0;color:var(--gris)" data-es="En la página final aquí van sus platillos mexicanos con fotos. Mientras, puedes verlos en la página de pedidos en línea." data-en="On the final site, this section lists their Mexican dishes with photos. Meanwhile, see them on the online ordering page."></p></div>
+    </div>
+    <p class="note" data-es="Muestra: los platillos y precios se ajustan con el menú real del restaurante." data-en="Sample: dishes and prices will be updated with the restaurant's real menu."></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-es="Lo que dicen" data-en="What people say"></h2>
+    <p class="lead" data-es="Reseñas reales de clientes." data-en="Real customer reviews."></p>
+    <div class="quotes">
+      <div class="q"><p>“This is the best takeout food we've had anywhere near here in quite some time.”</p><span>★★★★★ Google</span></div>
+      <div class="q"><p>“They have Chinese and Mexican food. Strange but it works.”</p><span>★★★★★ Google</span></div>
+      <div class="q"><p>“Almond chicken was very tasty.”</p><span>Caviar</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap visit">
+    <div>
+      <h2 data-es="Horario" data-en="Hours"></h2>
+      <ul class="hrs" id="hours"></ul>
+      <p><b>126 S Main St</b>, Cornersville, TN 37047<br><a href="tel:+19312932512">(931) 293-2512</a></p>
+    </div>
+    <iframe class="map" title="Mapa" loading="lazy" src="https://www.google.com/maps?q=126+S+Main+St+Cornersville+TN+37047&output=embed"></iframe>
+  </div>
+</section>
+</main>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span data-es="¿Preguntas? Chatea" data-en="Questions? Chat"></span></button>
+<section class="bot" id="bot" role="dialog" aria-label="Asistente de Wok Master" hidden>
+  <header><div><b>Wok Master</b><small data-es="Asistente · responde al instante" data-en="Assistant · instant answers"></small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></header>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" data-es="Enviar" data-en="Send"></button></form>
+  <div class="demo-tag" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio"></div>
+</section>
+
+<footer><div class="wrap"><span>© Wok Master · Cornersville, TN</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  const H=[null,[11,20],[11,20],[11,20],[11,20],[11,21],[11,21]]; // 0 = domingo (cerrado)
+  const D={es:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  let lang="es";
+  const fmt=h=>(((h+11)%12)+1)+(h>=12?" pm":" am");
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  function nextOpen(t){let d=t.d;for(let i=0;i<8;i++){const r=H[d];if(r&&(i>0||t.h<r[0]))return{d,r,today:i===0};d=(d+1)%7}}
+  function statusText(){const t=now(),r=H[t.d];const open=r&&t.h>=r[0]&&t.h<r[1];
+    if(open)return{open,es:`Abierto ahora · hasta las ${fmt(r[1])}`,en:`Open now · until ${fmt(r[1])}`};
+    const n=nextOpen(t);return{open,es:`Cerrado · abre ${n.today?"hoy":D.es[n.d].toLowerCase()} a las ${fmt(n.r[0])}`,en:`Closed · opens ${n.today?"today":D.en[n.d]} at ${fmt(n.r[0])}`}}
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"English":"Español");
+    const s=statusText(),t=now();document.getElementById("status").className="status "+(s.open?"open":"closed");document.getElementById("statusTxt").textContent=s[lang];
+    document.getElementById("hours").innerHTML=[1,2,3,4,5,6,0].map(d=>`<li class="${d===t.d?"today":""}"><span>${D[lang][d]}</span><span>${H[d]?fmt(H[d][0])+" – "+fmt(H[d][1]):(lang==="es"?"Cerrado":"Closed")}</span></li>`).join("");
+  }
+  document.querySelectorAll(".switch button").forEach(b=>b.addEventListener("click",()=>{
+    document.querySelectorAll(".switch button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==b.dataset.k);
+  }));
+
+  /* ---- Asistente de chat (demostración, sin servidor) ---- */
+  const TEL='<a href="tel:+19312932512">(931) 293-2512</a>';
+  const ORDER='https://order.online/business/wok-master-12844609';
+  const MAPS='https://www.google.com/maps/search/?api=1&query=126+S+Main+St+Cornersville+TN';
+  const hoursTxt=()=>[1,2,3,4,5,6,0].map(d=>`${D[lang][d]}: ${H[d]?fmt(H[d][0])+" – "+fmt(H[d][1]):(lang==="es"?"Cerrado":"Closed")}`).join("\n");
+  const INTENTS=[
+    {k:"saludo",re:/^(hola|buenas|buen d[ií]a|buenos|que tal|qué tal|hi|hello|hey|good (morning|afternoon|evening))\b/i,
+     es:()=>"¡Hola! 😊 Pregúntame por el menú, cómo pedir en línea, el horario o cómo llegar.",en:()=>"Hi there! 😊 Ask me about the menu, online ordering, hours or directions."},
+    {k:"gracias",re:/gracias|thank/i,es:()=>"¡Con gusto! Buen provecho. 🥢",en:()=>"You're welcome! Enjoy your meal. 🥢"},
+    {k:"evento",re:/evento|fiesta|catering|banquete|pedido grande|\d+ ?(personas|people|guests)|large order|event|party/i,
+     es:()=>`¿Pedido grande para un evento? Llama con anticipación al ${TEL} para ver cantidades y fecha. 🎉`,en:()=>`Large order for an event? Call ahead at ${TEL} to plan amounts and the date. 🎉`},
+    {k:"domicilio",re:/domicilio|entreg|delivery|deliver|doordash|uber ?eats|caviar|a mi casa|env[ií]o|llevan/i,
+     es:()=>`Puedes pedir con entrega en la página de pedidos en línea, según la zona donde estés: <a href="${ORDER}" target="_blank" rel="noopener">Pedir en línea</a> 🚗`,
+     en:()=>`You can order delivery through the online ordering page, depending on your area: <a href="${ORDER}" target="_blank" rel="noopener">Order online</a> 🚗`},
+    {k:"llevar",re:/para llevar|llevar|to ?go|take ?out|pick ?up|recoger|ordenar|pedir|order|pedido|en l[ií]nea|online/i,
+     es:()=>`Pide en línea y pasa a recogerlo: <a href="${ORDER}" target="_blank" rel="noopener">Pedir en línea</a>. También puedes llamar al ${TEL}. 🥡`,
+     en:()=>`Order online and pick it up: <a href="${ORDER}" target="_blank" rel="noopener">Order online</a>. You can also call ${TEL}. 🥡`},
+    {k:"pago",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|apple ?pay|zelle|aceptan/i,
+     es:()=>`En línea pagas con tarjeta al hacer tu pedido. Para pagar en el restaurante, confirma las formas de pago al ${TEL}. 💳`,
+     en:()=>`Online orders are paid by card at checkout. To pay at the restaurant, confirm payment options at ${TEL}. 💳`},
+    {k:"abierto",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today/i,es:()=>statusText().es+" ⏰",en:()=>statusText().en+" ⏰"},
+    {k:"horario",re:/hora|horario|abre|abren|cierra|cierran|domingo|s[aá]bado|hours|close|when|sunday|saturday/i,
+     es:()=>statusText().es+"\n\n"+hoursTxt(),en:()=>statusText().en+"\n\n"+hoursTxt()},
+    {k:"ubicacion",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction/i,
+     es:()=>`Estamos en 126 S Main St, Cornersville, TN 37047.\n<a href="${MAPS}" target="_blank" rel="noopener">Abrir en Google Maps</a> 📍`,
+     en:()=>`We're at 126 S Main St, Cornersville, TN 37047.\n<a href="${MAPS}" target="_blank" rel="noopener">Open in Google Maps</a> 📍`},
+    {k:"estacionamiento",re:/estaciona|parqueo|parking|park/i,es:()=>`Si tienes dudas sobre dónde estacionarte, llama al ${TEL}. 🅿️`,en:()=>`Questions about parking? Call ${TEL}. 🅿️`},
+    {k:"alergia",re:/alerg|vegetari|vegan|sin carne|gluten|cacahuate|man[ií]|nuez|mariscos|soya|allerg|vegetarian|peanut|nut|shellfish|soy|msg/i,
+     es:()=>`Para alergias o comida sin carne, pregunta al hacer tu pedido o llama al ${TEL}: la cocina sabe qué lleva cada platillo. 🥗`,
+     en:()=>`For allergies or meat-free options, ask when you order or call ${TEL}; the kitchen knows what goes into each dish. 🥗`},
+    {k:"mexicana",re:/mexican|taco|burrito|enchilada|quesadilla|torta/i,
+     es:()=>`Sí, además de la cocina china tenemos comida mexicana. Mira los platillos de hoy en <a href="${ORDER}" target="_blank" rel="noopener">pedidos en línea</a> o llama al ${TEL}. 🌮`,
+     en:()=>`Yes, besides Chinese food we serve Mexican food. See today's dishes on <a href="${ORDER}" target="_blank" rel="noopener">online ordering</a> or call ${TEL}. 🌮`},
+    {k:"especial",re:/especial|del d[ií]a|promoci|oferta|descuento|combo|special|deal|discount/i,
+     es:()=>`Para especiales y combos de hoy, revisa <a href="${ORDER}" target="_blank" rel="noopener">pedidos en línea</a> o llama al ${TEL}. ⭐`,
+     en:()=>`For today's specials and combos, check <a href="${ORDER}" target="_blank" rel="noopener">online ordering</a> or call ${TEL}. ⭐`},
+    {k:"espera",re:/cu[aá]nto (tarda|tiempo)|tardan|espera|r[aá]pido|how long|wait|fast/i,
+     es:()=>"Todo se cocina al momento. Al pedir en línea te muestran el tiempo estimado para recoger. ⏱️",en:()=>"Everything is cooked to order. When you order online, you'll see the estimated pickup time. ⏱️"},
+    {k:"precio",re:/precio|cu[aá]nto (cuesta|vale|es)|caro|barato|price|cost|how much/i,
+     es:()=>`Los precios actuales están en <a href="${ORDER}" target="_blank" rel="noopener">pedidos en línea</a>. 💵`,en:()=>`Current prices are on <a href="${ORDER}" target="_blank" rel="noopener">online ordering</a>. 💵`},
+    {k:"comida",re:/recomiend|recommend|favorit|lo mejor|best|popular|comida|china|chino|arroz|pollo|rangoon|kung|wok|men[uú]|comer|platillo|wings|alitas|food|eat|chinese|rice|chicken|menu/i,
+     es:()=>"De la cocina china, los favoritos de los clientes: crab rangoons, kung pao chicken, black pepper chicken, almond chicken y arroz frito. También tenemos comida mexicana. 🥢",
+     en:()=>"Customer favorites from the Chinese kitchen: crab rangoons, kung pao chicken, black pepper chicken, almond chicken and fried rice. We also serve Mexican food. 🥢"},
+    {k:"persona",re:/persona|humano|due[ñn]o|encargado|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|owner|manager|call|phone/i,
+     es:()=>`Claro, habla directo con el restaurante al ${TEL}. 📞`,en:()=>`Sure, talk to the restaurant directly at ${TEL}. 📞`},
+    {k:"idioma",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan/i,
+     es:()=>"Te atendemos en español y en inglés. 🗣️",en:()=>"We can help you in English and Spanish. 🗣️"}
+  ];
+  const CHIPS={
+    es:[["abierto","¿Están abiertos?"],["llevar","Pedir en línea"],["domicilio","¿Hacen entregas?"],["comida","¿Qué recomiendan?"],["mexicana","Comida mexicana"],["horario","Horario"],["ubicacion","¿Dónde están?"],["pago","Formas de pago"],["evento","Pedido para evento"],["alergia","Alergias"],["persona","Hablar con alguien"]],
+    en:[["abierto","Are you open?"],["llevar","Order online"],["domicilio","Do you deliver?"],["comida","What do you recommend?"],["mexicana","Mexican food"],["horario","Hours"],["ubicacion","Where are you?"],["pago","Payment options"],["evento","Event order"],["alergia","Allergies"],["persona","Talk to someone"]]
+  };
+  const BOTTXT={es:{hi:"¡Hola! 👋 Soy el asistente de Wok Master. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} y con gusto te ayudan.`},
+                en:{hi:"Hi! 👋 I'm Wok Master's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} and they'll gladly help.`}};
+  const ans=k=>{const it=INTENTS.find(i=>i.k===k);return it?it[lang]():BOTTXT[lang].fb};
+  const match=q=>{const it=INTENTS.find(i=>i.re.test(q));return it?it.k:null};
+  const log=document.getElementById("botLog");
+  function say(html,who){const m=document.createElement("div");m.className="bm "+who;if(who==="u")m.textContent=html;else m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight}
+  function reply(k){const t=document.createElement("div");t.className="bm b";t.textContent="…";log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(()=>{t.innerHTML=ans(k);log.scrollTop=log.scrollHeight},450)}
+  function botChips(){document.getElementById("botChips").innerHTML=CHIPS[lang].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");reply(b.dataset.k)}));
+    document.getElementById("botIn").placeholder=BOTTXT[lang].ph}
+  let botStarted=false;
+  function botOpen(o){document.getElementById("bot").hidden=!o;document.getElementById("botBtn").setAttribute("aria-expanded",o);
+    if(o&&!botStarted){botStarted=true;say(BOTTXT[lang].hi,"b")} if(o){botChips();document.getElementById("botIn").focus({preventScroll:true})}}
+  document.getElementById("botBtn").addEventListener("click",()=>botOpen(document.getElementById("bot").hidden));
+  document.getElementById("botX").addEventListener("click",()=>botOpen(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");reply(match(q))});
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();if(!document.getElementById("bot").hidden)botChips()}));
+  render(); setInterval(render,60000);
+</script>
+</body>
+</html>
