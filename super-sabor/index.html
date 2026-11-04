@@ -77,7 +77,29 @@
   footer{padding:26px 0;font-size:14px;color:var(--gris)}
   footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
   footer a{color:var(--rosa)}
+
+  /* Asistente de chat */
+  .bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border:0;cursor:pointer;background:var(--rosa);color:#fff;font:800 17px "Baloo 2",sans-serif;padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(42,30,44,.3);display:flex;align-items:center;gap:8px}
+  .bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+  section.bot{padding:0}
+  .bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:21;width:min(360px,calc(100vw - 32px));height:min(520px,calc(100vh - 120px));background:#fff;border-radius:22px;box-shadow:0 18px 50px rgba(42,30,44,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--tinta)}
+  .bot header{background:var(--tinta);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .bot header b{font:800 18px "Baloo 2",sans-serif;display:block;line-height:1.1}
+  .bot header small{font-size:12px;color:#E6DCE8}
+  .bot .x{background:none;border:0;color:#fff;font-size:24px;cursor:pointer;line-height:1;padding:4px 8px}
+  .bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--fondo)}
+  .bm{max-width:85%;padding:9px 12px;border-radius:16px;font-size:15px;line-height:1.4;white-space:pre-line}
+  .bm.b{background:#fff;border:2px solid #F0E6D8;align-self:flex-start;border-bottom-left-radius:4px}
+  .bm.u{background:var(--turq);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+  .bm a{color:var(--rosa);font-weight:700}
+  .bot .chips{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:2px solid #F0E6D8;background:#fff}
+  .bot .chips button{flex:none;border:2px solid var(--tinta);background:#fff;border-radius:999px;padding:5px 12px;font:700 14px "Nunito";cursor:pointer;color:var(--tinta)}
+  .bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:2px solid #F0E6D8}
+  .bot input{flex:1;min-width:0;border:2px solid #E9DCCB;border-radius:12px;padding:10px 12px;font:16px "Nunito";color:var(--tinta)}
+  .bot form button{border:0;background:var(--rosa);color:#fff;font:800 16px "Baloo 2";border-radius:12px;padding:0 16px;cursor:pointer}
+  .bot .demo-tag{font-size:11px;text-align:center;color:var(--gris);padding:4px 0 8px;background:#fff}
   @media (max-width:760px){.revs,.visit,.hot{grid-template-columns:1fr}}
+  body{padding-bottom:70px}
 </style>
 </head>
 <body>
@@ -155,6 +177,15 @@
   </div>
 </section>
 </main>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span data-es="¿Preguntas? Chatea" data-en="Questions? Chat"></span></button>
+<section class="bot" id="bot" role="dialog" aria-label="Asistente de Super Sabor" hidden>
+  <header><div><b>Super Sabor</b><small data-es="Asistente · responde al instante" data-en="Assistant · instant answers"></small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></header>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" data-es="Enviar" data-en="Send"></button></form>
+  <div class="demo-tag" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio"></div>
+</section>
 <footer><div class="wrap"><span>© Super Sabor · Lewisburg, TN</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
 
 <script>
@@ -178,6 +209,59 @@
     document.querySelectorAll(".prod").forEach(p=>p.hidden=filter!=="all"&&!p.classList.contains(filter));
   }));
   document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+
+  /* ---- Asistente de chat (demostración, sin servidor) ---- */
+  const BOT={
+    es:{hi:"¡Hola! 👋 Soy el asistente de Super Sabor. ¿En qué te ayudo?",
+        chips:[["horario","¿A qué hora abren?"],["ubicacion","¿Dónde están?"],["comida","¿Qué comida tienen?"],["pinatas","¿Venden piñatas?"],["salsas","Salsas picantes"],["llamar","Quiero llamar"]],
+        ph:"Escribe tu pregunta…",
+        fallback:"Esa no me la sé todavía 😅. Llama a la tienda al (931) 422-2220 y con gusto te ayudan."},
+    en:{hi:"Hi! 👋 I'm Super Sabor's assistant. How can I help?",
+        chips:[["horario","What are your hours?"],["ubicacion","Where are you?"],["comida","What food do you have?"],["pinatas","Do you sell piñatas?"],["salsas","Hot sauces"],["llamar","I want to call"]],
+        ph:"Type your question…",
+        fallback:"I don't know that one yet 😅. Call the store at (931) 422-2220 and they'll gladly help."}
+  };
+  const KEYS={
+    horario:/hora|horario|abre|abren|cierra|abierto|open|close|hours|when/i,
+    ubicacion:/donde|dónde|direcci|ubica|llegar|mapa|where|address|location|direction/i,
+    comida:/comida|taco|burrito|flauta|menu|menú|comer|cocina|food|eat|kitchen/i,
+    pinatas:/piñata|pinata|fiesta|cumple|party|birthday/i,
+    salsas:/salsa|picante|chile|hot|spicy|sauce/i,
+    llamar:/llam|tel|n[uú]mero|call|phone/i,
+    ropa:/ropa|camisa|clothes|clothing|shirt/i,
+    precio:/precio|cu[aá]nto|cuesta|price|cost|how much/i
+  };
+  function botAnswer(k){
+    const t=now(),r=H[t.d],open=t.h>=r[0]&&t.h<r[1];
+    const es=lang==="es";
+    switch(k){
+      case "horario":{const rows=[1,2,3,4,5,6,0].map(d=>`${D[lang][d]}: ${fmt(H[d][0])} – ${fmt(H[d][1])}`).join("\n");
+        return (es?(open?`Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`:"Ahorita estamos cerrados. Abrimos a las 8 am.")
+                  :(open?`We're open right now ✅ until ${fmt(r[1])}.`:"We're closed right now. We open at 8 am."))+"\n\n"+rows;}
+      case "ubicacion":return es?`Estamos en 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN" target="_blank" rel="noopener">Abrir en Google Maps</a>`
+                                :`We're at 635 N 2nd Ave, Lewisburg, TN 37091.\n<a href="https://www.google.com/maps/search/?api=1&query=635+N+2nd+Ave+Lewisburg+TN" target="_blank" rel="noopener">Open in Google Maps</a>`;
+      case "comida":return es?"En la cocina preparamos tacos de carne asada, burrito de asada con arroz y frijoles, y flautas doraditas. ¡Todo al momento! 🌮":"Our kitchen makes carne asada tacos, carne asada burritos with rice and beans, and crispy flautas. Everything made to order! 🌮";
+      case "pinatas":return es?"¡Sí! Tenemos piñatas para cumpleaños, posadas y cualquier fiesta 🎉. Pasa a escoger la tuya.":"Yes! We have piñatas for birthdays, posadas and any party 🎉. Come pick yours.";
+      case "salsas":return es?"Tenemos una pared entera de salsas picantes 🌶️, incluida la que ponemos en la mesa. También la vendemos para llevar.":"We have a whole wall of hot sauces 🌶️, including the one on our tables. You can take a bottle home.";
+      case "llamar":return es?`Llámanos al <a href="tel:+19314222220">(931) 422-2220</a> 📞`:`Call us at <a href="tel:+19314222220">(931) 422-2220</a> 📞`;
+      case "ropa":return es?"Sí tenemos ropa. Pregunta en la tienda por lo que llegó esta semana 👕.":"Yes, we carry clothing. Ask in store what's new this week 👕.";
+      case "precio":return es?"Los precios los confirmamos en la tienda o por teléfono al (931) 422-2220.":"Please check prices in store or call (931) 422-2220.";
+    }
+    return BOT[lang].fallback;
+  }
+  const log=document.getElementById("botLog");
+  function say(html,who){const m=document.createElement("div");m.className="bm "+who;if(who==="u")m.textContent=html;else m.innerHTML=html;log.appendChild(m);log.scrollTop=log.scrollHeight}
+  function botChips(){document.getElementById("botChips").innerHTML=BOT[lang].chips.map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>{say(b.textContent,"u");setTimeout(()=>say(botAnswer(b.dataset.k),"b"),350)}));
+    document.getElementById("botIn").placeholder=BOT[lang].ph}
+  let botStarted=false;
+  function botOpen(o){document.getElementById("bot").hidden=!o;document.getElementById("botBtn").setAttribute("aria-expanded",o);
+    if(o&&!botStarted){botStarted=true;say(BOT[lang].hi,"b")} if(o)botChips()}
+  document.getElementById("botBtn").addEventListener("click",()=>botOpen(document.getElementById("bot").hidden));
+  document.getElementById("botX").addEventListener("click",()=>botOpen(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";say(q,"u");
+    const k=Object.keys(KEYS).find(k=>KEYS[k].test(q));setTimeout(()=>say(botAnswer(k),"b"),350)});
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{if(!document.getElementById("bot").hidden)botChips()}));
   render(); setInterval(render,60000);
 </script>
 </body>
