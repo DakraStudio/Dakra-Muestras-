@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recomienda a Dakra Studio</title>
+<meta name="description" content="Imágenes y textos listos para recomendar a Dakra Studio en tus redes.">
+<meta property="og:title" content="Recomienda a Dakra Studio">
+<meta property="og:image" content="https://dakrastudio.github.io/Dakra-Muestras-/comparte/recomienda-es.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#101B3B;--navy2:#16244A;--panel:#1D2E5C;--cyan:#3DD6D0;--fg:#EEF2FF;--soft:#A9B6DA;--line:#2A3D72}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--navy);color:var(--fg);font:17px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 56px;display:grid;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+.brand span{font:800 24px "JetBrains Mono",ui-monospace,monospace;color:var(--cyan)}
+h1{font-size:clamp(30px,7vw,44px);line-height:1.1;font-weight:800;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--cyan)}
+.lead{color:var(--soft);font-size:18px}
+.steps{list-style:none;display:grid;gap:10px;counter-reset:s}
+.steps li{display:flex;gap:12px;align-items:flex-start;background:var(--navy2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.steps li::before{counter-increment:s;content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--cyan);color:var(--navy);font-weight:800;display:grid;place-items:center;font-size:15px}
+.tabs{display:flex;gap:8px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--navy2);color:var(--soft);border-radius:999px;padding:10px;font:700 15px Inter,system-ui,sans-serif;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--cyan);color:var(--navy);border-color:var(--cyan)}
+.card{background:var(--navy2);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:14px}
+.card img{width:100%;height:auto;aspect-ratio:1;border-radius:12px;display:block}
+.text{white-space:pre-wrap;background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:16px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1 1 180px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:14px 16px;font:800 16px Inter,system-ui,sans-serif;cursor:pointer;text-decoration:none;min-height:50px}
+.b1{background:var(--cyan);color:var(--navy)}
+.b2{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--fg)}
+.b3{background:#25D366;color:#06260F}
+.b4{background:#1877F2;color:#fff}
+.ok{color:var(--cyan);font-weight:700;min-height:1.5em}
+[hidden]{display:none!important}
+.thanks{text-align:center;color:var(--soft);font-size:15px}
+.thanks a{color:var(--cyan)}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><span>&lt;D/&gt;</span>Dakra Studio</div>
+  <h1>Gracias por <em>recomendarnos</em> 🙌</h1>
+  <p class="lead">Aquí tienes una imagen y un texto listos. Compártelos en tu Facebook, Instagram, WhatsApp o en grupos donde haya dueños de negocio.</p>
+  <ol class="steps">
+    <li><span>Elige el idioma.</span></li>
+    <li><span>Toca <b>Compartir</b> (o guarda la imagen y copia el texto).</span></li>
+    <li><span>Publícalo donde quieras. ¡Listo!</span></li>
+  </ol>
+
+  <div class="tabs" role="group" aria-label="Idioma">
+    <button type="button" data-l="es" aria-pressed="true">Español</button>
+    <button type="button" data-l="en" aria-pressed="false">English</button>
+  </div>
+
+  <section class="card" aria-live="polite">
+    <img id="img" src="recomienda-es.png" alt="Imagen para recomendar a Dakra Studio" width="1080" height="1080">
+    <div class="text" id="txt"></div>
+    <div class="row">
+      <button class="btn b1" type="button" id="share">📤 Compartir</button>
+      <button class="btn b2" type="button" id="copy">📋 Copiar texto</button>
+    </div>
+    <div class="row">
+      <a class="btn b3" id="wa" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn b4" id="fb" target="_blank" rel="noopener">Facebook</a>
+      <a class="btn b2" id="dl" download>⬇️ Guardar imagen</a>
+    </div>
+    <p class="ok" id="ok" role="status"></p>
+  </section>
+
+  <p class="thanks">¿Dudas? Mándale mensaje a Dakra Studio al <a href="sms:+19312922496">(931) 292-2496</a> · <a href="https://dakrastudio.netlify.app">dakrastudio.netlify.app</a></p>
+</main>
+<script>
+const SITE="https://dakrastudio.netlify.app";
+const T={
+  es:{img:"recomienda-es.png",file:"dakra-studio-recomendacion.png",
+      txt:"¿Tienes negocio y todavía no tienes página web? 👀\n\nTe recomiendo a Dakra Studio: te hacen una muestra GRATIS de tu página, en español y en inglés, con un chat que contesta a tus clientes por ti. La pruebas en tu celular y solo pagas si te gusta.\n\n📲 Mándales mensaje al (931) 292-2496 y diles que vas de mi parte.\n🌐 "+SITE,
+      ui:{share:"📤 Compartir",copy:"📋 Copiar texto",dl:"⬇️ Guardar imagen",copied:"Texto copiado. Pégalo en tu publicación.",sel:"Texto seleccionado: cópialo.",shared:"¡Gracias por compartir!",noshare:"Tu teléfono no permite compartir directo: guarda la imagen y copia el texto."}},
+  en:{img:"recomienda-en.png",file:"dakra-studio-recommendation.png",
+      txt:"Own a business but don't have a website yet? 👀\n\nI recommend Dakra Studio: they'll make you a FREE preview of your website, in English and Spanish, with a chat that answers your customers for you. Try it on your phone and only pay if you like it.\n\n📲 Text them at (931) 292-2496 and tell them I sent you.\n🌐 "+SITE,
+      ui:{share:"📤 Share",copy:"📋 Copy text",dl:"⬇️ Save image",copied:"Text copied. Paste it in your post.",sel:"Text selected: copy it.",shared:"Thanks for sharing!",noshare:"Your phone can't share directly: save the image and copy the text."}}
+};
+let L="es";
+const $=s=>document.querySelector(s);
+function render(){
+  const t=T[L];$("#img").src=t.img;$("#img").alt=L==="es"?"Imagen para recomendar a Dakra Studio":"Image to recommend Dakra Studio";
+  $("#txt").textContent=t.txt;$("#share").textContent=t.ui.share;$("#copy").textContent=t.ui.copy;$("#dl").textContent=t.ui.dl;
+  $("#dl").href=t.img;$("#dl").setAttribute("download",t.file);
+  $("#wa").href="https://wa.me/?text="+encodeURIComponent(t.txt);
+  $("#fb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(SITE);
+  $("#ok").textContent="";
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===L));
+}
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{L=b.dataset.l;render()}));
+$("#copy").addEventListener("click",async()=>{
+  const t=T[L];
+  try{await navigator.clipboard.writeText(t.txt);$("#ok").textContent=t.ui.copied}
+  catch(e){const r=document.createRange();r.selectNodeContents($("#txt"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("#ok").textContent=t.ui.sel}
+});
+$("#share").addEventListener("click",async()=>{
+  const t=T[L];
+  try{
+    const blob=await (await fetch(t.img)).blob();
+    const file=new File([blob],t.file,{type:"image/png"});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      try{await navigator.clipboard.writeText(t.txt)}catch(e){}
+      await navigator.share({files:[file],text:t.txt});$("#ok").textContent=t.ui.shared;return;
+    }
+    if(navigator.share){await navigator.share({text:t.txt});$("#ok").textContent=t.ui.shared;return}
+    $("#ok").textContent=t.ui.noshare;
+  }catch(e){if(e&&e.name!=="AbortError")$("#ok").textContent=t.ui.noshare}
+});
+render();
+</script>
+</body>
+</html>

@@ -78,7 +78,7 @@ if __name__ == "__main__":
     out = []
     for a in sys.argv[1:]:
         p = Path(a); p = p / "index.html" if p.is_dir() else p
-        if not p.exists():
+        if not p.exists() or p.parent.name in ("acuerdo", "comparte", "marca", "tools"):
             # Carpetas sin página (marca/, tools/, etc.) no son muestras.
             out.append({"pagina": str(p), "ok": ["no es una muestra, se omite"], "fallas": [], "aprobada": True}); continue
         out.append(check(p))
