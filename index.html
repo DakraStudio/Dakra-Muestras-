@@ -250,15 +250,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
 <section id="contact" class="contact"><div class="wrap">
   <div class="eyebrow"><span class="t-en">Let's talk</span><span class="t-es">Hablemos</span></div>
   <h2 class="display"><span class="t-en">Want to see your new website?</span><span class="t-es">¿Quieres ver tu nueva página?</span></h2>
-  <p class="lead"><span class="t-en">Send me your business name and city. I'll reply with ideas and a free preview, chat included. Got a quick question? Ask the chat at the bottom right.</span><span class="t-es">Mándame el nombre de tu negocio y tu ciudad. Te respondo con ideas y una muestra gratis, con chat incluido. ¿Una duda rápida? Pregúntale al chat de abajo a la derecha.</span></p>
+  <p class="lead"><span class="t-en">Send me your business name and city by text or email. I'll reply with ideas and a free preview, chat included. Got a quick question? Ask the chat at the bottom right.</span><span class="t-es">Mándame el nombre de tu negocio y tu ciudad por mensaje o correo. Te respondo con ideas y una muestra gratis, con chat incluido. ¿Una duda rápida? Pregúntale al chat de abajo a la derecha.</span></p>
   <a class="btn btn-dark" href="mailto:dakrastudio@gmail.com?subject=Free%20website%20preview"><span class="t-en">Email me</span><span class="t-es">Mándame un correo</span></a>
+  <div class="ctas" style="justify-content:center;margin-top:12px"><a class="btn btn-line" href="tel:+19312922496"><span class="t-en">Call (931) 292-2496</span><span class="t-es">Llama al (931) 292-2496</span></a><a class="btn btn-line" href="sms:+19312922496"><span class="t-en">Text us</span><span class="t-es">Mándanos mensaje</span></a></div>
   <div><a class="mail" href="mailto:dakrastudio@gmail.com">dakrastudio@gmail.com</a></div>
 </div></section>
 </main>
 
 <footer><div class="wrap">
   <a class="brand" href="#top" style="font-size:16px"><span class="mark" style="width:32px;height:32px;font-size:12px">&lt;<b style="font-size:15px">D</b>/&gt;</span>Dakra Studio</a>
-  <span>© 2026 Dakra Studio · Tennessee</span>
+  <span>© 2026 Dakra Studio · Pulaski, Tennessee · <a href="tel:+19312922496">(931) 292-2496</a> · <a href="mailto:dakrastudio@gmail.com">dakrastudio@gmail.com</a></span>
 </div></footer>
 
 <button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="t-en">Questions? Chat</span><span class="t-es">¿Preguntas? Chatea</span></button>
@@ -276,6 +277,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   const sw=document.getElementById("langSw");
   const L=()=>sw&&sw.checked?"es":"en";
   const MAIL='<a href="mailto:dakrastudio@gmail.com?subject=Free%20website%20preview">dakrastudio@gmail.com</a>';
+  const TEL='<a href="tel:+19312922496">(931) 292-2496</a>';
   const FB='https://www.facebook.com/search/top?q=Dakra%20Studio';
   const AC='https://dakrastudio.github.io/Dakra-Muestras-/acuerdo/';
   const DEMO='https://dakrastudio.github.io/Dakra-Muestras-/super-sabor/';
@@ -290,8 +292,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
      en:()=>`A chat assistant like this one answers your customers day and night, in English and Spanish: hours, location, menu or services, prices. If it doesn't know something, it sends them to call you. It's optional: $35 a month, setup included. Try a real example: ${a(DEMO,"Super Sabor preview")} 🤖`,
      es:()=>`Un asistente como este les contesta a tus clientes de día y de noche, en español e inglés: horario, ubicación, menú o servicios, precios. Si algo no lo sabe, los manda a llamarte. Es opcional: $35 al mes, con instalación incluida. Prueba un ejemplo real: ${a(DEMO,"muestra de Super Sabor")} 🤖`},
     {k:"preview",re:/muestra|gratis|free|preview|prueba|sample|quiero (una|mi) p[aá]gina|i want a website/i,
-     en:()=>`Send us your business name and city to ${MAIL} (or message our Facebook page). We'll make a free preview of your website, with its own chat assistant, so you can try it on your phone before paying anything. 🎁`,
-     es:()=>`Mándanos el nombre de tu negocio y tu ciudad a ${MAIL} (o por mensaje a nuestra página de Facebook). Te hacemos una muestra gratis de tu página, con su propio asistente de chat, para que la pruebes en tu celular antes de pagar nada. 🎁`},
+     en:()=>`Text your business name and city to ${TEL} or send it to ${MAIL}. We'll make a free preview of your website, with its own chat assistant, so you can try it on your phone before paying anything. 🎁`,
+     es:()=>`Mándanos por mensaje el nombre de tu negocio y tu ciudad al ${TEL} o escríbenos a ${MAIL}. Te hacemos una muestra gratis de tu página, con su propio asistente de chat, para que la pruebes en tu celular antes de pagar nada. 🎁`},
     {k:"domain",re:/dominio|domain|\.com|nombre propio/i,
      en:()=>"Your own domain (like yourbusiness.com) costs about $12–20 a year, at cost. We buy it with your payment and it's renewed every year. 🌐",
      es:()=>"Tu dominio propio (como tunegocio.com) cuesta unos $12–20 al año, al costo. Lo compramos con tu pago y se renueva cada año. 🌐"},
@@ -331,7 +333,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
     {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|idioma|language/i,
      en:()=>"We work with you in English or Spanish, and your website can speak to customers in both. 🗣️",es:()=>"Te atendemos en español o en inglés, y tu página les puede hablar a tus clientes en los dos idiomas. 🗣️"},
     {k:"person",re:/persona|humano|hablar con|contact|correo|email|tel[eé]fono|n[uú]mero|human|person|someone|phone|call|mensaje/i,
-     en:()=>`Write to us at ${MAIL} or message our Facebook page. We usually reply the same day. 📩`,es:()=>`Escríbenos a ${MAIL} o por mensaje a nuestra página de Facebook. Normalmente contestamos el mismo día. 📩`}
+     en:()=>`Text or call us at ${TEL}, write to ${MAIL} or message our Facebook page. We usually reply the same day. 📩`,es:()=>`Mándanos mensaje o llámanos al ${TEL}, escríbenos a ${MAIL} o por mensaje a nuestra página de Facebook. Normalmente contestamos el mismo día. 📩`}
   ];
   const CHIPS={
     en:[["price","Prices"],["how","How it works"],["chat","Chat assistant"],["preview","Free preview"],["time","How long?"],["pay","How do I pay?"],["include","What's included?"],["domain","Domain"],["work","Examples"],["person","Contact"]],
