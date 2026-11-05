@@ -430,5 +430,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   if(sw)sw.addEventListener("change",()=>{chips();draw()});
 })();
 </script>
+
+<script>
+/* Mensaje ya escrito, con su origen, en todos los links de mensaje */
+(function(){
+  const sw=document.getElementById("langSw");
+  const B={es:"Hola Dakra Studio 👋 Vi su página web y quiero una muestra gratis. Mi negocio es: ",en:"Hi Dakra Studio 👋 I saw your website and I'd like a free preview. My business is: "};
+  function upd(){const l=sw&&sw.checked?"es":"en";document.querySelectorAll('a[href^="sms:"]').forEach(a=>a.href="sms:+19312922496?&body="+encodeURIComponent(B[l]))}
+  upd(); if(sw)sw.addEventListener("change",upd);
+  new MutationObserver(upd).observe(document.getElementById("botLog")||document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
