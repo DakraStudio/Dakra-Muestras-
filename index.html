@@ -261,14 +261,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   <h2 class="display"><span class="t-en">Want to see your new website?</span><span class="t-es">¿Quieres ver tu nueva página?</span></h2>
   <p class="lead"><span class="t-en">Send me your business name and city by text or email. I'll reply with ideas and a free preview, chat included. Got a quick question? Ask the chat at the bottom right.</span><span class="t-es">Mándame el nombre de tu negocio y tu ciudad por mensaje o correo. Te respondo con ideas y una muestra gratis, con chat incluido. ¿Una duda rápida? Pregúntale al chat de abajo a la derecha.</span></p>
   <a class="btn btn-dark" href="mailto:dakrastudio@gmail.com?subject=Free%20website%20preview"><span class="t-en">Email me</span><span class="t-es">Mándame un correo</span></a>
-  <div class="ctas" style="justify-content:center;margin-top:12px"><a class="btn btn-line" href="tel:+19312922496"><span class="t-en">Call (931) 292-2496</span><span class="t-es">Llama al (931) 292-2496</span></a><a class="btn btn-line" href="sms:+19312922496"><span class="t-en">Text us</span><span class="t-es">Mándanos mensaje</span></a></div>
+  <div class="ctas" style="justify-content:center;margin-top:12px"><a class="btn btn-line" href="sms:+19312922496"><span class="t-en">Text us · (931) 292-2496</span><span class="t-es">Mándanos mensaje · (931) 292-2496</span></a></div>
   <div><a class="mail" href="mailto:dakrastudio@gmail.com">dakrastudio@gmail.com</a></div>
 </div></section>
 </main>
 
 <footer><div class="wrap">
   <a class="brand" href="#top" style="font-size:16px"><span class="mark" style="width:32px;height:32px;font-size:12px">&lt;<b style="font-size:15px">D</b>/&gt;</span>Dakra Studio</a>
-  <span>© 2026 Dakra Studio · Pulaski, Tennessee · <a href="tel:+19312922496">(931) 292-2496</a> · <a href="mailto:dakrastudio@gmail.com">dakrastudio@gmail.com</a></span>
+  <span>© 2026 Dakra Studio · Pulaski, Tennessee · <a href="sms:+19312922496"><span class="t-en">Text</span><span class="t-es">Mensajes</span> (931) 292-2496</a> · <a href="mailto:dakrastudio@gmail.com">dakrastudio@gmail.com</a></span>
 </div></footer>
 
 <button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="t-en">Questions? Chat</span><span class="t-es">¿Preguntas? Chatea</span></button>
@@ -286,7 +286,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
   const sw=document.getElementById("langSw");
   const L=()=>sw&&sw.checked?"es":"en";
   const MAIL='<a href="mailto:dakrastudio@gmail.com?subject=Free%20website%20preview">dakrastudio@gmail.com</a>';
-  const TEL='<a href="tel:+19312922496">(931) 292-2496</a>';
+  const TEL='<a href="sms:+19312922496">(931) 292-2496</a>';
   const FB='https://www.facebook.com/search/top?q=Dakra%20Studio';
   const AC='https://dakrastudio.github.io/Dakra-Muestras-/acuerdo/';
   const DEMO='https://dakrastudio.github.io/Dakra-Muestras-/super-sabor/';
@@ -298,6 +298,51 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
     {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|que tal|qué tal|hi|hello|hey|good (morning|afternoon|evening))\b/i,
      en:()=>"Hi! 😊 Ask me about prices, how it works, the chat assistant or how long it takes.",es:()=>"¡Hola! 😊 Pregúntame por precios, cómo trabajamos, el asistente de chat o cuánto tardamos."},
     {k:"thanks",re:/gracias|thank/i,en:()=>"You're welcome! We're here when you're ready. 🙌",es:()=>"¡Con gusto! Aquí estamos cuando quieras. 🙌"},
+    {k:"who",re:/c[oó]mo te llamas|your name|eres (un |una )?(robot|bot|persona|humano|m[aá]quina)|are you (a )?(robot|bot|human|real|person)|qui[eé]n(es)? (eres|son)|who (are|is)/i,
+     en:()=>"I'm Dakra Studio's assistant, an automatic chat like the one we can add to your website. Behind me there are real people in Pulaski, TN: text us and a person answers. 🙋",
+     es:()=>"Soy el asistente de Dakra Studio, un chat automático como el que le podemos poner a tu página. Detrás hay personas reales en Pulaski, TN: si nos mandas mensaje, te contesta una persona. 🙋"},
+    {k:"callq",re:/(puedo |les puedo |te puedo )?llamar|llamada|call you|phone call|can i call|hablar por tel[eé]fono/i,
+     en:()=>`We work by text message so we can explain everything clearly and in writing (prices, steps, links). Text us at ${TEL} and we'll reply as soon as possible. 📩`,
+     es:()=>`Trabajamos por mensaje de texto para explicarte todo clarito y por escrito (precios, pasos, links). Mándanos mensaje al ${TEL} y te contestamos lo antes posible. 📩`},
+    {k:"plan",re:/(en |varios |dos |tres |3 |2 |m[aá]s )pagos|a plazos|plazos|en partes|por partes|abonos|financ|cuotas|no (tengo|me alcanza) (el |para |todo|dinero)|no puedo pagar|payment plan|installments?|split (the )?(payment|price)|pay (it )?(in|over) (parts|time|\d)|can'?t (afford|pay)/i,
+     en:()=>`Normally it's two payments: 50% to start and 50% when your website is live. If splitting it into more payments would help you, text us at ${TEL} and we'll work something out together. 🤝`,
+     es:()=>`Lo normal son dos pagos: 50% para empezar y 50% cuando tu página ya esté publicada. Si te ayuda dividirlo en más pagos, mándanos mensaje al ${TEL} y lo platicamos para encontrar una forma que te funcione. 🤝`},
+    {k:"discount",re:/descuento|m[aá]s barato|rebaja|oferta|promo|negociable|negociar|cheaper|discount|deal|lower (the )?price|best price/i,
+     en:()=>"Right now we have a launch price for our first 3 clients: $300 instead of $400. That's our best price. And the preview is free, so you don't risk anything by trying. 🏷️",
+     es:()=>"Ahorita tenemos precio de lanzamiento para nuestros primeros 3 clientes: $300 en lugar de $400. Es nuestro mejor precio. Y la muestra es gratis, así que no arriesgas nada por verla. 🏷️"},
+    {k:"refund",re:/reembols|devoluci|devuelv|no me gusta|si no me gusta|garant[ií]a|refund|money back|don'?t like it|guarantee/i,
+     en:()=>`If you don't like the free preview, you don't pay anything. Once you pay the deposit we start working, and you get two rounds of changes before it goes live. The deposit isn't refundable after work starts; it's all in our ${a(AC,"service agreement")}. 📄`,
+     es:()=>`Si la muestra gratis no te gusta, no pagas nada. Cuando das el anticipo empezamos a trabajar, y tienes dos rondas de cambios antes de publicar. El anticipo no se devuelve una vez empezado el trabajo; todo está en nuestro ${a(AC,"acuerdo de servicio")}. 📄`},
+    {k:"monthly",re:/mensualidad|pago mensual|cada mes|obligatori|hosting|hospedaje|monthly (fee|payment)|every month|do i have to pay (every|each) month/i,
+     en:()=>"There's no required monthly fee. We don't charge for hosting: you only renew your domain once a year (if you want one). The chat assistant and maintenance are optional monthly services you can cancel anytime. 🗓️",
+     es:()=>"No hay mensualidad obligatoria. No cobramos hospedaje: solo renuevas tu dominio una vez al año (si quieres uno). El asistente de chat y el mantenimiento son mensuales y opcionales, y los cancelas cuando quieras. 🗓️"},
+    {k:"photos",re:/no tengo fotos|fotos|im[aá]genes|photos|pictures|pics/i,
+     en:()=>"Photos from your phone are enough. We'll send you simple tips to take them (good light, clean background). While you take them, the preview uses your business's real info. 📸",
+     es:()=>"Con fotos de tu celular basta. Te mandamos consejos sencillos para tomarlas (buena luz, fondo limpio). Mientras, la muestra se arma con los datos reales de tu negocio. 📸"},
+    {k:"logo",re:/logo|logotipo|marca|branding/i,
+     en:()=>"No logo? No problem: we design your website with your business name in a style that fits you. If you want a separate logo, ask us. ✏️",
+     es:()=>"¿No tienes logo? No hay problema: armamos tu página con el nombre de tu negocio en un estilo que vaya contigo. Si quieres un logo aparte, pregúntanos. ✏️"},
+    {k:"facebook",re:/ya tengo facebook|tengo facebook|facebook|instagram|redes sociales|social media|why (do i need|a) website|para qu[eé] (quiero|necesito) (una )?p[aá]gina/i,
+     en:()=>"Facebook is great, but not everyone has it, and posts get buried. Your own website shows up on Google, has your menu or services, hours and location always in the same place, and it's yours. We can link your Facebook and Instagram on it. We don't manage social media for now. 👍",
+     es:()=>"Facebook está bien, pero no todos lo usan y las publicaciones se pierden. Tu propia página sale en Google, tiene tu menú o servicios, horario y ubicación siempre en el mismo lugar, y es tuya. Le ponemos los links de tu Facebook e Instagram. Por ahora no manejamos redes sociales. 👍"},
+    {k:"seo",re:/primer lugar|primeros lugares|posicion|seo|rank|first page|top of google|salir en google|aparecer en google/i,
+     en:()=>"Nobody can honestly guarantee first place on Google. We build your website ready for Google (fast, with your city and services), and with your Google Business Profile ($50) it's easier for people nearby to find you. 🔎",
+     es:()=>"Nadie puede garantizar honestamente el primer lugar en Google. Hacemos tu página lista para Google (rápida, con tu ciudad y servicios), y con tu perfil de Google ($50) es más fácil que te encuentren los de tu zona. 🔎"},
+    {k:"orders",re:/pedidos en l[ií]nea|vender en l[ií]nea|tienda en l[ií]nea|cobrar en l[ií]nea|carrito|doordash|uber ?eats|square|clover|online (orders|store|shop)|sell online|e-?commerce/i,
+     en:()=>"If you already use an online ordering or payment system (DoorDash, Square, Clover, etc.), we put the button on your website. A full online store is quoted separately: text us what you need. 🛒",
+     es:()=>"Si ya usas un sistema de pedidos o pagos en línea (DoorDash, Square, Clover, etc.), le ponemos el botón en tu página. Una tienda en línea completa se cotiza aparte: mándanos mensaje con lo que necesitas. 🛒"},
+    {k:"edit",re:/yo (mismo|misma) (la )?(cambi|edit|actualiz)|puedo (cambiar|editar|actualizar)|c[oó]mo (la )?(cambio|actualizo)|edit it myself|can i (change|edit|update)/i,
+     en:()=>"You don't need to touch anything: just text us what you want changed. The first month after launch, small changes are free; after that, maintenance is $25 a month or we quote the change. ✍️",
+     es:()=>"No tienes que tocar nada: nos mandas mensaje con lo que quieres cambiar. El primer mes después de publicar, los cambios pequeños son gratis; después, el mantenimiento cuesta $25 al mes o te cotizamos el cambio. ✍️"},
+    {k:"types",re:/qu[eé] (tipo|clase) de negocio|trabajan con|para (qu[eé]|cualquier) negocio|restaurante|taller|food truck|tienda|sal[oó]n|barber|limpieza|construcci|what (kind|type) of business|do you work with/i,
+     en:()=>"We work with all kinds of local businesses: restaurants and food trucks, auto shops, stores, salons and barbershops, cleaning, lawn care, construction and more. If you have customers, a website helps. 🏪",
+     es:()=>"Trabajamos con todo tipo de negocios locales: restaurantes y food trucks, talleres, tiendas, salones y barberías, limpieza, jardinería, construcción y más. Si tienes clientes, una página te ayuda. 🏪"},
+    {k:"receipt",re:/recibo|factura|comprobante|receipt|invoice/i,
+     en:()=>"Yes, we send you a receipt by message for every payment, with the date, amount and remaining balance. 🧾",
+     es:()=>"Sí, te mandamos un recibo por mensaje en cada pago, con la fecha, el monto y lo que queda pendiente. 🧾"},
+    {k:"replytime",re:/cu[aá]ndo (me )?(contestan|responden)|horario de (ustedes|atenci[oó]n)|fin de semana|weekend|when do you (answer|reply)|business hours/i,
+     en:()=>`We answer messages every day and usually reply the same day. This chat answers instantly, 24/7. Text us at ${TEL}. ⏰`,
+     es:()=>`Contestamos mensajes todos los días y normalmente el mismo día. Este chat responde al instante, a cualquier hora. Mándanos mensaje al ${TEL}. ⏰`},
     {k:"chat",re:/chat|asistente|bot|assistant|contest[ae] solo|responde solo|answers? (by itself|automatically)/i,
      en:()=>`A chat assistant like this one answers your customers day and night, in English and Spanish: hours, location, menu or services, prices. If it doesn't know something, it sends them to call you. It's optional: $35 a month, setup included. Try a real example: ${a(DEMO,"Super Sabor preview")} 🤖`,
      es:()=>`Un asistente como este les contesta a tus clientes de día y de noche, en español e inglés: horario, ubicación, menú o servicios, precios. Si algo no lo sabe, los manda a llamarte. Es opcional: $35 al mes, con instalación incluida. Prueba un ejemplo real: ${a(DEMO,"muestra de Super Sabor")} 🤖`},
@@ -337,20 +382,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;
     {k:"work",re:/ejemplo|trabajo|portafolio|portfolio|example|your work|clientes/i,
      en:()=>`Design examples: ${EX("en")}. And a preview with a working chat: ${a(DEMO,"Super Sabor")}. 👀`,
      es:()=>`Ejemplos de diseño: ${EX("es")}. Y una muestra con chat funcionando: ${a(DEMO,"Super Sabor")}. 👀`},
-    {k:"area",re:/d[oó]nde|zona|ciudad|pulaski|lewisburg|columbia|nashville|where|area|located|local/i,
+    {k:"area",re:/d[oó]nde|zona|ciudad|tennessee|partes de|qu[eé] (lugares|ciudades|pueblos)|pulaski|lewisburg|columbia|nashville|where|area|located|local/i,
      en:()=>"We're based in Pulaski, Tennessee, and work with businesses in Middle Tennessee: Pulaski, Lewisburg, Columbia and nearby. We can also work completely by message. 📍",
      es:()=>"Estamos en Pulaski, Tennessee, y trabajamos con negocios de Middle Tennessee: Pulaski, Lewisburg, Columbia y alrededores. También podemos hacer todo por mensaje. 📍"},
     {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|idioma|language/i,
      en:()=>"We work with you in English or Spanish, and your website can speak to customers in both. 🗣️",es:()=>"Te atendemos en español o en inglés, y tu página les puede hablar a tus clientes en los dos idiomas. 🗣️"},
     {k:"person",re:/persona|humano|hablar con|contact|correo|email|tel[eé]fono|n[uú]mero|human|person|someone|phone|call|mensaje/i,
-     en:()=>`Text or call us at ${TEL}, write to ${MAIL} or message our Facebook page. We usually reply the same day. 📩`,es:()=>`Mándanos mensaje o llámanos al ${TEL}, escríbenos a ${MAIL} o por mensaje a nuestra página de Facebook. Normalmente contestamos el mismo día. 📩`}
+     en:()=>`Text us at ${TEL}, write to ${MAIL} or message our Facebook page. We work by text so we can explain everything clearly in writing, and we usually reply the same day. 📩`,es:()=>`Mándanos mensaje de texto al ${TEL}, escríbenos a ${MAIL} o por mensaje a nuestra página de Facebook. Trabajamos por mensaje para explicarte todo clarito y por escrito, y normalmente contestamos el mismo día. 📩`}
   ];
   const CHIPS={
-    en:[["price","Prices"],["how","How it works"],["chat","Chat assistant"],["preview","Free preview"],["time","How long?"],["pay","How do I pay?"],["include","What's included?"],["domain","Domain"],["work","Examples"],["person","Contact"]],
-    es:[["price","Precios"],["how","Cómo trabajamos"],["chat","Asistente de chat"],["preview","Muestra gratis"],["time","¿Cuánto tardan?"],["pay","¿Cómo pago?"],["include","¿Qué incluye?"],["domain","Dominio"],["work","Ejemplos"],["person","Contacto"]]
+    en:[["price","Prices"],["how","How it works"],["chat","Chat assistant"],["preview","Free preview"],["time","How long?"],["pay","How do I pay?"],["plan","Payment plans"],["include","What's included?"],["domain","Domain"],["work","Examples"],["person","Contact"]],
+    es:[["price","Precios"],["how","Cómo trabajamos"],["chat","Asistente de chat"],["preview","Muestra gratis"],["time","¿Cuánto tardan?"],["pay","¿Cómo pago?"],["plan","Pagos en partes"],["include","¿Qué incluye?"],["domain","Dominio"],["work","Ejemplos"],["person","Contacto"]]
   };
-  const TXT={en:{hi:"Hi! 👋 I'm Dakra Studio's assistant. Tap a question or type your own, like \"how much is a website?\"",ph:"Type your question…",fb:`I don't know that one yet 😅. Write to us at ${MAIL} and we'll gladly help.`},
-             es:{hi:"¡Hola! 👋 Soy el asistente de Dakra Studio. Toca una pregunta o escribe la tuya, por ejemplo \"¿cuánto cuesta una página?\"",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Escríbenos a ${MAIL} y con gusto te ayudamos.`}};
+  const TXT={en:{hi:"Hi! 👋 I'm Dakra Studio's assistant. Tap a question or type your own, like \"how much is a website?\"",ph:"Type your question…",fb:`I don't know that one yet 😅. Text us at ${TEL} or write to ${MAIL} and a person will gladly help.`},
+             es:{hi:"¡Hola! 👋 Soy el asistente de Dakra Studio. Toca una pregunta o escribe la tuya, por ejemplo \"¿cuánto cuesta una página?\"",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Mándanos mensaje al ${TEL} o escríbenos a ${MAIL} y una persona te ayuda con gusto.`}};
   function answer(q,k){
     const l=L();
     if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}
