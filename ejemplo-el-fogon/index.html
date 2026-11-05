@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Fogón de Doña Lupe · Pulaski, TN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--barro:#A23B2A;--papel:#FBF6EE;--pizarra:#24382E;--oro:#D9A441;--tinta:#2B2421;--gris:#776A62}
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:var(--papel);color:var(--tinta);font:16px/1.65 "Inter",system-ui,sans-serif}
+  :focus-visible{outline:3px solid var(--barro);outline-offset:3px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--tinta);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:var(--oro)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid #E7DCCB}
+  .logo{font:700 22px "Fraunces",serif;color:var(--barro);text-decoration:none;font-style:italic}
+  .navr{display:flex;align-items:center;gap:18px}
+  .navr a{color:var(--tinta);text-decoration:none;font-weight:500;font-size:15px}
+  .lang{background:var(--tinta);color:var(--papel);border:0;font:600 13px "Inter";padding:7px 14px;border-radius:4px;cursor:pointer}
+
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:56px 0 40px}
+  .kicker{font:700 26px "Caveat",cursive;color:var(--barro);margin:0}
+  h1{font:700 clamp(42px,7vw,76px)/1.02 "Fraunces",serif;margin:4px 0 18px;letter-spacing:-.5px}
+  .hero p{font-size:18px;color:var(--gris);max-width:40ch;margin:0 0 26px}
+  .call{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--tinta);font-weight:600}
+  .call .ic{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--barro);color:#fff;font-size:22px}
+  .call small{display:block;font-weight:400;color:var(--gris)}
+
+  .board{background:var(--pizarra);color:#F4F1E8;border-radius:6px;padding:28px 30px;box-shadow:0 0 0 10px #8A6A45,0 18px 40px rgba(0,0,0,.18);transform:rotate(1.2deg)}
+  .board h2{font:700 38px "Caveat",cursive;margin:0 0 6px;color:var(--oro)}
+  .board ul{list-style:none;margin:0;padding:0;font:600 26px/1.5 "Caveat",cursive}
+  .board li{display:flex;justify-content:space-between;gap:12px}
+  .board .foot{font:600 20px "Caveat",cursive;margin-top:12px;color:#CFE0D3}
+
+  .hours{display:flex;flex-wrap:wrap;gap:10px;padding:8px 0 48px}
+  .chip{border:1.5px solid #D8C9B3;border-radius:999px;padding:7px 14px;font-size:14px}
+  .chip b{color:var(--barro)}
+
+  section{padding:56px 0}
+  h3.t{font:700 clamp(30px,4.5vw,42px) "Fraunces",serif;margin:0 0 20px}
+  .tabs{display:flex;gap:6px;border-bottom:2px solid #E7DCCB;margin-bottom:24px;overflow-x:auto}
+  .tab{background:none;border:0;font:600 16px "Inter";padding:10px 16px;color:var(--gris);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+  .tab[aria-selected=true]{color:var(--barro);border-color:var(--barro)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+  .card{background:#fff;border-radius:4px;padding:18px 18px 16px;border-left:4px solid var(--oro)}
+  .card h4{margin:0;font:700 20px "Fraunces",serif}
+  .card p{margin:4px 0 10px;color:var(--gris);font-size:14px}
+  .card .p{font-weight:600;color:var(--barro)}
+
+  .story{background:#F2E8D8}
+  .story .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+  .sign{font:700 64px/1 "Caveat",cursive;color:var(--barro);transform:rotate(-4deg)}
+  .story p{font:500 22px/1.5 "Fraunces",serif;margin:0}
+  .story cite{display:block;font:500 14px "Inter";font-style:normal;color:var(--gris);margin-top:14px}
+  footer{padding:30px 0;font-size:14px;color:var(--gris);border-top:1px solid #E7DCCB}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+  footer a{color:var(--barro)}
+  @media (max-width:760px){.hero,.story .wrap{grid-template-columns:1fr}.navr a{display:none}.board{transform:none}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Proyecto de ejemplo: negocio ficticio. Diseño de <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Sample project: fictional business. Design by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></div>
+<div class="wrap">
+  <nav><a class="logo" href="#">El Fogón</a>
+    <div class="navr"><a href="#menu" data-es="Menú" data-en="Menu"></a><a href="#historia" data-es="Nuestra historia" data-en="Our story"></a><button class="lang" data-lang>EN</button></div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="kicker" data-es="Desde la cocina de Doña Lupe" data-en="From Doña Lupe's kitchen"></p>
+      <h1 data-es="Comida casera, como en el rancho" data-en="Home cooking, just like back home"></h1>
+      <p data-es="Tortillas hechas a mano, guisos que cambian cada día y café de olla. Para comer aquí o para llevar." data-en="Handmade tortillas, stews that change every day and café de olla. Dine in or take out."></p>
+      <a class="call" href="tel:+19315550123"><span class="ic">☎</span><div><div data-es="Llama y ordena para llevar" data-en="Call to order takeout"></div><small>(931) 555-0123</small></div></a>
+    </div>
+    <aside class="board" aria-label="Menú del día">
+      <h2 data-es="Hoy en el fogón" data-en="Today's specials"></h2>
+      <ul>
+        <li><span data-es="Chile relleno" data-en="Chile relleno"></span><span>$14</span></li>
+        <li><span data-es="Mole con pollo" data-en="Chicken mole"></span><span>$15</span></li>
+        <li><span data-es="Agua de jamaica" data-en="Hibiscus water"></span><span>$3</span></li>
+      </ul>
+      <div class="foot" data-es="Domingo: menudo y pozole desde las 8 ☀" data-en="Sunday: menudo & pozole from 8 am ☀"></div>
+    </aside>
+  </header>
+
+  <div class="hours">
+    <span class="chip"><b data-es="Lun–Jue" data-en="Mon–Thu"></b> 10–8</span>
+    <span class="chip"><b data-es="Vie–Sáb" data-en="Fri–Sat"></b> 10–9</span>
+    <span class="chip"><b data-es="Dom" data-en="Sun"></b> 8–3</span>
+    <span class="chip">Pulaski, TN</span>
+  </div>
+</div>
+
+<main>
+<section id="menu">
+  <div class="wrap">
+    <h3 class="t" data-es="El menú" data-en="The menu"></h3>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="tacos" aria-selected="true" data-es="Tacos" data-en="Tacos"></button>
+      <button class="tab" role="tab" data-tab="platos" aria-selected="false" data-es="Platillos" data-en="Plates"></button>
+      <button class="tab" role="tab" data-tab="antojos" aria-selected="false" data-es="Antojitos" data-en="Snacks"></button>
+    </div>
+    <div class="cards" data-panel="tacos">
+      <div class="card"><h4 data-es="Asada" data-en="Steak"></h4><p data-es="3 tacos con cebolla y cilantro" data-en="3 tacos with onion and cilantro"></p><span class="p">$9</span></div>
+      <div class="card"><h4>Al pastor</h4><p data-es="3 tacos con piña" data-en="3 tacos with pineapple"></p><span class="p">$9</span></div>
+      <div class="card"><h4>Quesabirria</h4><p data-es="3 tacos con su consomé" data-en="3 tacos with consommé"></p><span class="p">$12</span></div>
+    </div>
+    <div class="cards" data-panel="platos" hidden>
+      <div class="card"><h4 data-es="Enchiladas rojas" data-en="Red enchiladas"></h4><p data-es="Con arroz y frijoles" data-en="With rice and beans"></p><span class="p">$13</span></div>
+      <div class="card"><h4>Chile relleno</h4><p data-es="Relleno de queso, en caldillo" data-en="Cheese-stuffed, in tomato broth"></p><span class="p">$14</span></div>
+      <div class="card"><h4 data-es="Mole con pollo" data-en="Chicken mole"></h4><p data-es="Receta de la familia" data-en="Family recipe"></p><span class="p">$15</span></div>
+    </div>
+    <div class="cards" data-panel="antojos" hidden>
+      <div class="card"><h4 data-es="Gorditas" data-en="Gorditas"></h4><p data-es="De chicharrón prensado" data-en="With pressed chicharrón"></p><span class="p">$4</span></div>
+      <div class="card"><h4>Sopes</h4><p data-es="2 sopes con frijol y queso" data-en="2 sopes with beans and cheese"></p><span class="p">$8</span></div>
+      <div class="card"><h4 data-es="Café de olla" data-en="Café de olla"></h4><p data-es="Con canela y piloncillo" data-en="With cinnamon and piloncillo"></p><span class="p">$2</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="historia">
+  <div class="wrap">
+    <div class="sign">Doña Lupe</div>
+    <div>
+      <p data-es="“Aprendí a cocinar con mi abuela en Michoacán. Aquí hacemos todo igual que allá: con calma, en el comal y con mucho cariño.”" data-en="“I learned to cook with my grandmother in Michoacán. Here we do everything the same way: slowly, on the griddle and with lots of love.”"></p>
+      <cite data-es="Texto de ejemplo" data-en="Sample text"></cite>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© El Fogón de Doña Lupe · Pulaski, TN</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  let lang="es";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"EN":"ES");
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t));
+    document.querySelectorAll("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==t.dataset.tab);
+  }));
+  render();
+</script>
+</body>
+</html>

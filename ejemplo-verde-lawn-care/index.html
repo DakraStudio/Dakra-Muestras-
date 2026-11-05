@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verde Lawn Care · Pulaski, TN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bosque:#1F4D2B;--pasto:#2F7A3E;--lima:#C5E86C;--crema:#F5F8EE;--tinta:#16301C;--gris:#5C6B5F}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--crema);color:var(--tinta);font:17px/1.6 "DM Sans",system-ui,sans-serif}
+  :focus-visible{outline:3px solid var(--pasto);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  .demo{background:var(--tinta);color:#fff;text-align:center;font-size:13px;padding:7px 16px}
+  .demo a{color:var(--lima)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+  .logo{font:400 26px "DM Serif Display";color:var(--bosque);text-decoration:none}
+  .lang{background:none;border:2px solid var(--bosque);color:var(--bosque);font:700 14px "DM Sans";padding:6px 14px;border-radius:999px;cursor:pointer}
+  .lang:hover{background:var(--bosque);color:#fff}
+
+  .hero{padding:30px 0 60px}
+  .hero .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+  .hero h1{font:400 clamp(44px,8vw,80px)/1.02 "DM Serif Display";margin:0;color:var(--bosque)}
+  .hero p{font-size:clamp(18px,2.4vw,21px);color:var(--gris);max-width:38ch;margin:20px 0 26px}
+  .stripes{aspect-ratio:1;border-radius:50% 50% 24px 24px;background:
+     repeating-linear-gradient(90deg,var(--pasto) 0 36px,#3C8D4B 36px 72px);position:relative;overflow:hidden}
+  .stripes::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:var(--bosque)}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;padding:14px 24px;border-radius:999px;background:var(--bosque);color:#fff}
+  .btn:hover{background:var(--pasto)}
+
+  section{padding:64px 0}
+  h2{font:400 clamp(32px,5vw,46px)/1.1 "DM Serif Display";margin:0 0 8px;color:var(--bosque)}
+  .lead{color:var(--gris);margin:0 0 30px;max-width:60ch}
+  .svc-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:28px}
+  .svc h3{font-size:19px;margin:0 0 4px}
+  .svc h3::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--lima);border:2px solid var(--pasto);margin-right:10px}
+  .svc p{margin:0;color:var(--gris);font-size:15px}
+
+  .plans{background:var(--bosque);color:#fff}
+  .plans h2{color:#fff}.plans .lead{color:#C8DCC9}
+  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .plan{border:2px solid #3E7049;border-radius:18px;padding:24px}
+  .plan.pick{background:var(--lima);color:var(--tinta);border-color:var(--lima)}
+  .plan h3{margin:0;font-size:20px}
+  .plan .p{font:400 42px "DM Serif Display";margin:6px 0}
+  .plan .p small{font:500 15px "DM Sans"}
+  .plan ul{padding-left:18px;margin:10px 0 0;font-size:15px}
+
+  form{background:#fff;border-radius:20px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{display:block;font-weight:500;font-size:15px;margin-bottom:6px}
+  input,select,textarea{width:100%;font:16px "DM Sans";padding:12px 14px;border:2px solid #D7E2D2;border-radius:10px;background:#fff;color:var(--tinta)}
+  input:focus,select:focus,textarea:focus{border-color:var(--pasto);outline:none}
+  .full{grid-column:1/-1}
+  button[type=submit]{border:0;cursor:pointer;font:700 17px "DM Sans";padding:14px 24px;border-radius:999px;background:var(--bosque);color:#fff;justify-self:start}
+  button[type=submit]:hover{background:var(--pasto)}
+  .ok{display:none;grid-column:1/-1;background:#EAF6D4;border-radius:10px;padding:14px 16px;font-weight:500}
+  .ok.show{display:block}
+  footer{background:var(--tinta);color:#B9CBB9;padding:28px 0;font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+  footer a{color:var(--lima)}
+  @media (max-width:760px){.hero .wrap,.plan-grid,form{grid-template-columns:1fr}.stripes{max-width:260px}}
+</style>
+</head>
+<body>
+<div class="demo" data-es="Proyecto de ejemplo: negocio ficticio. Diseño de <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Sample project: fictional business. Design by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></div>
+<div class="wrap"><nav><a class="logo" href="#">Verde Lawn Care</a><button class="lang" data-lang>English</button></nav></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <h1 data-es="Tu jardín, siempre listo" data-en="Your yard, always ready"></h1>
+      <p data-es="Corte de pasto, limpieza de hojas y mantenimiento semanal en Pulaski y alrededores. Pide tu cotización en un minuto." data-en="Mowing, leaf cleanup and weekly maintenance in Pulaski and nearby. Get a quote in one minute."></p>
+      <a class="btn" href="#cotizar" data-es="Pedir cotización gratis" data-en="Get a free quote"></a>
+    </div>
+    <div class="stripes" aria-hidden="true"></div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <h2 data-es="Lo que hacemos" data-en="What we do"></h2>
+    <p class="lead" data-es="Casas, rentas y pequeños negocios." data-en="Homes, rentals and small businesses."></p>
+    <div class="svc-list">
+      <div class="svc"><h3 data-es="Corte de pasto" data-en="Mowing"></h3><p data-es="Corte, orillado y soplado de banquetas." data-en="Mowing, edging and blowing off walkways."></p></div>
+      <div class="svc"><h3 data-es="Limpieza de hojas" data-en="Leaf cleanup"></h3><p data-es="Recogemos y nos llevamos todo en otoño." data-en="We collect and haul it all away in the fall."></p></div>
+      <div class="svc"><h3 data-es="Arbustos y setos" data-en="Shrubs & hedges"></h3><p data-es="Poda y forma para que todo se vea parejo." data-en="Trimming and shaping for a clean look."></p></div>
+      <div class="svc"><h3 data-es="Mulch y camas" data-en="Mulch & beds"></h3><p data-es="Limpieza de jardineras y mulch nuevo." data-en="Flower bed cleanup and fresh mulch."></p></div>
+    </div>
+  </div>
+</section>
+
+<section class="plans">
+  <div class="wrap">
+    <h2 data-es="Planes" data-en="Plans"></h2>
+    <p class="lead" data-es="Precios de referencia para un patio promedio. Te confirmamos el tuyo al cotizar." data-en="Reference prices for an average yard. We confirm yours with the quote."></p>
+    <div class="plan-grid">
+      <div class="plan"><h3 data-es="Una vez" data-en="One-time"></h3><div class="p">$45</div><ul><li data-es="Un corte completo" data-en="One full mow"></li><li data-es="Orillado y soplado" data-en="Edging and blowing"></li></ul></div>
+      <div class="plan pick"><h3 data-es="Semanal" data-en="Weekly"></h3><div class="p">$35 <small data-es="/ visita" data-en="/ visit"></small></div><ul><li data-es="Corte cada semana" data-en="Mowing every week"></li><li data-es="Precio más bajo por visita" data-en="Lowest price per visit"></li></ul></div>
+      <div class="plan"><h3 data-es="Cada 2 semanas" data-en="Every 2 weeks"></h3><div class="p">$40 <small data-es="/ visita" data-en="/ visit"></small></div><ul><li data-es="Ideal en temporada baja" data-en="Great for the slow season"></li><li data-es="Sin contrato" data-en="No contract"></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="cotizar">
+  <div class="wrap">
+    <h2 data-es="Pide tu cotización" data-en="Request a quote"></h2>
+    <p class="lead" data-es="Te respondemos por mensaje el mismo día." data-en="We'll text you back the same day."></p>
+    <form id="quote">
+      <div><label for="n" data-es="Nombre" data-en="Name"></label><input id="n" required></div>
+      <div><label for="t" data-es="Teléfono" data-en="Phone"></label><input id="t" type="tel" required></div>
+      <div><label for="s" data-es="Servicio" data-en="Service"></label>
+        <select id="s"><option data-es="Corte de pasto" data-en="Mowing"></option><option data-es="Limpieza de hojas" data-en="Leaf cleanup"></option><option data-es="Arbustos y setos" data-en="Shrubs & hedges"></option><option data-es="Mulch y camas" data-en="Mulch & beds"></option></select></div>
+      <div><label for="d" data-es="Dirección o zona" data-en="Address or area"></label><input id="d"></div>
+      <div class="full"><label for="m" data-es="Detalles (opcional)" data-en="Details (optional)"></label><textarea id="m" rows="3"></textarea></div>
+      <button type="submit" data-es="Enviar solicitud" data-en="Send request"></button>
+      <div class="ok" id="ok" role="status" data-es="Solicitud enviada. (En este ejemplo no se envía nada; en la página real, el dueño la recibe al instante.)" data-en="Request sent. (Nothing is sent in this sample; on the real site, the owner gets it instantly.)"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Verde Lawn Care · Pulaski, TN · (931) 555-0168</span><span data-es="Página hecha por <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>" data-en="Website by <a href='mailto:dakrastudio@gmail.com'>Dakra Studio</a>"></span></div></footer>
+
+<script>
+  let lang="es";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-es]").forEach(el=>el.innerHTML=el.dataset[lang]);
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="es"?"English":"Español");
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="es"?"en":"es";render();}));
+  document.getElementById("quote").addEventListener("submit",e=>{e.preventDefault();document.getElementById("ok").classList.add("show");});
+  render();
+</script>
+</body>
+</html>
