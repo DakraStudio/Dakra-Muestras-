@@ -2,123 +2,250 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: banco de mezcla. Buscador arriba, lista de códigos a la izquierda, ficha de mezcla (carta de prueba + báscula) a la derecha; en celular todo en una columna. */
+/* Layout: inicio de producto (héroe con carro que se pinta en vivo, pasos, comparación, precios) + software: marca/VIN → código → ficha de mezcla con carro, carta de prueba y báscula. */
+@property --paint{syntax:'<color>';inherits:true;initial-value:#BF141C}
 :root{
-  --bg:#EDF0F4; --panel:#FFFFFF; --ink:#17202B; --muted:#5A6676; --line:#D3DAE3; --soft:#F5F7FA;
+  --bg:#EDF0F4; --panel:#FFFFFF; --ink:#141B26; --muted:#586577; --line:#D2D9E2; --soft:#F4F6F9;
   --accent:#1E4ED0; --accent-ink:#FFFFFF; --tape:#F2C83A; --tape-ink:#1B1A12;
-  --ok:#1D7F47; --warn:#9A6614; --bad:#B8332A;
+  --ok:#1D7F47; --warn:#9A6614; --bad:#B8332A; --glass:#1C2633;
+  --paint:#BF141C;
   --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#10151B; --panel:#19212A; --ink:#E5EAF0; --muted:#9AA6B5; --line:#2B3541; --soft:#141B22;
+  --bg:#0F141A; --panel:#18202A; --ink:#E6EBF1; --muted:#9BA7B6; --line:#2A3440; --soft:#131A22;
   --accent:#7097FF; --accent-ink:#0B1020; --tape:#E3B92C; --tape-ink:#17160E;
-  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; color-scheme:dark }}
+  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; --glass:#0B1016; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#10151B; --panel:#19212A; --ink:#E5EAF0; --muted:#9AA6B5; --line:#2B3541; --soft:#141B22;
+  --bg:#0F141A; --panel:#18202A; --ink:#E6EBF1; --muted:#9BA7B6; --line:#2A3440; --soft:#131A22;
   --accent:#7097FF; --accent-ink:#0B1020; --tape:#E3B92C; --tape-ink:#17160E;
-  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; color-scheme:dark }
+  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; --glass:#0B1016; color-scheme:dark }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1180px;margin:0 auto}
 button,input,select,textarea{font:inherit;color:inherit}
 h1,h2,h3{font-family:var(--f-display);letter-spacing:.2px;text-wrap:balance;margin:0}
+p{margin:0}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-.muted{color:var(--muted)}
-.small{font-size:13px}
+.muted{color:var(--muted)} .small{font-size:13px}
+.eyebrow{font:700 13px var(--f-body);letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 15px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.big{padding:14px 22px;font-size:16px;border-radius:11px}
+.btn.danger{color:var(--bad)}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel);font-weight:700}
+.pill{font:700 12px var(--f-body);padding:3px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)} .pill.n{color:var(--muted)}
+.fin{font:700 11px var(--f-body);letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--soft);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
 
-/* Barra superior */
+/* ---------------- Carro ---------------- */
+.car{width:100%;height:auto;display:block;overflow:visible}
+.car .tire{fill:#16181C} .car .rim{fill:#A9AFB6} .car .hub{fill:#5D646C}
+.car .win{fill:var(--glass)} .car .seam{stroke:rgba(0,0,0,.28);stroke-width:1.6;fill:none}
+.car .crease{stroke:rgba(255,255,255,.38);stroke-width:2.4;fill:none}
+.car .lamp{fill:#F3F1E6} .car .tail{fill:#8E1018}
+.car .shadow{fill:#000;opacity:.2}
+
+/* ---------------- INICIO ---------------- */
+.lnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.lnav .wrap{display:flex;align-items:center;gap:18px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
+.brand-mark{width:34px;height:34px;border-radius:8px;background:conic-gradient(from 200deg,#C4142C,#F2B01E,#0B6A4D,#0B3A8A,#3F2770,#C4142C);box-shadow:inset 0 0 0 3px var(--panel)}
+.brand b{font:800 24px/1 var(--f-display);letter-spacing:.3px}
+.lnav .links{display:flex;gap:18px}
+.lnav .links a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px}
+.lnav .links a:hover{color:var(--ink)}
+@media (max-width:720px){.lnav .links{display:none}}
+.lnav .btn,.top .brand b{white-space:nowrap}
+@media (max-width:420px){.lnav .btn{padding:8px 12px;font-size:13px}.brand b{font-size:21px}}
+
+.hero{position:relative;overflow:hidden;background:color-mix(in oklab,var(--paint) 10%,var(--bg));transition:--paint .9s ease}
+.hero::before{content:"";position:absolute;width:900px;height:900px;right:-260px;top:-300px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in oklab,var(--paint) 55%,transparent),transparent);filter:blur(20px);opacity:.55;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding-block:56px 64px}
+@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:36px 44px}}
+.hero h1{font:800 clamp(44px,7vw,84px)/.95 var(--f-display);text-transform:uppercase;letter-spacing:-.5px;margin:14px 0 18px}
+.hero h1 em{font-style:italic;color:var(--paint);transition:color .9s}
+.hero .lede{font-size:19px;color:var(--muted);max-width:46ch}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero .fine{margin-top:12px;font-size:13px;color:var(--muted)}
+
+.demo{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 60px -20px rgba(15,25,45,.35);overflow:hidden}
+.demo-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.label{display:flex;align-items:center;gap:10px;min-width:0}
+.label .tag{font:700 10px var(--f-body);letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:2px 6px;white-space:nowrap}
+.label .typed{font:700 26px var(--f-mono);white-space:nowrap}
+.caret{display:inline-block;width:3px;height:24px;background:var(--accent);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo-car{padding:18px 18px 4px;background:linear-gradient(180deg,var(--soft),var(--panel))}
+.demo-mix{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;padding:14px 18px 18px}
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:44px minmax(0,1fr) 64px;gap:8px;align-items:center;font-size:13px}
+.bar .t{font:700 13px var(--f-mono)}
+.bar .track{height:10px;border-radius:6px;background:var(--soft);overflow:hidden;display:block}
+.bar .fill{display:block;height:100%;border-radius:6px;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.bar .g{text-align:right;font:500 13px var(--f-mono)}
+.scale-mini{background:var(--tape);color:var(--tape-ink);border-radius:10px;padding:10px 14px;text-align:right}
+.scale-mini small{display:block;font:700 10px var(--f-body);letter-spacing:1px;text-transform:uppercase}
+.scale-mini b{font:700 26px/1.1 var(--f-mono)}
+
+.lsec{padding-block:72px}
+.lsec h2{font:800 clamp(34px,5vw,52px)/1 var(--f-display);text-transform:uppercase;margin:10px 0 14px}
+.lsec .intro{font-size:18px;color:var(--muted);max-width:60ch}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+@media (max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.step .n{font:800 46px/1 var(--f-display);color:var(--accent)}
+.step h3{font-size:24px}
+.step p{color:var(--muted)}
+.step .ex{font:700 15px var(--f-mono);background:var(--soft);border-radius:8px;padding:8px 10px;margin-top:auto;overflow-wrap:anywhere}
+
+.vs{margin-top:34px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+.vs-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line)}
+.vs-row:first-child{border-top:0}
+.vs-row > div{padding:16px 20px}
+.vs-row > div:last-child{background:color-mix(in oklab,var(--accent) 7%,var(--panel));font-weight:700}
+.vs-head > div{font:700 13px var(--f-body);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.vs-head > div:last-child{color:var(--accent)}
+@media (max-width:620px){.vs-row{grid-template-columns:minmax(0,1fr)} .vs-head{display:none} .vs-row > div:first-child{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 50%,transparent);padding-bottom:4px} .vs-row > div:last-child{background:transparent;padding-top:0}}
+
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px;margin-top:34px}
+@media (max-width:900px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.feats{grid-template-columns:minmax(0,1fr)}}
+.feat{display:flex;flex-direction:column;gap:8px}
+.feat .ico{height:8px;border-radius:4px;margin-bottom:6px}
+.feat h3{font-size:22px}
+.feat p{color:var(--muted);font-size:15px}
+
+.pricing{background:var(--ink);color:var(--panel)}
+.pricing .intro{color:color-mix(in srgb,var(--panel) 70%,transparent)}
+.pricing .eyebrow{color:color-mix(in srgb,var(--panel) 60%,transparent)}
+.toggle{display:inline-flex;flex-wrap:wrap;background:color-mix(in srgb,var(--panel) 12%,transparent);border-radius:999px;padding:4px;margin-top:22px}
+.toggle button{border:0;background:transparent;color:inherit;padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--panel);color:var(--ink)}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px;align-items:stretch}
+@media (max-width:900px){.plans{grid-template-columns:minmax(0,1fr)}}
+.plan{background:var(--panel);color:var(--ink);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px;position:relative}
+.plan.star{box-shadow:0 0 0 3px var(--tape)}
+.plan .ribbon{position:absolute;top:-12px;left:26px;background:var(--tape);color:var(--tape-ink);font:700 12px var(--f-body);letter-spacing:.8px;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+.plan h3{font-size:28px;text-transform:uppercase}
+.plan .who{color:var(--muted);font-size:15px}
+.price{display:flex;align-items:baseline;gap:6px}
+.price b{font:800 54px/1 var(--f-display)}
+.price span{color:var(--muted);font-size:15px}
+.plan .yr{font-size:13px;color:var(--ok);min-height:20px}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.plan li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px}
+.plan li::before{content:"";width:12px;height:12px;border-radius:3px;margin-top:5px;background:var(--accent)}
+.plan .btn{margin-top:auto;justify-content:center}
+.pricing .fine{margin-top:20px;font-size:13px;color:color-mix(in srgb,var(--panel) 60%,transparent)}
+
+.faq{margin-top:28px;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font:700 19px var(--f-body);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:700 22px var(--f-mono);color:var(--accent)}
+.faq details[open] summary::after{content:"–"}
+.faq p{color:var(--muted);margin-top:10px;max-width:70ch}
+
+.final{background:color-mix(in oklab,var(--paint) 16%,var(--bg));transition:--paint .9s}
+.final .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;padding-block:56px}
+.final h2{font:800 clamp(32px,5vw,50px)/1 var(--f-display);text-transform:uppercase;max-width:18ch}
+footer{padding-block:28px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+
+/* ---------------- SOFTWARE ---------------- */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:10px}
-.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
-.brand-mark{width:34px;height:34px;border-radius:7px;background:conic-gradient(from 200deg,#C4142C,#F2B01E,#0B6A4D,#0B3A8A,#3F2770,#C4142C);box-shadow:inset 0 0 0 3px var(--panel)}
-.brand h1{font-size:24px;line-height:1}
-.brand span{display:block;font:12px var(--f-body);color:var(--muted)}
 .tabs{display:flex;gap:4px;overflow-x:auto;max-width:100%}
 .tab{border:0;background:transparent;padding:8px 12px;border-radius:8px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
 .tab[aria-selected="true"]{background:var(--ink);color:var(--panel)}
 .tab:hover:not([aria-selected="true"]){background:var(--soft);color:var(--ink)}
-
-main{padding-block:20px 60px}
+.appmain{padding-block:20px 60px}
 .view{display:flex;flex-direction:column;gap:16px}
 
-/* Buscador */
-.search{display:flex;flex-direction:column;gap:10px}
-.search label{font:700 13px var(--f-body);letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.finder{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+@media (max-width:900px){.finder{grid-template-columns:minmax(0,1fr)}}
+.fstep{display:flex;flex-direction:column;gap:8px;min-width:0}
+.fstep .lab{display:flex;align-items:center;gap:8px;font:700 13px var(--f-body);letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.fstep .lab i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--panel);font-size:12px;letter-spacing:0}
+.makes{display:flex;gap:6px;flex-wrap:wrap}
+.vin{display:flex;gap:8px;align-items:center}
+.vin input{flex:1;min-width:0;border:1px dashed var(--line);border-radius:9px;padding:8px 12px;background:var(--soft);font:500 14px var(--f-mono);text-transform:uppercase}
+.vin input::placeholder{text-transform:none;font-family:var(--f-body)}
+.vinmsg{font-size:13px;color:var(--muted);min-height:18px}
+.vinmsg b{color:var(--ink)}
 .qbox{display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid var(--ink);border-radius:12px;padding:4px 6px 4px 14px}
-.qbox input{flex:1;min-width:0;border:0;background:transparent;font:700 clamp(20px,4vw,28px) var(--f-mono);padding:10px 0;outline:none;text-transform:uppercase}
-.qbox input::placeholder{text-transform:none;font:400 17px var(--f-body);color:var(--muted)}
-.qbox .clear{border:0;background:var(--soft);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:13px}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 12px;font-size:14px;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.qbox input{flex:1;min-width:0;border:0;background:transparent;font:700 clamp(22px,4vw,30px) var(--f-mono);padding:8px 0;outline:none;text-transform:uppercase}
+.qbox input::placeholder{text-transform:none;font:400 16px var(--f-body);color:var(--muted)}
+.qbox .x{border:0;background:var(--soft);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:13px}
+.where{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:9px 12px}
+.where b{color:var(--ink)}
+.ambig{border:2px solid var(--tape);background:color-mix(in oklab,var(--tape) 14%,var(--panel));border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.ambig .chips{display:flex;gap:6px;flex-wrap:wrap}
 
-.layout{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:16px;align-items:start}
-@media (max-width:820px){.layout{grid-template-columns:minmax(0,1fr)}}
-
-/* Lista de resultados */
-.results{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:calc(100vh - 230px);overflow-y:auto}
-@media (max-width:820px){.results{max-height:340px}}
-.rcount{padding:10px 14px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+.layout{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
+.results{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:calc(100vh - 140px);overflow-y:auto;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+@media (max-width:860px){.results{max-height:300px;position:static}}
+.rcount{padding:10px 14px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1;display:flex;justify-content:space-between;gap:8px}
+.rcount button{border:0;background:none;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;padding:0}
 .ritem{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;padding:9px 14px;cursor:pointer}
 .ritem:hover{background:var(--soft)}
 .ritem[aria-current="true"]{background:var(--soft);box-shadow:inset 4px 0 0 var(--accent)}
 .ritem .sw{width:40px;height:28px;border-radius:5px;border:1px solid rgba(0,0,0,.18)}
 .ritem b{font-family:var(--f-mono);font-size:15px}
 .ritem .nm{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fin{font:700 11px var(--f-body);letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--soft);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
-.empty{padding:22px 16px;color:var(--muted);font-size:15px}
+.empty{padding:22px 16px;color:var(--muted);font-size:15px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 
-/* Ficha */
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .sec{padding:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
 .sec:first-child{border-top:0}
-.sec h3{font-size:20px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec h3{font-size:22px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .sec h3 small{font:400 13px var(--f-body);color:var(--muted)}
-
-.head{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:18px;align-items:start}
-@media (max-width:520px){.head{grid-template-columns:minmax(0,1fr)}}
-.card{border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.2);box-shadow:0 8px 22px rgba(10,20,40,.12);background:#fff}
-.card .face{height:130px;position:relative}
-.card .face span{position:absolute;left:8px;bottom:6px;font:700 11px var(--f-body);letter-spacing:.5px;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.85);color:#1B1A12}
-.card .split{display:grid;grid-template-columns:1fr 1fr;height:56px}
+.dhead{background:linear-gradient(180deg,color-mix(in oklab,var(--paint) 16%,var(--panel)),var(--panel));transition:--paint .8s}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:620px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.code{font:700 clamp(34px,6vw,50px)/1 var(--f-mono);letter-spacing:-.5px;word-break:break-all}
+.cname{font-size:19px;font-weight:700;margin-top:6px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.proof{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:480px){.proof{grid-template-columns:minmax(0,1fr)}}
+.card{border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.2);box-shadow:0 8px 20px rgba(10,20,40,.12);background:#fff}
+.card .split{display:grid;grid-template-columns:1fr 1fr;height:70px}
 .card .split div{position:relative}
+.card .split span{position:absolute;left:5px;bottom:4px;font:700 10px var(--f-body);text-transform:uppercase;background:rgba(255,255,255,.88);color:#1B1A12;padding:1px 5px;border-radius:3px}
 .card .hide{height:16px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/12px 12px;position:relative}
 .card .hide i{position:absolute;inset:0 0 0 40%}
-.code{font:700 clamp(30px,6vw,44px)/1 var(--f-mono);letter-spacing:-.5px;word-break:break-all}
-.cname{font-size:19px;font-weight:700;margin-top:6px}
-.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
-.pill{font:700 12px var(--f-body);padding:3px 9px;border-radius:999px;border:1px solid currentColor}
-.pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)} .pill.n{color:var(--muted)}
 .note{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:10px 12px;max-width:70ch}
 
-/* Cantidad */
 .qty{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.qty input{width:110px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--soft)}
+.qty input{width:100px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--soft)}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:5px}
 .field > span{font:700 12px var(--f-body);letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
 select,.inp{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--soft);width:100%}
 .parts{display:flex;gap:6px;flex-wrap:wrap}
-.sumline{font-size:15px}
 .sumline b{font-family:var(--f-mono)}
 
-/* Báscula y fórmula */
-.scale{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--tape);color:var(--tape-ink);border-radius:10px;padding:12px 16px}
+.scale{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--tape);color:var(--tape-ink);border-radius:12px;padding:12px 16px}
 .scale .lbl{font:700 12px var(--f-body);letter-spacing:1px;text-transform:uppercase}
-.scale .val{font:700 34px/1 var(--f-mono)}
+.scale .val{font:700 38px/1 var(--f-mono)}
+.scale .cost{font:700 14px var(--f-body)}
+.scale .btn{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.15);color:var(--tape-ink)}
+.cup{display:flex;height:16px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.cup i{height:100%;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:8px 14px;font-weight:700;font-size:14px;cursor:pointer}
-.btn:hover{border-color:var(--ink)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.danger{color:var(--bad)}
 .tablewrap{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:15px}
 th{font:700 12px var(--f-body);letter-spacing:.6px;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
@@ -127,433 +254,563 @@ td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabula
 td .tdot{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:8px;border:1px solid rgba(0,0,0,.2)}
 td .tc{font-family:var(--f-mono);font-weight:700}
 td .tn{display:block;font-size:12px;color:var(--muted)}
-tr.cum td.n:last-child{font-weight:700}
+#fbody tr{animation:rowin .35s both}
+@keyframes rowin{from{opacity:.0;transform:translateY(4px)}}
 .warnline{color:var(--warn);font-size:14px}
 
-/* Variaciones */
 .var{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
 @media (max-width:640px){.var{grid-template-columns:minmax(0,1fr)}}
-.slider{display:grid;grid-template-columns:76px minmax(0,1fr) 76px;gap:8px;align-items:center;font-size:13px}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+.slider{display:grid;grid-template-columns:78px minmax(0,1fr) 78px;gap:8px;align-items:center;font-size:13px}
 .slider span:last-child{text-align:right}
 .slider input{width:100%;accent-color:var(--accent)}
-.compare{display:grid;grid-template-columns:1fr 1fr;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.2);height:110px}
-.compare div{position:relative}
-.compare span{position:absolute;left:6px;top:6px;font:700 11px var(--f-body);text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.85);color:#1B1A12}
-.corr{background:var(--soft);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.compare{display:grid;grid-template-columns:1fr 1fr;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.2);height:120px}
+.compare div{position:relative;transition:background .3s}
+.compare span{position:absolute;left:6px;top:6px;font:700 11px var(--f-body);text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.88);color:#1B1A12}
+.corr{background:var(--soft);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .corr ul{margin:0;padding-left:18px}
 .saverow{display:flex;gap:8px;flex-wrap:wrap}
-.saverow input{flex:1;min-width:160px}
+.saverow input{flex:1;min-width:150px}
 
-/* Color libre */
 .free{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:16px;align-items:start}
-@media (max-width:820px){.free{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:860px){.free{grid-template-columns:minmax(0,1fr)}}
 .freebox{padding:18px;display:flex;flex-direction:column;gap:14px}
 .pickrow{display:flex;gap:10px;align-items:center}
 .pickrow input[type=color]{width:58px;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--soft);padding:2px}
 canvas{max-width:100%;border-radius:8px;cursor:crosshair;display:block}
 
-/* Mis fórmulas / tintes */
-.list{display:flex;flex-direction:column}
 .saved{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
-.saved:first-child{border-top:0}
 .saved .sw{width:48px;height:36px;border-radius:6px;border:1px solid rgba(0,0,0,.2)}
 .saved .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--soft);font:13px var(--f-mono)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;z-index:20}
-@media (prefers-reduced-motion:no-preference){.ritem,.chip,.btn{transition:background .12s,border-color .12s}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 
-<header class="top gut">
-  <div class="wrap">
-    <div class="brand"><div class="brand-mark" aria-hidden="true"></div><div><h1>Taller de Color</h1><span>Igualación de pintura automotriz</span></div></div>
-    <nav class="tabs" role="tablist" aria-label="Secciones">
-      <button class="tab" role="tab" id="t-buscar" data-v="buscar" aria-selected="true">Buscar código</button>
-      <button class="tab" role="tab" id="t-libre" data-v="libre" aria-selected="false">Color libre</button>
-      <button class="tab" role="tab" id="t-mis" data-v="mis" aria-selected="false">Mis fórmulas</button>
-      <button class="tab" role="tab" id="t-tintes" data-v="tintes" aria-selected="false">Mis tintes</button>
-    </nav>
-  </div>
-</header>
-
-<main class="gut"><div class="wrap">
-
-  <section class="view" id="v-buscar">
-    <div class="search">
-      <label for="q">Código de color o nombre</label>
-      <div class="qbox"><input id="q" autocomplete="off" spellcheck="false" placeholder="Ej. 040, NH-731P, GAZ, 475, Soul Red…"><button class="clear" id="qclear" type="button">Borrar</button></div>
-      <div class="chips" id="makes" aria-label="Filtrar por marca de carro"></div>
+<!-- ======================= INICIO ======================= -->
+<div id="landing">
+  <nav class="lnav gut" aria-label="Principal">
+    <div class="wrap">
+      <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"></span><b>Taller de Color</b></a>
+      <div class="links"><a href="#como">Cómo funciona</a><a href="#precios">Precios</a><a href="#preguntas">Preguntas</a></div>
+      <a class="btn primary" href="#app">Entrar al software</a>
     </div>
-    <div class="layout">
-      <div class="results" id="results"></div>
-      <div id="detail"></div>
-    </div>
-  </section>
+  </nav>
 
-  <section class="view" id="v-libre" hidden>
-    <div class="free">
-      <div class="panel freebox">
-        <h3 style="font-size:22px">Cualquier color</h3>
-        <p class="small muted" style="margin:0">Para colores que no tienen código: escribe el valor, elige en la rueda o toca una foto de la pieza.</p>
-        <div class="field"><span>Valor del color</span>
-          <div class="pickrow"><input type="color" id="fpick" value="#2E6B5A" aria-label="Elegir color"><input class="inp mono" id="fhex" value="#2E6B5A" maxlength="7" aria-label="Valor hexadecimal"></div>
-        </div>
-        <div class="field"><span>Acabado</span>
-          <select id="ffin"><option value="S">Sólido</option><option value="M">Metálico</option><option value="P">Perlado</option><option value="T">Tricapa</option></select>
-        </div>
-        <div class="field"><span>Nombre (opcional)</span><input class="inp" id="fname" placeholder="Ej. Verde camioneta Don Luis"></div>
-        <div class="field"><span>Tomar color de una foto</span><input type="file" id="fphoto" accept="image/*"></div>
-        <canvas id="fcanvas" hidden></canvas>
-        <p class="small muted" id="fphotonote" hidden style="margin:0">Toca la pieza en la foto. La cámara cambia el color según la luz: úsalo como referencia, no como lectura exacta.</p>
+  <header class="hero gut" id="inicio">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Para pintores automotrices independientes</span>
+        <h1>Del código de la etiqueta a la <em>báscula</em> en segundos</h1>
+        <p class="lede">Escribe el código del carro y Taller de Color te da la mezcla en gramos con los tintes que consigues en tu tienda. Si la pieza vieja está quemada por el sol, te dice cuánto agregarle a la mezcla que ya hiciste.</p>
+        <div class="ctas"><a class="btn primary big" href="#app">Pruébalo 14 días gratis</a><a class="btn big" href="#precios">Ver precios</a></div>
+        <p class="fine">Funciona en el celular, la tablet o la computadora del taller.</p>
       </div>
-      <div id="detail-libre"></div>
-    </div>
-  </section>
-
-  <section class="view" id="v-mis" hidden>
-    <div class="panel"><div class="sec"><h3>Mis fórmulas <small>Variaciones y colores que guardaste en este dispositivo</small></h3></div><div class="list" id="savedlist"></div></div>
-  </section>
-
-  <section class="view" id="v-tintes" hidden>
-    <div class="panel">
-      <div class="sec">
-        <h3>Mis tintes <small>Pon el código de tu marca junto a cada tinte y la fórmula saldrá con tus códigos</small></h3>
-        <div class="row2">
-          <label class="field"><span>Línea de pintura que usas</span>
-            <select id="line"></select></label>
-          <label class="field"><span>Proveedor / tienda</span><input class="inp" id="store" placeholder="Ej. Pinturas El Águila"></label>
+      <div class="demo" aria-label="Demostración en vivo">
+        <div class="demo-top">
+          <div class="label"><span class="tag">Etiqueta</span><span class="typed" id="dtyped"></span><span class="caret" aria-hidden="true"></span></div>
+          <span class="pill n" id="dmake">—</span>
         </div>
-        <div class="tablewrap"><table><thead><tr><th>Tinte</th><th>Tu código</th><th class="n">Densidad g/ml</th></tr></thead><tbody id="tonerbody"></tbody></table></div>
+        <div class="demo-car" id="dcar"></div>
+        <div class="demo-mix">
+          <div class="bars" id="dbars"></div>
+          <div class="scale-mini"><small>Báscula · 250 ml</small><b id="dtotal">0.0 g</b></div>
+        </div>
       </div>
-      <div class="sec">
-        <h3>Importar colores y fórmulas <small>CSV de tu proveedor o tus propias fórmulas probadas</small></h3>
-        <p class="small muted" style="margin:0">Columnas: <span class="mono">marca,codigo,nombre,acabado,hex,formula</span>. Acabado: S, M, P o T. Fórmula en gramos: <span class="mono">W:520;K:12;BP:3.5</span> (con los códigos de arriba o con tus códigos).</p>
-        <textarea id="csv" spellcheck="false">marca,codigo,nombre,acabado,hex,formula
-Mi taller,VERDE-01,Verde tractor probado,S,#2F6B3A,W:180;GP:95;YM:60;K:8</textarea>
-        <div class="tools"><button class="btn primary" id="doimport" type="button">Importar</button><button class="btn" id="clearimport" type="button">Quitar importados</button></div>
-        <p class="small" id="importmsg" style="margin:0"></p>
+    </div>
+  </header>
+
+  <section class="lsec gut" id="como">
+    <div class="wrap">
+      <span class="eyebrow">Cómo funciona</span>
+      <h2>Tres pasos, de la puerta a la pistola</h2>
+      <p class="intro">El mismo orden en que ya trabajas: identificas el carro, lees la etiqueta y pesas la mezcla.</p>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><h3>Marca o VIN</h3><p>Elige la marca o pega el VIN y el software reconoce la marca y el año. Ya no salen códigos de otra marca por error.</p><span class="ex">1GCUYDED5KZ… → Chevrolet 2019</span></div>
+        <div class="step"><span class="n">2</span><h3>Código de la etiqueta</h3><p>Escríbelo como venga: <span class="mono">BC/CC U8555</span>, <span class="mono">WA8555</span> o <span class="mono">GBA</span>. Te decimos dónde buscar la etiqueta en cada marca.</p><span class="ex">U8555 → GBA · Black</span></div>
+        <div class="step"><span class="n">3</span><h3>Pesa y pinta</h3><p>Fórmula acumulada para la báscula, la cantidad justa para la pieza y el costo de la mezcla para cobrarle bien al cliente.</p><span class="ex">Báscula → 275.0 g</span></div>
       </div>
     </div>
   </section>
-</div></main>
+
+  <section class="lsec gut" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Lo que ya conoces, mejorado</span>
+      <h2>Hecho para el pintor que trabaja por su cuenta</h2>
+      <p class="intro">Los programas de los fabricantes de pintura están hechos para talleres grandes y para su propia línea de producto. Taller de Color está pensado para ti.</p>
+      <div class="vs">
+        <div class="vs-row vs-head"><div>Lo de siempre</div><div>Taller de Color</div></div>
+        <div class="vs-row"><div>Fórmulas solo de la marca de pintura del programa</div><div>Pones los códigos de tus tintes, de la marca que vendan en tu tienda</div></div>
+        <div class="vs-row"><div>Instalado en la computadora del cuarto de mezcla</div><div>En tu celular, en el taller o en casa del cliente</div></div>
+        <div class="vs-row"><div>Si la pieza vieja no iguala, ajustas a ojo y tiras pintura</div><div>Barras de variación y cuántos gramos agregar a lo que ya mezclaste</div></div>
+        <div class="vs-row"><div>Calculas a ojo cuánta pintura comprar</div><div>Marcas las piezas y te dice cuánto preparar</div></div>
+        <div class="vs-row"><div>No sabes cuánto te costó la mezcla</div><div>Costo de cada mezcla con tus precios, listo para cotizar</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lsec gut" style="padding-top:0">
+    <div class="wrap">
+      <span class="eyebrow">Todo incluido</span>
+      <h2>Herramientas del cuarto de mezcla</h2>
+      <div class="feats" id="feats"></div>
+    </div>
+  </section>
+
+  <section class="lsec pricing gut" id="precios">
+    <div class="wrap">
+      <span class="eyebrow">Precios</span>
+      <h2>Pago mensual, cancelas cuando quieras</h2>
+      <p class="intro">Todos los planes empiezan con 14 días gratis. Con pago anual te regalamos dos meses.</p>
+      <div class="toggle" role="group" aria-label="Periodo de pago"><button type="button" id="pm" aria-pressed="true">Mensual</button><button type="button" id="pa" aria-pressed="false">Anual · 2 meses gratis</button></div>
+      <div class="plans" id="plans"></div>
+      <p class="fine">Precios en dólares estadounidenses. Propuesta de lanzamiento: se pueden ajustar antes de abrir ventas.</p>
+    </div>
+  </section>
+
+  <section class="lsec gut" id="preguntas">
+    <div class="wrap">
+      <span class="eyebrow">Preguntas</span>
+      <h2>Lo que nos preguntan los pintores</h2>
+      <div class="faq">
+        <details><summary>¿De dónde salen las fórmulas?</summary><p>Taller de Color calcula una fórmula de arranque a partir del color, con un modelo de mezcla de pigmentos, y te dice qué tan cerca queda (ΔE). Si tu proveedor te da sus fórmulas oficiales o ya tienes fórmulas probadas, las importas y el software las usa en lugar de las calculadas. Siempre haz carta de prueba antes de pintar.</p></details>
+        <details><summary>¿Funciona con la pintura que yo compro?</summary><p>Sí. En “Mis tintes” pones el código de tu marca junto a cada tinte (blanco, negro, azul ftalo, aluminio…) y la fórmula sale con tus códigos. Sirve para base bicapa, base agua o monocapa.</p></details>
+        <details><summary>¿Qué pasa si el código existe en dos marcas?</summary><p>Pasa seguido: el 040 es blanco en Toyota y negro en Mercedes-Benz. Por eso primero eliges la marca o pegas el VIN. Si no la eliges, el software te pregunta antes de mostrar la fórmula.</p></details>
+        <details><summary>¿Puedo cancelar?</summary><p>Sí. El pago es mes a mes, sin plazo forzoso. Tus fórmulas guardadas las puedes exportar antes de irte.</p></details>
+        <details><summary>¿Sirve para piezas chicas?</summary><p>Sí. Marcas espejo, manija o defensa y te calcula la cantidad mínima práctica para pesar bien los tintes, o te sugiere pedir aerosol a la medida.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final gut">
+    <div class="wrap">
+      <h2>Tu próxima igualación, sin adivinar</h2>
+      <a class="btn primary big" href="#app">Empezar prueba gratis</a>
+    </div>
+  </section>
+  <footer class="gut"><div class="wrap"><span>Taller de Color · un producto de Dakra Studio</span><span>Los colores en pantalla son aproximados. Verifica siempre con carta de prueba.</span></div></footer>
+</div>
+
+<!-- ======================= SOFTWARE ======================= -->
+<div id="app" hidden>
+  <header class="top gut">
+    <div class="wrap">
+      <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"></span><b>Taller de Color</b></a>
+      <nav class="tabs" role="tablist" aria-label="Secciones">
+        <button class="tab" role="tab" data-v="buscar" aria-selected="true">Buscar código</button>
+        <button class="tab" role="tab" data-v="libre" aria-selected="false">Color libre</button>
+        <button class="tab" role="tab" data-v="mis" aria-selected="false">Mis fórmulas</button>
+        <button class="tab" role="tab" data-v="tintes" aria-selected="false">Mis tintes</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="appmain gut"><div class="wrap">
+    <section class="view" id="v-buscar">
+      <div class="finder">
+        <div class="fstep">
+          <span class="lab"><i>1</i> Marca del vehículo</span>
+          <div class="makes" id="makes"></div>
+          <div class="vin"><input id="vin" maxlength="17" autocomplete="off" spellcheck="false" placeholder="O pega el VIN (17 caracteres)" aria-label="VIN"></div>
+          <div class="vinmsg" id="vinmsg"></div>
+        </div>
+        <div class="fstep">
+          <span class="lab"><i>2</i> Código de la etiqueta</span>
+          <div class="qbox"><input id="q" autocomplete="off" spellcheck="false" placeholder="Ej. GAZ, U8555, NH-731P, 475…" aria-label="Código de color"><button class="x" id="qclear" type="button">Borrar</button></div>
+          <div class="where" id="where"></div>
+        </div>
+      </div>
+      <div id="ambig"></div>
+      <div class="layout">
+        <div class="results" id="results"></div>
+        <div id="detail"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-libre" hidden>
+      <div class="free">
+        <div class="panel freebox">
+          <h3 style="font-size:24px">Cualquier color</h3>
+          <p class="small muted">Para colores sin código: escribe el valor, elige en la rueda o toca una foto de la pieza.</p>
+          <div class="field"><span>Valor del color</span>
+            <div class="pickrow"><input type="color" id="fpick" value="#2E6B5A" aria-label="Elegir color"><input class="inp mono" id="fhex" value="#2E6B5A" maxlength="7" aria-label="Valor hexadecimal"></div></div>
+          <div class="field"><span>Acabado</span><select id="ffin"><option value="S">Sólido</option><option value="M">Metálico</option><option value="P">Perlado</option><option value="T">Tricapa</option></select></div>
+          <div class="field"><span>Nombre (opcional)</span><input class="inp" id="fname" placeholder="Ej. Verde camioneta Don Luis"></div>
+          <div class="field"><span>Tomar color de una foto</span><input type="file" id="fphoto" accept="image/*"></div>
+          <canvas id="fcanvas" hidden></canvas>
+          <p class="small muted" id="fphotonote" hidden>Toca la pieza en la foto. La cámara cambia el color según la luz: úsalo como referencia.</p>
+        </div>
+        <div id="detail-libre"></div>
+      </div>
+    </section>
+
+    <section class="view" id="v-mis" hidden>
+      <div class="panel"><div class="sec"><h3>Mis fórmulas <small>Colores y variaciones guardadas en este dispositivo</small></h3></div><div id="savedlist"></div></div>
+    </section>
+
+    <section class="view" id="v-tintes" hidden>
+      <div class="panel">
+        <div class="sec">
+          <h3>Mis tintes <small>Tu código y tu precio junto a cada tinte</small></h3>
+          <div class="row2">
+            <label class="field"><span>Línea de pintura que usas</span><select id="line"></select></label>
+            <label class="field"><span>Proveedor / tienda</span><input class="inp" id="store" placeholder="Ej. Pinturas El Águila"></label>
+          </div>
+          <div class="tablewrap"><table><thead><tr><th>Tinte</th><th>Tu código</th><th class="n">Precio por litro</th><th class="n">Densidad g/ml</th></tr></thead><tbody id="tonerbody"></tbody></table></div>
+        </div>
+        <div class="sec">
+          <h3>Importar colores y fórmulas <small>CSV de tu proveedor o tus fórmulas probadas</small></h3>
+          <p class="small muted">Columnas: <span class="mono">marca,codigo,nombre,acabado,hex,formula,alias</span>. Acabado: S, M, P o T. Fórmula en gramos: <span class="mono">W:520;K:12;BP:3.5</span>. Alias separados por espacio: <span class="mono">WA8555 U8555</span>.</p>
+          <textarea id="csv" spellcheck="false">marca,codigo,nombre,acabado,hex,formula,alias
+Mi taller,VERDE-01,Verde tractor probado,S,#2F6B3A,W:180;GP:95;YM:60;K:8,</textarea>
+          <div class="tools"><button class="btn primary" id="doimport" type="button">Importar</button><button class="btn" id="clearimport" type="button">Quitar importados</button></div>
+          <p class="small" id="importmsg"></p>
+        </div>
+      </div>
+    </section>
+  </div></main>
+</div>
 
 <script>
 (function(){
 "use strict";
-/* ---------- Almacenamiento seguro ---------- */
-const store = {
-  get(k,d){ try{ const v=localStorage.getItem('tdc.'+k); return v?JSON.parse(v):d }catch(e){ return d } },
-  set(k,v){ try{ localStorage.setItem('tdc.'+k, JSON.stringify(v)) }catch(e){} }
-};
-const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const $ = s => document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem('tdc.'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tdc.'+k,JSON.stringify(v))}catch(e){}}};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- Ciencia del color ---------- */
-const s2l = v => v<=0.04045 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4);
-const l2s = v => { v=Math.max(0,Math.min(1,v)); return v<=0.0031308 ? 12.92*v : 1.055*Math.pow(v,1/2.4)-0.055 };
-function hexToLin(h){ h=h.replace('#',''); return [0,2,4].map(i=>s2l(parseInt(h.substr(i,2),16)/255)) }
-function linToHex(c){ return '#'+c.map(v=>Math.round(l2s(v)*255).toString(16).padStart(2,'0')).join('').toUpperCase() }
-function linToLab(c){
-  const [r,g,b]=c;
-  const X=(0.4124564*r+0.3575761*g+0.1804375*b)/0.95047, Y=0.2126729*r+0.7151522*g+0.0721750*b, Z=(0.0193339*r+0.1191920*g+0.9503041*b)/1.08883;
-  const f=t=>t>0.008856?Math.cbrt(t):7.787*t+16/116;
-  const fx=f(X),fy=f(Y),fz=f(Z);
-  return [116*fy-16, 500*(fx-fy), 200*(fy-fz)];
+/* ================= Ciencia del color ================= */
+const s2l=v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);
+const l2s=v=>{v=Math.max(0,Math.min(1,v));return v<=0.0031308?12.92*v:1.055*Math.pow(v,1/2.4)-0.055};
+const hexToLin=h=>{h=h.replace('#','');return [0,2,4].map(i=>s2l(parseInt(h.substr(i,2),16)/255))};
+const linToHex=c=>'#'+c.map(v=>Math.round(l2s(v)*255).toString(16).padStart(2,'0')).join('').toUpperCase();
+function linToLab([r,g,b]){
+  const X=(0.4124564*r+0.3575761*g+0.1804375*b)/0.95047,Y=0.2126729*r+0.7151522*g+0.0721750*b,Z=(0.0193339*r+0.1191920*g+0.9503041*b)/1.08883;
+  const f=t=>t>0.008856?Math.cbrt(t):7.787*t+16/116; const fx=f(X),fy=f(Y),fz=f(Z);
+  return [116*fy-16,500*(fx-fy),200*(fy-fz)];
 }
 function labToLin([L,a,b]){
-  const fy=(L+16)/116, fx=fy+a/500, fz=fy-b/200;
-  const fi=t=>{const t3=t*t*t; return t3>0.008856?t3:(t-16/116)/7.787};
-  const X=0.95047*fi(fx), Y=fi(fy), Z=1.08883*fi(fz);
-  return [3.2404542*X-1.5371385*Y-0.4985314*Z, -0.9692660*X+1.8760108*Y+0.0415560*Z, 0.0556434*X-0.2040259*Y+1.0572252*Z].map(v=>Math.max(0,Math.min(1,v)));
+  const fy=(L+16)/116,fx=fy+a/500,fz=fy-b/200,fi=t=>{const t3=t*t*t;return t3>0.008856?t3:(t-16/116)/7.787};
+  const X=0.95047*fi(fx),Y=fi(fy),Z=1.08883*fi(fz);
+  return [3.2404542*X-1.5371385*Y-0.4985314*Z,-0.9692660*X+1.8760108*Y+0.0415560*Z,0.0556434*X-0.2040259*Y+1.0572252*Z].map(v=>Math.max(0,Math.min(1,v)));
 }
 const dE76=(p,q)=>Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2]);
 function dE00(l1,l2){
-  const [L1,a1,b1]=l1,[L2,a2,b2]=l2, rad=Math.PI/180;
-  const C1=Math.hypot(a1,b1),C2=Math.hypot(a2,b2),Cb=(C1+C2)/2;
-  const G=0.5*(1-Math.sqrt(Math.pow(Cb,7)/(Math.pow(Cb,7)+Math.pow(25,7))));
-  const a1p=(1+G)*a1,a2p=(1+G)*a2, C1p=Math.hypot(a1p,b1),C2p=Math.hypot(a2p,b2);
-  const h=(b,a)=>{ if(a===0&&b===0) return 0; let x=Math.atan2(b,a)/rad; return x<0?x+360:x };
-  const h1p=h(b1,a1p),h2p=h(b2,a2p);
-  const dLp=L2-L1,dCp=C2p-C1p;
-  let dhp=0; if(C1p*C2p!==0){ dhp=h2p-h1p; if(dhp>180) dhp-=360; else if(dhp<-180) dhp+=360 }
-  const dHp=2*Math.sqrt(C1p*C2p)*Math.sin(dhp*rad/2);
-  const Lbp=(L1+L2)/2,Cbp=(C1p+C2p)/2;
-  let hbp=h1p+h2p; if(C1p*C2p!==0){ if(Math.abs(h1p-h2p)>180) hbp+= (h1p+h2p<360)?360:-360; hbp/=2 }
+  const [L1,a1,b1]=l1,[L2,a2,b2]=l2,rad=Math.PI/180,p7=x=>Math.pow(x,7);
+  const Cb=(Math.hypot(a1,b1)+Math.hypot(a2,b2))/2,G=0.5*(1-Math.sqrt(p7(Cb)/(p7(Cb)+p7(25))));
+  const a1p=(1+G)*a1,a2p=(1+G)*a2,C1p=Math.hypot(a1p,b1),C2p=Math.hypot(a2p,b2);
+  const h=(b,a)=>{if(a===0&&b===0)return 0;let x=Math.atan2(b,a)/rad;return x<0?x+360:x};
+  const h1p=h(b1,a1p),h2p=h(b2,a2p),dLp=L2-L1,dCp=C2p-C1p;
+  let dhp=0;if(C1p*C2p!==0){dhp=h2p-h1p;if(dhp>180)dhp-=360;else if(dhp<-180)dhp+=360}
+  const dHp=2*Math.sqrt(C1p*C2p)*Math.sin(dhp*rad/2),Lbp=(L1+L2)/2,Cbp=(C1p+C2p)/2;
+  let hbp=h1p+h2p;if(C1p*C2p!==0){if(Math.abs(h1p-h2p)>180)hbp+=(h1p+h2p<360)?360:-360;hbp/=2}
   const T=1-0.17*Math.cos((hbp-30)*rad)+0.24*Math.cos(2*hbp*rad)+0.32*Math.cos((3*hbp+6)*rad)-0.20*Math.cos((4*hbp-63)*rad);
-  const dth=30*Math.exp(-Math.pow((hbp-275)/25,2));
-  const Rc=2*Math.sqrt(Math.pow(Cbp,7)/(Math.pow(Cbp,7)+Math.pow(25,7)));
-  const Sl=1+0.015*Math.pow(Lbp-50,2)/Math.sqrt(20+Math.pow(Lbp-50,2)), Sc=1+0.045*Cbp, Sh=1+0.015*Cbp*T, Rt=-Math.sin(2*dth*rad)*Rc;
+  const dth=30*Math.exp(-Math.pow((hbp-275)/25,2)),Rc=2*Math.sqrt(p7(Cbp)/(p7(Cbp)+p7(25)));
+  const Sl=1+0.015*Math.pow(Lbp-50,2)/Math.sqrt(20+Math.pow(Lbp-50,2)),Sc=1+0.045*Cbp,Sh=1+0.015*Cbp*T,Rt=-Math.sin(2*dth*rad)*Rc;
   return Math.sqrt(Math.pow(dLp/Sl,2)+Math.pow(dCp/Sc,2)+Math.pow(dHp/Sh,2)+Rt*(dCp/Sc)*(dHp/Sh));
 }
 
-/* ---------- Tintes genéricos (modelo Kubelka-Munk por canal) ---------- */
-const TONERS = [
-  {id:'W', name:'Blanco titanio', hex:'#F6F6F3', S:1.00, d:1.45},
-  {id:'K', name:'Negro carbón', hex:'#111214', S:0.12, d:1.05},
-  {id:'YL',name:'Amarillo limón', hex:'#F2D31B', S:0.15, d:1.10},
-  {id:'YM',name:'Amarillo cálido', hex:'#EFA81C', S:0.15, d:1.10},
-  {id:'YO',name:'Amarillo óxido', hex:'#C38F2E', S:0.45, d:1.30},
-  {id:'OR',name:'Naranja', hex:'#E5601E', S:0.18, d:1.10},
-  {id:'RB',name:'Rojo brillante', hex:'#C4142C', S:0.15, d:1.10},
-  {id:'RP',name:'Rojo naranja (pirrol)', hex:'#D0221B', S:0.18, d:1.10},
-  {id:'RX',name:'Rojo óxido', hex:'#7E3322', S:0.45, d:1.30},
-  {id:'RM',name:'Rojo magenta', hex:'#8C1A4C', S:0.12, d:1.08},
-  {id:'VI',name:'Violeta', hex:'#3F2770', S:0.10, d:1.06},
-  {id:'BP',name:'Azul ftalo', hex:'#0B3A8A', S:0.08, d:1.06},
-  {id:'BU',name:'Azul ultramar', hex:'#26389B', S:0.12, d:1.12},
-  {id:'GP',name:'Verde ftalo', hex:'#0B6A4D', S:0.08, d:1.06},
-  {id:'AL',name:'Aluminio medio', hex:'#B5B8BB', S:0.60, d:1.00, fx:true},
-  {id:'PE',name:'Perla blanca', hex:'#ECEAE3', S:0.50, d:1.02, fx:true}
+/* ================= Tintes (Kubelka-Munk por canal) ================= */
+const TONERS=[
+  {id:'W',name:'Blanco titanio',hex:'#F6F6F3',S:1.00,d:1.45},
+  {id:'K',name:'Negro carbón',hex:'#111214',S:0.12,d:1.05},
+  {id:'YL',name:'Amarillo limón',hex:'#F2D31B',S:0.15,d:1.10},
+  {id:'YM',name:'Amarillo cálido',hex:'#EFA81C',S:0.15,d:1.10},
+  {id:'YO',name:'Amarillo óxido',hex:'#C38F2E',S:0.45,d:1.30},
+  {id:'OR',name:'Naranja',hex:'#E5601E',S:0.18,d:1.10},
+  {id:'RP',name:'Rojo naranja (pirrol)',hex:'#D0221B',S:0.18,d:1.10},
+  {id:'RB',name:'Rojo brillante',hex:'#C4142C',S:0.15,d:1.10},
+  {id:'RX',name:'Rojo óxido',hex:'#7E3322',S:0.45,d:1.30},
+  {id:'RM',name:'Rojo magenta',hex:'#8C1A4C',S:0.12,d:1.08},
+  {id:'VI',name:'Violeta',hex:'#3F2770',S:0.10,d:1.06},
+  {id:'BP',name:'Azul ftalo',hex:'#0B3A8A',S:0.08,d:1.06},
+  {id:'BU',name:'Azul ultramar',hex:'#26389B',S:0.12,d:1.12},
+  {id:'GP',name:'Verde ftalo',hex:'#0B6A4D',S:0.08,d:1.06},
+  {id:'AL',name:'Aluminio medio',hex:'#B5B8BB',S:0.60,d:1.00,fx:true},
+  {id:'PE',name:'Perla blanca',hex:'#ECEAE3',S:0.50,d:1.02,fx:true}
 ];
-const TBY = {}; TONERS.forEach(t=>{
-  t.lin=hexToLin(t.hex);
-  t.K=t.lin.map(R=>{R=Math.min(0.995,Math.max(0.002,R)); return (1-R)*(1-R)/(2*R)*t.S});
-  TBY[t.id]=t;
-});
+const TBY={};TONERS.forEach(t=>{t.lin=hexToLin(t.hex);t.K=t.lin.map(R=>{R=Math.min(0.995,Math.max(0.002,R));return (1-R)*(1-R)/(2*R)*t.S});TBY[t.id]=t});
 const CHROMA=['YL','YM','YO','OR','RP','RB','RX','RM','VI','BP','BU','GP'];
-
-function mix(ids,c){
-  const out=[0,0,0];
-  for(let ch=0;ch<3;ch++){
-    let K=0,S=0;
-    for(let i=0;i<ids.length;i++){ const t=TBY[ids[i]]; K+=c[i]*t.K[ch]; S+=c[i]*t.S }
-    const ks=K/S; out[ch]=1+ks-Math.sqrt(ks*ks+2*ks);
-  }
-  return out;
-}
-function softmax(x){ const m=Math.max(...x); const e=x.map(v=>Math.exp(v-m)); const s=e.reduce((a,b)=>a+b,0); return e.map(v=>v/s) }
-
+function mix(ids,c){const o=[0,0,0];for(let ch=0;ch<3;ch++){let K=0,S=0;for(let i=0;i<ids.length;i++){const t=TBY[ids[i]];K+=c[i]*t.K[ch];S+=c[i]*t.S}const ks=K/S;o[ch]=1+ks-Math.sqrt(ks*ks+2*ks)}return o}
+function softmax(x){const m=Math.max(...x),e=x.map(v=>Math.exp(v-m)),s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)}
 function optimize(ids,target,keepAll){
-  let x=ids.map(id=> id==='W'||id==='AL' ? 2 : 0);
-  if(target[0]<35 && ids.includes('K')) x[ids.indexOf('K')]=1.5;
-  const f=x=>dE76(linToLab(mix(ids,softmax(x))),target);
-  let fb=f(x);
-  for(const step of [3,1.5,0.7,0.3,0.12,0.05,0.02]){
-    for(let it=0;it<25;it++){
-      let moved=false;
-      for(let i=0;i<x.length;i++){
-        for(const s of [step,-step]){
-          const y=x.slice(); y[i]+=s; const fy=f(y);
-          if(fy<fb-1e-6){ x=y; fb=fy; moved=true; break }
-        }
-      }
-      if(!moved) break;
-    }
-  }
-  let c=softmax(x), use=ids.slice();
-  if(!keepAll){
-    const keep=c.map(v=>v>=0.0015); use=ids.filter((_,i)=>keep[i]); c=c.filter((_,i)=>keep[i]);
-    const s=c.reduce((a,b)=>a+b,0); c=c.map(v=>v/s);
-  }
-  const lin=mix(use,c), lab=linToLab(lin);
-  return {ids:use,c,lin,lab,dE:dE00(lab,target)};
+  let x=ids.map(id=>id==='W'||id==='AL'?2:0);if(target[0]<35&&ids.includes('K'))x[ids.indexOf('K')]=1.5;
+  const f=x=>dE76(linToLab(mix(ids,softmax(x))),target);let fb=f(x);
+  for(const step of [3,1.5,0.7,0.3,0.12,0.05,0.02]){for(let it=0;it<25;it++){let mv=false;for(let i=0;i<x.length;i++){for(const s of [step,-step]){const y=x.slice();y[i]+=s;const fy=f(y);if(fy<fb-1e-6){x=y;fb=fy;mv=true;break}}}if(!mv)break}}
+  let c=softmax(x),use=ids.slice();
+  if(!keepAll){const k=c.map(v=>v>=0.0015);use=ids.filter((_,i)=>k[i]);c=c.filter((_,i)=>k[i]);const s=c.reduce((a,b)=>a+b,0);c=c.map(v=>v/s)}
+  const lin=mix(use,c),lab=linToLab(lin);return {ids:use,c,lin,lab,dE:dE00(lab,target)};
 }
-function baseSet(fin){ return fin==='M'?['AL','K']:(fin==='P'||fin==='T')?['W','PE','K']:['W','K'] }
+const baseSet=fin=>fin==='M'?['AL','K']:(fin==='P'||fin==='T')?['W','PE','K']:['W','K'];
 const cache=new Map();
 function solve(target,fin){
-  const key=fin+target.map(v=>v.toFixed(1)).join(',');
-  if(cache.has(key)) return cache.get(key);
-  const base=baseSet(fin), sets=[base];
-  CHROMA.forEach((a,i)=>{ sets.push([...base,a]); CHROMA.slice(i+1).forEach(b=>sets.push([...base,a,b])) });
-  let best=null;
-  for(const s of sets){
-    const r=optimize(s,target); r.score=r.dE+0.12*r.ids.length;
-    if(!best||r.score<best.score) best=r;
-  }
-  // ordenar: el tinte de mayor cantidad primero
-  const ord=best.ids.map((id,i)=>[id,best.c[i]]).sort((a,b)=>b[1]-a[1]);
-  best.ids=ord.map(o=>o[0]); best.c=ord.map(o=>o[1]);
-  cache.set(key,best); return best;
+  const key=fin+target.map(v=>v.toFixed(1)).join(',');if(cache.has(key))return cache.get(key);
+  const base=baseSet(fin),sets=[base];CHROMA.forEach((a,i)=>{sets.push([...base,a]);CHROMA.slice(i+1).forEach(b=>sets.push([...base,a,b]))});
+  let best=null;for(const s of sets){const r=optimize(s,target);r.score=r.dE+0.12*r.ids.length;if(!best||r.score<best.score)best=r}
+  const ord=best.ids.map((id,i)=>[id,best.c[i]]).sort((a,b)=>b[1]-a[1]);best.ids=ord.map(o=>o[0]);best.c=ord.map(o=>o[1]);
+  cache.set(key,best);return best;
 }
 
-/* ---------- Base de datos de colores (valores en pantalla aproximados) ---------- */
-// [marca, código, nombre, acabado S/M/P/T, hex aproximado]
-const RAW = `Toyota|040|Super White|S|#F3F3F1
-Toyota|070|Blizzard Pearl|T|#F1F0EB
-Toyota|089|Wind Chill Pearl|T|#EFEEE8
-Toyota|1F7|Classic Silver Metallic|M|#B9BCBF
-Toyota|1G3|Magnetic Gray Metallic|M|#5A5D61
-Toyota|202|Black|S|#0F1012
-Toyota|218|Attitude Black Mica|P|#17181B
-Toyota|3R3|Barcelona Red Metallic|M|#8E1B1F
-Toyota|8X8|Blueprint|P|#203A5E
-Honda|NH-731P|Crystal Black Pearl|P|#121315
-Honda|NH-578|Taffeta White|S|#F2F2EE
-Honda|NH-883P|Platinum White Pearl|T|#F0EFEA
-Honda|NH-700M|Alabaster Silver Metallic|M|#B8BBBE
-Honda|NH-797M|Modern Steel Metallic|M|#5B5E62
-Honda|NH-830M|Lunar Silver Metallic|M|#A9ADB1
-Honda|R-513|Rallye Red|S|#BF121C
-Honda|R-81|Milano Red|S|#B3141C
-Honda|B-588P|Obsidian Blue Pearl|P|#1E2A44
-Honda|B-593M|Aegean Blue Metallic|M|#2F4C79
-Ford|YZ|Oxford White|S|#F3F3F0
-Ford|UA|Ebony / Absolute Black|S|#0F1012
-Ford|G1|Shadow Black|P|#141517
-Ford|PQ|Race Red|S|#BF141C
-Ford|E4|Ingot Silver Metallic|M|#A7AAAD
-Ford|J7|Magnetic Metallic|M|#4E5155
-Ford|UG|White Platinum Tri-Coat|T|#EDEBE4
-Ford|RR|Ruby Red Metallic Tinted|M|#7E1220
-Chevrolet / GMC|GAZ|Summit White (WA8624)|S|#F4F4F2
-Chevrolet / GMC|GBA|Black (WA8555)|S|#0E0F11
-Chevrolet / GMC|GAN|Switchblade Silver Metallic|M|#A6A9AC
-Chevrolet / GMC|G7C|Red Hot|S|#C0131D
-Chevrolet / GMC|GB8|Mosaic Black Metallic|M|#1B1C1F
-Nissan|KH3|Super Black|S|#0F1012
-Nissan|QAB|Pearl White Tricoat|T|#F1F0EA
-Nissan|QM1|Fresh Powder|S|#F2F2EF
-Nissan|K23|Brilliant Silver Metallic|M|#ADB0B3
-Nissan|KAD|Gun Metallic|M|#4F5257
-Nissan|G41|Magnetic Black Pearl|P|#18191C
-Nissan|NAH|Scarlet Ember Tintcoat|M|#A3131E
-Nissan|RAY|Deep Blue Pearl|P|#1F2D4F
-Volkswagen|LB9A|Candy White|S|#F1F1EE
-Volkswagen|LC9X|Deep Black Pearl|P|#121315
-Volkswagen|LA7W|Reflex Silver Metallic|M|#B4B7BA
-Volkswagen|LD7X|Platinum Gray Metallic|M|#6A6D70
-Volkswagen|LY3D|Tornado Red|S|#C6161D
-BMW|300|Alpine White III|S|#F2F2EF
-BMW|668|Jet Black|S|#0E0F11
-BMW|475|Black Sapphire Metallic|M|#151619
-BMW|A96|Mineral White Metallic|P|#E8E8E4
-BMW|A52|Space Gray Metallic|M|#5E6166
-BMW|B39|Mineral Grey Metallic|M|#5A5D61
-BMW|A75|Melbourne Red Metallic|M|#7A1A22
-Mercedes-Benz|040|Black|S|#0E0F11
-Mercedes-Benz|149|Polar White|S|#F2F2EF
-Mercedes-Benz|197|Obsidian Black Metallic|M|#141518
-Mercedes-Benz|775|Iridium Silver Metallic|M|#B3B6B9
-Mercedes-Benz|792|Palladium Silver Metallic|M|#A0A4A7
-Mercedes-Benz|799|Diamond White|T|#EFEEE9
-Tesla|PPSW|Pearl White Multi-Coat|T|#EFEEE9
-Tesla|PBSB|Solid Black|S|#0F1012
-Tesla|PMNG|Midnight Silver Metallic|M|#4D5156
-Tesla|PMSS|Silver Metallic|M|#B0B3B6
-Tesla|PPSB|Deep Blue Metallic|M|#22355E
-Tesla|PPMR|Red Multi-Coat|T|#9E1420
-Ram / Dodge / Jeep|PW7|Bright White|S|#F3F3F0
-Ram / Dodge / Jeep|PX8|Black|S|#0E0F11
-Ram / Dodge / Jeep|PXR|Diamond Black Crystal Pearl|P|#121315
-Ram / Dodge / Jeep|PAU|Granite Crystal Metallic|M|#4C5054
-Ram / Dodge / Jeep|PSC|Billet Silver Metallic|M|#A9ACAF
-Ram / Dodge / Jeep|PDN|Destroyer Gray|S|#5F6266
-Ram / Dodge / Jeep|PR4|Flame Red|S|#BF131C
-Ram / Dodge / Jeep|PRV|Velvet Red Pearl|P|#6E1420
-Subaru|K1X|Crystal Black Silica|P|#131416
-Subaru|37J|Crystal White Pearl|T|#EFEEE9
-Subaru|G1U|Ice Silver Metallic|M|#B5B8BB
-Subaru|61K|Magnetite Gray Metallic|M|#4E5256
-Subaru|K7X|WR Blue Pearl|P|#1E4A9A
-Mazda|46V|Soul Red Crystal Metallic|T|#A0101E
-Mazda|41V|Soul Red Metallic|M|#9A111D
-Mazda|41W|Jet Black Mica|P|#121315
-Mazda|25D|Snowflake White Pearl Mica|T|#EEEDE8
-Mazda|46G|Machine Gray Metallic|M|#6B6E71
-Mazda|42M|Deep Crystal Blue Mica|P|#1E2C4A
-Mazda|45P|Sonic Silver Metallic|M|#A9ACAF
-Kia|UD|Clear White|S|#F3F3F1
-Kia|SWP|Snow White Pearl|T|#EFEEE9
-Kia|ABP|Aurora Black Pearl|P|#141517
-RAL (industrial)|RAL 1003|Amarillo señales|S|#F9A900
-RAL (industrial)|RAL 1015|Marfil claro|S|#E6D2B5
-RAL (industrial)|RAL 1023|Amarillo tráfico|S|#F7B500
-RAL (industrial)|RAL 2004|Naranja puro|S|#F44611
-RAL (industrial)|RAL 3000|Rojo vivo|S|#A72920
-RAL (industrial)|RAL 3020|Rojo tráfico|S|#C1121C
-RAL (industrial)|RAL 5002|Azul ultramar|S|#20214F
-RAL (industrial)|RAL 5005|Azul señales|S|#005387
-RAL (industrial)|RAL 5010|Azul genciana|S|#004F7C
-RAL (industrial)|RAL 5015|Azul celeste|S|#007CB0
-RAL (industrial)|RAL 6005|Verde musgo|S|#0F4336
-RAL (industrial)|RAL 6018|Verde amarillento|S|#48A43F
-RAL (industrial)|RAL 6029|Verde menta|S|#006F3D
-RAL (industrial)|RAL 7016|Gris antracita|S|#383E42
-RAL (industrial)|RAL 7035|Gris luminoso|S|#CBD0CC
-RAL (industrial)|RAL 7040|Gris ventana|S|#9DA1AA
-RAL (industrial)|RAL 8017|Marrón chocolate|S|#442F29
-RAL (industrial)|RAL 9001|Blanco crema|S|#E9E0D2
-RAL (industrial)|RAL 9003|Blanco señales|S|#ECECE7
-RAL (industrial)|RAL 9005|Negro intenso|S|#0A0A0A
-RAL (industrial)|RAL 9006|Aluminio blanco|M|#A1A1A0
-RAL (industrial)|RAL 9010|Blanco puro|S|#F1ECE1`;
-const BASE = RAW.split('\n').map(l=>{ const [marca,codigo,nombre,acabado,hex]=l.split('|'); return {marca,codigo,nombre,acabado,hex,src:'base'} });
-let IMPORTED = store.get('imported',[]);
-const allColors = () => IMPORTED.concat(BASE);
-const FIN = {S:'Sólido',M:'Metálico',P:'Perlado',T:'Tricapa'};
-const norm = s => String(s).toUpperCase().replace(/[\s\-_.\/()]/g,'');
+/* ================= Base de colores ================= */
+// marca|código|nombre|acabado|hex aproximado|alias (lo que también aparece en la etiqueta)
+const RAW=`Toyota|040|Super White|S|#F3F3F1|
+Toyota|070|Blizzard Pearl|T|#F1F0EB|
+Toyota|089|Wind Chill Pearl|T|#EFEEE8|
+Toyota|1F7|Classic Silver Metallic|M|#B9BCBF|
+Toyota|1G3|Magnetic Gray Metallic|M|#5A5D61|
+Toyota|202|Black|S|#0F1012|
+Toyota|218|Attitude Black Mica|P|#17181B|
+Toyota|3R3|Barcelona Red Metallic|M|#8E1B1F|
+Toyota|8X8|Blueprint|P|#203A5E|
+Honda|NH-731P|Crystal Black Pearl|P|#121315|
+Honda|NH-578|Taffeta White|S|#F2F2EE|
+Honda|NH-883P|Platinum White Pearl|T|#F0EFEA|
+Honda|NH-700M|Alabaster Silver Metallic|M|#B8BBBE|
+Honda|NH-797M|Modern Steel Metallic|M|#5B5E62|
+Honda|NH-830M|Lunar Silver Metallic|M|#A9ADB1|
+Honda|R-513|Rallye Red|S|#BF121C|
+Honda|R-81|Milano Red|S|#B3141C|
+Honda|B-588P|Obsidian Blue Pearl|P|#1E2A44|
+Honda|B-593M|Aegean Blue Metallic|M|#2F4C79|
+Ford|YZ|Oxford White|S|#F3F3F0|
+Ford|UA|Ebony / Absolute Black|S|#0F1012|
+Ford|G1|Shadow Black|P|#141517|
+Ford|PQ|Race Red|S|#BF141C|
+Ford|E4|Ingot Silver Metallic|M|#A7AAAD|
+Ford|J7|Magnetic Metallic|M|#4E5155|
+Ford|UG|White Platinum Tri-Coat|T|#EDEBE4|
+Ford|RR|Ruby Red Metallic Tinted|M|#7E1220|
+Chevrolet / GMC|GAZ|Summit White|S|#F4F4F2|WA8624 U8624 8624 50U
+Chevrolet / GMC|GBA|Black|S|#0E0F11|WA8555 U8555 8555 41U
+Chevrolet / GMC|GAN|Switchblade Silver Metallic|M|#A6A9AC|WA636R U636R 636R
+Chevrolet / GMC|G7C|Red Hot|S|#C0131D|WA130X U130X 130X
+Chevrolet / GMC|GB8|Mosaic Black Metallic|M|#1B1C1F|
+Chevrolet / GMC|G9K|Satin Steel Metallic|M|#7A7D80|
+Chevrolet / GMC|G1W|Iridescent Pearl Tricoat|T|#EFEEE8|
+Nissan|KH3|Super Black|S|#0F1012|
+Nissan|QAB|Pearl White Tricoat|T|#F1F0EA|
+Nissan|QM1|Fresh Powder|S|#F2F2EF|
+Nissan|K23|Brilliant Silver Metallic|M|#ADB0B3|
+Nissan|KAD|Gun Metallic|M|#4F5257|
+Nissan|G41|Magnetic Black Pearl|P|#18191C|
+Nissan|NAH|Scarlet Ember Tintcoat|M|#A3131E|
+Nissan|RAY|Deep Blue Pearl|P|#1F2D4F|
+Volkswagen|LB9A|Candy White|S|#F1F1EE|
+Volkswagen|LC9X|Deep Black Pearl|P|#121315|
+Volkswagen|LA7W|Reflex Silver Metallic|M|#B4B7BA|
+Volkswagen|LD7X|Platinum Gray Metallic|M|#6A6D70|
+Volkswagen|LY3D|Tornado Red|S|#C6161D|
+BMW|300|Alpine White III|S|#F2F2EF|
+BMW|668|Jet Black|S|#0E0F11|
+BMW|475|Black Sapphire Metallic|M|#151619|
+BMW|A96|Mineral White Metallic|P|#E8E8E4|
+BMW|A52|Space Gray Metallic|M|#5E6166|
+BMW|B39|Mineral Grey Metallic|M|#5A5D61|
+BMW|A75|Melbourne Red Metallic|M|#7A1A22|
+Mercedes-Benz|040|Black|S|#0E0F11|
+Mercedes-Benz|149|Polar White|S|#F2F2EF|
+Mercedes-Benz|197|Obsidian Black Metallic|M|#141518|
+Mercedes-Benz|775|Iridium Silver Metallic|M|#B3B6B9|
+Mercedes-Benz|792|Palladium Silver Metallic|M|#A0A4A7|
+Mercedes-Benz|799|Diamond White|T|#EFEEE9|
+Tesla|PPSW|Pearl White Multi-Coat|T|#EFEEE9|
+Tesla|PBSB|Solid Black|S|#0F1012|
+Tesla|PMNG|Midnight Silver Metallic|M|#4D5156|
+Tesla|PMSS|Silver Metallic|M|#B0B3B6|
+Tesla|PPSB|Deep Blue Metallic|M|#22355E|
+Tesla|PPMR|Red Multi-Coat|T|#9E1420|
+Ram / Dodge / Jeep|PW7|Bright White|S|#F3F3F0|
+Ram / Dodge / Jeep|PX8|Black|S|#0E0F11|
+Ram / Dodge / Jeep|PXR|Diamond Black Crystal Pearl|P|#121315|
+Ram / Dodge / Jeep|PAU|Granite Crystal Metallic|M|#4C5054|
+Ram / Dodge / Jeep|PSC|Billet Silver Metallic|M|#A9ACAF|
+Ram / Dodge / Jeep|PDN|Destroyer Gray|S|#5F6266|
+Ram / Dodge / Jeep|PR4|Flame Red|S|#BF131C|
+Ram / Dodge / Jeep|PRV|Velvet Red Pearl|P|#6E1420|
+Subaru|K1X|Crystal Black Silica|P|#131416|
+Subaru|37J|Crystal White Pearl|T|#EFEEE9|
+Subaru|G1U|Ice Silver Metallic|M|#B5B8BB|
+Subaru|61K|Magnetite Gray Metallic|M|#4E5256|
+Subaru|K7X|WR Blue Pearl|P|#1E4A9A|
+Mazda|46V|Soul Red Crystal Metallic|T|#A0101E|
+Mazda|41V|Soul Red Metallic|M|#9A111D|
+Mazda|41W|Jet Black Mica|P|#121315|
+Mazda|25D|Snowflake White Pearl Mica|T|#EEEDE8|
+Mazda|46G|Machine Gray Metallic|M|#6B6E71|
+Mazda|42M|Deep Crystal Blue Mica|P|#1E2C4A|
+Mazda|45P|Sonic Silver Metallic|M|#A9ACAF|
+Kia / Hyundai|UD|Clear White (Kia)|S|#F3F3F1|
+Kia / Hyundai|SWP|Snow White Pearl (Kia)|T|#EFEEE9|
+Kia / Hyundai|ABP|Aurora Black Pearl (Kia)|P|#141517|
+Kia / Hyundai|NKA|Phantom Black Pearl (Hyundai)|P|#131416|
+RAL (industrial)|RAL 1003|Amarillo señales|S|#F9A900|1003
+RAL (industrial)|RAL 1015|Marfil claro|S|#E6D2B5|1015
+RAL (industrial)|RAL 1023|Amarillo tráfico|S|#F7B500|1023
+RAL (industrial)|RAL 2004|Naranja puro|S|#F44611|2004
+RAL (industrial)|RAL 3000|Rojo vivo|S|#A72920|3000
+RAL (industrial)|RAL 3020|Rojo tráfico|S|#C1121C|3020
+RAL (industrial)|RAL 5002|Azul ultramar|S|#20214F|5002
+RAL (industrial)|RAL 5005|Azul señales|S|#005387|5005
+RAL (industrial)|RAL 5010|Azul genciana|S|#004F7C|5010
+RAL (industrial)|RAL 5015|Azul celeste|S|#007CB0|5015
+RAL (industrial)|RAL 6005|Verde musgo|S|#0F4336|6005
+RAL (industrial)|RAL 6018|Verde amarillento|S|#48A43F|6018
+RAL (industrial)|RAL 6029|Verde menta|S|#006F3D|6029
+RAL (industrial)|RAL 7016|Gris antracita|S|#383E42|7016
+RAL (industrial)|RAL 7035|Gris luminoso|S|#CBD0CC|7035
+RAL (industrial)|RAL 7040|Gris ventana|S|#9DA1AA|7040
+RAL (industrial)|RAL 8017|Marrón chocolate|S|#442F29|8017
+RAL (industrial)|RAL 9001|Blanco crema|S|#E9E0D2|9001
+RAL (industrial)|RAL 9003|Blanco señales|S|#ECECE7|9003
+RAL (industrial)|RAL 9005|Negro intenso|S|#0A0A0A|9005
+RAL (industrial)|RAL 9006|Aluminio blanco|M|#A1A1A0|9006
+RAL (industrial)|RAL 9010|Blanco puro|S|#F1ECE1|9010`;
+const norm=s=>String(s).toUpperCase().replace(/[\s\-_.\/()]/g,'');
+const BASE=RAW.split('\n').map(l=>{const [marca,codigo,nombre,acabado,hex,alias]=l.split('|');return {marca,codigo,nombre,acabado,hex,alias:(alias||'').split(/\s+/).filter(Boolean),src:'base'}});
+let IMPORTED=store.get('imported',[]);
+const allColors=()=>IMPORTED.concat(BASE);
+const FIN={S:'Sólido',M:'Metálico',P:'Perlado',T:'Tricapa'};
 
-/* ---------- Mis tintes ---------- */
-const LINES = ['Genérico (sin marca)','PPG · Deltron / Envirobase','Axalta · Cromax / Nason','Sherwin-Williams · Ultra 7000 / AWX','BASF · Glasurit / R-M','Standox','Sikkens · Autowave','Aerosol a la medida (tienda local)','Otra'];
-let TCFG = store.get('toners',{line:LINES[0],store:'',codes:{},dens:{}});
-const tcode = id => (TCFG.codes[id]||'').trim() || id;
-const tdens = id => +TCFG.dens[id] || TBY[id].d;
+/* Dónde está la etiqueta (ubicación habitual; varía por modelo y año) */
+const WHERE={
+  'Toyota':'Marco de la puerta del conductor. Busca <b>C/TR</b>: el código es lo primero (ej. <b>040</b>).',
+  'Honda':'Marco de la puerta del conductor. Código tipo <b>NH-731P</b> o <b>R-513</b>.',
+  'Ford':'Etiqueta del marco de la puerta del conductor, junto a <b>EXT PNT</b>: 2 caracteres (ej. <b>YZ</b>).',
+  'Chevrolet / GMC':'Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos.',
+  'Nissan':'Marco de la puerta del conductor, junto a <b>COLOR</b> (ej. <b>KH3</b>).',
+  'Volkswagen':'Etiqueta en la cajuela, junto a la llanta de refacción o en el libro de servicio: 4 caracteres que empiezan con <b>L</b> (ej. <b>LB9A</b>).',
+  'BMW':'Marco de la puerta del conductor o bajo el cofre: 3 caracteres (ej. <b>475</b>).',
+  'Mercedes-Benz':'Marco de la puerta del conductor o bajo el cofre: 3 dígitos (ej. <b>197</b>).',
+  'Tesla':'Normalmente no viene en etiqueta: revisa los datos del vehículo o del pedido (ej. <b>PPSW</b>).',
+  'Ram / Dodge / Jeep':'Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>).',
+  'Subaru':'Etiqueta bajo el cofre, en la torre de suspensión o la pared de fuego (ej. <b>K1X</b>).',
+  'Mazda':'Marco de la puerta del conductor (ej. <b>46V</b>).',
+  'Kia / Hyundai':'Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>).',
+  'RAL (industrial)':'Carta RAL: 4 dígitos (ej. <b>9005</b>).'
+};
+/* VIN: marca por los 3 primeros caracteres y año por el décimo */
+const WMI={'Chevrolet / GMC':'1G1 1GC 1GN 1GB 2G1 2GC 2GN 3G1 3GC 3GN 3GT 1GT 1GK 2GK 2GT KL1 KL7 KL8','Ford':'1FA 1FB 1FC 1FD 1FM 1FT 2FA 2FM 2FT 3FA 3FM 3FT MAJ NM0','Honda':'1HG 2HG 3HG 5FN 5J6 5KB JHM 19X 7FA SHH','Toyota':'4T1 4T3 4T4 5TD 5TF 5TE 5YF 2T1 2T3 3TM 3TY 7MU JTD JTE JTH JTJ JTK JTL JTM JTN','Nissan':'1N4 1N6 3N1 3N6 3N8 5N1 5BZ JN1 JN8','Volkswagen':'WVW WVG WV1 WV2 1VW 3VW 3VV','BMW':'WBA WBS WBX WBY 5UX 5UJ 5YM','Mercedes-Benz':'WDD WDC WDB WD3 W1K W1N W1V 4JG 55S','Tesla':'5YJ 7SA 7G2 LRW XP7','Ram / Dodge / Jeep':'1C3 1C4 1C6 2C3 2C4 3C4 3C6 3C7 1D7 3D7 1J4 1J8 ZAC','Subaru':'JF1 JF2 4S3 4S4','Mazda':'JM1 JM3 3MZ 3MV 4F2','Kia / Hyundai':'KNA KND KNM 5XX 5XY 3KP KMH KM8 5NP 5NM 3KM'};
+const WMIMAP={};Object.entries(WMI).forEach(([m,s])=>s.split(' ').forEach(w=>WMIMAP[w]=m));
+function decodeVin(v){
+  v=v.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(v.length!==17)return {err:v.length?`El VIN tiene ${v.length} caracteres; deben ser 17.`:''};
+  if(/[IOQ]/.test(v))return {err:'Un VIN no lleva las letras I, O ni Q. Revisa si es 1 o 0.'};
+  const make=WMIMAP[v.slice(0,3)];
+  const Y='ABCDEFGHJKLMNPRSTVWXY123456789',i=Y.indexOf(v[9]),now=new Date().getFullYear()+1;
+  let year=null;if(i>=0){year=1980+i;if(year+30<=now)year+=30}
+  return {make,year,wmi:v.slice(0,3)};
+}
+/* Pistas por formato del código cuando no hay marca elegida */
+function formatHint(q){
+  if(/^(WA|U|L)[0-9A-Z]{4}$/.test(q)||/^\d{2}U$/.test(q))return 'Chevrolet / GMC';
+  if(/^NH\d{3}[MP]?$/.test(q))return 'Honda';
+  if(/^L[A-Z0-9]\d[A-Z0-9]$/.test(q))return 'Volkswagen';
+  return null;
+}
+/* Búsqueda por nombre en español */
+const ES={blanco:'white',negro:'black',rojo:'red',plata:'silver',plateado:'silver',gris:'gray grey',azul:'blue',perla:'pearl',verde:'green',amarillo:'yellow',naranja:'orange','café':'brown',cafe:'brown','marrón':'brown',vino:'red',guinda:'red',metalico:'metallic','metálico':'metallic'};
 
-/* ---------- Cantidades y piezas ---------- */
+/* ================= Tintes del pintor ================= */
+const LINES=['Genérico (sin marca)','PPG · Deltron / Envirobase','Axalta · Cromax / Nason','Sherwin-Williams · Ultra 7000 / AWX','BASF · Glasurit / R-M','Standox','Sikkens · Autowave','Aerosol a la medida (tienda local)','Otra'];
+let TCFG=Object.assign({line:LINES[0],store:'',codes:{},dens:{},price:{}},store.get('toners',{}));
+TCFG.price=TCFG.price||{};
+const tcode=id=>(TCFG.codes[id]||'').trim()||id;
+const tdens=id=>+TCFG.dens[id]||TBY[id].d;
+
 const PRESETS=[[100,'100 ml'],[250,'250 ml'],[500,'½ L'],[1000,'1 L'],[3785,'1 galón'],[4000,'4 L']];
 const PARTS=[['Espejo',0.10],['Manija',0.05],['Molduras',0.15],['Defensa',0.45],['Salpicadera',0.35],['Puerta',0.45],['Cofre',0.70],['Techo',0.60],['Cajuela',0.45],['Costado completo',1.6],['Carro completo (sedán)',3.0],['SUV / pickup completa',4.0]];
 const SYSTEMS={bicapa:{n:'Bicapa · base 1:1 con reductor',f:1/2},agua:{n:'Base agua · 10% reductor',f:1/1.1},mono:{n:'Monocapa 2K · 4:1:1',f:4/6}};
+const VPRE=[['Quemado de sol',{L:3,C:-12}],['Un punto más claro',{L:2.5}],['Un punto más oscuro',{L:-2.5}],['Más cálido',{a:1,b:3}],['Más frío',{b:-3}]];
 
-/* ---------- Ficha de mezcla ---------- */
-function shade(hex,dL,da,db){ const l=linToLab(hexToLin(hex)); return linToHex(labToLin([l[0]+dL,l[1]+(da||0),l[2]+(db||0)])) }
+/* ================= Dibujo ================= */
+function shade(hex,dL,da,db){const l=linToLab(hexToLin(hex));return linToHex(labToLin([l[0]+dL,l[1]+(da||0),l[2]+(db||0)]))}
 function finishBg(hex,fin){
-  if(fin==='M') return `linear-gradient(125deg, ${shade(hex,16)} 0%, ${hex} 38%, ${shade(hex,-10)} 100%)`;
-  if(fin==='P'||fin==='T') return `linear-gradient(125deg, ${shade(hex,8,-2,-5)} 0%, ${hex} 45%, ${shade(hex,-6,3,5)} 100%)`;
+  if(fin==='M')return `linear-gradient(125deg, ${shade(hex,16)} 0%, ${hex} 38%, ${shade(hex,-10)} 100%)`;
+  if(fin==='P'||fin==='T')return `linear-gradient(125deg, ${shade(hex,8,-2,-5)} 0%, ${hex} 45%, ${shade(hex,-6,3,5)} 100%)`;
   return hex;
 }
-function quality(dE){ return dE<1?['ok','Excelente']:dE<2?['ok','Muy cerca']:dE<4?['warn','Ajustar en carta']:['bad','Aproximado'] }
+function stops(hex,fin){
+  const k=fin==='M'?1:fin==='S'?0.45:0.7,pe=fin==='P'||fin==='T';
+  return [pe?shade(hex,14*k,-2,-6):shade(hex,20*k),hex,shade(hex,-16*k,pe?3:0,pe?5:0)];
+}
+let carN=0;
+const BODY='M30 176 C28 150 44 136 76 130 L170 118 C200 92 236 68 286 62 L400 60 C440 60 470 80 500 112 L580 122 C604 126 614 140 612 160 L610 180 C610 186 606 190 600 190 L530 190 A40 40 0 0 0 450 190 L200 190 A40 40 0 0 0 120 190 L40 190 C34 190 30 186 30 176 Z';
+function Car(el){
+  const n=++carN;this.n=n;
+  const g=id=>`<linearGradient id="${id}${n}" x1="0" y1="0" x2="0" y2="1"><stop offset="0"/><stop offset=".5"/><stop offset="1"/></linearGradient>`;
+  el.innerHTML=`<svg class="car" viewBox="0 0 640 240" role="img" aria-label="Carro pintado con el color">
+    <defs>${g('ga')}${g('gb')}<clipPath id="cp${n}"><rect x="0" y="0" width="0" height="240"/></clipPath>
+    <radialGradient id="mist${n}"><stop offset="0" stop-opacity=".55"/><stop offset="1" stop-opacity="0"/></radialGradient></defs>
+    <ellipse class="shadow" cx="320" cy="206" rx="292" ry="10"/>
+    <path d="${BODY}" fill="url(#ga${n})"/>
+    <g clip-path="url(#cp${n})"><path d="${BODY}" fill="url(#gb${n})"/></g>
+    <path class="crease" d="M58 146 C200 134 420 128 604 138"/>
+    <path class="win" d="M196 116 C220 92 250 76 288 72 L338 72 L338 116 Z"/>
+    <path class="win" d="M350 72 L398 72 C430 72 456 88 478 114 L350 116 Z"/>
+    <path class="seam" d="M342 120 L342 186 M206 122 L206 184"/>
+    <rect x="300" y="132" width="22" height="5" rx="2.5" fill="rgba(0,0,0,.35)"/><rect x="430" y="132" width="22" height="5" rx="2.5" fill="rgba(0,0,0,.35)"/>
+    <ellipse class="lamp" cx="46" cy="148" rx="12" ry="6"/><rect class="tail" x="600" y="136" width="10" height="14" rx="3"/>
+    ${[160,490].map(x=>`<circle class="tire" cx="${x}" cy="192" r="36"/><circle class="rim" cx="${x}" cy="192" r="22"/><circle class="hub" cx="${x}" cy="192" r="7"/>`).join('')}
+    <circle class="mist" cx="0" cy="130" r="70" fill="url(#mist${n})" opacity="0"/>
+  </svg>`;
+  this.svg=el.querySelector('svg');this.a=this.svg.querySelector('#ga'+n);this.b=this.svg.querySelector('#gb'+n);
+  this.clip=this.svg.querySelector('#cp'+n+' rect');this.mist=this.svg.querySelector('.mist');this.mg=this.svg.querySelector('#mist'+n);this.cur=null;
+}
+Car.prototype.set=function(g,s){[...g.children].forEach((st,i)=>st.setAttribute('stop-color',s[i]))};
+Car.prototype.paint=function(hex,fin){
+  const s=stops(hex,fin),key=s.join();
+  if(this.key===key)return;this.key=key;
+  if(!this.cur||RM){this.set(this.a,s);this.cur=s;return}
+  this.set(this.b,s);[...this.mg.children].forEach(st=>st.setAttribute('stop-color',hex));
+  cancelAnimationFrame(this.raf);const t0=performance.now(),D=850;
+  const step=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,3),x=e*660;
+    this.clip.setAttribute('width',x);this.mist.setAttribute('cx',x);this.mist.setAttribute('opacity',p<1?.9:0);
+    if(p<1)this.raf=requestAnimationFrame(step);else{this.set(this.a,s);this.clip.setAttribute('width',0);this.cur=s}};
+  this.raf=requestAnimationFrame(step);
+};
+function countUp(el,to,suffix){
+  if(RM){el.textContent=to.toFixed(1)+suffix;return}
+  const from=parseFloat(el.textContent)||0,t0=performance.now(),D=650;cancelAnimationFrame(el._r);
+  const st=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(1)+suffix;if(p<1)el._r=requestAnimationFrame(st)};
+  el._r=requestAnimationFrame(st);
+}
+const setPaint=(el,hex)=>el.style.setProperty('--paint',hex);
 
+/* ================= Ficha de mezcla ================= */
+function quality(dE){return dE<1?['ok','Excelente']:dE<2?['ok','Muy cerca']:dE<4?['warn','Ajustar en carta']:['bad','Aproximado']}
 function parseFormula(str){
-  // "W:520;K:12" → {ids,c} con códigos genéricos (acepta códigos propios del pintor)
-  const rev={}; Object.keys(TCFG.codes).forEach(id=>{ const c=(TCFG.codes[id]||'').trim(); if(c) rev[norm(c)]=id });
-  const items=String(str).split(/[;|]/).map(s=>s.trim()).filter(Boolean).map(s=>{ const [k,v]=s.split(':'); return [k&&k.trim(),parseFloat(v)] }).filter(x=>x[0]&&x[1]>0);
+  const rev={};Object.keys(TCFG.codes).forEach(id=>{const c=(TCFG.codes[id]||'').trim();if(c)rev[norm(c)]=id});
+  const items=String(str).split(/[;|]/).map(s=>s.trim()).filter(Boolean).map(s=>{const [k,v]=s.split(':');return [k&&k.trim(),parseFloat(v)]}).filter(x=>x[0]&&x[1]>0);
   const ids=[],g=[],unknown=[];
-  items.forEach(([k,v])=>{ const id=TBY[k.toUpperCase()]?k.toUpperCase():rev[norm(k)]; if(id){ ids.push(id); g.push(v) } else unknown.push(k) });
-  const s=g.reduce((a,b)=>a+b,0);
-  return {ids, c:g.map(v=>v/s), unknown};
+  items.forEach(([k,v])=>{const id=TBY[k.toUpperCase()]?k.toUpperCase():rev[norm(k)];if(id){ids.push(id);g.push(v)}else unknown.push(k)});
+  const s=g.reduce((a,b)=>a+b,0);return {ids,c:g.map(v=>v/s),unknown};
 }
-
-function Detail(root){
-  this.root=root; this.qty=250; this.parts=new Set(); this.sys='bicapa'; this.cum=true; this.v={L:0,a:0,b:0,C:0};
-}
-Detail.prototype.load=function(col){
-  this.col=col; this.v={L:0,a:0,b:0,C:0}; this.parts.clear();
-  this.lab=linToLab(hexToLin(col.hex));
-  if(col.formula){
-    const p=parseFormula(col.formula);
-    if(p.ids.length){ const lin=mix(p.ids,p.c), lab=linToLab(lin); this.f={ids:p.ids,c:p.c,lin,lab,dE:dE00(lab,this.lab),imported:true,unknown:p.unknown} }
-  }
-  if(!this.f||!col.formula) this.f=solve(this.lab,col.acabado);
-  if(!col.formula) this.f=Object.assign({},this.f,{imported:false});
+function Detail(root){this.root=root;this.qty=250;this.parts=new Set();this.sys='bicapa';this.cum=true;this.v={L:0,a:0,b:0,C:0}}
+Detail.prototype.load=function(col,extra){
+  this.col=col;this.extra=extra||'';this.v={L:0,a:0,b:0,C:0};this.parts.clear();
+  this.lab=linToLab(hexToLin(col.hex));this.f=null;
+  if(col.formula){const p=parseFormula(col.formula);if(p.ids.length){const lin=mix(p.ids,p.c),lab=linToLab(lin);this.f={ids:p.ids,c:p.c,lin,lab,dE:dE00(lab,this.lab),imported:true,unknown:p.unknown}}}
+  if(!this.f)this.f=Object.assign({},solve(this.lab,col.acabado),{imported:false});
   this.render();
 };
 Detail.prototype.render=function(){
-  const col=this.col,f=this.f,[qc,qt]=quality(f.dE);
-  const mixHex=linToHex(f.lin);
+  const col=this.col,f=this.f,[qc,qt]=quality(f.dE),mixHex=linToHex(f.lin);
   this.root.innerHTML=`
   <article class="panel">
-    <div class="sec">
-      <div class="head">
-        <div class="card" aria-label="Carta de prueba">
-          <div class="face" style="background:${finishBg(col.hex,col.acabado)}"><span>Color del carro</span></div>
-          <div class="split"><div style="background:${col.hex}"><span style="position:absolute;left:6px;bottom:4px;font:700 10px var(--f-body);text-transform:uppercase;background:rgba(255,255,255,.85);color:#1B1A12;padding:1px 5px;border-radius:3px">Meta</span></div><div style="background:${mixHex}"><span style="position:absolute;left:6px;bottom:4px;font:700 10px var(--f-body);text-transform:uppercase;background:rgba(255,255,255,.85);color:#1B1A12;padding:1px 5px;border-radius:3px">Mezcla</span></div></div>
-          <div class="hide"><i style="background:${col.hex};opacity:.92"></i></div>
-        </div>
+    <div class="sec dhead">
+      <div class="dgrid">
+        <div class="dcar"></div>
         <div style="min-width:0">
-          <div class="muted small" style="font-weight:700;letter-spacing:.6px;text-transform:uppercase">${esc(col.marca)}</div>
+          <div class="eyebrow">${esc(col.marca)}${this.extra?' · '+esc(this.extra):''}</div>
           <div class="code">${esc(col.codigo)}</div>
           <div class="cname">${esc(col.nombre)}</div>
-          <div class="meta">
-            <span class="fin">${FIN[col.acabado]||'Sólido'}</span>
-            <span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span>
-            <span class="pill n">${f.imported?'Fórmula importada':'Fórmula calculada'}</span>
-          </div>
-          <p class="note" style="margin:12px 0 0">${f.imported
-            ? 'Fórmula cargada desde tu archivo. La vista previa se calcula con los tintes genéricos.'
-            : 'Fórmula de arranque calculada a partir del color. Haz una carta de prueba y compárala con la pieza a la luz del día antes de pintar.'}
-            ${col.acabado==='M'?' En metálicos el aluminio cambia el brillo de frente y de lado: revisa la carta en ángulo.':''}
-            ${col.acabado==='T'?' Tricapa: esta fórmula es la base de fondo. Encima va la capa de perla y luego el barniz; haz carta con 1, 2 y 3 manos de perla.':''}
-            ${f.unknown&&f.unknown.length?' Tintes que no reconocí: '+esc(f.unknown.join(', '))+'.':''}</p>
+          ${col.alias&&col.alias.length?`<div class="small muted mono" style="margin-top:4px">En la etiqueta también: ${col.alias.map(esc).join(' · ')}</div>`:''}
+          <div class="meta"><span class="fin">${FIN[col.acabado]||'Sólido'}</span><span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span><span class="pill n">${f.imported?'Fórmula importada':'Fórmula calculada'}</span></div>
         </div>
+      </div>
+      <div class="proof">
+        <div class="card" aria-label="Carta de prueba"><div class="split"><div style="background:${col.hex}"><span>Meta</span></div><div style="background:${mixHex}"><span>Mezcla</span></div></div><div class="hide"><i style="background:${mixHex};opacity:.93"></i></div></div>
+        <p class="note">${f.imported?'Fórmula cargada desde tu archivo. La vista previa se calcula con los tintes genéricos.':'Fórmula de arranque calculada a partir del color. Haz carta de prueba y compárala con la pieza a la luz del día antes de pintar.'}${col.acabado==='M'?' En metálicos revisa la carta de frente y de lado: el aluminio cambia con el ángulo.':''}${col.acabado==='T'?' Tricapa: esta es la base de fondo; encima va la perla y luego el barniz. Haz carta con 1, 2 y 3 manos de perla.':''}${f.unknown&&f.unknown.length?' Tintes que no reconocí: '+esc(f.unknown.join(', '))+'.':''}</p>
       </div>
     </div>
 
@@ -570,243 +827,278 @@ Detail.prototype.render=function(){
 
     <div class="sec">
       <h3>Fórmula <small>${esc(TCFG.line)}${TCFG.store?' · '+esc(TCFG.store):''}</small></h3>
-      <div class="scale"><div><div class="lbl">Báscula · total</div><div class="val" id="ftotal">0.0 g</div></div>
+      <div class="scale"><div><div class="lbl">Báscula · total</div><div class="val" id="ftotal">0.0 g</div><div class="cost" id="fcost"></div></div>
         <div class="tools"><button class="btn" type="button" id="fcum">${this.cum?'Ver por tinte':'Ver acumulado'}</button><button class="btn" type="button" id="fcopy">Copiar fórmula</button></div></div>
-      <div class="tablewrap"><table><thead><tr><th>Tinte</th><th class="n">%</th><th class="n">Gramos</th><th class="n" id="fcolh">${this.cum?'Báscula':'—'}</th></tr></thead><tbody id="fbody"></tbody></table></div>
+      <div class="cup" id="fcup" aria-hidden="true"></div>
+      <div class="tablewrap"><table><thead><tr><th>Tinte</th><th class="n">%</th><th class="n">Gramos</th><th class="n" id="fcolh">${this.cum?'Báscula':''}</th></tr></thead><tbody id="fbody"></tbody></table></div>
       <div id="fwarn"></div>
     </div>
 
     <div class="sec">
-      <h3>Variaciones <small>Ajusta el color si la pieza vieja está quemada por el sol o el carro trae variante</small></h3>
+      <h3>Variaciones <small>Para piezas quemadas por el sol o variantes de fábrica</small></h3>
+      <div class="presets" id="vpre">${VPRE.map(([n],i)=>`<button class="chip" type="button" data-i="${i}">${n}</button>`).join('')}</div>
       <div class="var">
         <div style="display:flex;flex-direction:column;gap:12px">
-          ${[['L','Más oscuro','Más claro',-12,12],['a','Más verde','Más rojo',-10,10],['b','Más azul','Más amarillo',-10,10],['C','Más sucio','Más limpio',-30,30]].map(([k,lo,hi,mn,mx])=>
-            `<div class="slider"><span>${lo}</span><input type="range" id="vs-${k}" data-k="${k}" min="${mn}" max="${mx}" step="0.5" value="0" aria-label="${lo} / ${hi}"><span>${hi}</span></div>`).join('')}
+          ${[['L','Más oscuro','Más claro',-12,12],['a','Más verde','Más rojo',-10,10],['b','Más azul','Más amarillo',-10,10],['C','Más sucio','Más limpio',-30,30]].map(([k,lo,hi,mn,mx])=>`<div class="slider"><span>${lo}</span><input type="range" id="vs-${k}" data-k="${k}" min="${mn}" max="${mx}" step="0.5" value="0" aria-label="${lo} / ${hi}"><span>${hi}</span></div>`).join('')}
           <div class="tools"><button class="btn" type="button" id="vreset">Volver al original</button></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="compare"><div style="background:${col.hex}"><span>Original</span></div><div id="vsw"><span>Variación</span></div></div>
+          <div class="compare"><div style="background:${finishBg(col.hex,col.acabado)}"><span>Original</span></div><div id="vsw"><span>Variación</span></div></div>
           <div id="vinfo" class="small muted"></div>
         </div>
       </div>
       <div id="vout"></div>
-      <div class="saverow"><input class="inp" id="vname" placeholder="Nombre para guardar (ej. ${esc(col.codigo)} quemado de sol)"><button class="btn primary" type="button" id="vsave">Guardar en Mis fórmulas</button></div>
+      <div class="saverow"><input class="inp" id="vname" placeholder="Nombre (ej. ${esc(col.codigo)} quemado de sol)"><input class="inp" id="vclient" placeholder="Cliente o placa (opcional)"><button class="btn primary" type="button" id="vsave">Guardar en Mis fórmulas</button></div>
     </div>
   </article>`;
-  this.bind(); this.update(); this.updateVar();
+  this.car=new Car(this.root.querySelector('.dcar'));this.car.paint(col.hex,col.acabado);
+  setPaint(this.root,col.hex);
+  this.bind();this.update(true);this.updateVar();
 };
 Detail.prototype.bind=function(){
   const r=this.root;
-  r.querySelector('#qp').addEventListener('click',e=>{ const b=e.target.closest('[data-ml]'); if(!b) return; this.parts.clear(); this.qty=+b.dataset.ml; this.syncQty() });
-  r.querySelector('#qml').addEventListener('input',e=>{ const v=+e.target.value; if(v>=20){ this.parts.clear(); this.qty=v; this.syncQty(true) } });
-  r.querySelector('#qsys').addEventListener('change',e=>{ this.sys=e.target.value; if(this.parts.size) this.qtyFromParts(); this.syncQty() });
-  r.querySelector('#qparts').addEventListener('click',e=>{ const b=e.target.closest('[data-p]'); if(!b) return; const i=+b.dataset.p; this.parts.has(i)?this.parts.delete(i):this.parts.add(i); this.qtyFromParts(); this.syncQty() });
-  r.querySelector('#fcum').addEventListener('click',e=>{ this.cum=!this.cum; e.target.textContent=this.cum?'Ver por tinte':'Ver acumulado'; r.querySelector('#fcolh').textContent=this.cum?'Báscula':'—'; this.update() });
+  r.querySelector('#qp').addEventListener('click',e=>{const b=e.target.closest('[data-ml]');if(!b)return;this.parts.clear();this.qty=+b.dataset.ml;this.syncQty()});
+  r.querySelector('#qml').addEventListener('input',e=>{const v=+e.target.value;if(v>=20){this.parts.clear();this.qty=v;this.syncQty(true)}});
+  r.querySelector('#qsys').addEventListener('change',e=>{this.sys=e.target.value;if(this.parts.size)this.qtyFromParts();this.syncQty()});
+  r.querySelector('#qparts').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const i=+b.dataset.p;this.parts.has(i)?this.parts.delete(i):this.parts.add(i);this.qtyFromParts();this.syncQty()});
+  r.querySelector('#fcum').addEventListener('click',e=>{this.cum=!this.cum;e.target.textContent=this.cum?'Ver por tinte':'Ver acumulado';r.querySelector('#fcolh').textContent=this.cum?'Báscula':'';this.update()});
   r.querySelector('#fcopy').addEventListener('click',()=>copy(this.formulaText()));
   let raf=0;
-  r.querySelectorAll('input[type=range]').forEach(s=>s.addEventListener('input',e=>{ this.v[e.target.dataset.k]=+e.target.value; cancelAnimationFrame(raf); raf=requestAnimationFrame(()=>this.updateVar()) }));
-  r.querySelector('#vreset').addEventListener('click',()=>{ this.v={L:0,a:0,b:0,C:0}; r.querySelectorAll('input[type=range]').forEach(s=>s.value=0); this.updateVar() });
+  r.querySelectorAll('input[type=range]').forEach(s=>s.addEventListener('input',e=>{this.v[e.target.dataset.k]=+e.target.value;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>this.updateVar())}));
+  r.querySelector('#vpre').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;this.v=Object.assign({L:0,a:0,b:0,C:0},VPRE[+b.dataset.i][1]);this.syncSliders();this.updateVar()});
+  r.querySelector('#vreset').addEventListener('click',()=>{this.v={L:0,a:0,b:0,C:0};this.syncSliders();this.updateVar()});
   r.querySelector('#vsave').addEventListener('click',()=>this.save());
 };
-Detail.prototype.qtyFromParts=function(){
-  const ready=[...this.parts].reduce((s,i)=>s+PARTS[i][1],0);
-  if(ready>0) this.qty=Math.max(100,Math.ceil(ready*SYSTEMS[this.sys].f*1000/50)*50);
-};
+Detail.prototype.syncSliders=function(){Object.keys(this.v).forEach(k=>{this.root.querySelector('#vs-'+k).value=this.v[k]})};
+Detail.prototype.qtyFromParts=function(){const ready=[...this.parts].reduce((s,i)=>s+PARTS[i][1],0);if(ready>0)this.qty=Math.max(100,Math.ceil(ready*SYSTEMS[this.sys].f*1000/50)*50)};
 Detail.prototype.syncQty=function(fromInput){
   const r=this.root;
   r.querySelectorAll('#qp [data-ml]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.ml===this.qty&&!this.parts.size)));
   r.querySelectorAll('#qparts [data-p]').forEach(b=>b.setAttribute('aria-pressed',String(this.parts.has(+b.dataset.p))));
-  if(!fromInput) r.querySelector('#qml').value=Math.round(this.qty);
-  this.update(); this.updateVar();
+  if(!fromInput)r.querySelector('#qml').value=Math.round(this.qty);
+  this.update();this.updateVar();
 };
-Detail.prototype.grams=function(f,ml){
-  const dmix=1/f.ids.reduce((s,id,i)=>s+f.c[i]/tdens(id),0);
-  const W=ml*dmix; return f.c.map(c=>c*W);
-};
-Detail.prototype.update=function(){
-  const r=this.root,f=this.f,g=this.grams(f,this.qty);
-  const total=g.reduce((a,b)=>a+b,0); let acc=0;
-  r.querySelector('#ftotal').textContent=total.toFixed(1)+' g';
-  r.querySelector('#fbody').innerHTML=f.ids.map((id,i)=>{ acc+=g[i]; const t=TBY[id];
-    return `<tr class="cum"><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${esc(tcode(id))}</span><span class="tn">${esc(t.name)}</span></td><td class="n">${(f.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td><td class="n">${this.cum?acc.toFixed(1):''}</td></tr>` }).join('');
-  const sys=SYSTEMS[this.sys], ready=this.qty/sys.f;
-  let tip='';
-  if(this.qty<=260) tip=' Pieza chica: con 250 ml pesas bien los tintes; también puedes pedir el color en aerosol a la medida.';
-  else if(this.qty>=3000) tip=' Trabajo grande: compra la base en galón y prepara todo de una vez para que no varíe entre latas.';
+Detail.prototype.grams=function(f,ml){const dm=1/f.ids.reduce((s,id,i)=>s+f.c[i]/tdens(id),0),W=ml*dm;return f.c.map(c=>c*W)};
+function costOf(f,g){let c=0,miss=false;f.ids.forEach((id,i)=>{const p=+TCFG.price[id];if(p>0)c+=g[i]/tdens(id)/1000*p;else miss=true});return {c,miss}}
+Detail.prototype.update=function(rows){
+  const r=this.root,f=this.f,g=this.grams(f,this.qty),total=g.reduce((a,b)=>a+b,0);let acc=0;
+  countUp(r.querySelector('#ftotal'),total,' g');
+  const cs=costOf(f,g);
+  r.querySelector('#fcost').textContent=cs.c>0?`Costo de tintes: $${cs.c.toFixed(2)}${cs.miss?' (faltan precios)':''}`:'Pon tus precios en Mis tintes para ver el costo';
+  const cup=r.querySelector('#fcup');
+  cup.innerHTML=f.ids.map(id=>`<i style="background:${TBY[id].hex}"></i>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>cup.querySelectorAll('i').forEach((el,i)=>el.style.width=(f.c[i]*100)+'%')));
+  r.querySelector('#fbody').innerHTML=f.ids.map((id,i)=>{acc+=g[i];const t=TBY[id];
+    return `<tr style="animation-delay:${rows?i*60:0}ms"><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${esc(tcode(id))}</span><span class="tn">${esc(t.name)}</span></td><td class="n">${(f.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td><td class="n"><b>${this.cum?acc.toFixed(1):''}</b></td></tr>`}).join('');
+  const sys=SYSTEMS[this.sys],ready=this.qty/sys.f;let tip='';
+  if(this.qty<=260)tip=' Pieza chica: con 250 ml pesas bien los tintes; también puedes pedir aerosol a la medida.';
+  else if(this.qty>=3000)tip=' Trabajo grande: prepara todo de una vez para que no varíe entre latas.';
   r.querySelector('#qsum').innerHTML=`Preparas <b>${(this.qty/1000).toFixed(2)} L</b> de color → <b>${ready>=1000?(ready/1000).toFixed(2)+' L':Math.round(ready)+' ml'}</b> listos para aplicar.${tip}`;
   const tiny=f.ids.filter((id,i)=>g[i]<0.3);
-  r.querySelector('#fwarn').innerHTML=tiny.length?`<p class="warnline" style="margin:0">${tiny.map(tcode).join(', ')}: menos de 0.3 g. Prepara más cantidad o usa báscula de 0.01 g.</p>`:'';
+  r.querySelector('#fwarn').innerHTML=tiny.length?`<p class="warnline">${tiny.map(id=>esc(tcode(id))).join(', ')}: menos de 0.3 g. Prepara más cantidad o usa báscula de 0.01 g.</p>`:'';
 };
-Detail.prototype.targetVar=function(){
-  const [L,a,b]=this.lab, k=1+this.v.C/100;
-  return [Math.max(1,Math.min(99,L+this.v.L)), a*k+this.v.a, b*k+this.v.b];
-};
+Detail.prototype.targetVar=function(){const [L,a,b]=this.lab,k=1+this.v.C/100;return [Math.max(1,Math.min(99,L+this.v.L)),a*k+this.v.a,b*k+this.v.b]};
 Detail.prototype.updateVar=function(){
-  const r=this.root, v=this.v, changed=v.L||v.a||v.b||v.C;
-  const tl=this.targetVar(), hex=linToHex(labToLin(tl));
+  const r=this.root,v=this.v,changed=v.L||v.a||v.b||v.C,tl=this.targetVar(),hex=linToHex(labToLin(tl));
   r.querySelector('#vsw').style.background=finishBg(hex,this.col.acabado);
-  const out=r.querySelector('#vout'), info=r.querySelector('#vinfo');
-  this.vf=null;
-  if(!changed){ info.textContent='Mueve una barra para ver la nueva fórmula y lo que hay que agregar a la mezcla que ya tienes.'; out.innerHTML=''; return }
+  const out=r.querySelector('#vout'),info=r.querySelector('#vinfo');this.vf=null;
+  if(!changed){info.textContent='Toca una variante rápida o mueve una barra: verás la fórmula nueva y cuánto agregar a lo que ya mezclaste.';out.innerHTML='';this.car.paint(this.col.hex,this.col.acabado);setPaint(r,this.col.hex);return}
   info.textContent=`Diferencia contra el original: ΔE ${dE00(this.lab,tl).toFixed(1)}`;
-  // Corrección sobre la mezcla ya hecha (solo se puede agregar, no quitar)
-  const g0=this.grams(this.f,this.qty), ids0=this.f.ids;
+  this.car.paint(hex,this.col.acabado);setPaint(r,hex);
+  const g0=this.grams(this.f,this.qty),ids0=this.f.ids;
   let best=optimize(ids0.slice(),tl,true);
-  for(const x of CHROMA){ if(ids0.includes(x)) continue; const rr=optimize([...ids0,x],tl,true); if(rr.dE+0.4<best.dE) best=rr }
-  // La fórmula de la variación conserva los tintes del original si queda igual de cerca
-  const full=solve(tl,this.col.acabado), keep=best.c.map(v=>v>=0.0015);
-  const fam={ids:best.ids.filter((_,i)=>keep[i]),c:best.c.filter((_,i)=>keep[i])}; const sc=fam.c.reduce((a,b)=>a+b,0); fam.c=fam.c.map(v=>v/sc);
-  const nf=best.dE<=full.dE+0.6?Object.assign({},best,fam):full; this.vf=nf; this.vhex=hex;
+  for(const x of CHROMA){if(ids0.includes(x))continue;const rr=optimize([...ids0,x],tl,true);if(rr.dE+0.4<best.dE)best=rr}
+  const full=solve(tl,this.col.acabado),keep=best.c.map(x=>x>=0.0015);
+  const fam={ids:best.ids.filter((_,i)=>keep[i]),c:best.c.filter((_,i)=>keep[i])},sc=fam.c.reduce((a,b)=>a+b,0);fam.c=fam.c.map(x=>x/sc);
+  const nf=best.dE<=full.dE+0.6?Object.assign({},best,fam):full;this.vf=nf;this.vhex=hex;
   const g=this.grams(nf,this.qty);
-  let k=0; ids0.forEach((id,i)=>{ const j=best.ids.indexOf(id); const p=best.c[j]; k=Math.max(k,g0[i]/Math.max(p,1e-9)) });
-  const tot0=g0.reduce((a,b)=>a+b,0), ratio=k/tot0;
-  let corr;
-  if(ratio>2.2) corr=`<div class="corr"><b>Mejor prepara mezcla nueva.</b><span class="small muted">Para llegar a la variación sobre lo que ya mezclaste tendrías que más que duplicar la cantidad.</span></div>`;
-  else{
-    const adds=best.ids.map((id,j)=>{ const i=ids0.indexOf(id); return [id,k*best.c[j]-(i>=0?g0[i]:0)] }).filter(x=>x[1]>=0.05);
-    corr=`<div class="corr"><b>Si ya mezclaste la original (${tot0.toFixed(1)} g), agrega:</b><ul>${adds.map(([id,gr])=>`<li><span class="mono">${gr.toFixed(1)} g</span> de <b>${esc(tcode(id))}</b> · ${esc(TBY[id].name)}</li>`).join('')||'<li>Nada: la diferencia es mínima.</li>'}</ul><span class="small muted">Precisión de la corrección: ΔE ${best.dE.toFixed(1)}. Mezcla, haz carta y compara antes de seguir.</span></div>`;
-  }
-  out.innerHTML=`<div class="tablewrap"><table><thead><tr><th>Fórmula nueva para la variación</th><th class="n">%</th><th class="n">Gramos</th></tr></thead><tbody>${nf.ids.map((id,i)=>`<tr><td><span class="tdot" style="background:${TBY[id].hex}"></span><span class="tc">${esc(tcode(id))}</span> <span class="small muted">${esc(TBY[id].name)}</span></td><td class="n">${(nf.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td></tr>`).join('')}</tbody></table></div>${corr}`;
+  let k=0;ids0.forEach((id,i)=>{const j=best.ids.indexOf(id);k=Math.max(k,g0[i]/Math.max(best.c[j],1e-9))});
+  const tot0=g0.reduce((a,b)=>a+b,0),ratio=k/tot0;let corr;
+  if(ratio>2.2)corr=`<div class="corr"><b>Mejor prepara mezcla nueva.</b><span class="small muted">Para llegar a la variación sobre lo que ya mezclaste tendrías que más que duplicar la cantidad.</span></div>`;
+  else{const adds=best.ids.map((id,j)=>{const i=ids0.indexOf(id);return [id,k*best.c[j]-(i>=0?g0[i]:0)]}).filter(x=>x[1]>=0.05);
+    corr=`<div class="corr"><b>Si ya mezclaste la original (${tot0.toFixed(1)} g), agrega:</b><ul>${adds.map(([id,gr])=>`<li><span class="mono">${gr.toFixed(1)} g</span> de <b>${esc(tcode(id))}</b> · ${esc(TBY[id].name)}</li>`).join('')||'<li>Nada: la diferencia es mínima.</li>'}</ul><span class="small muted">Precisión de la corrección: ΔE ${best.dE.toFixed(1)}. Mezcla, haz carta y compara antes de seguir.</span></div>`}
+  out.innerHTML=`<div class="tablewrap"><table><thead><tr><th>Fórmula de la variación</th><th class="n">%</th><th class="n">Gramos</th></tr></thead><tbody>${nf.ids.map((id,i)=>`<tr><td><span class="tdot" style="background:${TBY[id].hex}"></span><span class="tc">${esc(tcode(id))}</span> <span class="small muted">${esc(TBY[id].name)}</span></td><td class="n">${(nf.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td></tr>`).join('')}</tbody></table></div>${corr}`;
 };
-Detail.prototype.formulaText=function(){
-  const useV=!!this.vf, f=useV?this.vf:this.f, g=this.grams(f,this.qty);
-  return `${this.col.marca} ${this.col.codigo} – ${this.col.nombre}${useV?' (variación)':''}\n${(this.qty/1000).toFixed(2)} L · ${TCFG.line}\n`+f.ids.map((id,i)=>`${tcode(id)}  ${g[i].toFixed(1)} g`).join('\n');
-};
+Detail.prototype.formulaText=function(){const useV=!!this.vf,f=useV?this.vf:this.f,g=this.grams(f,this.qty);
+  return `${this.col.marca} ${this.col.codigo} – ${this.col.nombre}${useV?' (variación)':''}\n${(this.qty/1000).toFixed(2)} L · ${TCFG.line}\n`+f.ids.map((id,i)=>`${tcode(id)}  ${g[i].toFixed(1)} g`).join('\n')};
 Detail.prototype.save=function(){
-  const useV=!!this.vf, f=useV?this.vf:this.f, nm=this.root.querySelector('#vname').value.trim();
-  const g=this.grams(f,1000);
+  const useV=!!this.vf,f=useV?this.vf:this.f,nm=this.root.querySelector('#vname').value.trim(),cl=this.root.querySelector('#vclient').value.trim(),g=this.grams(f,1000);
   const list=store.get('saved',[]);
-  list.unshift({id:Date.now(),marca:this.col.marca,codigo:this.col.codigo,nombre:nm||(this.col.nombre+(useV?' · variación':'')),acabado:this.col.acabado,hex:useV?this.vhex:this.col.hex,
-    formula:f.ids.map((id,i)=>id+':'+g[i].toFixed(2)).join(';'),fecha:new Date().toLocaleDateString('es')});
-  store.set('saved',list.slice(0,300)); toast('Guardada en Mis fórmulas'); renderSaved();
+  list.unshift({id:Date.now(),marca:this.col.marca,codigo:this.col.codigo,nombre:nm||(this.col.nombre+(useV?' · variación':'')),cliente:cl,acabado:this.col.acabado,hex:useV?this.vhex:this.col.hex,formula:f.ids.map((id,i)=>id+':'+g[i].toFixed(2)).join(';'),fecha:new Date().toLocaleDateString('es')});
+  store.set('saved',list.slice(0,300));toast('Guardada en Mis fórmulas');
 };
 
-/* ---------- Utilidades de interfaz ---------- */
-let tt;
-function toast(msg){ let t=$('.toast'); if(!t){ t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); document.body.appendChild(t) } t.textContent=msg; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,2200) }
-function copy(text){
-  const done=()=>toast('Fórmula copiada');
-  try{ navigator.clipboard.writeText(text).then(done,()=>fallback()) }catch(e){ fallback() }
-  function fallback(){ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done() }catch(e){ toast('Selecciona y copia el texto') } ta.remove() }
-}
+let tt;function toast(m){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
+function copy(text){const done=()=>toast('Fórmula copiada');
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast('Selecciona y copia el texto')}ta.remove()};
+  try{navigator.clipboard.writeText(text).then(done,fb)}catch(e){fb()}}
 
-/* ---------- Buscador ---------- */
+/* ================= Buscador ================= */
 const det=new Detail($('#detail'));
-let make='Todas', current=null;
+let make=null,current=null,vinInfo=null,showAll=false;
+const makesList=()=>[...new Set(allColors().map(c=>c.marca))];
 function renderMakes(){
-  const ms=['Todas',...new Set(allColors().map(c=>c.marca))];
-  $('#makes').innerHTML=ms.map(m=>`<button class="chip" type="button" data-m="${esc(m)}" aria-pressed="${m===make}">${esc(m)}</button>`).join('');
+  $('#makes').innerHTML=makesList().map(m=>`<button class="chip" type="button" data-m="${esc(m)}" aria-pressed="${m===make}">${esc(m)}</button>`).join('');
+  $('#where').innerHTML=make?`<b>¿Dónde está la etiqueta?</b> ${WHERE[make]||'Normalmente en el marco de la puerta del conductor.'}`:'Elige la marca para ver dónde está la etiqueta. Así no te sale un código igual de otra marca.';
 }
+function matchScore(c,q,qr){
+  if(!q)return 0;
+  const codes=[c.codigo,...(c.alias||[])].map(norm);
+  if(codes.includes(q))return 100;
+  if(codes.some(x=>x.startsWith(q)))return 60;
+  if(q.length>=3&&codes.some(x=>x.includes(q)))return 40;
+  const words=qr.split(/\s+/).filter(w=>w.length>2),hay=(c.nombre+' '+c.marca).toLowerCase();
+  if(words.length&&words.every(w=>hay.includes(w)||(ES[w]&&ES[w].split(' ').some(t=>hay.includes(t)))))return 20;
+  return 0;
+}
+const cleanQuery=raw=>norm(raw).replace(/^BCCC/,'').replace(/^(EXTPNT|PAINT|COLOR|PNT)/,'');
 function search(){
-  const q=norm($('#q').value), qr=$('#q').value.trim().toLowerCase();
-  let list=allColors().filter(c=>make==='Todas'||c.marca===make);
-  if(q){
-    list=list.map(c=>{ const nc=norm(c.codigo); let s=0;
-      if(nc===q) s=100; else if(nc.startsWith(q)) s=60; else if(nc.includes(q)) s=40;
-      else if(c.nombre.toLowerCase().includes(qr)) s=20; else if(c.marca.toLowerCase().includes(qr)) s=10;
-      return [s,c] }).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
-  }
+  const raw=$('#q').value,q=cleanQuery(raw),qr=raw.trim().toLowerCase();
+  const pool=make&&!showAll?allColors().filter(c=>c.marca===make):allColors();
+  let list=pool;
+  if(q)list=pool.map(c=>[matchScore(c,q,qr),c]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
+  const exact=q?list.filter(c=>matchScore(c,q,qr)===100):[],exMakes=[...new Set(exact.map(c=>c.marca))];
+  const multi=exMakes.length>1&&(!make||showAll),hint=!make&&q?formatHint(q):null;
+  $('#ambig').innerHTML=multi?`<div class="ambig"><b>El código ${esc(raw.trim().toUpperCase())} existe en ${exMakes.length} marcas y es un color distinto en cada una. ¿Cuál es tu carro?</b><div class="chips">${exMakes.map(m=>`<button class="chip" type="button" data-pick="${esc(m)}">${esc(m)}</button>`).join('')}</div></div>`
+    :(hint&&!exact.length?`<div class="ambig"><b>Parece un código de ${esc(hint)}.</b><span class="small">Elige la marca arriba. Si no aparece, todavía no está en la base: calcúlalo en Color libre o impórtalo de tu proveedor.</span></div>`:'');
+  let head=`<span>${list.length} color${list.length===1?'':'es'}${make&&!showAll?' de '+esc(make):''}</span>`;
+  if(make&&showAll)head+=`<button type="button" id="onlymake">Solo ${esc(make)}</button>`;
   const el=$('#results');
-  el.innerHTML=`<div class="rcount">${list.length} color${list.length===1?'':'es'}${q?' para “'+esc($('#q').value.trim())+'”':''}</div>`+
-    (list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${FIN[c.acabado]||''}</span></button>`).join('')
-      :`<div class="empty">No encontré ese código. Revisa la etiqueta del carro (puerta del conductor, cajuela o cofre), o ve a <b>Color libre</b> para calcularlo desde el color.</div>`);
-  el.querySelectorAll('.ritem').forEach(b=>b.addEventListener('click',()=>{ select(list[+b.dataset.i],true) }));
-  return list;
+  el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${FIN[c.acabado]||''}</span></button>`).join('')
+    :`<div class="empty"><span>${make&&!showAll?`No tengo <b>${esc(raw.trim())}</b> en ${esc(make)}. Revisa la etiqueta o calcula el color en <b>Color libre</b>.`:'No encontré ese código. Revisa la etiqueta o calcula el color en <b>Color libre</b>.'}</span>${make&&!showAll?'<button class="btn" type="button" id="seeall">Buscar en todas las marcas</button>':''}<button class="btn" type="button" id="gofree">Ir a Color libre</button></div>`);
+  el.querySelectorAll('.ritem').forEach(b=>b.addEventListener('click',()=>select(list[+b.dataset.i],true)));
+  const sa=$('#seeall');if(sa)sa.onclick=()=>{showAll=true;search()};
+  const om=$('#onlymake');if(om)om.onclick=()=>{showAll=false;search()};
+  const gf=$('#gofree');if(gf)gf.onclick=()=>show('libre');
+  return {list,exact,ambiguous:multi};
 }
 function select(c,scroll){
-  current=c; det.load(c);
-  document.querySelectorAll('#results .ritem').forEach(b=>b.setAttribute('aria-current','false'));
-  const list=[...document.querySelectorAll('#results .ritem')];
-  // marcar seleccionado
-  search();
-  if(scroll && window.matchMedia('(max-width:820px)').matches) $('#detail').scrollIntoView({behavior:'smooth',block:'start'});
+  current=c;det.load(c,vinInfo&&vinInfo.make===c.marca&&vinInfo.year?'Año '+vinInfo.year:'');search();
+  if(scroll&&window.matchMedia('(max-width:860px)').matches)$('#detail').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
 }
-$('#q').addEventListener('input',()=>{ const l=search(); if(l.length===1||(l[0]&&norm(l[0].codigo)===norm($('#q').value))) { current=l[0]; det.load(l[0]); search() } });
-$('#q').addEventListener('keydown',e=>{ if(e.key==='Enter'){ const l=search(); if(l[0]) select(l[0],true) } });
-$('#qclear').addEventListener('click',()=>{ $('#q').value=''; search(); $('#q').focus() });
-$('#makes').addEventListener('click',e=>{ const b=e.target.closest('[data-m]'); if(!b) return; make=b.dataset.m; renderMakes(); search() });
+function autoPick(){
+  const r=search();if(r.ambiguous)return;
+  if(r.exact.length===1)select(r.exact[0]);else if(r.list.length===1&&$('#q').value.trim())select(r.list[0]);
+}
+$('#q').addEventListener('input',autoPick);
+$('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){const r=search();if(!r.ambiguous&&r.list[0])select(r.list[0],true)}});
+$('#qclear').addEventListener('click',()=>{$('#q').value='';search();$('#q').focus()});
+$('#makes').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;make=make===b.dataset.m?null:b.dataset.m;showAll=false;renderMakes();autoPick()});
+$('#ambig').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;make=b.dataset.pick;showAll=false;renderMakes();autoPick()});
+$('#vin').addEventListener('input',e=>{
+  const r=decodeVin(e.target.value),m=$('#vinmsg');vinInfo=null;
+  if(r.err!==undefined){m.textContent=r.err;return}
+  if(!r.make){m.innerHTML=`No reconozco el fabricante <b>${esc(r.wmi)}</b>. Elige la marca a mano.`;return}
+  vinInfo=r;make=r.make;showAll=false;renderMakes();
+  m.innerHTML=`<b>${esc(r.make)}${r.year?' · '+r.year:''}</b>. El VIN no trae el código de pintura: búscalo en la etiqueta.`;
+  autoPick();
+});
 
-/* ---------- Pestañas ---------- */
+/* ================= Pestañas y rutas ================= */
 function show(v){
   document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.v===v)));
   ['buscar','libre','mis','tintes'].forEach(k=>$('#v-'+k).hidden=k!==v);
-  if(v==='libre') freeUpdate();
-  if(v==='mis') renderSaved();
+  if(v==='libre')freeUpdate();if(v==='mis')renderSaved();
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.v)));
+let appStarted=false;
+function route(){
+  const app=location.hash==='#app';
+  $('#landing').hidden=app;$('#app').hidden=!app;
+  if(app){window.scrollTo(0,0);if(!appStarted){appStarted=true;renderToners();make='Ford';renderMakes();$('#q').value='PQ';autoPick()}}
+  demo.running=!app;
+}
+window.addEventListener('hashchange',route);
 
-/* ---------- Color libre ---------- */
+/* ================= Color libre ================= */
 const fdet=new Detail($('#detail-libre'));
-function freeUpdate(){
-  let h=$('#fhex').value.trim(); if(!/^#?[0-9a-f]{6}$/i.test(h)) return;
-  if(h[0]!=='#') h='#'+h; h=h.toUpperCase(); $('#fpick').value=h;
-  fdet.load({marca:'Color libre',codigo:h,nombre:$('#fname').value.trim()||'Color a la medida',acabado:$('#ffin').value,hex:h,src:'libre'});
-}
-let fT; const fdeb=()=>{ clearTimeout(fT); fT=setTimeout(freeUpdate,250) };
-$('#fpick').addEventListener('input',e=>{ $('#fhex').value=e.target.value.toUpperCase(); fdeb() });
-$('#fhex').addEventListener('input',fdeb); $('#ffin').addEventListener('change',freeUpdate); $('#fname').addEventListener('input',fdeb);
-$('#fphoto').addEventListener('change',e=>{
-  const file=e.target.files&&e.target.files[0]; if(!file) return;
-  const img=new Image(), url=URL.createObjectURL(file);
-  img.onload=()=>{ const cv=$('#fcanvas'), w=Math.min(1000,img.width), h=Math.round(img.height*w/img.width);
-    cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h); cv.hidden=false; $('#fphotonote').hidden=false; URL.revokeObjectURL(url) };
-  img.src=url;
-});
-$('#fcanvas').addEventListener('click',e=>{
-  const cv=e.currentTarget, rc=cv.getBoundingClientRect(), x=Math.round((e.clientX-rc.left)*cv.width/rc.width), y=Math.round((e.clientY-rc.top)*cv.height/rc.height);
-  const d=cv.getContext('2d').getImageData(Math.max(0,x-4),Math.max(0,y-4),9,9).data; const s=[0,0,0]; let n=0;
-  for(let i=0;i<d.length;i+=4){ s[0]+=s2l(d[i]/255); s[1]+=s2l(d[i+1]/255); s[2]+=s2l(d[i+2]/255); n++ }
-  $('#fhex').value=linToHex(s.map(v=>v/n)); freeUpdate();
-});
+function freeUpdate(){let h=$('#fhex').value.trim();if(!/^#?[0-9a-f]{6}$/i.test(h))return;if(h[0]!=='#')h='#'+h;h=h.toUpperCase();$('#fpick').value=h;
+  fdet.load({marca:'Color libre',codigo:h,nombre:$('#fname').value.trim()||'Color a la medida',acabado:$('#ffin').value,hex:h,src:'libre'})}
+let fT;const fdeb=()=>{clearTimeout(fT);fT=setTimeout(freeUpdate,250)};
+$('#fpick').addEventListener('input',e=>{$('#fhex').value=e.target.value.toUpperCase();fdeb()});
+$('#fhex').addEventListener('input',fdeb);$('#ffin').addEventListener('change',freeUpdate);$('#fname').addEventListener('input',fdeb);
+$('#fphoto').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=()=>{const cv=$('#fcanvas'),w=Math.min(1000,img.width),h=Math.round(img.height*w/img.width);cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);cv.hidden=false;$('#fphotonote').hidden=false;URL.revokeObjectURL(url)};img.src=url});
+$('#fcanvas').addEventListener('click',e=>{const cv=e.currentTarget,rc=cv.getBoundingClientRect(),x=Math.round((e.clientX-rc.left)*cv.width/rc.width),y=Math.round((e.clientY-rc.top)*cv.height/rc.height);
+  const d=cv.getContext('2d').getImageData(Math.max(0,x-4),Math.max(0,y-4),9,9).data,s=[0,0,0];let n=0;
+  for(let i=0;i<d.length;i+=4){s[0]+=s2l(d[i]/255);s[1]+=s2l(d[i+1]/255);s[2]+=s2l(d[i+2]/255);n++}
+  $('#fhex').value=linToHex(s.map(v=>v/n));freeUpdate()});
 
-/* ---------- Mis fórmulas ---------- */
-function renderSaved(){
-  const list=store.get('saved',[]), el=$('#savedlist');
-  if(!list.length){ el.innerHTML=`<div class="empty">Todavía no guardas fórmulas. Busca un código, ajusta la variación y toca <b>Guardar en Mis fórmulas</b>.</div>`; return }
-  el.innerHTML=list.map(s=>`<div class="saved" data-id="${s.id}"><span class="sw" style="background:${finishBg(s.hex,s.acabado)}"></span><div style="min-width:0"><b class="mono">${esc(s.codigo)}</b> <span class="small muted">${esc(s.marca)} · ${esc(s.fecha)}</span><div>${esc(s.nombre)}</div></div><div class="acts"><button class="btn" type="button" data-a="open">Abrir</button><button class="btn danger" type="button" data-a="del">Borrar</button></div></div>`).join('');
-}
-$('#savedlist').addEventListener('click',e=>{
-  const b=e.target.closest('[data-a]'); if(!b) return;
-  const row=b.closest('.saved'), id=+row.dataset.id, list=store.get('saved',[]), s=list.find(x=>x.id===id); if(!s) return;
-  if(b.dataset.a==='open'){ show('buscar'); current=null; det.load(Object.assign({},s,{src:'mia'})); search(); }
-  else if(b.dataset.a==='del'){
-    if(b.dataset.sure){ store.set('saved',list.filter(x=>x.id!==id)); renderSaved(); toast('Fórmula borrada') }
-    else{ b.dataset.sure='1'; b.textContent='¿Seguro? Toca otra vez' }
-  }
-});
+/* ================= Mis fórmulas ================= */
+function renderSaved(){const list=store.get('saved',[]),el=$('#savedlist');
+  if(!list.length){el.innerHTML=`<div class="empty">Todavía no guardas fórmulas. Busca un código, ajusta la variación y toca <b>Guardar en Mis fórmulas</b>.</div>`;return}
+  el.innerHTML=list.map(s=>`<div class="saved" data-id="${s.id}"><span class="sw" style="background:${finishBg(s.hex,s.acabado)}"></span><div style="min-width:0"><b class="mono">${esc(s.codigo)}</b> <span class="small muted">${esc(s.marca)} · ${esc(s.fecha)}${s.cliente?' · '+esc(s.cliente):''}</span><div>${esc(s.nombre)}</div></div><div class="acts"><button class="btn" type="button" data-a="open">Abrir</button><button class="btn danger" type="button" data-a="del">Borrar</button></div></div>`).join('')}
+$('#savedlist').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const id=+b.closest('.saved').dataset.id,list=store.get('saved',[]),s=list.find(x=>x.id===id);if(!s)return;
+  if(b.dataset.a==='open'){show('buscar');current=null;det.load(Object.assign({},s,{src:'mia'}),s.cliente||'');search()}
+  else if(b.dataset.sure){store.set('saved',list.filter(x=>x.id!==id));renderSaved();toast('Fórmula borrada')}
+  else{b.dataset.sure='1';b.textContent='¿Seguro? Toca otra vez'}});
 
-/* ---------- Mis tintes ---------- */
+/* ================= Mis tintes ================= */
 function renderToners(){
-  $('#line').innerHTML=LINES.map(l=>`<option${l===TCFG.line?' selected':''}>${esc(l)}</option>`).join('');
-  $('#store').value=TCFG.store||'';
-  $('#tonerbody').innerHTML=TONERS.map(t=>`<tr><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${t.id}</span><span class="tn">${esc(t.name)}${t.fx?' · efecto':''}</span></td><td><input class="inp mono" data-code="${t.id}" value="${esc(TCFG.codes[t.id]||'')}" placeholder="${t.id}" aria-label="Tu código para ${esc(t.name)}"></td><td class="n"><input class="inp mono" style="width:90px;text-align:right" type="number" step="0.01" min="0.5" max="3" data-dens="${t.id}" value="${TCFG.dens[t.id]||t.d}" aria-label="Densidad de ${esc(t.name)}"></td></tr>`).join('');
+  $('#line').innerHTML=LINES.map(l=>`<option${l===TCFG.line?' selected':''}>${esc(l)}</option>`).join('');$('#store').value=TCFG.store||'';
+  $('#tonerbody').innerHTML=TONERS.map(t=>`<tr><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${t.id}</span><span class="tn">${esc(t.name)}${t.fx?' · efecto':''}</span></td><td><input class="inp mono" data-code="${t.id}" value="${esc(TCFG.codes[t.id]||'')}" placeholder="${t.id}" aria-label="Tu código para ${esc(t.name)}"></td><td class="n"><input class="inp mono" style="width:100px;text-align:right" type="number" step="0.01" min="0" data-price="${t.id}" value="${TCFG.price[t.id]||''}" placeholder="$" aria-label="Precio por litro de ${esc(t.name)}"></td><td class="n"><input class="inp mono" style="width:86px;text-align:right" type="number" step="0.01" min="0.5" max="3" data-dens="${t.id}" value="${TCFG.dens[t.id]||t.d}" aria-label="Densidad de ${esc(t.name)}"></td></tr>`).join('');
 }
-function saveToners(){ store.set('toners',TCFG); if(det.col) det.render(); if(fdet.col) fdet.render() }
-$('#line').addEventListener('change',e=>{ TCFG.line=e.target.value; saveToners() });
-$('#store').addEventListener('change',e=>{ TCFG.store=e.target.value; saveToners() });
-$('#tonerbody').addEventListener('change',e=>{
-  const c=e.target.dataset.code, d=e.target.dataset.dens;
-  if(c) TCFG.codes[c]=e.target.value; if(d) TCFG.dens[d]=+e.target.value; saveToners(); toast('Tintes guardados');
-});
+function saveToners(){store.set('toners',TCFG);if(det.col)det.render();if(fdet.col)fdet.render()}
+$('#line').addEventListener('change',e=>{TCFG.line=e.target.value;saveToners()});
+$('#store').addEventListener('change',e=>{TCFG.store=e.target.value;saveToners()});
+$('#tonerbody').addEventListener('change',e=>{const d=e.target.dataset;if(d.code)TCFG.codes[d.code]=e.target.value;if(d.dens)TCFG.dens[d.dens]=+e.target.value;if(d.price)TCFG.price[d.price]=+e.target.value;saveToners();toast('Tintes guardados')});
 $('#doimport').addEventListener('click',()=>{
-  const lines=$('#csv').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-  if(lines.length&&/^marca\s*,/i.test(lines[0])) lines.shift();
+  const lines=$('#csv').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);if(lines.length&&/^marca\s*,/i.test(lines[0]))lines.shift();
   const ok=[],bad=[];
-  lines.forEach((l,i)=>{ const p=l.split(',').map(s=>s.trim());
-    let [marca,codigo,nombre,acabado,hex,formula]=p; hex=(hex||'').startsWith('#')?hex:'#'+hex;
-    acabado=(acabado||'S').toUpperCase()[0];
-    if(marca&&codigo&&/^#[0-9a-f]{6}$/i.test(hex)) ok.push({marca,codigo,nombre:nombre||codigo,acabado:FIN[acabado]?acabado:'S',hex:hex.toUpperCase(),formula:formula||'',src:'imp'});
-    else bad.push(i+2);
-  });
-  const keyOf=c=>c.marca+'|'+norm(c.codigo);
-  const map=new Map(IMPORTED.map(c=>[keyOf(c),c])); ok.forEach(c=>map.set(keyOf(c),c));
-  IMPORTED=[...map.values()]; store.set('imported',IMPORTED); renderMakes(); search();
+  lines.forEach((l,i)=>{let [marca,codigo,nombre,acabado,hex,formula,alias]=l.split(',').map(s=>s.trim());hex=(hex||'').startsWith('#')?hex:'#'+hex;acabado=(acabado||'S').toUpperCase()[0];
+    if(marca&&codigo&&/^#[0-9a-f]{6}$/i.test(hex))ok.push({marca,codigo,nombre:nombre||codigo,acabado:FIN[acabado]?acabado:'S',hex:hex.toUpperCase(),formula:formula||'',alias:(alias||'').split(/\s+/).filter(Boolean),src:'imp'});else bad.push(i+2)});
+  const key=c=>c.marca+'|'+norm(c.codigo),map=new Map(IMPORTED.map(c=>[key(c),c]));ok.forEach(c=>map.set(key(c),c));
+  IMPORTED=[...map.values()];store.set('imported',IMPORTED);renderMakes();search();
   $('#importmsg').textContent=`${ok.length} color${ok.length===1?'':'es'} importado${ok.length===1?'':'s'}.`+(bad.length?` Revisa las líneas ${bad.join(', ')}: falta marca, código o el hex no es válido.`:'');
 });
-$('#clearimport').addEventListener('click',()=>{ IMPORTED=[]; store.set('imported',[]); renderMakes(); search(); $('#importmsg').textContent='Se quitaron los colores importados.' });
+$('#clearimport').addEventListener('click',()=>{IMPORTED=[];store.set('imported',[]);renderMakes();search();$('#importmsg').textContent='Se quitaron los colores importados.'});
 
-/* ---------- Arranque con un ejemplo cargado ---------- */
-renderMakes(); renderToners(); search();
-const first=BASE.find(c=>c.codigo==='PQ'); current=first; det.load(first); search();
+/* ================= Inicio: demo en vivo, funciones y precios ================= */
+const FEATS=[
+  ['#C4142C','Fórmula para báscula','Gramos acumulados con tus códigos de tinte, y aviso cuando un tinte pesa tan poco que conviene preparar más.'],
+  ['#0B3A8A','Marca y VIN primero','El VIN te da la marca y el año. Si un código existe en dos marcas, te preguntamos antes de mostrar la fórmula.'],
+  ['#EFA81C','Variaciones con corrección','Quemado de sol, más claro, más cálido. Te dice cuántos gramos agregar a la mezcla que ya tienes.'],
+  ['#0B6A4D','Color por foto','Toma una foto de la pieza, toca el color y obtén una fórmula de arranque para colores sin código.'],
+  ['#3F2770','Costo por mezcla','Pon el precio de tus tintes y cada fórmula te dice cuánto cuesta, para cotizar sin perder dinero.'],
+  ['#7E3322','Tus fórmulas, tu base','Guarda variaciones por cliente o placa e importa las fórmulas de tu proveedor desde un archivo.']
+];
+$('#feats').innerHTML=FEATS.map(([c,h,p])=>`<div class="feat"><span class="ico" style="background:linear-gradient(90deg,${c},${shade(c,25)})"></span><h3>${h}</h3><p>${p}</p></div>`).join('');
+const PLANS=[
+  {n:'Pintor',who:'Para el que pinta solo, retoques y piezas.',m:14.99,f:['Búsqueda por marca, VIN y código','Fórmulas calculadas en gramos','Calculadora por piezas','Hasta 50 fórmulas guardadas','1 dispositivo']},
+  {n:'Pro',who:'Para el pintor que vive de igualar colores.',m:29.99,star:true,f:['Todo lo de Pintor','Variaciones con corrección en gramos','Color por foto','Costo por mezcla','Importar fórmulas de tu proveedor','Fórmulas ilimitadas · 2 dispositivos']},
+  {n:'Taller',who:'Para talleres con varios pintores.',m:59.99,f:['Todo lo de Pro','Hasta 5 pintores','Fórmulas compartidas del taller','Historial de trabajos por cliente','Soporte por WhatsApp']}
+];
+let annual=false;
+function renderPlans(){
+  $('#plans').innerHTML=PLANS.map(p=>{const price=annual?p.m*10/12:p.m;
+    return `<div class="plan${p.star?' star':''}">${p.star?'<span class="ribbon">Recomendado</span>':''}<h3>${p.n}</h3><p class="who">${p.who}</p>
+    <div class="price"><b>$${price.toFixed(2)}</b><span>/ mes</span></div><div class="yr">${annual?`$${(p.m*10).toFixed(2)} al año · ahorras $${(p.m*2).toFixed(2)}`:''}</div>
+    <ul>${p.f.map(x=>`<li>${x}</li>`).join('')}</ul><a class="btn ${p.star?'primary':''} big" href="#app">Probar 14 días gratis</a></div>`}).join('');
+}
+$('#pm').onclick=()=>{annual=false;$('#pm').setAttribute('aria-pressed','true');$('#pa').setAttribute('aria-pressed','false');renderPlans()};
+$('#pa').onclick=()=>{annual=true;$('#pa').setAttribute('aria-pressed','true');$('#pm').setAttribute('aria-pressed','false');renderPlans()};
+renderPlans();
+
+const demo={running:true,i:0,car:new Car($('#dcar')),list:[['Mazda','46V'],['Chevrolet / GMC','GAZ'],['Subaru','K7X'],['Ford','PQ'],['Toyota','1G3'],['Nissan','NAH'],['RAL (industrial)','RAL 6018']]};
+function demoShow(col,typed){
+  $('#dtyped').textContent=typed;
+  if(typed!==col.codigo)return;
+  $('#dmake').textContent=col.marca+' · '+col.nombre;
+  const f=solve(linToLab(hexToLin(col.hex)),col.acabado);
+  demo.car.paint(col.hex,col.acabado);
+  document.querySelectorAll('.hero,.final').forEach(el=>setPaint(el,col.hex));
+  const dm=1/f.ids.reduce((s,id,i)=>s+f.c[i]/TBY[id].d,0),g=f.c.map(c=>c*250*dm);
+  $('#dbars').innerHTML=f.ids.slice(0,4).map((id,i)=>`<div class="bar"><span class="t">${id}</span><span class="track"><span class="fill" style="background:${TBY[id].hex}"></span></span><span class="g">${g[i].toFixed(1)} g</span></div>`).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('#dbars .fill').forEach((el,i)=>el.style.width=Math.max(3,f.c[i]*100)+'%')));
+  countUp($('#dtotal'),g.reduce((a,b)=>a+b,0),' g');
+}
+function demoNext(){
+  if(!demo.running||document.hidden){setTimeout(demoNext,800);return}
+  const [m,c]=demo.list[demo.i++%demo.list.length],col=BASE.find(x=>x.marca===m&&x.codigo===c);if(!col){setTimeout(demoNext,100);return}
+  if(RM){demoShow(col,col.codigo);setTimeout(demoNext,5000);return}
+  let k=0;const type=()=>{k++;demoShow(col,col.codigo.slice(0,k));if(k<col.codigo.length)setTimeout(type,140);else setTimeout(demoNext,3800)};
+  $('#dtyped').textContent='';setTimeout(type,350);
+}
+route();demoNext();
 })();
 </script>
