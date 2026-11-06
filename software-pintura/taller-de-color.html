@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Taller de Color</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -232,6 +233,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 .fstep .lab{font:600 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .fstep .lab b{color:var(--accent)}
 .makes{display:flex;gap:6px;flex-wrap:wrap}
+.vin{display:flex;gap:8px;flex-wrap:wrap}.vin select{flex:1;min-width:140px;width:auto}
 .vin input{width:100%;border:1.5px dashed var(--line);border-radius:10px;padding:9px 12px;background:var(--soft);font:500 14px var(--f-mono);text-transform:uppercase}
 .vin input::placeholder{text-transform:none;font-family:var(--f-body)}
 .vinmsg{font-size:13px;color:var(--muted);min-height:18px}
@@ -282,6 +284,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 .card .split span{position:absolute;left:5px;bottom:4px;font:600 10px var(--f-mono);text-transform:uppercase;background:rgba(255,255,255,.9);color:#16181B;padding:1px 5px;border-radius:3px}
 .card .hide{height:16px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/12px 12px;position:relative}
 .card .hide i{position:absolute;inset:0 0 0 40%}
+.fixrow{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--panel)}
+.fixrow.est{border-color:var(--warn);color:var(--ink)}
+.fixrow input{width:46px;height:32px;border:1.5px solid var(--ink);border-radius:6px;padding:1px;background:var(--panel)}
 .note{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-width:70ch}
 
 .qty{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
@@ -384,7 +389,7 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
       <h1 style="margin-top:14px" data-th="hero.h1"></h1>
       <div class="hero-row">
         <p class="lede" data-t="hero.lede"></p>
-        <div><div class="ctas"><a class="btn primary big" href="#app" data-t="hero.cta1"></a><a class="btn big" href="#precios" data-t="hero.cta2"></a></div><p class="fine" data-t="hero.fine"></p></div>
+        <div><div class="ctas"><a class="btn primary big" href="#app" data-t="hero.cta1"></a><a class="btn big" href="#precios" data-t="hero.cta2"></a></div><p class="fine" data-t="hero.fine"></p><p class="fine mono" id="dbstats"></p></div>
       </div>
       <div class="stage">
         <div class="stage-car">
@@ -487,6 +492,7 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
         <div class="fstep">
           <span class="lab"><b>01</b> <span data-t="f.make"></span></span>
           <div class="makes" id="makes"></div>
+          <div class="vin"><select id="moremakes" data-ta="f.more"></select><select id="year" data-ta="f.year"></select></div>
           <div class="vin"><input id="vin" maxlength="17" autocomplete="off" spellcheck="false" data-tp="f.vin" aria-label="VIN"></div>
           <div class="vinmsg" id="vinmsg"></div>
         </div>
@@ -614,6 +620,12 @@ const S={
  'empty.make':[(q,m)=>`I don't have <b>${q}</b> for ${m}. Check the label or calculate the color in <b>Any color</b>.`,(q,m)=>`No tengo <b>${q}</b> en ${m}. Revisa la etiqueta o calcula el color en <b>Color libre</b>.`],
  'empty.all':["I couldn't find that code. Check the label or calculate the color in <b>Any color</b>.",'No encontré ese código. Revisa la etiqueta o calcula el color en <b>Color libre</b>.'],
  'add.h':[(c,m)=>`Add ${c} to ${m}`,(c,m)=>`Agregar ${c} a ${m}`],'add.p':["Know the color? Add it once and it stays in your list. Pick the closest color; you'll fine-tune it with a test card.",'¿Conoces el color? Agrégalo una vez y se queda en tu lista. Elige el color más parecido; lo afinas con la carta de prueba.'],'add.name':['Color name (e.g. Silver Metallic)','Nombre del color (ej. Silver Metallic)'],'add.btn':['Save and use','Guardar y usar'],'added':['Color added to your list','Color agregado a tu lista'],
+ 'f.more':['More makes','Más marcas'],'f.year':['Year','Año'],'f.anyyear':['Any year','Cualquier año'],
+ 'more':[n=>`${n.toLocaleString('en-US')} more. Pick a make or year, or type part of the code.`,n=>`${n.toLocaleString('es-MX')} más. Elige marca o año, o escribe parte del código.`],
+ 'd.years':['Years:','Años:'],'d.estpill':['Estimated color · check with a card','Color estimado · verifica con carta'],'d.names':['Also called:','También se llama:'],
+ 'd.est':['On-screen color estimated from the name. Tap to set it closer to the car.','Color en pantalla estimado por el nombre. Toca para acercarlo al del carro.'],
+ 'd.fixq':['Color not right? Adjust it:','¿No se parece? Ajústalo:'],'d.fixed':['Color saved for this code','Color guardado para este código'],
+ 'db.stats':[(n,m)=>`${n.toLocaleString('en-US')} paint codes from ${m} makes, 1990–2026.`,(n,m)=>`${n.toLocaleString('es-MX')} códigos de pintura de ${m} marcas, 1990–2026.`],
  'seeall':['Search all makes','Buscar en todas las marcas'],'gofree':['Go to Any color','Ir a Color libre'],
  'fin.S':['Solid','Sólido'],'fin.M':['Metallic','Metálico'],'fin.P':['Pearl','Perlado'],'fin.T':['Tri-coat','Tricapa'],
  'q.ok1':['Excellent','Excelente'],'q.ok2':['Very close','Muy cerca'],'q.warn':['Adjust on card','Ajustar en carta'],'q.bad':['Approximate','Aproximado'],
@@ -777,13 +789,13 @@ Ford|E4|Ingot Silver Metallic|M|#A7AAAD|
 Ford|J7|Magnetic Metallic|M|#4E5155|
 Ford|UG|White Platinum Tri-Coat|T|#EDEBE4|
 Ford|RR|Ruby Red Metallic Tinted|M|#7E1220|
-Chevrolet / GMC|GAZ|Summit White|S|#F4F4F2|WA8624 U8624 8624 50U
-Chevrolet / GMC|GBA|Black|S|#0E0F11|WA8555 U8555 8555 41U
-Chevrolet / GMC|GAN|Switchblade Silver Metallic|M|#A6A9AC|WA636R U636R 636R
-Chevrolet / GMC|G7C|Red Hot|S|#C0131D|WA130X U130X 130X
-Chevrolet / GMC|GB8|Mosaic Black Metallic|M|#1B1C1F|
-Chevrolet / GMC|G9K|Satin Steel Metallic|M|#7A7D80|
-Chevrolet / GMC|G1W|Iridescent Pearl Tricoat|T|#EFEEE8|
+Chevrolet|GAZ|Summit White|S|#F4F4F2|WA8624 U8624 8624 50U
+Chevrolet|GBA|Black|S|#0E0F11|WA8555 U8555 8555 41U
+Chevrolet|GAN|Switchblade Silver Metallic|M|#A6A9AC|WA636R U636R 636R
+Chevrolet|G7C|Red Hot|S|#C0131D|WA130X U130X 130X
+Chevrolet|GB8|Mosaic Black Metallic|M|#1B1C1F|
+Chevrolet|G9K|Satin Steel Metallic|M|#7A7D80|
+Chevrolet|G1W|Iridescent Pearl Tricoat|T|#EFEEE8|
 Nissan|KH3|Super Black|S|#0F1012|
 Nissan|QAB|Pearl White Tricoat|T|#F1F0EA|
 Nissan|QM1|Fresh Powder|S|#F2F2EF|
@@ -816,14 +828,14 @@ Tesla|PMNG|Midnight Silver Metallic|M|#4D5156|
 Tesla|PMSS|Silver Metallic|M|#B0B3B6|
 Tesla|PPSB|Deep Blue Metallic|M|#22355E|
 Tesla|PPMR|Red Multi-Coat|T|#9E1420|
-Ram / Dodge / Jeep|PW7|Bright White|S|#F3F3F0|
-Ram / Dodge / Jeep|PX8|Black|S|#0E0F11|
-Ram / Dodge / Jeep|PXR|Diamond Black Crystal Pearl|P|#121315|
-Ram / Dodge / Jeep|PAU|Granite Crystal Metallic|M|#4C5054|
-Ram / Dodge / Jeep|PSC|Billet Silver Metallic|M|#A9ACAF|
-Ram / Dodge / Jeep|PDN|Destroyer Gray|S|#5F6266|
-Ram / Dodge / Jeep|PR4|Flame Red|S|#BF131C|
-Ram / Dodge / Jeep|PRV|Velvet Red Pearl|P|#6E1420|
+Ram|PW7|Bright White|S|#F3F3F0|
+Ram|PX8|Black|S|#0E0F11|
+Ram|PXR|Diamond Black Crystal Pearl|P|#121315|
+Ram|PAU|Granite Crystal Metallic|M|#4C5054|
+Ram|PSC|Billet Silver Metallic|M|#A9ACAF|
+Ram|PDN|Destroyer Gray|S|#5F6266|
+Ram|PR4|Flame Red|S|#BF131C|
+Ram|PRV|Velvet Red Pearl|P|#6E1420|
 Subaru|K1X|Crystal Black Silica|P|#131416|
 Subaru|37J|Crystal White Pearl|T|#EFEEE9|
 Subaru|G1U|Ice Silver Metallic|M|#B5B8BB|
@@ -836,10 +848,10 @@ Mazda|25D|Snowflake White Pearl Mica|T|#EEEDE8|
 Mazda|46G|Machine Gray Metallic|M|#6B6E71|
 Mazda|42M|Deep Crystal Blue Mica|P|#1E2C4A|
 Mazda|45P|Sonic Silver Metallic|M|#A9ACAF|
-Kia / Hyundai|UD|Clear White (Kia)|S|#F3F3F1|
-Kia / Hyundai|SWP|Snow White Pearl (Kia)|T|#EFEEE9|
-Kia / Hyundai|ABP|Aurora Black Pearl (Kia)|P|#141517|
-Kia / Hyundai|NKA|Phantom Black Pearl (Hyundai)|P|#131416|
+Kia|UD|Clear White (Kia)|S|#F3F3F1|
+Kia|SWP|Snow White Pearl (Kia)|T|#EFEEE9|
+Kia|ABP|Aurora Black Pearl (Kia)|P|#141517|
+Hyundai|NKA|Phantom Black Pearl (Hyundai)|P|#131416|
 RAL|RAL 1003|Signal Yellow · Amarillo señales|S|#F9A900|1003
 RAL|RAL 1015|Light Ivory · Marfil claro|S|#E6D2B5|1015
 RAL|RAL 1023|Traffic Yellow · Amarillo tráfico|S|#F7B500|1023
@@ -863,7 +875,29 @@ RAL|RAL 9005|Jet Black · Negro intenso|S|#0A0A0A|9005
 RAL|RAL 9006|White Aluminium · Aluminio blanco|M|#A1A1A0|9006
 RAL|RAL 9010|Pure White · Blanco puro|S|#F1ECE1|9010`;
 const norm=s=>String(s).toUpperCase().replace(/[\s\-_.\/()]/g,'');
-const BASE=RAW.split('\n').map(l=>{const [marca,codigo,nombre,acabado,hex,alias]=l.split('|');return {marca,codigo,nombre,acabado,hex,alias:(alias||'').split(/\s+/).filter(Boolean),src:'base'}});
+const CURATED=RAW.split('\n').map(l=>{const [marca,codigo,nombre,acabado,hex,alias]=l.split('|');return {marca,codigo,nombre,acabado,hex,alias:(alias||'').split(/\s+/).filter(Boolean),src:'base'}});
+// los códigos GM y FCA se comparten entre marcas del mismo grupo
+const SHARE={Chevrolet:['GMC'],Ram:['Dodge','Jeep','Chrysler']};
+CURATED.slice().forEach(c=>(SHARE[c.marca]||[]).forEach(m=>CURATED.push(Object.assign({},c,{marca:m}))));
+let BASE=CURATED.slice(),DBINFO=null;
+const yearsHas=(ys,y)=>!ys||ys.split(',').some(r=>{const [a,b]=r.split('-').map(Number);return y>=a&&y<=(b||a)});
+const yearsLabel=ys=>ys?ys.replace(/,/g,', ').replace(/-/g,'–'):'';
+async function loadDB(){
+  try{
+    const r=await fetch('colors.json');if(!r.ok)throw 0;const d=await r.json();
+    const cur=new Map(CURATED.map(c=>[c.marca+'|'+norm(c.codigo),c]));
+    const list=[];let n=0;
+    Object.entries(d.makes).forEach(([mk,arr])=>arr.forEach(e=>{
+      const [code,names,fin,hex,years,alias,ok]=e;n++;
+      const nm=names.split(' | '),c=cur.get(mk+'|'+norm(code));
+      const al=(alias?alias.split(' '):[]).concat(c?c.alias:[]);
+      list.push({marca:mk,codigo:code,nombre:nm[0],otros:nm.slice(1),acabado:c?c.acabado:fin,hex:c?c.hex:hex,est:!c,years,alias:[...new Set(al)],src:'db'});
+      if(c)cur.delete(mk+'|'+norm(c.codigo));
+    }));
+    BASE=list.concat([...cur.values()]);DBINFO={codes:n,makes:Object.keys(d.makes).length};
+  }catch(e){BASE=CURATED.slice()}
+  const ov=store.get('hexfix',{});BASE.forEach(c=>{const k=c.marca+'|'+norm(c.codigo);if(ov[k]){c.hex=ov[k];c.est=false;c.fixed=true}});
+}
 let IMPORTED=store.get('imported',[]);
 const allColors=()=>IMPORTED.concat(BASE);
 
@@ -871,19 +905,21 @@ const WHERE={
  'Toyota':["Driver's door jamb. Look for <b>C/TR</b>: the code comes first (e.g. <b>040</b>).",'Marco de la puerta del conductor. Busca <b>C/TR</b>: el código es lo primero (ej. <b>040</b>).'],
  'Honda':["Driver's door jamb. Codes like <b>NH-731P</b> or <b>R-513</b>.",'Marco de la puerta del conductor. Código tipo <b>NH-731P</b> o <b>R-513</b>.'],
  'Ford':["Driver's door jamb label, next to <b>EXT PNT</b>: 2 characters (e.g. <b>YZ</b>).",'Etiqueta del marco de la puerta del conductor, junto a <b>EXT PNT</b>: 2 caracteres (ej. <b>YZ</b>).'],
- 'Chevrolet / GMC':['<b>Service Parts Identification</b> label in the glove box or on the door jamb. Look for <b>BC/CC U8555</b> or <b>WA8555</b>; the 3-character code (<b>GBA</b>) works too. <b>U</b> is the body color; <b>L</b> is the lower color on two-tones.','Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos.'],
+ 'Chevrolet':['<b>Service Parts Identification</b> label in the glove box or on the door jamb. Look for <b>BC/CC U8555</b> or <b>WA8555</b>; the 3-character code (<b>GBA</b>) works too. <b>U</b> is the body color; <b>L</b> is the lower color on two-tones.','Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos.'],
  'Nissan':["Driver's door jamb, next to <b>COLOR</b> (e.g. <b>KH3</b>).",'Marco de la puerta del conductor, junto a <b>COLOR</b> (ej. <b>KH3</b>).'],
  'Volkswagen':['Label in the trunk, by the spare tire, or in the service book: 4 characters starting with <b>L</b> (e.g. <b>LB9A</b>).','Etiqueta en la cajuela, junto a la llanta de refacción o en el libro de servicio: 4 caracteres que empiezan con <b>L</b> (ej. <b>LB9A</b>).'],
  'BMW':["Driver's door jamb or under the hood: 3 characters (e.g. <b>475</b>).",'Marco de la puerta del conductor o bajo el cofre: 3 caracteres (ej. <b>475</b>).'],
  'Mercedes-Benz':["Driver's door jamb or under the hood: 3 digits (e.g. <b>197</b>).",'Marco de la puerta del conductor o bajo el cofre: 3 dígitos (ej. <b>197</b>).'],
  'Tesla':["Usually not on a label: check the vehicle or order details (e.g. <b>PPSW</b>).",'Normalmente no viene en etiqueta: revisa los datos del vehículo o del pedido (ej. <b>PPSW</b>).'],
- 'Ram / Dodge / Jeep':["Driver's door jamb: 3 characters starting with <b>P</b> (e.g. <b>PW7</b>).",'Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>).'],
+ 'Ram':["Driver's door jamb: 3 characters starting with <b>P</b> (e.g. <b>PW7</b>).",'Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>).'],
  'Subaru':['Label under the hood, on the strut tower or firewall (e.g. <b>K1X</b>).','Etiqueta bajo el cofre, en la torre de suspensión o la pared de fuego (ej. <b>K1X</b>).'],
  'Mazda':["Driver's door jamb (e.g. <b>46V</b>).",'Marco de la puerta del conductor (ej. <b>46V</b>).'],
- 'Kia / Hyundai':["Driver's door jamb, next to <b>PAINT</b> or <b>EXT</b> (e.g. <b>UD</b>, <b>NKA</b>).",'Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>).'],
+ 'Kia':["Driver's door jamb, next to <b>PAINT</b> or <b>EXT</b> (e.g. <b>UD</b>, <b>NKA</b>).",'Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>).'],
  'RAL':['RAL chart: 4 digits (e.g. <b>9005</b>).','Carta RAL: 4 dígitos (ej. <b>9005</b>).']
 };
-const WMI={'Chevrolet / GMC':'1G1 1GC 1GN 1GB 2G1 2GC 2GN 3G1 3GC 3GN 3GT 1GT 1GK 2GK 2GT KL1 KL7 KL8','Ford':'1FA 1FB 1FC 1FD 1FM 1FT 2FA 2FM 2FT 3FA 3FM 3FT MAJ NM0','Honda':'1HG 2HG 3HG 5FN 5J6 5KB JHM 19X 7FA SHH','Toyota':'4T1 4T3 4T4 5TD 5TF 5TE 5YF 2T1 2T3 3TM 3TY 7MU JTD JTE JTH JTJ JTK JTL JTM JTN','Nissan':'1N4 1N6 3N1 3N6 3N8 5N1 5BZ JN1 JN8','Volkswagen':'WVW WVG WV1 WV2 1VW 3VW 3VV','BMW':'WBA WBS WBX WBY 5UX 5UJ 5YM','Mercedes-Benz':'WDD WDC WDB WD3 W1K W1N W1V 4JG 55S','Tesla':'5YJ 7SA 7G2 LRW XP7','Ram / Dodge / Jeep':'1C3 1C4 1C6 2C3 2C4 3C4 3C6 3C7 1D7 3D7 1J4 1J8 ZAC','Subaru':'JF1 JF2 4S3 4S4','Mazda':'JM1 JM3 3MZ 3MV 4F2','Kia / Hyundai':'KNA KND KNM 5XX 5XY 3KP KMH KM8 5NP 5NM 3KM'};
+const WHERE_GROUP={GMC:'Chevrolet',Buick:'Chevrolet',Cadillac:'Chevrolet',Pontiac:'Chevrolet',Oldsmobile:'Chevrolet',Saturn:'Chevrolet',Hummer:'Chevrolet',Geo:'Chevrolet',Dodge:'Ram',Jeep:'Ram',Chrysler:'Ram',Plymouth:'Ram',Eagle:'Ram',Hyundai:'Kia',Genesis:'Kia',Lexus:'Toyota',Scion:'Toyota',Acura:'Honda',Infiniti:'Nissan',Lincoln:'Ford',Mercury:'Ford'};
+const whereFor=m=>WHERE[m]||WHERE[WHERE_GROUP[m]];
+const WMI={'Chevrolet':'1G1 1GC 1GN 1GB 2G1 2GC 2GN 3G1 3GC 3GN KL1 KL7 KL8 1GA','GMC':'1GT 3GT 1GK 2GK 2GT 1GD','Buick':'1G4 2G4 5GA KL4 LRB','Cadillac':'1G6 1GY 1GE','Pontiac':'1G2 2G2 5Y2 6G2','Saturn':'1G8 5GZ','Hummer':'5GR 5GT 137','Oldsmobile':'1G3','Ford':'1FA 1FB 1FC 1FD 1FM 1FT 2FA 2FM 2FT 3FA 3FM 3FT MAJ NM0 1ZV','Lincoln':'1LN 2LM 5LM 3LN','Mercury':'1ME 2ME 4M2 1MR','Honda':'1HG 2HG 3HG 5FN 5J6 5KB JHM 7FA SHH','Acura':'19U 19X JH4 5J8','Toyota':'4T1 4T3 4T4 5TD 5TF 5TE 5YF 2T1 2T3 3TM 3TY 7MU JTD JTE JTK JTL JTM JTN','Lexus':'JTH JTJ 2T2 58A','Scion':'JTK','Nissan':'1N4 1N6 3N1 3N6 3N8 5N1 5BZ JN1 JN8','Infiniti':'JNK JNR 5N3 JNX','Volkswagen':'WVW WVG WV1 WV2 1VW 3VW 3VV','Audi':'WAU WA1 WUA TRU','Porsche':'WP0 WP1','BMW':'WBA WBS WBX WBY 5UX 5UJ 5YM','MINI':'WMW','Mercedes-Benz':'WDD WDC WDB WD3 W1K W1N W1V 4JG 55S','Tesla':'5YJ 7SA 7G2 LRW XP7','Ram':'1C6 3C6 3C7','Dodge':'1B3 2B3 1D7 3D7 2D4 1C3 2C3 3C4','Jeep':'1J4 1J8 1C4 ZAC','Chrysler':'2C4 2A4 1A8','Subaru':'JF1 JF2 4S3 4S4','Mazda':'JM1 JM3 3MZ 3MV 4F2','Kia':'KNA KND KNM 5XX 5XY 3KP','Hyundai':'KMH KM8 5NP 5NM 3KM','Genesis':'KMT','Mitsubishi':'JA3 JA4 4A3 4A4 ML3','Volvo':'YV1 YV4 7JR 7JD','Land Rover':'SAL','Jaguar':'SAJ','Suzuki':'JS2 JS3 2S3','Isuzu':'JAL 4S2 JAA','Fiat':'3C3 ZFA','Alfa Romeo':'ZAR'};
 const WMIMAP={};Object.entries(WMI).forEach(([m,s])=>s.split(' ').forEach(w=>WMIMAP[w]=m));
 function decodeVin(v){
   v=v.toUpperCase().replace(/[^A-Z0-9]/g,'');
@@ -894,7 +930,7 @@ function decodeVin(v){
   return {make:WMIMAP[v.slice(0,3)],year,wmi:v.slice(0,3)};
 }
 function formatHint(q){
-  if(/^(WA|U|L)[0-9A-Z]{4}$/.test(q)||/^\d{2}U$/.test(q))return 'Chevrolet / GMC';
+  if(/^(WA|U|L)[0-9A-Z]{4}$/.test(q)||/^\d{2}U$/.test(q))return 'Chevrolet';
   if(/^NH\d{3}[MP]?$/.test(q))return 'Honda';
   if(/^L[A-Z0-9]\d[A-Z0-9]$/.test(q))return 'Volkswagen';
   return null;
@@ -999,12 +1035,14 @@ Detail.prototype.render=function(){
           <div class="code" style="margin-top:8px">${esc(col.codigo)}</div>
           <div class="cname">${esc(col.nombre)}</div>
           ${col.alias&&col.alias.length?`<div class="small muted mono" style="margin-top:6px">${t('d.also')} ${col.alias.map(esc).join(' · ')}</div>`:''}
-          <div class="meta"><span class="fin">${fin}</span><span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span><span class="pill n">${f.imported?t('d.imp'):t('d.calc')}</span></div>
+          ${col.years?`<div class="small muted" style="margin-top:4px">${t('d.years')} <b class="mono">${esc(yearsLabel(col.years))}</b></div>`:''}
+          ${col.otros&&col.otros.length?`<div class="small muted" style="margin-top:2px">${t('d.names')} ${esc(col.otros.join(' · '))}</div>`:''}
+          <div class="meta"><span class="fin">${fin}</span>${col.est?`<span class="pill warn">${t('d.estpill')}</span>`:`<span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span>`}<span class="pill n">${f.imported?t('d.imp'):t('d.calc')}</span></div>
         </div>
       </div>
       <div class="proof">
         <div class="card"><div class="split"><div style="background:${col.hex}"><span>${t('card.t')}</span></div><div style="background:${mixHex}"><span>${t('card.m')}</span></div></div><div class="hide"><i style="background:${mixHex};opacity:.93"></i></div></div>
-        <p class="note">${note}</p>
+        <div style="display:flex;flex-direction:column;gap:8px"><p class="note">${note}</p>${col.src!=='libre'?`<label class="fixrow${col.est?' est':''}"><span>${col.est?t('d.est'):t('d.fixq')}</span><input type="color" id="hexfix" value="${col.hex}" aria-label="${esc(t('d.fixq'))}"></label>`:''}</div>
       </div>
     </div>
     <div class="sec">
@@ -1058,6 +1096,7 @@ Detail.prototype.bind=function(){
   r.querySelector('#vpre').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;this.v=Object.assign({L:0,a:0,b:0,C:0},VPRE[+b.dataset.i][1]);this.syncSliders();this.updateVar()});
   r.querySelector('#vreset').addEventListener('click',()=>{this.v={L:0,a:0,b:0,C:0};this.syncSliders();this.updateVar()});
   r.querySelector('#vsave').addEventListener('click',()=>this.save());
+  const hf=r.querySelector('#hexfix');if(hf)hf.addEventListener('change',e=>{const v=e.target.value.toUpperCase(),k=this.col.marca+'|'+norm(this.col.codigo),ov=store.get('hexfix',{});ov[k]=v;store.set('hexfix',ov);this.col.hex=v;this.col.est=false;this.col.fixed=true;toast(t('d.fixed'));this.load(this.col,this.extra);search()});
 };
 Detail.prototype.syncSliders=function(){Object.keys(this.v).forEach(k=>{this.root.querySelector('#vs-'+k).value=this.v[k]})};
 Detail.prototype.qtyFromParts=function(){const ready=[...this.parts].reduce((s,i)=>s+PARTS[i][1],0);if(ready>0)this.qty=Math.max(100,Math.ceil(ready*SYSTEMS[this.sys].f*1000/50)*50)};
@@ -1124,9 +1163,17 @@ function copy(text){const done=()=>toast(t('copied'));
 const det=new Detail($('#detail'));
 let make=null,current=null,vinInfo=null,showAll=false;
 const makesList=()=>[...new Set(allColors().map(c=>c.marca))];
+const POPULAR=['Toyota','Chevrolet','Ford','Honda','Nissan','GMC','Ram','Dodge','Jeep','Hyundai','Kia','Volkswagen'];
+let year=0;
 function renderMakes(){
-  $('#makes').innerHTML=makesList().map(m=>`<button class="chip" type="button" data-m="${esc(m)}" aria-pressed="${m===make}">${esc(m)}</button>`).join('');
-  $('#where').innerHTML=make?`<b>${t('where.t')}</b> ${WHERE[make]?WHERE[make][L]:t('where.def')}`:t('where.none');
+  const all=makesList().sort((a,b)=>a.localeCompare(b)),pop=POPULAR.filter(m=>all.includes(m)),rest=all.filter(m=>!pop.includes(m));
+  $('#makes').innerHTML=pop.map(m=>`<button class="chip" type="button" data-m="${esc(m)}" aria-pressed="${m===make}">${esc(m)}</button>`).join('');
+  $('#moremakes').innerHTML=`<option value="">${esc(t('f.more'))} (${rest.length})</option>`+rest.map(m=>`<option${m===make?' selected':''}>${esc(m)}</option>`).join('');
+  if(make&&!pop.includes(make)&&!rest.includes(make))$('#moremakes').value='';
+  const now=new Date().getFullYear()+1;let yo=`<option value="0">${esc(t('f.anyyear'))}</option>`;for(let y=Math.min(2026,now);y>=1990;y--)yo+=`<option value="${y}"${y===year?' selected':''}>${y}</option>`;
+  $('#year').innerHTML=yo;
+  const w=make&&whereFor(make);
+  $('#where').innerHTML=make?`<b>${t('where.t')}</b> ${w?w[L]:t('where.def')}`:t('where.none');
 }
 function matchScore(c,q,qr){
   if(!q)return 0;
@@ -1141,17 +1188,17 @@ function matchScore(c,q,qr){
 const cleanQuery=raw=>{let r=String(raw).trim();const ct=r.match(/C\s*\/\s*TR\s*:?\s*([A-Z0-9-]+)/i);if(ct)r=ct[1];else if(/^BC\s*\/\s*CC/i.test(r))r=r.replace(/^BC\s*\/\s*CC/i,'');else if(r.includes('/'))r=r.split('/')[0];return norm(r).replace(/^(EXTPNT|PAINT|COLOR|PNT)/,'')};
 function search(){
   const raw=$('#q').value,q=cleanQuery(raw),qr=raw.trim();
-  const pool=make&&!showAll?allColors().filter(c=>c.marca===make):allColors();
+  const pool=(make&&!showAll?allColors().filter(c=>c.marca===make):allColors()).filter(c=>!year||!c.years||yearsHas(c.years,year));
   let list=pool;
   if(q)list=pool.map(c=>[matchScore(c,q,qr),c]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
   const exact=q?list.filter(c=>matchScore(c,q,qr)===100):[],exMakes=[...new Set(exact.map(c=>c.marca))];
-  const multi=exMakes.length>1&&(!make||showAll),hint=!make&&q?formatHint(q):null;
+  const multi=exMakes.length>1&&new Set(exact.map(c=>fold(c.nombre))).size>1&&(!make||showAll),hint=!make&&q?formatHint(q):null;
   $('#ambig').innerHTML=multi?`<div class="ambig"><b>${esc(t('ambig',qr.toUpperCase(),exMakes.length))}</b><div class="chips">${exMakes.map(m=>`<button class="chip" type="button" data-pick="${esc(m)}">${esc(m)}</button>`).join('')}</div></div>`
     :(hint&&!exact.length?`<div class="ambig"><b>${esc(t('hint',hint))}</b><span class="small">${t('hint.p')}</span></div>`:'');
-  let head=`<span>${esc(t('count',list.length,make&&!showAll?make:''))}</span>`;
+  let head=`<span>${esc(t('count',list.length,(make&&!showAll?make:'')+(year?' '+year:'')))}</span>`;
   if(make&&showAll)head+=`<button type="button" id="onlymake">${esc(t('only',make))}</button>`;
   const el=$('#results');
-  el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${t('fin.'+c.acabado)}</span></button>`).join('')
+  el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.slice(0,300).map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}${c.years?' · '+esc(yearsLabel(c.years).split(', ').slice(-1)[0]):''}</span></span><span class="fin">${t('fin.'+c.acabado)}</span></button>`).join('')+(list.length>300?`<div class="empty small">${t('more',list.length-300)}</div>`:'')
     :`<div class="empty"><span>${make&&!showAll?t('empty.make',esc(qr),esc(make)):t('empty.all')}</span>${make&&!showAll?`<button class="btn" type="button" id="seeall">${t('seeall')}</button>`:''}<button class="btn" type="button" id="gofree">${t('gofree')}</button>${make&&q?`<form class="addc" id="addc"><b>${esc(t('add.h',cleanQuery(qr),make))}</b><span class="small">${t('add.p')}</span><input class="inp" id="addname" required placeholder="${esc(t('add.name'))}"><div class="pickrow"><input type="color" id="addhex" value="#A9ACAF" aria-label="Color"><select id="addfin"><option value="S">${t('fin.S')}</option><option value="M" selected>${t('fin.M')}</option><option value="P">${t('fin.P')}</option><option value="T">${t('fin.T')}</option></select></div><button class="btn primary" type="submit">${t('add.btn')}</button></form>`:''}</div>`);
   const af=$('#addc');if(af)af.onsubmit=e=>{e.preventDefault();const c={marca:make,codigo:raw.trim().toUpperCase().match(/C\s*\/\s*TR/i)?cleanQuery(qr):cleanQuery(qr),nombre:$('#addname').value.trim()||cleanQuery(qr),acabado:$('#addfin').value,hex:$('#addhex').value.toUpperCase(),formula:'',alias:[],src:'imp'};IMPORTED=IMPORTED.filter(x=>!(x.marca===c.marca&&norm(x.codigo)===norm(c.codigo)));IMPORTED.unshift(c);store.set('imported',IMPORTED);toast(t('added'));autoPick()};
   el.querySelectorAll('.ritem').forEach(b=>b.addEventListener('click',()=>select(list[+b.dataset.i],true)));
@@ -1169,6 +1216,8 @@ $('#q').addEventListener('input',autoPick);
 $('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){const r=search();if(!r.ambiguous&&r.list[0])select(r.list[0],true)}});
 $('#qclear').addEventListener('click',()=>{$('#q').value='';search();$('#q').focus()});
 $('#makes').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;make=make===b.dataset.m?null:b.dataset.m;showAll=false;renderMakes();autoPick()});
+$('#moremakes').addEventListener('change',e=>{if(!e.target.value)return;make=e.target.value;showAll=false;renderMakes();autoPick()});
+$('#year').addEventListener('change',e=>{year=+e.target.value;autoPick()});
 $('#ambig').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;make=b.dataset.pick;showAll=false;renderMakes();autoPick()});
 function vinUpdate(){
   const r=decodeVin($('#vin').value),m=$('#vinmsg');vinInfo=null;
@@ -1176,7 +1225,7 @@ function vinUpdate(){
   if(!r.make){m.innerHTML=t('vin.unk',esc(r.wmi));return false}
   vinInfo=r;m.innerHTML=t('vin.ok',esc(r.make),r.year);return true;
 }
-$('#vin').addEventListener('input',()=>{if(vinUpdate()){make=vinInfo.make;showAll=false;renderMakes();autoPick()}});
+$('#vin').addEventListener('input',()=>{if(vinUpdate()){make=vinInfo.make;if(vinInfo.year&&vinInfo.year>=1990)year=vinInfo.year;showAll=false;renderMakes();autoPick()}});
 
 /* ================= Pestañas, idioma y rutas ================= */
 let tabNow='buscar';
@@ -1195,7 +1244,7 @@ function applyLang(){
   document.querySelectorAll('[data-tp]').forEach(el=>el.placeholder=t(el.dataset.tp));
   document.querySelectorAll('[data-ta]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.ta)));
   document.querySelectorAll('[data-lang]').forEach(b=>{b.textContent=L?'EN':'ES';b.setAttribute('aria-label',L?'Switch to English':'Cambiar a español')});
-  renderFeats();renderPlans();renderFaq();demoRefresh();
+  renderFeats();renderPlans();renderFaq();demoRefresh();if(typeof showStats==='function')showStats();
   if(appStarted){renderMakes();search();renderToners();if($('#vin').value)vinUpdate();if(det.col)det.render();if(fdet.col)fdet.render();if(tabNow==='mis')renderSaved();coachReset()}
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{L=L?0:1;store.set('lang',L?'es':'en');applyLang()}));
@@ -1204,7 +1253,7 @@ let appStarted=false;
 function route(){
   const app=location.hash==='#app';
   $('#landing').hidden=app;$('#app').hidden=!app;
-  if(app){window.scrollTo(0,0);if(!appStarted){appStarted=true;renderToners();make='Ford';renderMakes();$('#q').value='PQ';autoPick();coachReset()}else if(det.col&&tabNow==='buscar')setPaint(det.col.hex)}
+  if(app){window.scrollTo(0,0);if(!appStarted){appStarted=true;renderToners();renderMakes();coachReset();dbP.then(()=>{if(!det.col){make='Ford';renderMakes();$('#q').value='PQ';autoPick()}else{renderMakes();search()}})}else if(det.col&&tabNow==='buscar')setPaint(det.col.hex)}
   else if(demo.col)setPaint(demo.col.hex);
   demo.running=!app;onScroll();
 }
@@ -1384,6 +1433,7 @@ function renderPlans(){
 $('#pm').onclick=()=>{annual=false;$('#pm').setAttribute('aria-pressed','true');$('#pa').setAttribute('aria-pressed','false');renderPlans()};
 $('#pa').onclick=()=>{annual=true;$('#pa').setAttribute('aria-pressed','true');$('#pm').setAttribute('aria-pressed','false');renderPlans()};
 const FAQ=[
+  [['Is my car’s code in there?','¿Está el código de mi carro?'],['The list covers the main makes sold in the US and Mexico from 1990 to today, with the years each code was used and its other names. On-screen colors are estimated from the color name, so always confirm with a test card. If a code is missing, you add it in seconds and it stays in your list.','La lista cubre las principales marcas vendidas en Estados Unidos y México de 1990 a la fecha, con los años en que se usó cada código y sus otros nombres. Los colores en pantalla se estiman por el nombre del color, así que confirma siempre con carta de prueba. Si falta un código, lo agregas en segundos y se queda en tu lista.']],
   [['Where do the formulas come from?','¿De dónde salen las fórmulas?'],['Taller de Color calculates a starting formula from the color with a pigment-mixing model, and tells you how close it gets (ΔE). If your supplier gives you official formulas, or you have tested ones, import them and the app uses them instead. Always spray a test card before painting.','Taller de Color calcula una fórmula de arranque a partir del color con un modelo de mezcla de pigmentos y te dice qué tan cerca queda (ΔE). Si tu proveedor te da fórmulas oficiales o ya tienes fórmulas probadas, las importas y la app las usa en lugar de las calculadas. Haz siempre carta de prueba antes de pintar.']],
   [['Does it work with the paint I buy?','¿Funciona con la pintura que yo compro?'],['Yes. In My toners you enter your brand’s code next to each toner (white, black, phthalo blue, aluminum…) and formulas come out with your codes. It works for basecoat, waterborne and single stage.','Sí. En Mis tintes pones el código de tu marca junto a cada tinte (blanco, negro, azul ftalo, aluminio…) y la fórmula sale con tus códigos. Sirve para bicapa, base agua y monocapa.']],
   [['What if a code exists in two makes?','¿Qué pasa si el código existe en dos marcas?'],['It happens a lot: 040 is white on a Toyota and black on a Mercedes-Benz. That’s why you pick the make or paste the VIN first. If you don’t, the app asks before showing a formula.','Pasa seguido: el 040 es blanco en Toyota y negro en Mercedes-Benz. Por eso primero eliges la marca o pegas el VIN. Si no la eliges, la app te pregunta antes de mostrar la fórmula.']],
@@ -1393,7 +1443,7 @@ const FAQ=[
 function renderFaq(){$('#faq').innerHTML=FAQ.map(([q,a])=>`<details><summary>${q[L]}</summary><p>${a[L]}</p></details>`).join('')}
 
 /* ================= Demo del héroe ================= */
-const demo={running:true,i:0,col:null,truck:new Truck($('#dtruck')),hold:0,list:[['Mazda','46V'],['Chevrolet / GMC','GAZ'],['Subaru','K7X'],['Ford','PQ'],['Toyota','1G3'],['Nissan','NAH'],['RAL','RAL 6018'],['Honda','B-593M']]};
+const demo={running:true,i:0,col:null,truck:new Truck($('#dtruck')),hold:0,list:[['Mazda','46V'],['Chevrolet','GAZ'],['Subaru','K7X'],['Ford','PQ'],['Toyota','1G3'],['Nissan','NAH'],['RAL','RAL 6018'],['Honda','B-593M']]};
 const demoCols=demo.list.map(([m,c])=>BASE.find(x=>x.marca===m&&x.codigo===c)).filter(Boolean);
 $('#rail').innerHTML=demoCols.map((c,i)=>`<button class="rchip" type="button" data-i="${i}" aria-pressed="false" aria-label="${esc(c.marca+' '+c.codigo)}"><i style="background:${finishBg(c.hex,c.acabado)}"></i><span>${esc(c.codigo)}</span></button>`).join('');
 $('#marq').innerHTML=Array(3).fill(BASE.filter((_,i)=>i%3===0).map(c=>`<span><i style="background:${c.hex}"></i>${esc(c.codigo)}</span>`).join('')).join('');
@@ -1442,6 +1492,8 @@ function onScroll(){
 }
 window.addEventListener('scroll',onScroll,{passive:true});
 
+const showStats=()=>{const el=$('#dbstats');if(el)el.textContent=DBINFO?t('db.stats',DBINFO.codes,DBINFO.makes):''};
+const dbP=loadDB().then(showStats);
 applyLang();riseReady=true;observeRise();route();demoNext();
 })();
 </script>
