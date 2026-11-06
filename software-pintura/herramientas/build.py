@@ -72,6 +72,10 @@ def finish(names):
 def find(par,x):
     while par[x]!=x: par[x]=par[par[x]]; x=par[x]
     return x
+MODELS_OUT={}
+def nice(slug):
+    w=[x.upper() if (len(x)<=3 and any(ch.isdigit() for ch in x)) or x in ('gt','gti','suv','rs','ss','cx','hr','sl','xl') else x.capitalize() for x in slug.split('-')]
+    return ' '.join(w).replace('Cr V','CR-V').replace('Hr V','HR-V').replace('C HR','C-HR')
 def build(makes):
     out={}; stats={}
     for mk in makes:
@@ -110,6 +114,44 @@ def build(makes):
             for n in ns:
                 g['names'][n]+=1; g['nlast'][n]=max(g['nlast'].get(n,0),y)
         primaries=set(groups)
+        # ---- modelos por código (si ya se descargó la marca por modelo)
+        src={'ram':'dodge'}.get(mk,mk)
+        rf=os.path.join(os.path.dirname(os.path.abspath(__file__)),'resultados',f'{src}.jsonl')
+        mods=collections.defaultdict(lambda:collections.defaultdict(set)); mnames=[]
+        if os.path.exists(rf):
+            per=collections.defaultdict(dict)
+            for l in open(rf):
+                d=json.loads(l)
+                if mk=='ram' and 'ram' not in d['m']: continue
+                if mk=='dodge' and d['m'] in ('ram','ram-truck','new-ram-truck','ram-pickup') and d['y']>=2011: continue
+                per[d['m']][d['y']]=d
+            for m,byy in per.items():
+                last=None; gap=False; acc=set()
+                for y in sorted(byy):
+                    d=byy[y]
+                    real=d.get('ok') and d['r'] and 0<d.get('v',0)<90000
+                    if not real:
+                        if last is not None and d.get('ok'): gap=True
+                        continue
+                    ks=set()
+                    for cs,ns in d['r']:
+                        cs=[re.sub(r'\s+',' ',c).strip().upper() for c in cs if c.strip()]
+                        if cs: ks.add(pick(cs))
+                    # página copiada del último año real después de años inexistentes: se descarta
+                    if gap and last is not None and ks<=last: continue
+                    if 2022<=y<=2024 and (y-1) not in acc and (any(a<2022 for a in acc) or not any(k in groups and min(groups[k]['years'])>=2020 for k in ks)): continue
+                    last=(last or set())|ks; gap=False; acc.add(y)
+                    for k in ks:
+                        if k in groups: mods[k][m].add(y)
+            mnames=sorted({m for v in mods.values() for m in v})
+        midx={m:i for i,m in enumerate(mnames)}
+        def rng_of(ys):
+            ys=sorted(ys); r=[];a=b=ys[0]
+            for v in ys[1:]:
+                if v==b+1: b=v; continue
+                r.append(f'{a}-{b}' if a!=b else str(a)); a=b=v
+            r.append(f'{a}-{b}' if a!=b else str(a)); return ','.join(r)
+        MODELS_OUT[disp(mk)]=[nice(m) for m in mnames]
         ents=[]
         for k,g in groups.items():
             code=k
@@ -124,7 +166,8 @@ def build(makes):
                 if v==p0+1: p0=v; continue
                 rng.append(f'{s0}-{p0}' if s0!=p0 else str(s0)); s0=p0=v
             rng.append(f'{s0}-{p0}' if s0!=p0 else str(s0))
-            ents.append([code,' | '.join(nm[:4]),fin,hx,','.join(rng),' '.join(alias),1 if ok else 0])
+            mm=';'.join(f'{midx[m]}:{rng_of(ys)}' for m,ys in sorted(mods.get(k,{}).items()))
+            ents.append([code,' | '.join(nm[:4]),fin,hx,','.join(rng),' '.join(alias),1 if ok else 0,mm])
         ents.sort(key=lambda e:e[0])
         if not ents: continue
         out[disp(mk)]=ents; stats[disp(mk)]=len(ents)
@@ -132,5 +175,5 @@ def build(makes):
 if __name__=='__main__':
     makes=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'makes.txt')).read().strip().split(',')
     out,stats=build(makes)
-    json.dump({'v':1,'source':'Compilado por Taller de Color a partir de listas públicas de códigos de pintura (AutomotiveTouchup.com). Solo datos: código, nombre y años. Colores en pantalla estimados por el nombre.','built':'2026-11','makes':out},open('colors.json','w'),ensure_ascii=False,separators=(',',':'))
+    json.dump({'v':1,'source':'Compilado por Taller de Color a partir de listas públicas de códigos de pintura (AutomotiveTouchup.com). Solo datos: código, nombre y años. Colores en pantalla estimados por el nombre.','built':'2026-11','makes':out,'models':MODELS_OUT},open('colors.json','w'),ensure_ascii=False,separators=(',',':'))
     print(json.dumps(stats,ensure_ascii=False)); print('total',sum(stats.values()),'bytes',os.path.getsize('colors.json'))
