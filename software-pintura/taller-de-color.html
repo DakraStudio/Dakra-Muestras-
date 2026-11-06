@@ -882,6 +882,9 @@ CURATED.slice().forEach(c=>(SHARE[c.marca]||[]).forEach(m=>CURATED.push(Object.a
 let BASE=CURATED.slice(),DBINFO=null;
 const yearsHas=(ys,y)=>!ys||ys.split(',').some(r=>{const [a,b]=r.split('-').map(Number);return y>=a&&y<=(b||a)});
 const yearsLabel=ys=>ys?ys.replace(/,/g,', ').replace(/-/g,'–'):'';
+const WSKIP=new Set(['metallic','pearl','mica','coat','tricoat','crystal','clearcoat','tinted','multi','tint']);
+const wset=x=>new Set(fold(x).split(/[^a-z]+/).filter(w=>w.length>3&&!WSKIP.has(w)));
+const agree=(a,b)=>{const A=wset(a),B=wset(b);for(const w of A)if(B.has(w))return true;return false};
 async function loadDB(){
   try{
     const r=await fetch('colors.json');if(!r.ok)throw 0;const d=await r.json();
@@ -889,7 +892,8 @@ async function loadDB(){
     const list=[];let n=0;
     Object.entries(d.makes).forEach(([mk,arr])=>arr.forEach(e=>{
       const [code,names,fin,hex,years,alias,ok]=e;n++;
-      const nm=names.split(' | '),c=cur.get(mk+'|'+norm(code));
+      const nm=names.split(' | ');let c=cur.get(mk+'|'+norm(code));
+      if(c&&!agree(c.nombre,names)){cur.delete(mk+'|'+norm(code));c=null}
       const al=(alias?alias.split(' '):[]).concat(c?c.alias:[]);
       list.push({marca:mk,codigo:code,nombre:nm[0],otros:nm.slice(1),acabado:c?c.acabado:fin,hex:c?c.hex:hex,est:!c,years,alias:[...new Set(al)],src:'db'});
       if(c)cur.delete(mk+'|'+norm(c.codigo));
