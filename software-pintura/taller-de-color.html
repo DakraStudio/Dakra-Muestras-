@@ -25,6 +25,7 @@
   --ok:#5BCB8A; --warn:#E4AC4E; --bad:#F27B6E; --glass:#2A3438; color-scheme:dark }
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);margin:0}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
@@ -242,6 +243,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 .where b{color:var(--ink)}
 .ambig{border:1.5px solid var(--ink);background:color-mix(in oklab,var(--hi) 30%,var(--panel));border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .ambig .chips{display:flex;gap:6px;flex-wrap:wrap}
+.addc{display:flex;flex-direction:column;gap:8px;width:100%;border-top:1px dashed var(--line);padding-top:12px;color:var(--ink)}
+.addc select{width:auto;flex:1}
 
 .layout{display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr);gap:16px;align-items:start}
 @media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
@@ -610,6 +613,7 @@ const S={
  'only':[m=>`Only ${m}`,m=>`Solo ${m}`],
  'empty.make':[(q,m)=>`I don't have <b>${q}</b> for ${m}. Check the label or calculate the color in <b>Any color</b>.`,(q,m)=>`No tengo <b>${q}</b> en ${m}. Revisa la etiqueta o calcula el color en <b>Color libre</b>.`],
  'empty.all':["I couldn't find that code. Check the label or calculate the color in <b>Any color</b>.",'No encontré ese código. Revisa la etiqueta o calcula el color en <b>Color libre</b>.'],
+ 'add.h':[(c,m)=>`Add ${c} to ${m}`,(c,m)=>`Agregar ${c} a ${m}`],'add.p':["Know the color? Add it once and it stays in your list. Pick the closest color; you'll fine-tune it with a test card.",'¿Conoces el color? Agrégalo una vez y se queda en tu lista. Elige el color más parecido; lo afinas con la carta de prueba.'],'add.name':['Color name (e.g. Silver Metallic)','Nombre del color (ej. Silver Metallic)'],'add.btn':['Save and use','Guardar y usar'],'added':['Color added to your list','Color agregado a tu lista'],
  'seeall':['Search all makes','Buscar en todas las marcas'],'gofree':['Go to Any color','Ir a Color libre'],
  'fin.S':['Solid','Sólido'],'fin.M':['Metallic','Metálico'],'fin.P':['Pearl','Perlado'],'fin.T':['Tri-coat','Tricapa'],
  'q.ok1':['Excellent','Excelente'],'q.ok2':['Very close','Muy cerca'],'q.warn':['Adjust on card','Ajustar en carta'],'q.bad':['Approximate','Aproximado'],
@@ -751,6 +755,10 @@ Toyota|202|Black|S|#0F1012|
 Toyota|218|Attitude Black Mica|P|#17181B|
 Toyota|3R3|Barcelona Red Metallic|M|#8E1B1F|
 Toyota|8X8|Blueprint|P|#203A5E|
+Toyota|1D4|Silver Metallic / Titanium Metallic|M|#AEB1B4|
+Toyota|1D6|Silver Sky Metallic|M|#B3B6B9|
+Toyota|1H1|Predawn Gray Mica|P|#56595D|
+Toyota|8T7|Blue Streak Metallic|M|#1F4FA0|
 Honda|NH-731P|Crystal Black Pearl|P|#121315|
 Honda|NH-578|Taffeta White|S|#F2F2EE|
 Honda|NH-883P|Platinum White Pearl|T|#F0EFEA|
@@ -1130,7 +1138,7 @@ function matchScore(c,q,qr){
   if(words.length&&words.every(w=>hay.includes(w)||(ES[w]&&ES[w].split(' ').some(x=>hay.includes(x)))))return 20;
   return 0;
 }
-const cleanQuery=raw=>norm(raw).replace(/^BCCC/,'').replace(/^(EXTPNT|PAINT|COLOR|PNT)/,'');
+const cleanQuery=raw=>{let r=String(raw).trim();const ct=r.match(/C\s*\/\s*TR\s*:?\s*([A-Z0-9-]+)/i);if(ct)r=ct[1];else if(/^BC\s*\/\s*CC/i.test(r))r=r.replace(/^BC\s*\/\s*CC/i,'');else if(r.includes('/'))r=r.split('/')[0];return norm(r).replace(/^(EXTPNT|PAINT|COLOR|PNT)/,'')};
 function search(){
   const raw=$('#q').value,q=cleanQuery(raw),qr=raw.trim();
   const pool=make&&!showAll?allColors().filter(c=>c.marca===make):allColors();
@@ -1144,7 +1152,8 @@ function search(){
   if(make&&showAll)head+=`<button type="button" id="onlymake">${esc(t('only',make))}</button>`;
   const el=$('#results');
   el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${t('fin.'+c.acabado)}</span></button>`).join('')
-    :`<div class="empty"><span>${make&&!showAll?t('empty.make',esc(qr),esc(make)):t('empty.all')}</span>${make&&!showAll?`<button class="btn" type="button" id="seeall">${t('seeall')}</button>`:''}<button class="btn" type="button" id="gofree">${t('gofree')}</button></div>`);
+    :`<div class="empty"><span>${make&&!showAll?t('empty.make',esc(qr),esc(make)):t('empty.all')}</span>${make&&!showAll?`<button class="btn" type="button" id="seeall">${t('seeall')}</button>`:''}<button class="btn" type="button" id="gofree">${t('gofree')}</button>${make&&q?`<form class="addc" id="addc"><b>${esc(t('add.h',cleanQuery(qr),make))}</b><span class="small">${t('add.p')}</span><input class="inp" id="addname" required placeholder="${esc(t('add.name'))}"><div class="pickrow"><input type="color" id="addhex" value="#A9ACAF" aria-label="Color"><select id="addfin"><option value="S">${t('fin.S')}</option><option value="M" selected>${t('fin.M')}</option><option value="P">${t('fin.P')}</option><option value="T">${t('fin.T')}</option></select></div><button class="btn primary" type="submit">${t('add.btn')}</button></form>`:''}</div>`);
+  const af=$('#addc');if(af)af.onsubmit=e=>{e.preventDefault();const c={marca:make,codigo:raw.trim().toUpperCase().match(/C\s*\/\s*TR/i)?cleanQuery(qr):cleanQuery(qr),nombre:$('#addname').value.trim()||cleanQuery(qr),acabado:$('#addfin').value,hex:$('#addhex').value.toUpperCase(),formula:'',alias:[],src:'imp'};IMPORTED=IMPORTED.filter(x=>!(x.marca===c.marca&&norm(x.codigo)===norm(c.codigo)));IMPORTED.unshift(c);store.set('imported',IMPORTED);toast(t('added'));autoPick()};
   el.querySelectorAll('.ritem').forEach(b=>b.addEventListener('click',()=>select(list[+b.dataset.i],true)));
   const sa=$('#seeall');if(sa)sa.onclick=()=>{showAll=true;search()};
   const om=$('#onlymake');if(om)om.onclick=()=>{showAll=false;search()};
