@@ -2,260 +2,312 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-/* Layout: inicio de producto (héroe con carro que se pinta en vivo, pasos, comparación, precios) + software: marca/VIN → código → ficha de mezcla con carro, carta de prueba y báscula. */
-@property --paint{syntax:'<color>';inherits:true;initial-value:#BF141C}
+/* Layout: plano técnico. Héroe con titular ancho, escenario con camioneta en dibujo de línea que se "sumerge" en pintura + ticket de báscula impreso, riel de chips de color. Secciones que suben al hacer scroll, cinta de códigos que se desplaza. Software con la misma camioneta y asistente de preguntas flotante. */
+@property --paint{syntax:'<color>';inherits:true;initial-value:#A0101E}
 :root{
-  --bg:#EDF0F4; --panel:#FFFFFF; --ink:#141B26; --muted:#586577; --line:#D2D9E2; --soft:#F4F6F9;
-  --accent:#1E4ED0; --accent-ink:#FFFFFF; --tape:#F2C83A; --tape-ink:#1B1A12;
-  --ok:#1D7F47; --warn:#9A6614; --bad:#B8332A; --glass:#1C2633;
-  --paint:#BF141C;
-  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
-  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --bg:#F2F2EE; --panel:#FFFFFF; --ink:#16181B; --muted:#62666D; --line:#DCDDD6; --soft:#F8F8F5;
+  --accent:#0E7C66; --accent-ink:#FFFFFF; --hi:#F4D35E; --hi-ink:#1C1A10;
+  --ok:#1F7A44; --warn:#94620F; --bad:#B23A2E; --glass:#D8E0E4;
+  --paint:#A0101E;
+  --f-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#0F141A; --panel:#18202A; --ink:#E6EBF1; --muted:#9BA7B6; --line:#2A3440; --soft:#131A22;
-  --accent:#7097FF; --accent-ink:#0B1020; --tape:#E3B92C; --tape-ink:#17160E;
-  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; --glass:#0B1016; color-scheme:dark }}
+  --bg:#101211; --panel:#191C1B; --ink:#EDEFEA; --muted:#A0A6A2; --line:#2B302E; --soft:#141716;
+  --accent:#41C9AE; --accent-ink:#06221C; --hi:#E7C548; --hi-ink:#1C1A10;
+  --ok:#5BCB8A; --warn:#E4AC4E; --bad:#F27B6E; --glass:#2A3438; color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#0F141A; --panel:#18202A; --ink:#E6EBF1; --muted:#9BA7B6; --line:#2A3440; --soft:#131A22;
-  --accent:#7097FF; --accent-ink:#0B1020; --tape:#E3B92C; --tape-ink:#17160E;
-  --ok:#4CC785; --warn:#E0A84A; --bad:#F07068; --glass:#0B1016; color-scheme:dark }
+  --bg:#101211; --panel:#191C1B; --ink:#EDEFEA; --muted:#A0A6A2; --line:#2B302E; --soft:#141716;
+  --accent:#41C9AE; --accent-ink:#06221C; --hi:#E7C548; --hi-ink:#1C1A10;
+  --ok:#5BCB8A; --warn:#E4AC4E; --bad:#F27B6E; --glass:#2A3438; color-scheme:dark }
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);margin:0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1180px;margin:0 auto}
+.wrap{max-width:1200px;margin:0 auto}
 button,input,select,textarea{font:inherit;color:inherit}
-h1,h2,h3{font-family:var(--f-display);letter-spacing:.2px;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.02em}
 p{margin:0}
-.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+code,.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+code{font-size:.92em;background:var(--soft);border:1px solid var(--line);border-radius:5px;padding:0 5px}
 .muted{color:var(--muted)} .small{font-size:13px}
-.eyebrow{font:700 13px var(--f-body);letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 15px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;color:var(--ink)}
-.btn:hover{border-color:var(--ink)}
+.kicker{font:600 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+.kicker::before{content:"";width:18px;height:2px;background:var(--accent)}
+mark{background:linear-gradient(transparent 58%,var(--hi) 58%,var(--hi) 92%,transparent 92%);color:inherit;padding:0 .06em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:9px 18px;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .15s,background .15s,color .15s}
+.btn:hover{background:var(--ink);color:var(--bg)}
+.btn:active{transform:scale(.97)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.primary:hover{filter:brightness(1.08)}
-.btn.big{padding:14px 22px;font-size:16px;border-radius:11px}
-.btn.danger{color:var(--bad)}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;font-size:14px;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel);font-weight:700}
-.pill{font:700 12px var(--f-body);padding:3px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent);color:var(--accent-ink)}
+.btn.big{padding:14px 26px;font-size:16px}
+.btn.ghost{border-color:var(--line)}
+.btn.danger{color:var(--bad);border-color:var(--line)}
+.lang{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;font:600 13px var(--f-mono);cursor:pointer;color:var(--ink)}
+.lang:hover{border-color:var(--ink)}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer;transition:border-color .15s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg);font-weight:700}
+.pill{font:600 12px var(--f-mono);padding:3px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
 .pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)} .pill.n{color:var(--muted)}
-.fin{font:700 11px var(--f-body);letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--soft);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.fin{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;color:var(--muted);border:1px solid var(--line);white-space:nowrap}
 
-/* ---------------- Carro ---------------- */
-.car{width:100%;height:auto;display:block;overflow:visible}
-.car .tire{fill:#16181C} .car .rim{fill:#A9AFB6} .car .hub{fill:#5D646C}
-.car .win{fill:var(--glass)} .car .seam{stroke:rgba(0,0,0,.28);stroke-width:1.6;fill:none}
-.car .crease{stroke:rgba(255,255,255,.38);stroke-width:2.4;fill:none}
-.car .lamp{fill:#F3F1E6} .car .tail{fill:#8E1018}
-.car .shadow{fill:#000;opacity:.2}
+/* barra de avance al hacer scroll */
+.progress{position:fixed;left:0;right:0;top:env(safe-area-inset-top,0px);height:3px;z-index:40;pointer-events:none}
+.progress i{display:block;height:100%;width:100%;background:var(--paint);transform-origin:0 50%;transform:scaleX(var(--p,0))}
+
+/* entradas al hacer scroll: siempre visibles, solo se acomodan */
+.rise{transition:transform .8s cubic-bezier(.2,.75,.2,1),opacity .8s;transition-delay:var(--d,0ms)}
+.js .rise.pre{transform:translateY(26px);opacity:.35}
+
+/* ---------------- Camioneta (dibujo de línea) ---------------- */
+.truck{width:100%;height:auto;display:block;overflow:visible}
+.truck .ln{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.truck .thin{fill:none;stroke:var(--ink);stroke-width:1.2;opacity:.55}
+.truck .win{fill:var(--glass);stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.truck .tire{fill:#1A1C1F;stroke:var(--ink);stroke-width:2.2}
+.truck .rim{fill:var(--panel);stroke:var(--ink);stroke-width:2}
+.truck .shine{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.33}
+.truck .dim{stroke:var(--muted);stroke-width:1;fill:none}
+.truck text{font:600 13px var(--f-mono);fill:var(--muted);letter-spacing:.06em}
+.truck .ground{stroke:var(--line);stroke-width:2;stroke-dasharray:2 6}
 
 /* ---------------- INICIO ---------------- */
-.lnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.lnav .wrap{display:flex;align-items:center;gap:18px;padding-block:12px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto}
-.brand-mark{width:34px;height:34px;border-radius:8px;background:conic-gradient(from 200deg,#C4142C,#F2B01E,#0B6A4D,#0B3A8A,#3F2770,#C4142C);box-shadow:inset 0 0 0 3px var(--panel)}
-.brand b{font:800 24px/1 var(--f-display);letter-spacing:.3px}
-.lnav .links{display:flex;gap:18px}
-.lnav .links a{color:var(--muted);text-decoration:none;font-weight:700;font-size:14px}
+.lnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px)}
+.lnav .wrap{display:flex;align-items:center;gap:14px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin-right:auto;white-space:nowrap}
+.brand-mark{width:30px;height:30px;border-radius:50%;background:conic-gradient(var(--paint) 0 25%,#F4D35E 0 50%,#0E7C66 0 75%,#1D3B8F 0);border:2px solid var(--ink);transition:--paint .9s}
+.brand b{font:800 21px/1 var(--f-display);letter-spacing:-.02em}
+.lnav .links{display:flex;gap:22px}
+.lnav .links a{color:var(--muted);text-decoration:none;font-weight:600;font-size:14px}
 .lnav .links a:hover{color:var(--ink)}
-@media (max-width:720px){.lnav .links{display:none}}
-.lnav .btn,.top .brand b{white-space:nowrap}
-@media (max-width:420px){.lnav .btn{padding:8px 12px;font-size:13px}.brand b{font-size:21px}}
+@media (max-width:760px){.lnav .links{display:none}}
+@media (max-width:420px){.lnav .btn{padding:8px 12px;font-size:13px}.brand b{font-size:18px}}
 
-.hero{position:relative;overflow:hidden;background:color-mix(in oklab,var(--paint) 10%,var(--bg));transition:--paint .9s ease}
-.hero::before{content:"";position:absolute;width:900px;height:900px;right:-260px;top:-300px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in oklab,var(--paint) 55%,transparent),transparent);filter:blur(20px);opacity:.55;pointer-events:none}
-.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;align-items:center;padding-block:56px 64px}
-@media (max-width:900px){.hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:36px 44px}}
-.hero h1{font:800 clamp(44px,7vw,84px)/.95 var(--f-display);text-transform:uppercase;letter-spacing:-.5px;margin:14px 0 18px}
-.hero h1 em{font-style:italic;color:var(--paint);transition:color .9s}
-.hero .lede{font-size:19px;color:var(--muted);max-width:46ch}
-.hero .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
-.hero .fine{margin-top:12px;font-size:13px;color:var(--muted)}
+.hero{padding-block:34px 20px;transition:--paint .9s}
+.hero h1{font:800 clamp(46px,8.4vw,112px)/.9 var(--f-display);letter-spacing:-.045em;max-width:13ch}
+.hero-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end;margin-top:22px}
+@media (max-width:820px){.hero-row{grid-template-columns:minmax(0,1fr)}}
+.hero .lede{font-size:19px;color:var(--muted);max-width:52ch}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap}
+.hero .fine{font-size:13px;color:var(--muted);margin-top:10px}
 
-.demo{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 60px -20px rgba(15,25,45,.35);overflow:hidden}
-.demo-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.label{display:flex;align-items:center;gap:10px;min-width:0}
-.label .tag{font:700 10px var(--f-body);letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:2px 6px;white-space:nowrap}
-.label .typed{font:700 26px var(--f-mono);white-space:nowrap}
-.caret{display:inline-block;width:3px;height:24px;background:var(--accent);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
+.stage{margin-top:34px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);border:1.5px solid var(--ink);border-radius:22px;overflow:hidden;background:var(--panel)}
+@media (max-width:900px){.stage{grid-template-columns:minmax(0,1fr)}}
+.stage-car{position:relative;padding:22px 22px 8px;background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/28px 28px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/28px 28px,
+  color-mix(in oklab,var(--paint) 6%,var(--panel));transition:--paint .9s}
+.stage-car .tag{position:absolute;left:22px;top:18px;display:flex;align-items:center;gap:10px;background:var(--panel);border:1.5px solid var(--ink);border-radius:8px;padding:6px 12px}
+.stage-car .tag small{font:600 10px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stage-car .tag b{font:600 22px var(--f-mono)}
+.caret{display:inline-block;width:2px;height:20px;background:var(--accent);margin-left:-6px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.demo-car{padding:18px 18px 4px;background:linear-gradient(180deg,var(--soft),var(--panel))}
-.demo-mix{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;padding:14px 18px 18px}
-.bars{display:flex;flex-direction:column;gap:7px}
-.bar{display:grid;grid-template-columns:44px minmax(0,1fr) 64px;gap:8px;align-items:center;font-size:13px}
-.bar .t{font:700 13px var(--f-mono)}
-.bar .track{height:10px;border-radius:6px;background:var(--soft);overflow:hidden;display:block}
-.bar .fill{display:block;height:100%;border-radius:6px;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.bar .g{text-align:right;font:500 13px var(--f-mono)}
-.scale-mini{background:var(--tape);color:var(--tape-ink);border-radius:10px;padding:10px 14px;text-align:right}
-.scale-mini small{display:block;font:700 10px var(--f-body);letter-spacing:1px;text-transform:uppercase}
-.scale-mini b{font:700 26px/1.1 var(--f-mono)}
+.truckbox{padding-top:44px;will-change:transform}
 
-.lsec{padding-block:72px}
-.lsec h2{font:800 clamp(34px,5vw,52px)/1 var(--f-display);text-transform:uppercase;margin:10px 0 14px}
-.lsec .intro{font-size:18px;color:var(--muted);max-width:60ch}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+.ticket{border-left:1.5px dashed var(--ink);padding:22px;display:flex;flex-direction:column;gap:12px;font-family:var(--f-mono);background:var(--panel)}
+@media (max-width:900px){.ticket{border-left:0;border-top:1.5px dashed var(--ink)}}
+.ticket .th{display:flex;justify-content:space-between;gap:10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ticket .tname{font:700 18px var(--f-body);line-height:1.25}
+.ticket .tmeta{font-size:12px;color:var(--muted)}
+.trows{display:flex;flex-direction:column;gap:7px;font-size:14px}
+.trow{display:grid;grid-template-columns:14px auto minmax(0,1fr) auto;gap:8px;align-items:center;animation:tin .4s both}
+@keyframes tin{from{opacity:0;transform:translateX(-6px)}}
+.trow i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.25)}
+.trow .dots{border-bottom:2px dotted var(--line);height:0;align-self:center;margin-top:4px}
+.ttotal{display:flex;justify-content:space-between;align-items:baseline;border-top:1.5px dashed var(--ink);padding-top:12px;margin-top:auto}
+.ttotal span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ttotal b{font-size:34px;font-weight:600}
+
+.rail{display:flex;gap:10px;overflow-x:auto;padding:16px 2px 6px;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rchip{flex:0 0 auto;display:flex;flex-direction:column;gap:6px;border:0;background:none;padding:0;cursor:pointer;text-align:left;transition:transform .25s}
+.rchip i{display:block;width:84px;height:54px;border-radius:8px;border:1.5px solid var(--ink)}
+.rchip span{font:600 12px var(--f-mono)}
+.rchip[aria-pressed="true"]{transform:translateY(-6px)}
+.rchip[aria-pressed="true"] i{box-shadow:0 8px 0 -3px var(--ink)}
+.railnote{font-size:13px;color:var(--muted)}
+
+.marquee{overflow:hidden;border-block:1.5px solid var(--ink);margin-top:56px;background:var(--panel)}
+.marquee div{display:flex;gap:34px;padding:14px 0;white-space:nowrap;font:600 clamp(18px,2.6vw,28px) var(--f-mono);will-change:transform}
+.marquee span{display:inline-flex;align-items:center;gap:12px}
+.marquee span i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--ink)}
+
+.lsec{padding-block:80px}
+.lsec h2{font:800 clamp(36px,5.4vw,66px)/.95 var(--f-display);letter-spacing:-.04em;margin:14px 0 16px;max-width:18ch}
+.lsec .intro{font-size:18px;color:var(--muted);max-width:58ch}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:40px;border-top:1.5px solid var(--ink)}
 @media (max-width:820px){.steps{grid-template-columns:minmax(0,1fr)}}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:10px}
-.step .n{font:800 46px/1 var(--f-display);color:var(--accent)}
-.step h3{font-size:24px}
+.step{padding:24px 24px 26px 0;display:flex;flex-direction:column;gap:10px;border-right:1px solid var(--line);padding-left:24px}
+.step:first-child{padding-left:0}
+.step:last-child{border-right:0}
+@media (max-width:820px){.step{border-right:0;border-bottom:1px solid var(--line);padding-left:0}}
+.step .n{font:600 13px var(--f-mono);color:var(--accent)}
+.step h3{font-size:30px}
 .step p{color:var(--muted)}
-.step .ex{font:700 15px var(--f-mono);background:var(--soft);border-radius:8px;padding:8px 10px;margin-top:auto;overflow-wrap:anywhere}
+.step .ex{font:600 14px var(--f-mono);margin-top:auto;padding-top:10px;overflow-wrap:anywhere}
 
-.vs{margin-top:34px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
-.vs-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line)}
-.vs-row:first-child{border-top:0}
-.vs-row > div{padding:16px 20px}
-.vs-row > div:last-child{background:color-mix(in oklab,var(--accent) 7%,var(--panel));font-weight:700}
-.vs-head > div{font:700 13px var(--f-body);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-.vs-head > div:last-child{color:var(--accent)}
-@media (max-width:620px){.vs-row{grid-template-columns:minmax(0,1fr)} .vs-head{display:none} .vs-row > div:first-child{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 50%,transparent);padding-bottom:4px} .vs-row > div:last-child{background:transparent;padding-top:0}}
+.vs{margin-top:40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:700px){.vs{grid-template-columns:minmax(0,1fr)}}
+.vs ul{list-style:none;margin:0;padding:24px;border-radius:18px;display:flex;flex-direction:column;gap:14px}
+.vs .old{border:1.5px dashed var(--line);color:var(--muted)}
+.vs .new{background:var(--ink);color:var(--bg)}
+.vs li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:16px}
+.vs li::before{font:600 14px var(--f-mono)}
+.vs .old li::before{content:"×"}
+.vs .new li::before{content:"✓";color:var(--hi)}
+.vs h3{font:600 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.vs .new h3{color:var(--hi)}
 
-.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px;margin-top:34px}
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 26px;margin-top:40px}
 @media (max-width:900px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.feats{grid-template-columns:minmax(0,1fr)}}
-.feat{display:flex;flex-direction:column;gap:8px}
-.feat .ico{height:8px;border-radius:4px;margin-bottom:6px}
-.feat h3{font-size:22px}
+.feat{display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1.5px solid var(--ink)}
+.feat .sw{display:flex;gap:4px}
+.feat .sw i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--ink)}
+.feat h3{font-size:24px}
 .feat p{color:var(--muted);font-size:15px}
 
-.pricing{background:var(--ink);color:var(--panel)}
-.pricing .intro{color:color-mix(in srgb,var(--panel) 70%,transparent)}
-.pricing .eyebrow{color:color-mix(in srgb,var(--panel) 60%,transparent)}
-.toggle{display:inline-flex;flex-wrap:wrap;background:color-mix(in srgb,var(--panel) 12%,transparent);border-radius:999px;padding:4px;margin-top:22px}
-.toggle button{border:0;background:transparent;color:inherit;padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer}
-.toggle button[aria-pressed="true"]{background:var(--panel);color:var(--ink)}
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px;align-items:stretch}
+.toggle{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--ink);border-radius:999px;padding:3px;margin-top:22px}
+.toggle button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:30px;align-items:stretch}
 @media (max-width:900px){.plans{grid-template-columns:minmax(0,1fr)}}
-.plan{background:var(--panel);color:var(--ink);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px;position:relative}
-.plan.star{box-shadow:0 0 0 3px var(--tape)}
-.plan .ribbon{position:absolute;top:-12px;left:26px;background:var(--tape);color:var(--tape-ink);font:700 12px var(--f-body);letter-spacing:.8px;text-transform:uppercase;padding:4px 10px;border-radius:6px}
-.plan h3{font-size:28px;text-transform:uppercase}
+.plan{border:1.5px solid var(--ink);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px;background:var(--panel);position:relative}
+.plan.star{background:var(--ink);color:var(--bg)}
+.plan.star .who,.plan.star .price span{color:color-mix(in srgb,var(--bg) 70%,transparent)}
+.plan .ribbon{position:absolute;top:18px;right:18px;background:var(--hi);color:var(--hi-ink);font:600 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.plan h3{font-size:30px}
 .plan .who{color:var(--muted);font-size:15px}
 .price{display:flex;align-items:baseline;gap:6px}
-.price b{font:800 54px/1 var(--f-display)}
+.price b{font:800 56px/1 var(--f-display);letter-spacing:-.03em}
 .price span{color:var(--muted);font-size:15px}
-.plan .yr{font-size:13px;color:var(--ok);min-height:20px}
-.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.plan .yr{font:600 12px var(--f-mono);color:var(--accent);min-height:18px}
+.plan.star .yr{color:var(--hi)}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:15px}
 .plan li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:10px}
-.plan li::before{content:"";width:12px;height:12px;border-radius:3px;margin-top:5px;background:var(--accent)}
-.plan .btn{margin-top:auto;justify-content:center}
-.pricing .fine{margin-top:20px;font-size:13px;color:color-mix(in srgb,var(--panel) 60%,transparent)}
+.plan li::before{content:"";width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--accent)}
+.plan.star li::before{background:var(--hi)}
+.plan .btn{margin-top:auto}
+.plan.star .btn{border-color:var(--bg);color:var(--bg)}
+.plan.star .btn.primary{background:var(--hi);border-color:var(--hi);color:var(--hi-ink)}
+.lsec .fine{margin-top:18px;font-size:13px;color:var(--muted)}
 
-.faq{margin-top:28px;display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line);padding:16px 0}
-.faq summary{cursor:pointer;font:700 19px var(--f-body);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq{margin-top:30px;border-top:1.5px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--line);padding:18px 0}
+.faq summary{cursor:pointer;font:600 20px var(--f-body);list-style:none;display:flex;justify-content:space-between;gap:16px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font:700 22px var(--f-mono);color:var(--accent)}
-.faq details[open] summary::after{content:"–"}
+.faq summary::after{content:"+";font:600 22px var(--f-mono);color:var(--accent);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
 .faq p{color:var(--muted);margin-top:10px;max-width:70ch}
 
-.final{background:color-mix(in oklab,var(--paint) 16%,var(--bg));transition:--paint .9s}
-.final .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;padding-block:56px}
-.final h2{font:800 clamp(32px,5vw,50px)/1 var(--f-display);text-transform:uppercase;max-width:18ch}
-footer{padding-block:28px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.final{border-top:1.5px solid var(--ink);background:color-mix(in oklab,var(--paint) 12%,var(--bg));transition:--paint .9s}
+.final .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;padding-block:64px}
+.final h2{font:800 clamp(34px,5.4vw,64px)/.95 var(--f-display);letter-spacing:-.04em;max-width:16ch}
+footer{padding-block:26px;color:var(--muted);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 
 /* ---------------- SOFTWARE ---------------- */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:10px}
-.tabs{display:flex;gap:4px;overflow-x:auto;max-width:100%}
-.tab{border:0;background:transparent;padding:8px 12px;border-radius:8px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
-.tab[aria-selected="true"]{background:var(--ink);color:var(--panel)}
-.tab:hover:not([aria-selected="true"]){background:var(--soft);color:var(--ink)}
-.appmain{padding-block:20px 60px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1.5px solid var(--ink)}
+.top .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-block:10px}
+.tabs{display:flex;gap:2px;overflow-x:auto;max-width:100%;order:3;flex-basis:100%}
+@media (min-width:900px){.tabs{order:0;flex-basis:auto}}
+.tab{border:0;background:transparent;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.tab:hover:not([aria-selected="true"]){color:var(--ink)}
+.appmain{padding-block:20px 100px}
 .view{display:flex;flex-direction:column;gap:16px}
 
-.finder{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px}
+.finder{border:1.5px solid var(--ink);border-radius:18px;background:var(--panel);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
 @media (max-width:900px){.finder{grid-template-columns:minmax(0,1fr)}}
-.fstep{display:flex;flex-direction:column;gap:8px;min-width:0}
-.fstep .lab{display:flex;align-items:center;gap:8px;font:700 13px var(--f-body);letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
-.fstep .lab i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--panel);font-size:12px;letter-spacing:0}
+.fstep{display:flex;flex-direction:column;gap:9px;min-width:0;padding:16px}
+.fstep + .fstep{border-left:1px dashed var(--line)}
+@media (max-width:900px){.fstep + .fstep{border-left:0;border-top:1px dashed var(--line)}}
+.fstep .lab{font:600 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.fstep .lab b{color:var(--accent)}
 .makes{display:flex;gap:6px;flex-wrap:wrap}
-.vin{display:flex;gap:8px;align-items:center}
-.vin input{flex:1;min-width:0;border:1px dashed var(--line);border-radius:9px;padding:8px 12px;background:var(--soft);font:500 14px var(--f-mono);text-transform:uppercase}
+.vin input{width:100%;border:1.5px dashed var(--line);border-radius:10px;padding:9px 12px;background:var(--soft);font:500 14px var(--f-mono);text-transform:uppercase}
 .vin input::placeholder{text-transform:none;font-family:var(--f-body)}
 .vinmsg{font-size:13px;color:var(--muted);min-height:18px}
 .vinmsg b{color:var(--ink)}
-.qbox{display:flex;align-items:center;gap:10px;background:var(--panel);border:2px solid var(--ink);border-radius:12px;padding:4px 6px 4px 14px}
-.qbox input{flex:1;min-width:0;border:0;background:transparent;font:700 clamp(22px,4vw,30px) var(--f-mono);padding:8px 0;outline:none;text-transform:uppercase}
+.qbox{display:flex;align-items:center;gap:10px;border-bottom:2.5px solid var(--ink);padding:2px 0}
+.qbox input{flex:1;min-width:0;border:0;background:transparent;font:600 clamp(24px,4vw,34px) var(--f-mono);padding:6px 0;outline:none;text-transform:uppercase}
 .qbox input::placeholder{text-transform:none;font:400 16px var(--f-body);color:var(--muted)}
-.qbox .x{border:0;background:var(--soft);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:13px}
-.where{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:9px 12px}
+.where{font-size:13px;color:var(--muted)}
 .where b{color:var(--ink)}
-.ambig{border:2px solid var(--tape);background:color-mix(in oklab,var(--tape) 14%,var(--panel));border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.ambig{border:1.5px solid var(--ink);background:color-mix(in oklab,var(--hi) 30%,var(--panel));border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .ambig .chips{display:flex;gap:6px;flex-wrap:wrap}
 
-.layout{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:16px;align-items:start}
+.layout{display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr);gap:16px;align-items:start}
 @media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}}
-.results{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:calc(100vh - 140px);overflow-y:auto;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px)}
+.results{background:var(--panel);border:1.5px solid var(--ink);border-radius:16px;overflow:hidden;max-height:calc(100vh - 150px);overflow-y:auto;position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px)}
 @media (max-width:860px){.results{max-height:300px;position:static}}
-.rcount{padding:10px 14px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1;display:flex;justify-content:space-between;gap:8px}
-.rcount button{border:0;background:none;color:var(--accent);font-weight:700;font-size:13px;cursor:pointer;padding:0}
+.rcount{padding:10px 14px;font:600 12px var(--f-mono);color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:1;display:flex;justify-content:space-between;gap:8px}
+.rcount button{border:0;background:none;color:var(--accent);font:inherit;cursor:pointer;padding:0}
 .ritem{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;padding:9px 14px;cursor:pointer}
 .ritem:hover{background:var(--soft)}
-.ritem[aria-current="true"]{background:var(--soft);box-shadow:inset 4px 0 0 var(--accent)}
-.ritem .sw{width:40px;height:28px;border-radius:5px;border:1px solid rgba(0,0,0,.18)}
+.ritem[aria-current="true"]{background:var(--soft);box-shadow:inset 4px 0 0 var(--paint)}
+.ritem .sw{width:40px;height:28px;border-radius:50%;border:1.5px solid var(--ink)}
 .ritem b{font-family:var(--f-mono);font-size:15px}
 .ritem .nm{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .empty{padding:22px 16px;color:var(--muted);font-size:15px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.sec{padding:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--panel);border:1.5px solid var(--ink);border-radius:18px;overflow:hidden}
+.sec{padding:20px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
 .sec:first-child{border-top:0}
-.sec h3{font-size:22px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.sec h3 small{font:400 13px var(--f-body);color:var(--muted)}
-.dhead{background:linear-gradient(180deg,color-mix(in oklab,var(--paint) 16%,var(--panel)),var(--panel));transition:--paint .8s}
-.dgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:center}
-@media (max-width:620px){.dgrid{grid-template-columns:minmax(0,1fr)}}
-.code{font:700 clamp(34px,6vw,50px)/1 var(--f-mono);letter-spacing:-.5px;word-break:break-all}
-.cname{font-size:19px;font-weight:700;margin-top:6px}
+.sec h3{font-size:26px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sec h3 small{font:400 13px var(--f-body);color:var(--muted);letter-spacing:0}
+.dhead{background:
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/28px 28px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/28px 28px,
+  color-mix(in oklab,var(--paint) 7%,var(--panel));transition:--paint .8s}
+.dgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:640px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.code{font:600 clamp(36px,6vw,54px)/1 var(--f-mono);letter-spacing:-.03em;word-break:break-all}
+.cname{font:800 22px/1.15 var(--f-display);margin-top:8px}
 .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
 .proof{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:14px;align-items:start}
 @media (max-width:480px){.proof{grid-template-columns:minmax(0,1fr)}}
-.card{border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,.2);box-shadow:0 8px 20px rgba(10,20,40,.12);background:#fff}
+.card{border-radius:6px;overflow:hidden;border:1.5px solid var(--ink);background:#fff}
 .card .split{display:grid;grid-template-columns:1fr 1fr;height:70px}
 .card .split div{position:relative}
-.card .split span{position:absolute;left:5px;bottom:4px;font:700 10px var(--f-body);text-transform:uppercase;background:rgba(255,255,255,.88);color:#1B1A12;padding:1px 5px;border-radius:3px}
+.card .split span{position:absolute;left:5px;bottom:4px;font:600 10px var(--f-mono);text-transform:uppercase;background:rgba(255,255,255,.9);color:#16181B;padding:1px 5px;border-radius:3px}
 .card .hide{height:16px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/12px 12px;position:relative}
 .card .hide i{position:absolute;inset:0 0 0 40%}
-.note{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:10px 12px;max-width:70ch}
+.note{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-width:70ch}
 
 .qty{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .qty input{width:100px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--soft)}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
 .field{display:flex;flex-direction:column;gap:5px}
-.field > span{font:700 12px var(--f-body);letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.field > span{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 select,.inp{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--soft);width:100%}
 .parts{display:flex;gap:6px;flex-wrap:wrap}
 .sumline b{font-family:var(--f-mono)}
 
-.scale{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--tape);color:var(--tape-ink);border-radius:12px;padding:12px 16px}
-.scale .lbl{font:700 12px var(--f-body);letter-spacing:1px;text-transform:uppercase}
-.scale .val{font:700 38px/1 var(--f-mono)}
-.scale .cost{font:700 14px var(--f-body)}
-.scale .btn{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.15);color:var(--tape-ink)}
-.cup{display:flex;height:16px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.scale{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--ink);color:var(--bg);border-radius:14px;padding:14px 18px}
+.scale .lbl{font:600 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.scale .val{font:600 42px/1.05 var(--f-mono);color:var(--hi)}
+.scale .cost{font-size:13px;opacity:.8}
+.scale .btn{border-color:color-mix(in srgb,var(--bg) 40%,transparent);color:var(--bg)}
+.scale .btn:hover{background:var(--bg);color:var(--ink)}
+.cup{display:flex;height:14px;border-radius:999px;overflow:hidden;border:1.5px solid var(--ink)}
 .cup i{height:100%;width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 .tablewrap{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:15px}
-th{font:700 12px var(--f-body);letter-spacing:.6px;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1.5px solid var(--ink)}
 td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
 td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-td .tdot{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:8px;border:1px solid rgba(0,0,0,.2)}
-td .tc{font-family:var(--f-mono);font-weight:700}
+td .tdot{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:8px;border:1.5px solid var(--ink)}
+td .tc{font-family:var(--f-mono);font-weight:600}
 td .tn{display:block;font-size:12px;color:var(--muted)}
-#fbody tr{animation:rowin .35s both}
-@keyframes rowin{from{opacity:.0;transform:translateY(4px)}}
+#fbody tr{animation:tin .35s both}
 .warnline{color:var(--warn);font-size:14px}
 
 .var{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
@@ -264,10 +316,10 @@ td .tn{display:block;font-size:12px;color:var(--muted)}
 .slider{display:grid;grid-template-columns:78px minmax(0,1fr) 78px;gap:8px;align-items:center;font-size:13px}
 .slider span:last-child{text-align:right}
 .slider input{width:100%;accent-color:var(--accent)}
-.compare{display:grid;grid-template-columns:1fr 1fr;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,.2);height:120px}
+.compare{display:grid;grid-template-columns:1fr 1fr;border-radius:12px;overflow:hidden;border:1.5px solid var(--ink);height:120px}
 .compare div{position:relative;transition:background .3s}
-.compare span{position:absolute;left:6px;top:6px;font:700 11px var(--f-body);text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.88);color:#1B1A12}
-.corr{background:var(--soft);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.compare span{position:absolute;left:6px;top:6px;font:600 10px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.9);color:#16181B}
+.corr{background:var(--soft);border:1px dashed var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .corr ul{margin:0;padding-left:18px}
 .saverow{display:flex;gap:8px;flex-wrap:wrap}
 .saverow input{flex:1;min-width:150px}
@@ -276,119 +328,139 @@ td .tn{display:block;font-size:12px;color:var(--muted)}
 @media (max-width:860px){.free{grid-template-columns:minmax(0,1fr)}}
 .freebox{padding:18px;display:flex;flex-direction:column;gap:14px}
 .pickrow{display:flex;gap:10px;align-items:center}
-.pickrow input[type=color]{width:58px;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--soft);padding:2px}
+.pickrow input[type=color]{width:58px;height:44px;border:1.5px solid var(--ink);border-radius:8px;background:var(--soft);padding:2px}
 canvas{max-width:100%;border-radius:8px;cursor:crosshair;display:block}
-
 .saved{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
-.saved .sw{width:48px;height:36px;border-radius:6px;border:1px solid rgba(0,0,0,.2)}
+.saved .sw{width:48px;height:36px;border-radius:50%;border:1.5px solid var(--ink)}
 .saved .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
 textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--soft);font:13px var(--f-mono)}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;z-index:20}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:700;font-size:14px;z-index:60}
+
+/* ---------------- Asistente ---------------- */
+.coach-btn{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:12px 18px 12px 12px;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);transition:transform .2s}
+.coach-btn:hover{transform:translateY(-2px)}
+.coach-btn i{width:28px;height:28px;border-radius:50%;background:conic-gradient(var(--paint) 0 25%,#F4D35E 0 50%,#41C9AE 0 75%,#6F8BEF 0);border:2px solid var(--bg)}
+.coach{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:46;width:min(400px,calc(100vw - 32px));max-height:min(620px,calc(100vh - 120px));display:flex;flex-direction:column;background:var(--panel);border:1.5px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.45);transform-origin:100% 100%;animation:pop .25s both}
+@keyframes pop{from{transform:scale(.92);opacity:0}}
+.coach header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.coach header b{font:800 20px var(--f-display);display:block}
+.coach header small{color:var(--muted);font-size:12px}
+.coach header button{border:1px solid var(--line);background:var(--panel);border-radius:999px;width:32px;height:32px;cursor:pointer;font:600 16px var(--f-mono);flex:0 0 auto}
+.msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:92%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.5;animation:tin .3s both}
+.msg.bot{background:var(--soft);border:1px solid var(--line);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--accent-ink);align-self:flex-end;border-bottom-right-radius:4px}
+.msg b.q{display:block;font-weight:700;margin-bottom:4px}
+.sugg{display:flex;flex-direction:column;gap:6px}
+.sugg h4{margin:4px 0 0;font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sugg div{display:flex;flex-wrap:wrap;gap:6px}
+.sugg button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 10px;font-size:13px;cursor:pointer;text-align:left}
+.sugg button:hover{border-color:var(--ink)}
+.coach form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+.coach form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:9px 14px;background:var(--soft)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.js .rise.pre{transform:none;opacity:1}}
 </style>
+
+<div class="progress" aria-hidden="true"><i id="prog"></i></div>
 
 <!-- ======================= INICIO ======================= -->
 <div id="landing">
-  <nav class="lnav gut" aria-label="Principal">
+  <nav class="lnav gut" aria-label="Main">
     <div class="wrap">
       <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"></span><b>Taller de Color</b></a>
-      <div class="links"><a href="#como">Cómo funciona</a><a href="#precios">Precios</a><a href="#preguntas">Preguntas</a></div>
-      <a class="btn primary" href="#app">Entrar al software</a>
+      <div class="links"><a href="#como" data-t="nav.how"></a><a href="#precios" data-t="nav.pricing"></a><a href="#preguntas" data-t="nav.faq"></a></div>
+      <button class="lang" type="button" data-lang></button>
+      <a class="btn primary" href="#app" data-t="nav.enter"></a>
     </div>
   </nav>
 
   <header class="hero gut" id="inicio">
     <div class="wrap">
-      <div>
-        <span class="eyebrow">Para pintores automotrices independientes</span>
-        <h1>Del código de la etiqueta a la <em>báscula</em> en segundos</h1>
-        <p class="lede">Escribe el código del carro y Taller de Color te da la mezcla en gramos con los tintes que consigues en tu tienda. Si la pieza vieja está quemada por el sol, te dice cuánto agregarle a la mezcla que ya hiciste.</p>
-        <div class="ctas"><a class="btn primary big" href="#app">Pruébalo 14 días gratis</a><a class="btn big" href="#precios">Ver precios</a></div>
-        <p class="fine">Funciona en el celular, la tablet o la computadora del taller.</p>
+      <span class="kicker" data-t="hero.kicker"></span>
+      <h1 style="margin-top:14px" data-th="hero.h1"></h1>
+      <div class="hero-row">
+        <p class="lede" data-t="hero.lede"></p>
+        <div><div class="ctas"><a class="btn primary big" href="#app" data-t="hero.cta1"></a><a class="btn big" href="#precios" data-t="hero.cta2"></a></div><p class="fine" data-t="hero.fine"></p></div>
       </div>
-      <div class="demo" aria-label="Demostración en vivo">
-        <div class="demo-top">
-          <div class="label"><span class="tag">Etiqueta</span><span class="typed" id="dtyped"></span><span class="caret" aria-hidden="true"></span></div>
-          <span class="pill n" id="dmake">—</span>
+      <div class="stage">
+        <div class="stage-car">
+          <div class="tag"><small data-t="demo.label"></small><b id="dtyped"></b><span class="caret" aria-hidden="true"></span></div>
+          <div class="truckbox" id="dtruck"></div>
         </div>
-        <div class="demo-car" id="dcar"></div>
-        <div class="demo-mix">
-          <div class="bars" id="dbars"></div>
-          <div class="scale-mini"><small>Báscula · 250 ml</small><b id="dtotal">0.0 g</b></div>
+        <div class="ticket" aria-live="polite">
+          <div class="th"><span data-t="demo.ticket"></span><span data-t="demo.qty"></span></div>
+          <div><div class="tname" id="dname">—</div><div class="tmeta" id="dmeta"></div></div>
+          <div class="trows" id="drows"></div>
+          <div class="ttotal"><span data-t="demo.total"></span><b id="dtotal">0.0 g</b></div>
         </div>
       </div>
+      <div class="rail" id="rail" role="group"></div>
+      <p class="railnote" data-t="demo.tap"></p>
     </div>
   </header>
 
+  <div class="marquee" aria-hidden="true"><div id="marq"></div></div>
+
   <section class="lsec gut" id="como">
     <div class="wrap">
-      <span class="eyebrow">Cómo funciona</span>
-      <h2>Tres pasos, de la puerta a la pistola</h2>
-      <p class="intro">El mismo orden en que ya trabajas: identificas el carro, lees la etiqueta y pesas la mezcla.</p>
+      <span class="kicker rise pre" data-t="how.kicker"></span>
+      <h2 class="rise pre" data-t="how.h2"></h2>
+      <p class="intro rise pre" data-t="how.intro"></p>
       <div class="steps">
-        <div class="step"><span class="n">1</span><h3>Marca o VIN</h3><p>Elige la marca o pega el VIN y el software reconoce la marca y el año. Ya no salen códigos de otra marca por error.</p><span class="ex">1GCUYDED5KZ… → Chevrolet 2019</span></div>
-        <div class="step"><span class="n">2</span><h3>Código de la etiqueta</h3><p>Escríbelo como venga: <span class="mono">BC/CC U8555</span>, <span class="mono">WA8555</span> o <span class="mono">GBA</span>. Te decimos dónde buscar la etiqueta en cada marca.</p><span class="ex">U8555 → GBA · Black</span></div>
-        <div class="step"><span class="n">3</span><h3>Pesa y pinta</h3><p>Fórmula acumulada para la báscula, la cantidad justa para la pieza y el costo de la mezcla para cobrarle bien al cliente.</p><span class="ex">Báscula → 275.0 g</span></div>
+        <div class="step rise pre" style="--d:0ms"><span class="n">01</span><h3 data-t="s1.h"></h3><p data-t="s1.p"></p><span class="ex">1GCUYDED5KZ… → Chevrolet 2019</span></div>
+        <div class="step rise pre" style="--d:120ms"><span class="n">02</span><h3 data-t="s2.h"></h3><p data-th="s2.p"></p><span class="ex">U8555 → GBA · Black</span></div>
+        <div class="step rise pre" style="--d:240ms"><span class="n">03</span><h3 data-t="s3.h"></h3><p data-t="s3.p"></p><span class="ex">250 ml → 275.0 g</span></div>
       </div>
     </div>
   </section>
 
   <section class="lsec gut" style="padding-top:0">
     <div class="wrap">
-      <span class="eyebrow">Lo que ya conoces, mejorado</span>
-      <h2>Hecho para el pintor que trabaja por su cuenta</h2>
-      <p class="intro">Los programas de los fabricantes de pintura están hechos para talleres grandes y para su propia línea de producto. Taller de Color está pensado para ti.</p>
+      <span class="kicker rise pre" data-t="vs.kicker"></span>
+      <h2 class="rise pre" data-t="vs.h2"></h2>
+      <p class="intro rise pre" data-t="vs.intro"></p>
       <div class="vs">
-        <div class="vs-row vs-head"><div>Lo de siempre</div><div>Taller de Color</div></div>
-        <div class="vs-row"><div>Fórmulas solo de la marca de pintura del programa</div><div>Pones los códigos de tus tintes, de la marca que vendan en tu tienda</div></div>
-        <div class="vs-row"><div>Instalado en la computadora del cuarto de mezcla</div><div>En tu celular, en el taller o en casa del cliente</div></div>
-        <div class="vs-row"><div>Si la pieza vieja no iguala, ajustas a ojo y tiras pintura</div><div>Barras de variación y cuántos gramos agregar a lo que ya mezclaste</div></div>
-        <div class="vs-row"><div>Calculas a ojo cuánta pintura comprar</div><div>Marcas las piezas y te dice cuánto preparar</div></div>
-        <div class="vs-row"><div>No sabes cuánto te costó la mezcla</div><div>Costo de cada mezcla con tus precios, listo para cotizar</div></div>
+        <ul class="old rise pre"><li style="display:block"><h3 data-t="vs.old"></h3></li><li data-t="vs.o1"></li><li data-t="vs.o2"></li><li data-t="vs.o3"></li><li data-t="vs.o4"></li><li data-t="vs.o5"></li></ul>
+        <ul class="new rise pre" style="--d:140ms"><li style="display:block"><h3>Taller de Color</h3></li><li data-t="vs.n1"></li><li data-t="vs.n2"></li><li data-t="vs.n3"></li><li data-t="vs.n4"></li><li data-t="vs.n5"></li></ul>
       </div>
     </div>
   </section>
 
   <section class="lsec gut" style="padding-top:0">
     <div class="wrap">
-      <span class="eyebrow">Todo incluido</span>
-      <h2>Herramientas del cuarto de mezcla</h2>
+      <span class="kicker rise pre" data-t="feat.kicker"></span>
+      <h2 class="rise pre" data-t="feat.h2"></h2>
       <div class="feats" id="feats"></div>
     </div>
   </section>
 
-  <section class="lsec pricing gut" id="precios">
+  <section class="lsec gut" id="precios" style="padding-top:0">
     <div class="wrap">
-      <span class="eyebrow">Precios</span>
-      <h2>Pago mensual, cancelas cuando quieras</h2>
-      <p class="intro">Todos los planes empiezan con 14 días gratis. Con pago anual te regalamos dos meses.</p>
-      <div class="toggle" role="group" aria-label="Periodo de pago"><button type="button" id="pm" aria-pressed="true">Mensual</button><button type="button" id="pa" aria-pressed="false">Anual · 2 meses gratis</button></div>
+      <span class="kicker rise pre" data-t="price.kicker"></span>
+      <h2 class="rise pre" data-t="price.h2"></h2>
+      <p class="intro rise pre" data-t="price.intro"></p>
+      <div class="toggle" role="group"><button type="button" id="pm" aria-pressed="true" data-t="price.m"></button><button type="button" id="pa" aria-pressed="false" data-t="price.y"></button></div>
       <div class="plans" id="plans"></div>
-      <p class="fine">Precios en dólares estadounidenses. Propuesta de lanzamiento: se pueden ajustar antes de abrir ventas.</p>
+      <p class="fine" data-t="price.fine"></p>
     </div>
   </section>
 
-  <section class="lsec gut" id="preguntas">
+  <section class="lsec gut" id="preguntas" style="padding-top:0">
     <div class="wrap">
-      <span class="eyebrow">Preguntas</span>
-      <h2>Lo que nos preguntan los pintores</h2>
-      <div class="faq">
-        <details><summary>¿De dónde salen las fórmulas?</summary><p>Taller de Color calcula una fórmula de arranque a partir del color, con un modelo de mezcla de pigmentos, y te dice qué tan cerca queda (ΔE). Si tu proveedor te da sus fórmulas oficiales o ya tienes fórmulas probadas, las importas y el software las usa en lugar de las calculadas. Siempre haz carta de prueba antes de pintar.</p></details>
-        <details><summary>¿Funciona con la pintura que yo compro?</summary><p>Sí. En “Mis tintes” pones el código de tu marca junto a cada tinte (blanco, negro, azul ftalo, aluminio…) y la fórmula sale con tus códigos. Sirve para base bicapa, base agua o monocapa.</p></details>
-        <details><summary>¿Qué pasa si el código existe en dos marcas?</summary><p>Pasa seguido: el 040 es blanco en Toyota y negro en Mercedes-Benz. Por eso primero eliges la marca o pegas el VIN. Si no la eliges, el software te pregunta antes de mostrar la fórmula.</p></details>
-        <details><summary>¿Puedo cancelar?</summary><p>Sí. El pago es mes a mes, sin plazo forzoso. Tus fórmulas guardadas las puedes exportar antes de irte.</p></details>
-        <details><summary>¿Sirve para piezas chicas?</summary><p>Sí. Marcas espejo, manija o defensa y te calcula la cantidad mínima práctica para pesar bien los tintes, o te sugiere pedir aerosol a la medida.</p></details>
-      </div>
+      <span class="kicker rise pre" data-t="faq.kicker"></span>
+      <h2 class="rise pre" data-t="faq.h2"></h2>
+      <div class="faq" id="faq"></div>
     </div>
   </section>
 
   <section class="final gut">
     <div class="wrap">
-      <h2>Tu próxima igualación, sin adivinar</h2>
-      <a class="btn primary big" href="#app">Empezar prueba gratis</a>
+      <h2 class="rise pre" data-t="final.h2"></h2>
+      <a class="btn primary big" href="#app" data-t="final.cta"></a>
     </div>
   </section>
-  <footer class="gut"><div class="wrap"><span>Taller de Color · un producto de Dakra Studio</span><span>Los colores en pantalla son aproximados. Verifica siempre con carta de prueba.</span></div></footer>
+  <footer class="gut"><div class="wrap"><span data-t="foot.l"></span><span data-t="foot.r"></span></div></footer>
 </div>
 
 <!-- ======================= SOFTWARE ======================= -->
@@ -396,12 +468,13 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
   <header class="top gut">
     <div class="wrap">
       <a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true"></span><b>Taller de Color</b></a>
-      <nav class="tabs" role="tablist" aria-label="Secciones">
-        <button class="tab" role="tab" data-v="buscar" aria-selected="true">Buscar código</button>
-        <button class="tab" role="tab" data-v="libre" aria-selected="false">Color libre</button>
-        <button class="tab" role="tab" data-v="mis" aria-selected="false">Mis fórmulas</button>
-        <button class="tab" role="tab" data-v="tintes" aria-selected="false">Mis tintes</button>
+      <nav class="tabs" role="tablist">
+        <button class="tab" role="tab" data-v="buscar" aria-selected="true" data-t="tab.search"></button>
+        <button class="tab" role="tab" data-v="libre" aria-selected="false" data-t="tab.free"></button>
+        <button class="tab" role="tab" data-v="mis" aria-selected="false" data-t="tab.mine"></button>
+        <button class="tab" role="tab" data-v="tintes" aria-selected="false" data-t="tab.toners"></button>
       </nav>
+      <button class="lang" type="button" data-lang></button>
     </div>
   </header>
 
@@ -409,14 +482,14 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
     <section class="view" id="v-buscar">
       <div class="finder">
         <div class="fstep">
-          <span class="lab"><i>1</i> Marca del vehículo</span>
+          <span class="lab"><b>01</b> <span data-t="f.make"></span></span>
           <div class="makes" id="makes"></div>
-          <div class="vin"><input id="vin" maxlength="17" autocomplete="off" spellcheck="false" placeholder="O pega el VIN (17 caracteres)" aria-label="VIN"></div>
+          <div class="vin"><input id="vin" maxlength="17" autocomplete="off" spellcheck="false" data-tp="f.vin" aria-label="VIN"></div>
           <div class="vinmsg" id="vinmsg"></div>
         </div>
         <div class="fstep">
-          <span class="lab"><i>2</i> Código de la etiqueta</span>
-          <div class="qbox"><input id="q" autocomplete="off" spellcheck="false" placeholder="Ej. GAZ, U8555, NH-731P, 475…" aria-label="Código de color"><button class="x" id="qclear" type="button">Borrar</button></div>
+          <span class="lab"><b>02</b> <span data-t="f.code"></span></span>
+          <div class="qbox"><input id="q" autocomplete="off" spellcheck="false" data-tp="f.code.ph" data-ta="f.code"><button class="btn ghost" id="qclear" type="button" data-t="f.clear"></button></div>
           <div class="where" id="where"></div>
         </div>
       </div>
@@ -430,54 +503,169 @@ textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:
     <section class="view" id="v-libre" hidden>
       <div class="free">
         <div class="panel freebox">
-          <h3 style="font-size:24px">Cualquier color</h3>
-          <p class="small muted">Para colores sin código: escribe el valor, elige en la rueda o toca una foto de la pieza.</p>
-          <div class="field"><span>Valor del color</span>
-            <div class="pickrow"><input type="color" id="fpick" value="#2E6B5A" aria-label="Elegir color"><input class="inp mono" id="fhex" value="#2E6B5A" maxlength="7" aria-label="Valor hexadecimal"></div></div>
-          <div class="field"><span>Acabado</span><select id="ffin"><option value="S">Sólido</option><option value="M">Metálico</option><option value="P">Perlado</option><option value="T">Tricapa</option></select></div>
-          <div class="field"><span>Nombre (opcional)</span><input class="inp" id="fname" placeholder="Ej. Verde camioneta Don Luis"></div>
-          <div class="field"><span>Tomar color de una foto</span><input type="file" id="fphoto" accept="image/*"></div>
+          <h3 style="font-size:26px" data-t="free.h"></h3>
+          <p class="small muted" data-t="free.p"></p>
+          <div class="field"><span data-t="free.val"></span>
+            <div class="pickrow"><input type="color" id="fpick" value="#2E6B5A" aria-label="Color"><input class="inp mono" id="fhex" value="#2E6B5A" maxlength="7" aria-label="Hex"></div></div>
+          <div class="field"><span data-t="free.fin"></span><select id="ffin"><option value="S" data-t="fin.S"></option><option value="M" data-t="fin.M"></option><option value="P" data-t="fin.P"></option><option value="T" data-t="fin.T"></option></select></div>
+          <div class="field"><span data-t="free.name"></span><input class="inp" id="fname" data-tp="free.name.ph"></div>
+          <div class="field"><span data-t="free.photo"></span><input type="file" id="fphoto" accept="image/*"></div>
           <canvas id="fcanvas" hidden></canvas>
-          <p class="small muted" id="fphotonote" hidden>Toca la pieza en la foto. La cámara cambia el color según la luz: úsalo como referencia.</p>
+          <p class="small muted" id="fphotonote" hidden data-t="free.photonote"></p>
         </div>
         <div id="detail-libre"></div>
       </div>
     </section>
 
     <section class="view" id="v-mis" hidden>
-      <div class="panel"><div class="sec"><h3>Mis fórmulas <small>Colores y variaciones guardadas en este dispositivo</small></h3></div><div id="savedlist"></div></div>
+      <div class="panel"><div class="sec"><h3><span data-t="mine.h"></span> <small data-t="mine.sub"></small></h3></div><div id="savedlist"></div></div>
     </section>
 
     <section class="view" id="v-tintes" hidden>
       <div class="panel">
         <div class="sec">
-          <h3>Mis tintes <small>Tu código y tu precio junto a cada tinte</small></h3>
+          <h3><span data-t="ton.h"></span> <small data-t="ton.sub"></small></h3>
           <div class="row2">
-            <label class="field"><span>Línea de pintura que usas</span><select id="line"></select></label>
-            <label class="field"><span>Proveedor / tienda</span><input class="inp" id="store" placeholder="Ej. Pinturas El Águila"></label>
+            <label class="field"><span data-t="ton.line"></span><select id="line"></select></label>
+            <label class="field"><span data-t="ton.store"></span><input class="inp" id="store" data-tp="ton.store.ph"></label>
           </div>
-          <div class="tablewrap"><table><thead><tr><th>Tinte</th><th>Tu código</th><th class="n">Precio por litro</th><th class="n">Densidad g/ml</th></tr></thead><tbody id="tonerbody"></tbody></table></div>
+          <div class="tablewrap"><table><thead><tr><th data-t="th.toner"></th><th data-t="th.code"></th><th class="n" data-t="th.price"></th><th class="n" data-t="th.dens"></th></tr></thead><tbody id="tonerbody"></tbody></table></div>
         </div>
         <div class="sec">
-          <h3>Importar colores y fórmulas <small>CSV de tu proveedor o tus fórmulas probadas</small></h3>
-          <p class="small muted">Columnas: <span class="mono">marca,codigo,nombre,acabado,hex,formula,alias</span>. Acabado: S, M, P o T. Fórmula en gramos: <span class="mono">W:520;K:12;BP:3.5</span>. Alias separados por espacio: <span class="mono">WA8555 U8555</span>.</p>
+          <h3><span data-t="imp.h"></span> <small data-t="imp.sub"></small></h3>
+          <p class="small muted" data-th="imp.p"></p>
           <textarea id="csv" spellcheck="false">marca,codigo,nombre,acabado,hex,formula,alias
-Mi taller,VERDE-01,Verde tractor probado,S,#2F6B3A,W:180;GP:95;YM:60;K:8,</textarea>
-          <div class="tools"><button class="btn primary" id="doimport" type="button">Importar</button><button class="btn" id="clearimport" type="button">Quitar importados</button></div>
+My shop,GREEN-01,Tested tractor green,S,#2F6B3A,W:180;GP:95;YM:60;K:8,</textarea>
+          <div class="tools"><button class="btn primary" id="doimport" type="button" data-t="imp.btn"></button><button class="btn" id="clearimport" type="button" data-t="imp.clear"></button></div>
           <p class="small" id="importmsg"></p>
         </div>
       </div>
     </section>
   </div></main>
+
+  <button class="coach-btn" id="coachBtn" type="button" aria-expanded="false" aria-controls="coach"><i aria-hidden="true"></i><span data-t="chat.btn"></span></button>
+  <div class="coach" id="coach" role="dialog" aria-labelledby="coachTitle" hidden>
+    <header><div><b id="coachTitle" data-t="chat.title"></b><small data-t="chat.sub"></small></div><button type="button" id="coachClose" data-ta="chat.close">×</button></header>
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <form id="coachForm"><input id="coachIn" autocomplete="off" data-tp="chat.ph" data-ta="chat.ph"><button class="btn primary" type="submit" data-t="chat.send"></button></form>
+  </div>
 </div>
 
 <script>
 (function(){
 "use strict";
+document.documentElement.classList.add('js');
 const store={get(k,d){try{const v=localStorage.getItem('tdc.'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tdc.'+k,JSON.stringify(v))}catch(e){}}};
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $=s=>document.querySelector(s);
 const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ================= Textos EN / ES ================= */
+let L=store.get('lang','en')==='es'?1:0;
+const S={
+ 'nav.how':['How it works','Cómo funciona'],'nav.pricing':['Pricing','Precios'],'nav.faq':['Questions','Preguntas'],'nav.enter':['Open the app','Entrar al software'],
+ 'hero.kicker':['For independent auto painters','Para pintores automotrices independientes'],
+ 'hero.h1':['From the label code to the <mark>scale</mark> in seconds','Del código de la etiqueta a la <mark>báscula</mark> en segundos'],
+ 'hero.lede':["Type the car's paint code and Taller de Color gives you the mix in grams, with the toners your paint store sells. If the old panel is sun-faded, it tells you how much to add to the mix you already made.",'Escribe el código del carro y Taller de Color te da la mezcla en gramos con los tintes que consigues en tu tienda. Si la pieza vieja está quemada por el sol, te dice cuánto agregarle a la mezcla que ya hiciste.'],
+ 'hero.cta1':['Try it free for 14 days','Pruébalo 14 días gratis'],'hero.cta2':['See pricing','Ver precios'],
+ 'hero.fine':['Works on your phone, tablet or shop computer.','Funciona en el celular, la tablet o la computadora del taller.'],
+ 'demo.label':['Label','Etiqueta'],'demo.ticket':['Mix ticket','Ticket de mezcla'],'demo.qty':['250 ml · cumulative','250 ml · acumulado'],'demo.total':['Scale total','Total en báscula'],
+ 'demo.tap':['Tap a color to try it.','Toca un color para probarlo.'],
+ 'how.kicker':['How it works','Cómo funciona'],'how.h2':['Three steps, from the door jamb to the gun','Tres pasos, de la puerta a la pistola'],
+ 'how.intro':['The same order you already work in: identify the car, read the label, weigh the mix.','El mismo orden en que ya trabajas: identificas el carro, lees la etiqueta y pesas la mezcla.'],
+ 's1.h':['Make or VIN','Marca o VIN'],'s1.p':['Pick the make or paste the VIN and the app detects make and year. No more codes from the wrong brand.','Elige la marca o pega el VIN y el software reconoce la marca y el año. Ya no salen códigos de otra marca.'],
+ 's2.h':['Label code','Código de la etiqueta'],'s2.p':["Type it the way it's printed: <code>BC/CC U8555</code>, <code>WA8555</code> or <code>GBA</code>. We show you where the label is on each make.",'Escríbelo como venga: <code>BC/CC U8555</code>, <code>WA8555</code> o <code>GBA</code>. Te decimos dónde está la etiqueta en cada marca.'],
+ 's3.h':['Weigh and spray','Pesa y pinta'],'s3.p':['A cumulative formula for the scale, the right amount for the part, and what the mix cost you, so you charge right.','Fórmula acumulada para la báscula, la cantidad justa para la pieza y cuánto te costó la mezcla, para cobrar bien.'],
+ 'vs.kicker':['What you know, improved','Lo que ya conoces, mejorado'],'vs.h2':['Built for the painter who works on their own','Hecho para el pintor que trabaja por su cuenta'],
+ 'vs.intro':["Paint makers' programs are built for big shops and their own product line. Taller de Color is built for you.",'Los programas de los fabricantes de pintura están hechos para talleres grandes y para su propia línea. Taller de Color está hecho para ti.'],
+ 'vs.old':['The usual','Lo de siempre'],
+ 'vs.o1':['Formulas only for the paint brand that made the program','Fórmulas solo de la marca de pintura del programa'],'vs.n1':['Your own toner codes, from whatever brand your store sells','Los códigos de tus tintes, de la marca que vendan en tu tienda'],
+ 'vs.o2':['Installed on the mixing-room computer','Instalado en la computadora del cuarto de mezcla'],'vs.n2':["On your phone, at the shop or at the customer's house",'En tu celular, en el taller o en casa del cliente'],
+ 'vs.o3':["If the old panel doesn't match, you tint by eye and waste paint",'Si la pieza vieja no iguala, ajustas a ojo y tiras pintura'],'vs.n3':['Variation sliders, and the grams to add to what you already mixed','Barras de variación y los gramos a agregar a lo que ya mezclaste'],
+ 'vs.o4':['You guess how much paint to buy','Calculas a ojo cuánta pintura comprar'],'vs.n4':['Tap the parts and it tells you how much to mix','Marcas las piezas y te dice cuánto preparar'],
+ 'vs.o5':["You don't know what the mix cost you",'No sabes cuánto te costó la mezcla'],'vs.n5':['The cost of every mix with your prices, ready to quote','El costo de cada mezcla con tus precios, listo para cotizar'],
+ 'feat.kicker':['Everything included','Todo incluido'],'feat.h2':['Tools for the mixing room','Herramientas del cuarto de mezcla'],
+ 'price.kicker':['Pricing','Precios'],'price.h2':['Monthly plans. Cancel anytime.','Pago mensual. Cancelas cuando quieras.'],
+ 'price.intro':['Every plan starts with 14 days free. Pay yearly and get two months free.','Todos los planes empiezan con 14 días gratis. Con pago anual te regalamos dos meses.'],
+ 'price.m':['Monthly','Mensual'],'price.y':['Yearly · 2 months free','Anual · 2 meses gratis'],
+ 'price.fine':['Prices in US dollars. Launch proposal: they can change before sales open.','Precios en dólares estadounidenses. Propuesta de lanzamiento: se pueden ajustar antes de abrir ventas.'],
+ 'price.per':['/ month','/ mes'],'price.rec':['Recommended','Recomendado'],'price.cta':['Start free trial','Probar 14 días gratis'],
+ 'price.yr':[(a,b)=>`$${a} per year · you save $${b}`,(a,b)=>`$${a} al año · ahorras $${b}`],
+ 'faq.kicker':['Questions','Preguntas'],'faq.h2':['What painters ask us','Lo que nos preguntan los pintores'],
+ 'final.h2':['Your next color match, without guessing','Tu próxima igualación, sin adivinar'],'final.cta':['Start free trial','Empezar prueba gratis'],
+ 'foot.l':['Taller de Color · a Dakra Studio product','Taller de Color · un producto de Dakra Studio'],'foot.r':['On-screen colors are approximate. Always check with a spray-out card.','Los colores en pantalla son aproximados. Verifica siempre con carta de prueba.'],
+ 'tab.search':['Find code','Buscar código'],'tab.free':['Any color','Color libre'],'tab.mine':['My formulas','Mis fórmulas'],'tab.toners':['My toners','Mis tintes'],
+ 'f.make':['Vehicle make','Marca del vehículo'],'f.vin':['Or paste the VIN (17 characters)','O pega el VIN (17 caracteres)'],'f.code':['Label code','Código de la etiqueta'],
+ 'f.code.ph':['e.g. GAZ, U8555, NH-731P, 475…','Ej. GAZ, U8555, NH-731P, 475…'],'f.clear':['Clear','Borrar'],
+ 'where.none':["Pick the make to see where the label is. That way you won't get the same code from another brand.",'Elige la marca para ver dónde está la etiqueta. Así no te sale un código igual de otra marca.'],
+ 'where.t':["Where's the label?",'¿Dónde está la etiqueta?'],'where.def':["Usually on the driver's door jamb.",'Normalmente en el marco de la puerta del conductor.'],
+ 'vin.len':[n=>`The VIN has ${n} characters; it needs 17.`,n=>`El VIN tiene ${n} caracteres; deben ser 17.`],
+ 'vin.ioq':['A VIN never uses I, O or Q. Check whether it is a 1 or a 0.','Un VIN no lleva las letras I, O ni Q. Revisa si es 1 o 0.'],
+ 'vin.unk':[w=>`I don't recognize maker <b>${w}</b>. Pick the make by hand.`,w=>`No reconozco el fabricante <b>${w}</b>. Elige la marca a mano.`],
+ 'vin.ok':[(m,y)=>`<b>${m}${y?' · '+y:''}</b>. The VIN doesn't include the paint code: find it on the label.`,(m,y)=>`<b>${m}${y?' · '+y:''}</b>. El VIN no trae el código de pintura: búscalo en la etiqueta.`],
+ 'ambig':[(c,n)=>`Code ${c} exists in ${n} makes and is a different color in each. Which one is your car?`,(c,n)=>`El código ${c} existe en ${n} marcas y es un color distinto en cada una. ¿Cuál es tu carro?`],
+ 'hint':[m=>`Looks like a ${m} code.`,m=>`Parece un código de ${m}.`],
+ 'hint.p':["Pick the make above. If it doesn't show up, it isn't in the database yet: calculate it in Any color or import it from your supplier.",'Elige la marca arriba. Si no aparece, todavía no está en la base: calcúlalo en Color libre o impórtalo de tu proveedor.'],
+ 'count':[(n,m)=>`${n} color${n===1?'':'s'}${m?' · '+m:''}`,(n,m)=>`${n} color${n===1?'':'es'}${m?' · '+m:''}`],
+ 'only':[m=>`Only ${m}`,m=>`Solo ${m}`],
+ 'empty.make':[(q,m)=>`I don't have <b>${q}</b> for ${m}. Check the label or calculate the color in <b>Any color</b>.`,(q,m)=>`No tengo <b>${q}</b> en ${m}. Revisa la etiqueta o calcula el color en <b>Color libre</b>.`],
+ 'empty.all':["I couldn't find that code. Check the label or calculate the color in <b>Any color</b>.",'No encontré ese código. Revisa la etiqueta o calcula el color en <b>Color libre</b>.'],
+ 'seeall':['Search all makes','Buscar en todas las marcas'],'gofree':['Go to Any color','Ir a Color libre'],
+ 'fin.S':['Solid','Sólido'],'fin.M':['Metallic','Metálico'],'fin.P':['Pearl','Perlado'],'fin.T':['Tri-coat','Tricapa'],
+ 'q.ok1':['Excellent','Excelente'],'q.ok2':['Very close','Muy cerca'],'q.warn':['Adjust on card','Ajustar en carta'],'q.bad':['Approximate','Aproximado'],
+ 'd.also':['Also on the label:','En la etiqueta también:'],'d.imp':['Imported formula','Fórmula importada'],'d.calc':['Calculated formula','Fórmula calculada'],'d.year':['Year','Año'],
+ 'card.t':['Target','Meta'],'card.m':['Mix','Mezcla'],
+ 'note.imp':['Formula loaded from your file. The preview is calculated with generic toners.','Fórmula cargada desde tu archivo. La vista previa se calcula con los tintes genéricos.'],
+ 'note.calc':['Starting formula calculated from the color. Spray a test card and compare it to the car in daylight before painting.','Fórmula de arranque calculada a partir del color. Haz carta de prueba y compárala con el carro a la luz del día antes de pintar.'],
+ 'note.M':[' With metallics, check the card head-on and from the side: aluminum changes with the angle.',' En metálicos revisa la carta de frente y de lado: el aluminio cambia con el ángulo.'],
+ 'note.T':[' Tri-coat: this is the ground coat. The pearl mid-coat goes on top, then clear. Spray cards with 1, 2 and 3 pearl coats.',' Tricapa: esta es la base de fondo; encima va la perla y luego el barniz. Haz carta con 1, 2 y 3 manos de perla.'],
+ 'note.unk':[x=>` Toners I didn't recognize: ${x}.`,x=>` Tintes que no reconocí: ${x}.`],
+ 'qty.h':['Amount','Cantidad'],'qty.sub':['Color base to mix','Color base a preparar'],'qty.other':['Other','Otra'],
+ 'sys.h':['System','Sistema'],'parts.h':['What are you painting?','¿Qué vas a pintar?'],
+ 'sum':[(a,b)=>`You mix <b>${a}</b> of color → <b>${b}</b> ready to spray.`,(a,b)=>`Preparas <b>${a}</b> de color → <b>${b}</b> listos para aplicar.`],
+ 'tip.s':[' Small part: with 250 ml the toners are easy to weigh. You can also order a custom-filled aerosol.',' Pieza chica: con 250 ml pesas bien los tintes; también puedes pedir aerosol a la medida.'],
+ 'tip.b':[" Big job: mix it all at once so it doesn't vary between cans."," Trabajo grande: prepara todo de una vez para que no varíe entre latas."],
+ 'f.h':['Formula','Fórmula'],'scale':['Scale · total','Báscula · total'],
+ 'cost':[(c,m)=>`Toner cost: $${c}${m?' (some prices missing)':''}`,(c,m)=>`Costo de tintes: $${c}${m?' (faltan precios)':''}`],
+ 'nocost':['Add your prices in My toners to see the cost','Pon tus precios en Mis tintes para ver el costo'],
+ 'btn.per':['Show per toner','Ver por tinte'],'btn.cum':['Show cumulative','Ver acumulado'],'btn.copy':['Copy formula','Copiar fórmula'],
+ 'copied':['Formula copied','Fórmula copiada'],'copyfail':['Select the text and copy it','Selecciona y copia el texto'],
+ 'th.toner':['Toner','Tinte'],'th.g':['Grams','Gramos'],'th.scale':['Scale','Báscula'],'th.code':['Your code','Tu código'],'th.price':['Price per liter','Precio por litro'],'th.dens':['Density g/ml','Densidad g/ml'],
+ 'tiny':[x=>`${x}: under 0.3 g. Mix a larger amount or use a 0.01 g scale.`,x=>`${x}: menos de 0.3 g. Prepara más cantidad o usa báscula de 0.01 g.`],
+ 'v.h':['Variations','Variaciones'],'v.sub':['For sun-faded panels or factory variants','Para piezas quemadas por el sol o variantes de fábrica'],
+ 'v.reset':['Back to original','Volver al original'],'v.orig':['Original','Original'],'v.var':['Variation','Variación'],
+ 'v.hint':['Tap a quick variant or move a slider to see the new formula and how much to add to what you already mixed.','Toca una variante rápida o mueve una barra: verás la fórmula nueva y cuánto agregar a lo que ya mezclaste.'],
+ 'v.diff':[d=>`Difference from the original: ΔE ${d}`,d=>`Diferencia contra el original: ΔE ${d}`],
+ 'v.new':['Mix new paint instead.','Mejor prepara mezcla nueva.'],'v.newp':['Reaching the variation on top of what you mixed would more than double the amount.','Para llegar a la variación sobre lo que ya mezclaste tendrías que más que duplicar la cantidad.'],
+ 'v.add':[g=>`If you already mixed the original (${g} g), add:`,g=>`Si ya mezclaste la original (${g} g), agrega:`],
+ 'v.of':['of','de'],'v.none':['Nothing: the difference is minimal.','Nada: la diferencia es mínima.'],
+ 'v.prec':[d=>`Correction accuracy: ΔE ${d}. Mix, spray a card and compare before going on.`,d=>`Precisión de la corrección: ΔE ${d}. Mezcla, haz carta y compara antes de seguir.`],
+ 'v.th':['Variation formula','Fórmula de la variación'],'v.suffix':[' · variation',' · variación'],
+ 'save.name':[c=>`Name (e.g. ${c} sun-faded)`,c=>`Nombre (ej. ${c} quemado de sol)`],'save.client':['Customer or plate (optional)','Cliente o placa (opcional)'],
+ 'save.btn':['Save to My formulas','Guardar en Mis fórmulas'],'saved':['Saved to My formulas','Guardada en Mis fórmulas'],
+ 'free.h':['Any color','Cualquier color'],'free.p':['For colors with no code: type the value, pick it on the wheel or tap a photo of the part.','Para colores sin código: escribe el valor, elige en la rueda o toca una foto de la pieza.'],
+ 'free.val':['Color value','Valor del color'],'free.fin':['Finish','Acabado'],'free.name':['Name (optional)','Nombre (opcional)'],'free.name.ph':["e.g. Mr. Lopez's green truck",'Ej. Verde camioneta Don Luis'],
+ 'free.photo':['Pick the color from a photo','Tomar color de una foto'],'free.photonote':['Tap the part in the photo. Cameras shift color with the light: use it as a reference.','Toca la pieza en la foto. La cámara cambia el color según la luz: úsalo como referencia.'],
+ 'free.make':['Any color','Color libre'],'free.def':['Custom color','Color a la medida'],
+ 'mine.h':['My formulas','Mis fórmulas'],'mine.sub':['Colors and variations saved on this device','Colores y variaciones guardadas en este dispositivo'],
+ 'mine.empty':['No saved formulas yet. Find a code, adjust a variation and tap <b>Save to My formulas</b>.','Todavía no guardas fórmulas. Busca un código, ajusta la variación y toca <b>Guardar en Mis fórmulas</b>.'],
+ 'open':['Open','Abrir'],'del':['Delete','Borrar'],'sure':['Sure? Tap again','¿Seguro? Toca otra vez'],'deleted':['Formula deleted','Fórmula borrada'],
+ 'ton.h':['My toners','Mis tintes'],'ton.sub':['Your code and price next to each toner','Tu código y tu precio junto a cada tinte'],'ton.line':['Paint line you use','Línea de pintura que usas'],
+ 'ton.store':['Supplier / store','Proveedor / tienda'],'ton.store.ph':['e.g. Eagle Paint Supply','Ej. Pinturas El Águila'],'ton.saved':['Toners saved','Tintes guardados'],'effect':['effect','efecto'],
+ 'imp.h':['Import colors and formulas','Importar colores y fórmulas'],'imp.sub':['CSV from your supplier or your tested formulas','CSV de tu proveedor o tus fórmulas probadas'],
+ 'imp.p':['Columns: <code>marca,codigo,nombre,acabado,hex,formula,alias</code>. Finish: S, M, P or T. Formula in grams: <code>W:520;K:12;BP:3.5</code>. Aliases separated by spaces: <code>WA8555 U8555</code>.','Columnas: <code>marca,codigo,nombre,acabado,hex,formula,alias</code>. Acabado: S, M, P o T. Fórmula en gramos: <code>W:520;K:12;BP:3.5</code>. Alias separados por espacio: <code>WA8555 U8555</code>.'],
+ 'imp.btn':['Import','Importar'],'imp.clear':['Remove imported','Quitar importados'],
+ 'imp.msg':[(n,b)=>`${n} color${n===1?'':'s'} imported.`+(b?` Check lines ${b}: missing make or code, or the hex isn't valid.`:''),(n,b)=>`${n} color${n===1?'':'es'} importado${n===1?'':'s'}.`+(b?` Revisa las líneas ${b}: falta marca, código o el hex no es válido.`:'')],
+ 'imp.cleared':['Imported colors removed.','Se quitaron los colores importados.'],
+ 'chat.btn':['Ask Paint Coach','Pregunta al Asesor'],'chat.title':['Paint Coach','Asesor de pintura'],
+ 'chat.sub':['Answers from our painters’ guide, built from common forum questions.','Respuestas de nuestra guía, hecha con las preguntas más comunes de los foros.'],
+ 'chat.ph':['Type your question…','Escribe tu pregunta…'],'chat.send':['Send','Enviar'],'chat.close':['Close','Cerrar'],
+ 'chat.beg':['New to painting','Si eres principiante'],'chat.pro':['For experienced painters','Para pintores con experiencia'],
+ 'chat.hello':['Hi! Ask me about mixing, matching or spraying. Pick a question or type your own.','¡Hola! Pregúntame sobre mezclar, igualar o aplicar. Escoge una pregunta o escribe la tuya.'],
+ 'chat.none':["I don't have a good answer for that yet. Try other words, or pick one of these:",'Todavía no tengo una buena respuesta para eso. Prueba con otras palabras o escoge una de estas:'],
+ 'chat.rel':['Related:','Relacionado:'],'chat.tds':['Always check the technical data sheet (TDS) of your product.','Revisa siempre la ficha técnica (TDS) de tu producto.']
+};
+const t=(k,...a)=>{const v=S[k];if(!v)return k;const x=v[L];return typeof x==='function'?x(...a):x};
 
 /* ================= Ciencia del color ================= */
 const s2l=v=>v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);
@@ -486,7 +674,7 @@ const hexToLin=h=>{h=h.replace('#','');return [0,2,4].map(i=>s2l(parseInt(h.subs
 const linToHex=c=>'#'+c.map(v=>Math.round(l2s(v)*255).toString(16).padStart(2,'0')).join('').toUpperCase();
 function linToLab([r,g,b]){
   const X=(0.4124564*r+0.3575761*g+0.1804375*b)/0.95047,Y=0.2126729*r+0.7151522*g+0.0721750*b,Z=(0.0193339*r+0.1191920*g+0.9503041*b)/1.08883;
-  const f=t=>t>0.008856?Math.cbrt(t):7.787*t+16/116; const fx=f(X),fy=f(Y),fz=f(Z);
+  const f=t=>t>0.008856?Math.cbrt(t):7.787*t+16/116;const fx=f(X),fy=f(Y),fz=f(Z);
   return [116*fy-16,500*(fx-fy),200*(fy-fz)];
 }
 function labToLin([L,a,b]){
@@ -512,26 +700,27 @@ function dE00(l1,l2){
 
 /* ================= Tintes (Kubelka-Munk por canal) ================= */
 const TONERS=[
-  {id:'W',name:'Blanco titanio',hex:'#F6F6F3',S:1.00,d:1.45},
-  {id:'K',name:'Negro carbón',hex:'#111214',S:0.12,d:1.05},
-  {id:'YL',name:'Amarillo limón',hex:'#F2D31B',S:0.15,d:1.10},
-  {id:'YM',name:'Amarillo cálido',hex:'#EFA81C',S:0.15,d:1.10},
-  {id:'YO',name:'Amarillo óxido',hex:'#C38F2E',S:0.45,d:1.30},
-  {id:'OR',name:'Naranja',hex:'#E5601E',S:0.18,d:1.10},
-  {id:'RP',name:'Rojo naranja (pirrol)',hex:'#D0221B',S:0.18,d:1.10},
-  {id:'RB',name:'Rojo brillante',hex:'#C4142C',S:0.15,d:1.10},
-  {id:'RX',name:'Rojo óxido',hex:'#7E3322',S:0.45,d:1.30},
-  {id:'RM',name:'Rojo magenta',hex:'#8C1A4C',S:0.12,d:1.08},
-  {id:'VI',name:'Violeta',hex:'#3F2770',S:0.10,d:1.06},
-  {id:'BP',name:'Azul ftalo',hex:'#0B3A8A',S:0.08,d:1.06},
-  {id:'BU',name:'Azul ultramar',hex:'#26389B',S:0.12,d:1.12},
-  {id:'GP',name:'Verde ftalo',hex:'#0B6A4D',S:0.08,d:1.06},
-  {id:'AL',name:'Aluminio medio',hex:'#B5B8BB',S:0.60,d:1.00,fx:true},
-  {id:'PE',name:'Perla blanca',hex:'#ECEAE3',S:0.50,d:1.02,fx:true}
+  {id:'W',n:['Titanium white','Blanco titanio'],hex:'#F6F6F3',S:1.00,d:1.45},
+  {id:'K',n:['Carbon black','Negro carbón'],hex:'#111214',S:0.12,d:1.05},
+  {id:'YL',n:['Lemon yellow','Amarillo limón'],hex:'#F2D31B',S:0.15,d:1.10},
+  {id:'YM',n:['Warm yellow','Amarillo cálido'],hex:'#EFA81C',S:0.15,d:1.10},
+  {id:'YO',n:['Yellow oxide','Amarillo óxido'],hex:'#C38F2E',S:0.45,d:1.30},
+  {id:'OR',n:['Orange','Naranja'],hex:'#E5601E',S:0.18,d:1.10},
+  {id:'RP',n:['Orange red (pyrrole)','Rojo naranja (pirrol)'],hex:'#D0221B',S:0.18,d:1.10},
+  {id:'RB',n:['Bright red','Rojo brillante'],hex:'#C4142C',S:0.15,d:1.10},
+  {id:'RX',n:['Red oxide','Rojo óxido'],hex:'#7E3322',S:0.45,d:1.30},
+  {id:'RM',n:['Magenta red','Rojo magenta'],hex:'#8C1A4C',S:0.12,d:1.08},
+  {id:'VI',n:['Violet','Violeta'],hex:'#3F2770',S:0.10,d:1.06},
+  {id:'BP',n:['Phthalo blue','Azul ftalo'],hex:'#0B3A8A',S:0.08,d:1.06},
+  {id:'BU',n:['Ultramarine blue','Azul ultramar'],hex:'#26389B',S:0.12,d:1.12},
+  {id:'GP',n:['Phthalo green','Verde ftalo'],hex:'#0B6A4D',S:0.08,d:1.06},
+  {id:'AL',n:['Medium aluminum','Aluminio medio'],hex:'#B5B8BB',S:0.60,d:1.00,fx:true},
+  {id:'PE',n:['White pearl','Perla blanca'],hex:'#ECEAE3',S:0.50,d:1.02,fx:true}
 ];
-const TBY={};TONERS.forEach(t=>{t.lin=hexToLin(t.hex);t.K=t.lin.map(R=>{R=Math.min(0.995,Math.max(0.002,R));return (1-R)*(1-R)/(2*R)*t.S});TBY[t.id]=t});
+const TBY={};TONERS.forEach(x=>{x.lin=hexToLin(x.hex);x.K=x.lin.map(R=>{R=Math.min(0.995,Math.max(0.002,R));return (1-R)*(1-R)/(2*R)*x.S});TBY[x.id]=x});
+const tname=id=>TBY[id].n[L];
 const CHROMA=['YL','YM','YO','OR','RP','RB','RX','RM','VI','BP','BU','GP'];
-function mix(ids,c){const o=[0,0,0];for(let ch=0;ch<3;ch++){let K=0,S=0;for(let i=0;i<ids.length;i++){const t=TBY[ids[i]];K+=c[i]*t.K[ch];S+=c[i]*t.S}const ks=K/S;o[ch]=1+ks-Math.sqrt(ks*ks+2*ks)}return o}
+function mix(ids,c){const o=[0,0,0];for(let ch=0;ch<3;ch++){let K=0,Sx=0;for(let i=0;i<ids.length;i++){const x=TBY[ids[i]];K+=c[i]*x.K[ch];Sx+=c[i]*x.S}const ks=K/Sx;o[ch]=1+ks-Math.sqrt(ks*ks+2*ks)}return o}
 function softmax(x){const m=Math.max(...x),e=x.map(v=>Math.exp(v-m)),s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)}
 function optimize(ids,target,keepAll){
   let x=ids.map(id=>id==='W'||id==='AL'?2:0);if(target[0]<35&&ids.includes('K'))x[ids.indexOf('K')]=1.5;
@@ -552,7 +741,7 @@ function solve(target,fin){
 }
 
 /* ================= Base de colores ================= */
-// marca|código|nombre|acabado|hex aproximado|alias (lo que también aparece en la etiqueta)
+// marca|código|nombre|acabado|hex aproximado|alias que también aparecen en la etiqueta
 const RAW=`Toyota|040|Super White|S|#F3F3F1|
 Toyota|070|Blizzard Pearl|T|#F1F0EB|
 Toyota|089|Wind Chill Pearl|T|#EFEEE8|
@@ -643,141 +832,137 @@ Kia / Hyundai|UD|Clear White (Kia)|S|#F3F3F1|
 Kia / Hyundai|SWP|Snow White Pearl (Kia)|T|#EFEEE9|
 Kia / Hyundai|ABP|Aurora Black Pearl (Kia)|P|#141517|
 Kia / Hyundai|NKA|Phantom Black Pearl (Hyundai)|P|#131416|
-RAL (industrial)|RAL 1003|Amarillo señales|S|#F9A900|1003
-RAL (industrial)|RAL 1015|Marfil claro|S|#E6D2B5|1015
-RAL (industrial)|RAL 1023|Amarillo tráfico|S|#F7B500|1023
-RAL (industrial)|RAL 2004|Naranja puro|S|#F44611|2004
-RAL (industrial)|RAL 3000|Rojo vivo|S|#A72920|3000
-RAL (industrial)|RAL 3020|Rojo tráfico|S|#C1121C|3020
-RAL (industrial)|RAL 5002|Azul ultramar|S|#20214F|5002
-RAL (industrial)|RAL 5005|Azul señales|S|#005387|5005
-RAL (industrial)|RAL 5010|Azul genciana|S|#004F7C|5010
-RAL (industrial)|RAL 5015|Azul celeste|S|#007CB0|5015
-RAL (industrial)|RAL 6005|Verde musgo|S|#0F4336|6005
-RAL (industrial)|RAL 6018|Verde amarillento|S|#48A43F|6018
-RAL (industrial)|RAL 6029|Verde menta|S|#006F3D|6029
-RAL (industrial)|RAL 7016|Gris antracita|S|#383E42|7016
-RAL (industrial)|RAL 7035|Gris luminoso|S|#CBD0CC|7035
-RAL (industrial)|RAL 7040|Gris ventana|S|#9DA1AA|7040
-RAL (industrial)|RAL 8017|Marrón chocolate|S|#442F29|8017
-RAL (industrial)|RAL 9001|Blanco crema|S|#E9E0D2|9001
-RAL (industrial)|RAL 9003|Blanco señales|S|#ECECE7|9003
-RAL (industrial)|RAL 9005|Negro intenso|S|#0A0A0A|9005
-RAL (industrial)|RAL 9006|Aluminio blanco|M|#A1A1A0|9006
-RAL (industrial)|RAL 9010|Blanco puro|S|#F1ECE1|9010`;
+RAL|RAL 1003|Signal Yellow · Amarillo señales|S|#F9A900|1003
+RAL|RAL 1015|Light Ivory · Marfil claro|S|#E6D2B5|1015
+RAL|RAL 1023|Traffic Yellow · Amarillo tráfico|S|#F7B500|1023
+RAL|RAL 2004|Pure Orange · Naranja puro|S|#F44611|2004
+RAL|RAL 3000|Flame Red · Rojo vivo|S|#A72920|3000
+RAL|RAL 3020|Traffic Red · Rojo tráfico|S|#C1121C|3020
+RAL|RAL 5002|Ultramarine Blue · Azul ultramar|S|#20214F|5002
+RAL|RAL 5005|Signal Blue · Azul señales|S|#005387|5005
+RAL|RAL 5010|Gentian Blue · Azul genciana|S|#004F7C|5010
+RAL|RAL 5015|Sky Blue · Azul celeste|S|#007CB0|5015
+RAL|RAL 6005|Moss Green · Verde musgo|S|#0F4336|6005
+RAL|RAL 6018|Yellow Green · Verde amarillento|S|#48A43F|6018
+RAL|RAL 6029|Mint Green · Verde menta|S|#006F3D|6029
+RAL|RAL 7016|Anthracite Grey · Gris antracita|S|#383E42|7016
+RAL|RAL 7035|Light Grey · Gris luminoso|S|#CBD0CC|7035
+RAL|RAL 7040|Window Grey · Gris ventana|S|#9DA1AA|7040
+RAL|RAL 8017|Chocolate Brown · Marrón chocolate|S|#442F29|8017
+RAL|RAL 9001|Cream · Blanco crema|S|#E9E0D2|9001
+RAL|RAL 9003|Signal White · Blanco señales|S|#ECECE7|9003
+RAL|RAL 9005|Jet Black · Negro intenso|S|#0A0A0A|9005
+RAL|RAL 9006|White Aluminium · Aluminio blanco|M|#A1A1A0|9006
+RAL|RAL 9010|Pure White · Blanco puro|S|#F1ECE1|9010`;
 const norm=s=>String(s).toUpperCase().replace(/[\s\-_.\/()]/g,'');
 const BASE=RAW.split('\n').map(l=>{const [marca,codigo,nombre,acabado,hex,alias]=l.split('|');return {marca,codigo,nombre,acabado,hex,alias:(alias||'').split(/\s+/).filter(Boolean),src:'base'}});
 let IMPORTED=store.get('imported',[]);
 const allColors=()=>IMPORTED.concat(BASE);
-const FIN={S:'Sólido',M:'Metálico',P:'Perlado',T:'Tricapa'};
 
-/* Dónde está la etiqueta (ubicación habitual; varía por modelo y año) */
 const WHERE={
-  'Toyota':'Marco de la puerta del conductor. Busca <b>C/TR</b>: el código es lo primero (ej. <b>040</b>).',
-  'Honda':'Marco de la puerta del conductor. Código tipo <b>NH-731P</b> o <b>R-513</b>.',
-  'Ford':'Etiqueta del marco de la puerta del conductor, junto a <b>EXT PNT</b>: 2 caracteres (ej. <b>YZ</b>).',
-  'Chevrolet / GMC':'Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos.',
-  'Nissan':'Marco de la puerta del conductor, junto a <b>COLOR</b> (ej. <b>KH3</b>).',
-  'Volkswagen':'Etiqueta en la cajuela, junto a la llanta de refacción o en el libro de servicio: 4 caracteres que empiezan con <b>L</b> (ej. <b>LB9A</b>).',
-  'BMW':'Marco de la puerta del conductor o bajo el cofre: 3 caracteres (ej. <b>475</b>).',
-  'Mercedes-Benz':'Marco de la puerta del conductor o bajo el cofre: 3 dígitos (ej. <b>197</b>).',
-  'Tesla':'Normalmente no viene en etiqueta: revisa los datos del vehículo o del pedido (ej. <b>PPSW</b>).',
-  'Ram / Dodge / Jeep':'Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>).',
-  'Subaru':'Etiqueta bajo el cofre, en la torre de suspensión o la pared de fuego (ej. <b>K1X</b>).',
-  'Mazda':'Marco de la puerta del conductor (ej. <b>46V</b>).',
-  'Kia / Hyundai':'Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>).',
-  'RAL (industrial)':'Carta RAL: 4 dígitos (ej. <b>9005</b>).'
+ 'Toyota':["Driver's door jamb. Look for <b>C/TR</b>: the code comes first (e.g. <b>040</b>).",'Marco de la puerta del conductor. Busca <b>C/TR</b>: el código es lo primero (ej. <b>040</b>).'],
+ 'Honda':["Driver's door jamb. Codes like <b>NH-731P</b> or <b>R-513</b>.",'Marco de la puerta del conductor. Código tipo <b>NH-731P</b> o <b>R-513</b>.'],
+ 'Ford':["Driver's door jamb label, next to <b>EXT PNT</b>: 2 characters (e.g. <b>YZ</b>).",'Etiqueta del marco de la puerta del conductor, junto a <b>EXT PNT</b>: 2 caracteres (ej. <b>YZ</b>).'],
+ 'Chevrolet / GMC':['<b>Service Parts Identification</b> label in the glove box or on the door jamb. Look for <b>BC/CC U8555</b> or <b>WA8555</b>; the 3-character code (<b>GBA</b>) works too. <b>U</b> is the body color; <b>L</b> is the lower color on two-tones.','Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos.'],
+ 'Nissan':["Driver's door jamb, next to <b>COLOR</b> (e.g. <b>KH3</b>).",'Marco de la puerta del conductor, junto a <b>COLOR</b> (ej. <b>KH3</b>).'],
+ 'Volkswagen':['Label in the trunk, by the spare tire, or in the service book: 4 characters starting with <b>L</b> (e.g. <b>LB9A</b>).','Etiqueta en la cajuela, junto a la llanta de refacción o en el libro de servicio: 4 caracteres que empiezan con <b>L</b> (ej. <b>LB9A</b>).'],
+ 'BMW':["Driver's door jamb or under the hood: 3 characters (e.g. <b>475</b>).",'Marco de la puerta del conductor o bajo el cofre: 3 caracteres (ej. <b>475</b>).'],
+ 'Mercedes-Benz':["Driver's door jamb or under the hood: 3 digits (e.g. <b>197</b>).",'Marco de la puerta del conductor o bajo el cofre: 3 dígitos (ej. <b>197</b>).'],
+ 'Tesla':["Usually not on a label: check the vehicle or order details (e.g. <b>PPSW</b>).",'Normalmente no viene en etiqueta: revisa los datos del vehículo o del pedido (ej. <b>PPSW</b>).'],
+ 'Ram / Dodge / Jeep':["Driver's door jamb: 3 characters starting with <b>P</b> (e.g. <b>PW7</b>).",'Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>).'],
+ 'Subaru':['Label under the hood, on the strut tower or firewall (e.g. <b>K1X</b>).','Etiqueta bajo el cofre, en la torre de suspensión o la pared de fuego (ej. <b>K1X</b>).'],
+ 'Mazda':["Driver's door jamb (e.g. <b>46V</b>).",'Marco de la puerta del conductor (ej. <b>46V</b>).'],
+ 'Kia / Hyundai':["Driver's door jamb, next to <b>PAINT</b> or <b>EXT</b> (e.g. <b>UD</b>, <b>NKA</b>).",'Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>).'],
+ 'RAL':['RAL chart: 4 digits (e.g. <b>9005</b>).','Carta RAL: 4 dígitos (ej. <b>9005</b>).']
 };
-/* VIN: marca por los 3 primeros caracteres y año por el décimo */
 const WMI={'Chevrolet / GMC':'1G1 1GC 1GN 1GB 2G1 2GC 2GN 3G1 3GC 3GN 3GT 1GT 1GK 2GK 2GT KL1 KL7 KL8','Ford':'1FA 1FB 1FC 1FD 1FM 1FT 2FA 2FM 2FT 3FA 3FM 3FT MAJ NM0','Honda':'1HG 2HG 3HG 5FN 5J6 5KB JHM 19X 7FA SHH','Toyota':'4T1 4T3 4T4 5TD 5TF 5TE 5YF 2T1 2T3 3TM 3TY 7MU JTD JTE JTH JTJ JTK JTL JTM JTN','Nissan':'1N4 1N6 3N1 3N6 3N8 5N1 5BZ JN1 JN8','Volkswagen':'WVW WVG WV1 WV2 1VW 3VW 3VV','BMW':'WBA WBS WBX WBY 5UX 5UJ 5YM','Mercedes-Benz':'WDD WDC WDB WD3 W1K W1N W1V 4JG 55S','Tesla':'5YJ 7SA 7G2 LRW XP7','Ram / Dodge / Jeep':'1C3 1C4 1C6 2C3 2C4 3C4 3C6 3C7 1D7 3D7 1J4 1J8 ZAC','Subaru':'JF1 JF2 4S3 4S4','Mazda':'JM1 JM3 3MZ 3MV 4F2','Kia / Hyundai':'KNA KND KNM 5XX 5XY 3KP KMH KM8 5NP 5NM 3KM'};
 const WMIMAP={};Object.entries(WMI).forEach(([m,s])=>s.split(' ').forEach(w=>WMIMAP[w]=m));
 function decodeVin(v){
   v=v.toUpperCase().replace(/[^A-Z0-9]/g,'');
-  if(v.length!==17)return {err:v.length?`El VIN tiene ${v.length} caracteres; deben ser 17.`:''};
-  if(/[IOQ]/.test(v))return {err:'Un VIN no lleva las letras I, O ni Q. Revisa si es 1 o 0.'};
-  const make=WMIMAP[v.slice(0,3)];
+  if(v.length!==17)return {err:v.length?t('vin.len',v.length):''};
+  if(/[IOQ]/.test(v))return {err:t('vin.ioq')};
   const Y='ABCDEFGHJKLMNPRSTVWXY123456789',i=Y.indexOf(v[9]),now=new Date().getFullYear()+1;
   let year=null;if(i>=0){year=1980+i;if(year+30<=now)year+=30}
-  return {make,year,wmi:v.slice(0,3)};
+  return {make:WMIMAP[v.slice(0,3)],year,wmi:v.slice(0,3)};
 }
-/* Pistas por formato del código cuando no hay marca elegida */
 function formatHint(q){
   if(/^(WA|U|L)[0-9A-Z]{4}$/.test(q)||/^\d{2}U$/.test(q))return 'Chevrolet / GMC';
   if(/^NH\d{3}[MP]?$/.test(q))return 'Honda';
   if(/^L[A-Z0-9]\d[A-Z0-9]$/.test(q))return 'Volkswagen';
   return null;
 }
-/* Búsqueda por nombre en español */
-const ES={blanco:'white',negro:'black',rojo:'red',plata:'silver',plateado:'silver',gris:'gray grey',azul:'blue',perla:'pearl',verde:'green',amarillo:'yellow',naranja:'orange','café':'brown',cafe:'brown','marrón':'brown',vino:'red',guinda:'red',metalico:'metallic','metálico':'metallic'};
+const ES={blanco:'white',negro:'black',rojo:'red',plata:'silver',plateado:'silver',gris:'gray grey',azul:'blue',perla:'pearl',verde:'green',amarillo:'yellow',naranja:'orange',cafe:'brown',marron:'brown',vino:'red',guinda:'red',metalico:'metallic'};
+const fold=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 
 /* ================= Tintes del pintor ================= */
-const LINES=['Genérico (sin marca)','PPG · Deltron / Envirobase','Axalta · Cromax / Nason','Sherwin-Williams · Ultra 7000 / AWX','BASF · Glasurit / R-M','Standox','Sikkens · Autowave','Aerosol a la medida (tienda local)','Otra'];
-let TCFG=Object.assign({line:LINES[0],store:'',codes:{},dens:{},price:{}},store.get('toners',{}));
-TCFG.price=TCFG.price||{};
+const LINES=[['Generic (no brand)','Genérico (sin marca)'],['PPG · Deltron / Envirobase'],['Axalta · Cromax / Nason'],['Sherwin-Williams · Ultra 7000 / AWX'],['BASF · Glasurit / R-M'],['Standox'],['Sikkens · Autowave'],['Custom-filled aerosol (local store)','Aerosol a la medida (tienda local)'],['Other','Otra']];
+const lineName=i=>(LINES[i]||LINES[0])[L]||(LINES[i]||LINES[0])[0];
+let TCFG=Object.assign({line:0,store:'',codes:{},dens:{},price:{}},store.get('toners2',{}));
 const tcode=id=>(TCFG.codes[id]||'').trim()||id;
 const tdens=id=>+TCFG.dens[id]||TBY[id].d;
+const PRESETS=[[100,'100 ml'],[250,'250 ml'],[500,'½ L'],[1000,'1 L'],[3785,['1 gallon','1 galón']],[4000,'4 L']];
+const PARTS=[[['Mirror','Espejo'],0.10],[['Handle','Manija'],0.05],[['Moldings','Molduras'],0.15],[['Bumper','Defensa'],0.45],[['Fender','Salpicadera'],0.35],[['Door','Puerta'],0.45],[['Hood','Cofre'],0.70],[['Roof','Techo'],0.60],[['Trunk lid','Cajuela'],0.45],[['Full side','Costado completo'],1.6],[['Whole car (sedan)','Carro completo (sedán)'],3.0],[['Whole SUV / pickup','SUV / pickup completa'],4.0]];
+const SYSTEMS={bicapa:{n:['Basecoat · 1:1 with reducer','Bicapa · base 1:1 con reductor'],f:1/2},agua:{n:['Waterborne · 10% reducer','Base agua · 10% reductor'],f:1/1.1},mono:{n:['Single stage 2K · 4:1:1','Monocapa 2K · 4:1:1'],f:4/6}};
+const VPRE=[[['Sun-faded','Quemado de sol'],{L:3,C:-12}],[['A bit lighter','Un punto más claro'],{L:2.5}],[['A bit darker','Un punto más oscuro'],{L:-2.5}],[['Warmer','Más cálido'],{a:1,b:3}],[['Cooler','Más frío'],{b:-3}]];
+const SLIDERS=[['L',['Darker','Más oscuro'],['Lighter','Más claro'],-12,12],['a',['Greener','Más verde'],['Redder','Más rojo'],-10,10],['b',['Bluer','Más azul'],['Yellower','Más amarillo'],-10,10],['C',['Dirtier','Más sucio'],['Cleaner','Más limpio'],-30,30]];
+const pick=x=>Array.isArray(x)?x[L]:x;
 
-const PRESETS=[[100,'100 ml'],[250,'250 ml'],[500,'½ L'],[1000,'1 L'],[3785,'1 galón'],[4000,'4 L']];
-const PARTS=[['Espejo',0.10],['Manija',0.05],['Molduras',0.15],['Defensa',0.45],['Salpicadera',0.35],['Puerta',0.45],['Cofre',0.70],['Techo',0.60],['Cajuela',0.45],['Costado completo',1.6],['Carro completo (sedán)',3.0],['SUV / pickup completa',4.0]];
-const SYSTEMS={bicapa:{n:'Bicapa · base 1:1 con reductor',f:1/2},agua:{n:'Base agua · 10% reductor',f:1/1.1},mono:{n:'Monocapa 2K · 4:1:1',f:4/6}};
-const VPRE=[['Quemado de sol',{L:3,C:-12}],['Un punto más claro',{L:2.5}],['Un punto más oscuro',{L:-2.5}],['Más cálido',{a:1,b:3}],['Más frío',{b:-3}]];
-
-/* ================= Dibujo ================= */
+/* ================= Dibujo: camioneta de línea ================= */
 function shade(hex,dL,da,db){const l=linToLab(hexToLin(hex));return linToHex(labToLin([l[0]+dL,l[1]+(da||0),l[2]+(db||0)]))}
 function finishBg(hex,fin){
   if(fin==='M')return `linear-gradient(125deg, ${shade(hex,16)} 0%, ${hex} 38%, ${shade(hex,-10)} 100%)`;
   if(fin==='P'||fin==='T')return `linear-gradient(125deg, ${shade(hex,8,-2,-5)} 0%, ${hex} 45%, ${shade(hex,-6,3,5)} 100%)`;
   return hex;
 }
-function stops(hex,fin){
-  const k=fin==='M'?1:fin==='S'?0.45:0.7,pe=fin==='P'||fin==='T';
-  return [pe?shade(hex,14*k,-2,-6):shade(hex,20*k),hex,shade(hex,-16*k,pe?3:0,pe?5:0)];
-}
-let carN=0;
-const BODY='M30 176 C28 150 44 136 76 130 L170 118 C200 92 236 68 286 62 L400 60 C440 60 470 80 500 112 L580 122 C604 126 614 140 612 160 L610 180 C610 186 606 190 600 190 L530 190 A40 40 0 0 0 450 190 L200 190 A40 40 0 0 0 120 190 L40 190 C34 190 30 186 30 176 Z';
-function Car(el){
-  const n=++carN;this.n=n;
-  const g=id=>`<linearGradient id="${id}${n}" x1="0" y1="0" x2="0" y2="1"><stop offset="0"/><stop offset=".5"/><stop offset="1"/></linearGradient>`;
-  el.innerHTML=`<svg class="car" viewBox="0 0 640 240" role="img" aria-label="Carro pintado con el color">
-    <defs>${g('ga')}${g('gb')}<clipPath id="cp${n}"><rect x="0" y="0" width="0" height="240"/></clipPath>
-    <radialGradient id="mist${n}"><stop offset="0" stop-opacity=".55"/><stop offset="1" stop-opacity="0"/></radialGradient></defs>
-    <ellipse class="shadow" cx="320" cy="206" rx="292" ry="10"/>
-    <path d="${BODY}" fill="url(#ga${n})"/>
-    <g clip-path="url(#cp${n})"><path d="${BODY}" fill="url(#gb${n})"/></g>
-    <path class="crease" d="M58 146 C200 134 420 128 604 138"/>
-    <path class="win" d="M196 116 C220 92 250 76 288 72 L338 72 L338 116 Z"/>
-    <path class="win" d="M350 72 L398 72 C430 72 456 88 478 114 L350 116 Z"/>
-    <path class="seam" d="M342 120 L342 186 M206 122 L206 184"/>
-    <rect x="300" y="132" width="22" height="5" rx="2.5" fill="rgba(0,0,0,.35)"/><rect x="430" y="132" width="22" height="5" rx="2.5" fill="rgba(0,0,0,.35)"/>
-    <ellipse class="lamp" cx="46" cy="148" rx="12" ry="6"/><rect class="tail" x="600" y="136" width="10" height="14" rx="3"/>
-    ${[160,490].map(x=>`<circle class="tire" cx="${x}" cy="192" r="36"/><circle class="rim" cx="${x}" cy="192" r="22"/><circle class="hub" cx="${x}" cy="192" r="7"/>`).join('')}
-    <circle class="mist" cx="0" cy="130" r="70" fill="url(#mist${n})" opacity="0"/>
+function stops(hex,fin){const k=fin==='M'?1:fin==='S'?0.45:0.7,pe=fin==='P'||fin==='T';return [pe?shade(hex,14*k,-2,-6):shade(hex,20*k),hex,shade(hex,-16*k,pe?3:0,pe?5:0)]}
+const BODY='M24 196 L24 150 C24 140 30 134 42 132 L150 122 C162 120 170 116 176 108 L214 64 C218 58 224 56 232 56 L330 56 C338 56 342 60 342 68 L342 124 L600 124 C608 124 612 128 612 136 L612 196 C612 200 608 204 604 204 L544 204 A44 44 0 0 0 456 204 L216 204 A44 44 0 0 0 128 204 L32 204 C27 204 24 201 24 196 Z';
+let WAVE='M-60 0';for(let x=-60;x<760;x+=60)WAVE+=` Q${x+15} -9 ${x+30} 0 T${x+60} 0`;WAVE+=' L760 320 L-60 320 Z';
+let truckN=0;
+function Truck(el){
+  const n=++truckN;this.n=n;
+  const g=id=>`<linearGradient id="${id}${n}" x1="0" y1="0" x2="0" y2="1"><stop offset="0"/><stop offset=".55"/><stop offset="1"/></linearGradient>`;
+  el.innerHTML=`<svg class="truck" viewBox="0 0 640 280" role="img" aria-label="Truck">
+   <defs>${g('pa')}${g('pb')}<clipPath id="cw${n}"><path d="${WAVE}" transform="translate(0,290)"/></clipPath><clipPath id="cb${n}"><path d="${BODY}"/></clipPath></defs>
+   <line class="ground" x1="0" y1="246" x2="640" y2="246"/>
+   <path d="${BODY}" fill="url(#pa${n})"/>
+   <g clip-path="url(#cw${n})"><path d="${BODY}" fill="url(#pb${n})"/></g>
+   <g clip-path="url(#cb${n})"><path class="shine" d="M30 150 C200 140 420 138 610 142"/></g>
+   <path class="win" d="M196 116 L226 70 C228 66 231 64 236 64 L278 64 L278 116 Z"/>
+   <path class="win" d="M290 64 L326 64 C330 64 332 66 332 70 L332 116 L290 116 Z"/>
+   <path class="ln" d="${BODY}"/>
+   <path class="thin" d="M284 70 L284 198 M182 120 L182 198 M342 124 L342 198 M598 132 L598 196"/>
+   <rect x="296" y="132" width="24" height="6" rx="3" class="ln"/>
+   <rect x="26" y="140" width="14" height="10" rx="2" fill="#F4F1E3" class="ln"/><rect x="604" y="134" width="8" height="18" rx="2" fill="#B41E26" class="ln"/>
+   ${[172,500].map(x=>`<circle class="tire" cx="${x}" cy="206" r="38"/><circle class="rim" cx="${x}" cy="206" r="22"/>${[0,72,144,216,288].map(a=>`<line class="thin" x1="${x}" y1="206" x2="${x+20*Math.cos(a*Math.PI/180)}" y2="${206+20*Math.sin(a*Math.PI/180)}"/>`).join('')}<circle cx="${x}" cy="206" r="5" fill="var(--ink)"/>`).join('')}
+   <line class="dim" x1="24" y1="266" x2="612" y2="266"/><line class="dim" x1="24" y1="258" x2="24" y2="274"/><line class="dim" x1="612" y1="258" x2="612" y2="274"/>
+   <rect x="250" y="256" width="136" height="20" fill="var(--panel)"/><text x="318" y="271" text-anchor="middle" class="dl"></text>
+   <path class="dim" d="M110 124 L80 34 L20 34"/><circle cx="110" cy="124" r="3" fill="var(--muted)"/><text x="20" y="27" class="fl"></text>
   </svg>`;
-  this.svg=el.querySelector('svg');this.a=this.svg.querySelector('#ga'+n);this.b=this.svg.querySelector('#gb'+n);
-  this.clip=this.svg.querySelector('#cp'+n+' rect');this.mist=this.svg.querySelector('.mist');this.mg=this.svg.querySelector('#mist'+n);this.cur=null;
+  const q=s=>this.svg.querySelector(s);this.svg=el.querySelector('svg');
+  this.a=q('#pa'+n);this.b=q('#pb'+n);this.w=q('#cw'+n+' path');this.dl=q('.dl');this.fl=q('.fl');this.key=null;
 }
-Car.prototype.set=function(g,s){[...g.children].forEach((st,i)=>st.setAttribute('stop-color',s[i]))};
-Car.prototype.paint=function(hex,fin){
-  const s=stops(hex,fin),key=s.join();
-  if(this.key===key)return;this.key=key;
-  if(!this.cur||RM){this.set(this.a,s);this.cur=s;return}
-  this.set(this.b,s);[...this.mg.children].forEach(st=>st.setAttribute('stop-color',hex));
-  cancelAnimationFrame(this.raf);const t0=performance.now(),D=850;
-  const step=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,3),x=e*660;
-    this.clip.setAttribute('width',x);this.mist.setAttribute('cx',x);this.mist.setAttribute('opacity',p<1?.9:0);
-    if(p<1)this.raf=requestAnimationFrame(step);else{this.set(this.a,s);this.clip.setAttribute('width',0);this.cur=s}};
+Truck.prototype.set=function(g,s){[...g.children].forEach((st,i)=>st.setAttribute('stop-color',s[i]))};
+Truck.prototype.label=function(code,fin){this.dl.textContent=code;this.fl.textContent=fin};
+Truck.prototype.paint=function(hex,fin){
+  const s=stops(hex,fin),key=s.join();if(this.key===key)return;
+  const first=this.key===null;this.key=key;
+  if(first||RM){this.set(this.a,s);return}
+  this.set(this.b,s);cancelAnimationFrame(this.raf);const t0=performance.now(),D=950;
+  const step=now=>{const p=Math.min(1,(now-t0)/D),e=1-Math.pow(1-p,3);
+    this.w.setAttribute('transform',`translate(${-60*p*3%60},${290-300*e})`);
+    if(p<1)this.raf=requestAnimationFrame(step);else{this.set(this.a,s);this.w.setAttribute('transform','translate(0,290)')}};
   this.raf=requestAnimationFrame(step);
 };
 function countUp(el,to,suffix){
   if(RM){el.textContent=to.toFixed(1)+suffix;return}
   const from=parseFloat(el.textContent)||0,t0=performance.now(),D=650;cancelAnimationFrame(el._r);
-  const st=t=>{const p=Math.min(1,(t-t0)/D),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(1)+suffix;if(p<1)el._r=requestAnimationFrame(st)};
+  const st=n=>{const p=Math.min(1,(n-t0)/D),e=1-Math.pow(1-p,3);el.textContent=(from+(to-from)*e).toFixed(1)+suffix;if(p<1)el._r=requestAnimationFrame(st)};
   el._r=requestAnimationFrame(st);
 }
-const setPaint=(el,hex)=>el.style.setProperty('--paint',hex);
+const setPaint=hex=>document.documentElement.style.setProperty('--paint',hex);
 
 /* ================= Ficha de mezcla ================= */
-function quality(dE){return dE<1?['ok','Excelente']:dE<2?['ok','Muy cerca']:dE<4?['warn','Ajustar en carta']:['bad','Aproximado']}
+function quality(dE){return dE<1?['ok',t('q.ok1')]:dE<2?['ok',t('q.ok2')]:dE<4?['warn',t('q.warn')]:['bad',t('q.bad')]}
 function parseFormula(str){
   const rev={};Object.keys(TCFG.codes).forEach(id=>{const c=(TCFG.codes[id]||'').trim();if(c)rev[norm(c)]=id});
   const items=String(str).split(/[;|]/).map(s=>s.trim()).filter(Boolean).map(s=>{const [k,v]=s.split(':');return [k&&k.trim(),parseFloat(v)]}).filter(x=>x[0]&&x[1]>0);
@@ -794,66 +979,63 @@ Detail.prototype.load=function(col,extra){
   this.render();
 };
 Detail.prototype.render=function(){
-  const col=this.col,f=this.f,[qc,qt]=quality(f.dE),mixHex=linToHex(f.lin);
+  const col=this.col,f=this.f,[qc,qt]=quality(f.dE),mixHex=linToHex(f.lin),fin=t('fin.'+(col.acabado||'S'));
+  const note=(f.imported?t('note.imp'):t('note.calc'))+(col.acabado==='M'?t('note.M'):'')+(col.acabado==='T'?t('note.T'):'')+(f.unknown&&f.unknown.length?t('note.unk',esc(f.unknown.join(', '))):'');
   this.root.innerHTML=`
   <article class="panel">
     <div class="sec dhead">
       <div class="dgrid">
         <div class="dcar"></div>
         <div style="min-width:0">
-          <div class="eyebrow">${esc(col.marca)}${this.extra?' · '+esc(this.extra):''}</div>
-          <div class="code">${esc(col.codigo)}</div>
+          <span class="kicker">${esc(col.marca)}${this.extra?' · '+esc(this.extra):''}</span>
+          <div class="code" style="margin-top:8px">${esc(col.codigo)}</div>
           <div class="cname">${esc(col.nombre)}</div>
-          ${col.alias&&col.alias.length?`<div class="small muted mono" style="margin-top:4px">En la etiqueta también: ${col.alias.map(esc).join(' · ')}</div>`:''}
-          <div class="meta"><span class="fin">${FIN[col.acabado]||'Sólido'}</span><span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span><span class="pill n">${f.imported?'Fórmula importada':'Fórmula calculada'}</span></div>
+          ${col.alias&&col.alias.length?`<div class="small muted mono" style="margin-top:6px">${t('d.also')} ${col.alias.map(esc).join(' · ')}</div>`:''}
+          <div class="meta"><span class="fin">${fin}</span><span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span><span class="pill n">${f.imported?t('d.imp'):t('d.calc')}</span></div>
         </div>
       </div>
       <div class="proof">
-        <div class="card" aria-label="Carta de prueba"><div class="split"><div style="background:${col.hex}"><span>Meta</span></div><div style="background:${mixHex}"><span>Mezcla</span></div></div><div class="hide"><i style="background:${mixHex};opacity:.93"></i></div></div>
-        <p class="note">${f.imported?'Fórmula cargada desde tu archivo. La vista previa se calcula con los tintes genéricos.':'Fórmula de arranque calculada a partir del color. Haz carta de prueba y compárala con la pieza a la luz del día antes de pintar.'}${col.acabado==='M'?' En metálicos revisa la carta de frente y de lado: el aluminio cambia con el ángulo.':''}${col.acabado==='T'?' Tricapa: esta es la base de fondo; encima va la perla y luego el barniz. Haz carta con 1, 2 y 3 manos de perla.':''}${f.unknown&&f.unknown.length?' Tintes que no reconocí: '+esc(f.unknown.join(', '))+'.':''}</p>
+        <div class="card"><div class="split"><div style="background:${col.hex}"><span>${t('card.t')}</span></div><div style="background:${mixHex}"><span>${t('card.m')}</span></div></div><div class="hide"><i style="background:${mixHex};opacity:.93"></i></div></div>
+        <p class="note">${note}</p>
       </div>
     </div>
-
     <div class="sec">
-      <h3>Cantidad <small>Color base a preparar</small></h3>
-      <div class="qty" id="qp">${PRESETS.map(([ml,l])=>`<button class="chip" type="button" data-ml="${ml}" aria-pressed="${this.qty===ml}">${l}</button>`).join('')}
-        <label class="small muted" style="display:flex;align-items:center;gap:6px">Otra <input id="qml" type="number" min="20" step="10" value="${Math.round(this.qty)}" aria-label="Mililitros"> ml</label></div>
+      <h3>${t('qty.h')} <small>${t('qty.sub')}</small></h3>
+      <div class="qty" id="qp">${PRESETS.map(([ml,l])=>`<button class="chip" type="button" data-ml="${ml}" aria-pressed="${this.qty===ml}">${pick(l)}</button>`).join('')}
+        <label class="small muted" style="display:flex;align-items:center;gap:6px">${t('qty.other')} <input id="qml" type="number" min="20" step="10" value="${Math.round(this.qty)}" aria-label="ml"> ml</label></div>
       <div class="row2">
-        <label class="field"><span>Sistema</span><select id="qsys">${Object.entries(SYSTEMS).map(([k,s])=>`<option value="${k}"${k===this.sys?' selected':''}>${s.n}</option>`).join('')}</select></label>
-        <div class="field"><span>¿Qué vas a pintar?</span><div class="parts" id="qparts">${PARTS.map(([n],i)=>`<button class="chip" type="button" data-p="${i}" aria-pressed="${this.parts.has(i)}">${n}</button>`).join('')}</div></div>
+        <label class="field"><span>${t('sys.h')}</span><select id="qsys">${Object.entries(SYSTEMS).map(([k,s])=>`<option value="${k}"${k===this.sys?' selected':''}>${s.n[L]}</option>`).join('')}</select></label>
+        <div class="field"><span>${t('parts.h')}</span><div class="parts" id="qparts">${PARTS.map(([n],i)=>`<button class="chip" type="button" data-p="${i}" aria-pressed="${this.parts.has(i)}">${n[L]}</button>`).join('')}</div></div>
       </div>
       <div class="sumline" id="qsum"></div>
     </div>
-
     <div class="sec">
-      <h3>Fórmula <small>${esc(TCFG.line)}${TCFG.store?' · '+esc(TCFG.store):''}</small></h3>
-      <div class="scale"><div><div class="lbl">Báscula · total</div><div class="val" id="ftotal">0.0 g</div><div class="cost" id="fcost"></div></div>
-        <div class="tools"><button class="btn" type="button" id="fcum">${this.cum?'Ver por tinte':'Ver acumulado'}</button><button class="btn" type="button" id="fcopy">Copiar fórmula</button></div></div>
+      <h3>${t('f.h')} <small>${esc(lineName(TCFG.line))}${TCFG.store?' · '+esc(TCFG.store):''}</small></h3>
+      <div class="scale"><div><div class="lbl">${t('scale')}</div><div class="val" id="ftotal">0.0 g</div><div class="cost" id="fcost"></div></div>
+        <div class="tools"><button class="btn" type="button" id="fcum">${this.cum?t('btn.per'):t('btn.cum')}</button><button class="btn" type="button" id="fcopy">${t('btn.copy')}</button></div></div>
       <div class="cup" id="fcup" aria-hidden="true"></div>
-      <div class="tablewrap"><table><thead><tr><th>Tinte</th><th class="n">%</th><th class="n">Gramos</th><th class="n" id="fcolh">${this.cum?'Báscula':''}</th></tr></thead><tbody id="fbody"></tbody></table></div>
+      <div class="tablewrap"><table><thead><tr><th>${t('th.toner')}</th><th class="n">%</th><th class="n">${t('th.g')}</th><th class="n" id="fcolh">${this.cum?t('th.scale'):''}</th></tr></thead><tbody id="fbody"></tbody></table></div>
       <div id="fwarn"></div>
     </div>
-
     <div class="sec">
-      <h3>Variaciones <small>Para piezas quemadas por el sol o variantes de fábrica</small></h3>
-      <div class="presets" id="vpre">${VPRE.map(([n],i)=>`<button class="chip" type="button" data-i="${i}">${n}</button>`).join('')}</div>
+      <h3>${t('v.h')} <small>${t('v.sub')}</small></h3>
+      <div class="presets" id="vpre">${VPRE.map(([n],i)=>`<button class="chip" type="button" data-i="${i}">${n[L]}</button>`).join('')}</div>
       <div class="var">
         <div style="display:flex;flex-direction:column;gap:12px">
-          ${[['L','Más oscuro','Más claro',-12,12],['a','Más verde','Más rojo',-10,10],['b','Más azul','Más amarillo',-10,10],['C','Más sucio','Más limpio',-30,30]].map(([k,lo,hi,mn,mx])=>`<div class="slider"><span>${lo}</span><input type="range" id="vs-${k}" data-k="${k}" min="${mn}" max="${mx}" step="0.5" value="0" aria-label="${lo} / ${hi}"><span>${hi}</span></div>`).join('')}
-          <div class="tools"><button class="btn" type="button" id="vreset">Volver al original</button></div>
+          ${SLIDERS.map(([k,lo,hi,mn,mx])=>`<div class="slider"><span>${lo[L]}</span><input type="range" id="vs-${k}" data-k="${k}" min="${mn}" max="${mx}" step="0.5" value="${this.v[k]}" aria-label="${lo[L]} / ${hi[L]}"><span>${hi[L]}</span></div>`).join('')}
+          <div class="tools"><button class="btn" type="button" id="vreset">${t('v.reset')}</button></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="compare"><div style="background:${finishBg(col.hex,col.acabado)}"><span>Original</span></div><div id="vsw"><span>Variación</span></div></div>
+          <div class="compare"><div style="background:${finishBg(col.hex,col.acabado)}"><span>${t('v.orig')}</span></div><div id="vsw"><span>${t('v.var')}</span></div></div>
           <div id="vinfo" class="small muted"></div>
         </div>
       </div>
       <div id="vout"></div>
-      <div class="saverow"><input class="inp" id="vname" placeholder="Nombre (ej. ${esc(col.codigo)} quemado de sol)"><input class="inp" id="vclient" placeholder="Cliente o placa (opcional)"><button class="btn primary" type="button" id="vsave">Guardar en Mis fórmulas</button></div>
+      <div class="saverow"><input class="inp" id="vname" placeholder="${esc(t('save.name',col.codigo))}"><input class="inp" id="vclient" placeholder="${esc(t('save.client'))}"><button class="btn primary" type="button" id="vsave">${t('save.btn')}</button></div>
     </div>
   </article>`;
-  this.car=new Car(this.root.querySelector('.dcar'));this.car.paint(col.hex,col.acabado);
-  setPaint(this.root,col.hex);
-  this.bind();this.update(true);this.updateVar();
+  this.truck=new Truck(this.root.querySelector('.dcar'));this.truck.label(col.codigo,fin.toUpperCase());this.truck.paint(col.hex,col.acabado);
+  setPaint(col.hex);this.bind();this.update(true);this.updateVar();
 };
 Detail.prototype.bind=function(){
   const r=this.root;
@@ -861,7 +1043,7 @@ Detail.prototype.bind=function(){
   r.querySelector('#qml').addEventListener('input',e=>{const v=+e.target.value;if(v>=20){this.parts.clear();this.qty=v;this.syncQty(true)}});
   r.querySelector('#qsys').addEventListener('change',e=>{this.sys=e.target.value;if(this.parts.size)this.qtyFromParts();this.syncQty()});
   r.querySelector('#qparts').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;const i=+b.dataset.p;this.parts.has(i)?this.parts.delete(i):this.parts.add(i);this.qtyFromParts();this.syncQty()});
-  r.querySelector('#fcum').addEventListener('click',e=>{this.cum=!this.cum;e.target.textContent=this.cum?'Ver por tinte':'Ver acumulado';r.querySelector('#fcolh').textContent=this.cum?'Báscula':'';this.update()});
+  r.querySelector('#fcum').addEventListener('click',e=>{this.cum=!this.cum;e.target.textContent=this.cum?t('btn.per'):t('btn.cum');r.querySelector('#fcolh').textContent=this.cum?t('th.scale'):'';this.update()});
   r.querySelector('#fcopy').addEventListener('click',()=>copy(this.formulaText()));
   let raf=0;
   r.querySelectorAll('input[type=range]').forEach(s=>s.addEventListener('input',e=>{this.v[e.target.dataset.k]=+e.target.value;cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>this.updateVar())}));
@@ -883,28 +1065,25 @@ function costOf(f,g){let c=0,miss=false;f.ids.forEach((id,i)=>{const p=+TCFG.pri
 Detail.prototype.update=function(rows){
   const r=this.root,f=this.f,g=this.grams(f,this.qty),total=g.reduce((a,b)=>a+b,0);let acc=0;
   countUp(r.querySelector('#ftotal'),total,' g');
-  const cs=costOf(f,g);
-  r.querySelector('#fcost').textContent=cs.c>0?`Costo de tintes: $${cs.c.toFixed(2)}${cs.miss?' (faltan precios)':''}`:'Pon tus precios en Mis tintes para ver el costo';
-  const cup=r.querySelector('#fcup');
-  cup.innerHTML=f.ids.map(id=>`<i style="background:${TBY[id].hex}"></i>`).join('');
+  const cs=costOf(f,g);r.querySelector('#fcost').textContent=cs.c>0?t('cost',cs.c.toFixed(2),cs.miss):t('nocost');
+  const cup=r.querySelector('#fcup');cup.innerHTML=f.ids.map(id=>`<i style="background:${TBY[id].hex}"></i>`).join('');
   requestAnimationFrame(()=>requestAnimationFrame(()=>cup.querySelectorAll('i').forEach((el,i)=>el.style.width=(f.c[i]*100)+'%')));
-  r.querySelector('#fbody').innerHTML=f.ids.map((id,i)=>{acc+=g[i];const t=TBY[id];
-    return `<tr style="animation-delay:${rows?i*60:0}ms"><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${esc(tcode(id))}</span><span class="tn">${esc(t.name)}</span></td><td class="n">${(f.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td><td class="n"><b>${this.cum?acc.toFixed(1):''}</b></td></tr>`}).join('');
-  const sys=SYSTEMS[this.sys],ready=this.qty/sys.f;let tip='';
-  if(this.qty<=260)tip=' Pieza chica: con 250 ml pesas bien los tintes; también puedes pedir aerosol a la medida.';
-  else if(this.qty>=3000)tip=' Trabajo grande: prepara todo de una vez para que no varíe entre latas.';
-  r.querySelector('#qsum').innerHTML=`Preparas <b>${(this.qty/1000).toFixed(2)} L</b> de color → <b>${ready>=1000?(ready/1000).toFixed(2)+' L':Math.round(ready)+' ml'}</b> listos para aplicar.${tip}`;
+  r.querySelector('#fbody').innerHTML=f.ids.map((id,i)=>{acc+=g[i];const x=TBY[id];
+    return `<tr style="animation-delay:${rows?i*70:0}ms"><td><span class="tdot" style="background:${x.hex}"></span><span class="tc">${esc(tcode(id))}</span><span class="tn">${esc(tname(id))}</span></td><td class="n">${(f.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td><td class="n"><b>${this.cum?acc.toFixed(1):''}</b></td></tr>`}).join('');
+  const ready=this.qty/SYSTEMS[this.sys].f;
+  const tip=this.qty<=260?t('tip.s'):this.qty>=3000?t('tip.b'):'';
+  r.querySelector('#qsum').innerHTML=t('sum',(this.qty/1000).toFixed(2)+' L',ready>=1000?(ready/1000).toFixed(2)+' L':Math.round(ready)+' ml')+tip;
   const tiny=f.ids.filter((id,i)=>g[i]<0.3);
-  r.querySelector('#fwarn').innerHTML=tiny.length?`<p class="warnline">${tiny.map(id=>esc(tcode(id))).join(', ')}: menos de 0.3 g. Prepara más cantidad o usa báscula de 0.01 g.</p>`:'';
+  r.querySelector('#fwarn').innerHTML=tiny.length?`<p class="warnline">${t('tiny',tiny.map(id=>esc(tcode(id))).join(', '))}</p>`:'';
 };
-Detail.prototype.targetVar=function(){const [L,a,b]=this.lab,k=1+this.v.C/100;return [Math.max(1,Math.min(99,L+this.v.L)),a*k+this.v.a,b*k+this.v.b]};
+Detail.prototype.targetVar=function(){const [Lx,a,b]=this.lab,k=1+this.v.C/100;return [Math.max(1,Math.min(99,Lx+this.v.L)),a*k+this.v.a,b*k+this.v.b]};
 Detail.prototype.updateVar=function(){
   const r=this.root,v=this.v,changed=v.L||v.a||v.b||v.C,tl=this.targetVar(),hex=linToHex(labToLin(tl));
   r.querySelector('#vsw').style.background=finishBg(hex,this.col.acabado);
   const out=r.querySelector('#vout'),info=r.querySelector('#vinfo');this.vf=null;
-  if(!changed){info.textContent='Toca una variante rápida o mueve una barra: verás la fórmula nueva y cuánto agregar a lo que ya mezclaste.';out.innerHTML='';this.car.paint(this.col.hex,this.col.acabado);setPaint(r,this.col.hex);return}
-  info.textContent=`Diferencia contra el original: ΔE ${dE00(this.lab,tl).toFixed(1)}`;
-  this.car.paint(hex,this.col.acabado);setPaint(r,hex);
+  if(!changed){info.textContent=t('v.hint');out.innerHTML='';this.truck.paint(this.col.hex,this.col.acabado);setPaint(this.col.hex);return}
+  info.textContent=t('v.diff',dE00(this.lab,tl).toFixed(1));
+  this.truck.paint(hex,this.col.acabado);setPaint(hex);
   const g0=this.grams(this.f,this.qty),ids0=this.f.ids;
   let best=optimize(ids0.slice(),tl,true);
   for(const x of CHROMA){if(ids0.includes(x))continue;const rr=optimize([...ids0,x],tl,true);if(rr.dE+0.4<best.dE)best=rr}
@@ -913,24 +1092,24 @@ Detail.prototype.updateVar=function(){
   const nf=best.dE<=full.dE+0.6?Object.assign({},best,fam):full;this.vf=nf;this.vhex=hex;
   const g=this.grams(nf,this.qty);
   let k=0;ids0.forEach((id,i)=>{const j=best.ids.indexOf(id);k=Math.max(k,g0[i]/Math.max(best.c[j],1e-9))});
-  const tot0=g0.reduce((a,b)=>a+b,0),ratio=k/tot0;let corr;
-  if(ratio>2.2)corr=`<div class="corr"><b>Mejor prepara mezcla nueva.</b><span class="small muted">Para llegar a la variación sobre lo que ya mezclaste tendrías que más que duplicar la cantidad.</span></div>`;
+  const tot0=g0.reduce((a,b)=>a+b,0);let corr;
+  if(k/tot0>2.2)corr=`<div class="corr"><b>${t('v.new')}</b><span class="small muted">${t('v.newp')}</span></div>`;
   else{const adds=best.ids.map((id,j)=>{const i=ids0.indexOf(id);return [id,k*best.c[j]-(i>=0?g0[i]:0)]}).filter(x=>x[1]>=0.05);
-    corr=`<div class="corr"><b>Si ya mezclaste la original (${tot0.toFixed(1)} g), agrega:</b><ul>${adds.map(([id,gr])=>`<li><span class="mono">${gr.toFixed(1)} g</span> de <b>${esc(tcode(id))}</b> · ${esc(TBY[id].name)}</li>`).join('')||'<li>Nada: la diferencia es mínima.</li>'}</ul><span class="small muted">Precisión de la corrección: ΔE ${best.dE.toFixed(1)}. Mezcla, haz carta y compara antes de seguir.</span></div>`}
-  out.innerHTML=`<div class="tablewrap"><table><thead><tr><th>Fórmula de la variación</th><th class="n">%</th><th class="n">Gramos</th></tr></thead><tbody>${nf.ids.map((id,i)=>`<tr><td><span class="tdot" style="background:${TBY[id].hex}"></span><span class="tc">${esc(tcode(id))}</span> <span class="small muted">${esc(TBY[id].name)}</span></td><td class="n">${(nf.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td></tr>`).join('')}</tbody></table></div>${corr}`;
+    corr=`<div class="corr"><b>${t('v.add',tot0.toFixed(1))}</b><ul>${adds.map(([id,gr])=>`<li><span class="mono">${gr.toFixed(1)} g</span> ${t('v.of')} <b>${esc(tcode(id))}</b> · ${esc(tname(id))}</li>`).join('')||`<li>${t('v.none')}</li>`}</ul><span class="small muted">${t('v.prec',best.dE.toFixed(1))}</span></div>`}
+  out.innerHTML=`<div class="tablewrap"><table><thead><tr><th>${t('v.th')}</th><th class="n">%</th><th class="n">${t('th.g')}</th></tr></thead><tbody>${nf.ids.map((id,i)=>`<tr><td><span class="tdot" style="background:${TBY[id].hex}"></span><span class="tc">${esc(tcode(id))}</span> <span class="small muted">${esc(tname(id))}</span></td><td class="n">${(nf.c[i]*100).toFixed(1)}</td><td class="n">${g[i].toFixed(1)}</td></tr>`).join('')}</tbody></table></div>${corr}`;
 };
 Detail.prototype.formulaText=function(){const useV=!!this.vf,f=useV?this.vf:this.f,g=this.grams(f,this.qty);
-  return `${this.col.marca} ${this.col.codigo} – ${this.col.nombre}${useV?' (variación)':''}\n${(this.qty/1000).toFixed(2)} L · ${TCFG.line}\n`+f.ids.map((id,i)=>`${tcode(id)}  ${g[i].toFixed(1)} g`).join('\n')};
+  return `${this.col.marca} ${this.col.codigo} – ${this.col.nombre}${useV?t('v.suffix'):''}\n${(this.qty/1000).toFixed(2)} L · ${lineName(TCFG.line)}\n`+f.ids.map((id,i)=>`${tcode(id)}  ${g[i].toFixed(1)} g`).join('\n')};
 Detail.prototype.save=function(){
   const useV=!!this.vf,f=useV?this.vf:this.f,nm=this.root.querySelector('#vname').value.trim(),cl=this.root.querySelector('#vclient').value.trim(),g=this.grams(f,1000);
   const list=store.get('saved',[]);
-  list.unshift({id:Date.now(),marca:this.col.marca,codigo:this.col.codigo,nombre:nm||(this.col.nombre+(useV?' · variación':'')),cliente:cl,acabado:this.col.acabado,hex:useV?this.vhex:this.col.hex,formula:f.ids.map((id,i)=>id+':'+g[i].toFixed(2)).join(';'),fecha:new Date().toLocaleDateString('es')});
-  store.set('saved',list.slice(0,300));toast('Guardada en Mis fórmulas');
+  list.unshift({id:Date.now(),marca:this.col.marca,codigo:this.col.codigo,nombre:nm||(this.col.nombre+(useV?t('v.suffix'):'')),cliente:cl,acabado:this.col.acabado,hex:useV?this.vhex:this.col.hex,formula:f.ids.map((id,i)=>id+':'+g[i].toFixed(2)).join(';'),fecha:new Date().toLocaleDateString(L?'es':'en')});
+  store.set('saved',list.slice(0,300));toast(t('saved'));
 };
 
-let tt;function toast(m){let t=$('.toast');if(!t){t=document.createElement('div');t.className='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2200)}
-function copy(text){const done=()=>toast('Fórmula copiada');
-  const fb=()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast('Selecciona y copia el texto')}ta.remove()};
+let tt;function toast(m){let x=$('.toast');if(!x){x=document.createElement('div');x.className='toast';x.setAttribute('role','status');document.body.appendChild(x)}x.textContent=m;x.hidden=false;clearTimeout(tt);tt=setTimeout(()=>x.hidden=true,2200)}
+function copy(text){const done=()=>toast(t('copied'));
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){toast(t('copyfail'))}ta.remove()};
   try{navigator.clipboard.writeText(text).then(done,fb)}catch(e){fb()}}
 
 /* ================= Buscador ================= */
@@ -939,7 +1118,7 @@ let make=null,current=null,vinInfo=null,showAll=false;
 const makesList=()=>[...new Set(allColors().map(c=>c.marca))];
 function renderMakes(){
   $('#makes').innerHTML=makesList().map(m=>`<button class="chip" type="button" data-m="${esc(m)}" aria-pressed="${m===make}">${esc(m)}</button>`).join('');
-  $('#where').innerHTML=make?`<b>¿Dónde está la etiqueta?</b> ${WHERE[make]||'Normalmente en el marco de la puerta del conductor.'}`:'Elige la marca para ver dónde está la etiqueta. Así no te sale un código igual de otra marca.';
+  $('#where').innerHTML=make?`<b>${t('where.t')}</b> ${WHERE[make]?WHERE[make][L]:t('where.def')}`:t('where.none');
 }
 function matchScore(c,q,qr){
   if(!q)return 0;
@@ -947,25 +1126,25 @@ function matchScore(c,q,qr){
   if(codes.includes(q))return 100;
   if(codes.some(x=>x.startsWith(q)))return 60;
   if(q.length>=3&&codes.some(x=>x.includes(q)))return 40;
-  const words=qr.split(/\s+/).filter(w=>w.length>2),hay=(c.nombre+' '+c.marca).toLowerCase();
-  if(words.length&&words.every(w=>hay.includes(w)||(ES[w]&&ES[w].split(' ').some(t=>hay.includes(t)))))return 20;
+  const words=fold(qr).split(/\s+/).filter(w=>w.length>2),hay=fold(c.nombre+' '+c.marca);
+  if(words.length&&words.every(w=>hay.includes(w)||(ES[w]&&ES[w].split(' ').some(x=>hay.includes(x)))))return 20;
   return 0;
 }
 const cleanQuery=raw=>norm(raw).replace(/^BCCC/,'').replace(/^(EXTPNT|PAINT|COLOR|PNT)/,'');
 function search(){
-  const raw=$('#q').value,q=cleanQuery(raw),qr=raw.trim().toLowerCase();
+  const raw=$('#q').value,q=cleanQuery(raw),qr=raw.trim();
   const pool=make&&!showAll?allColors().filter(c=>c.marca===make):allColors();
   let list=pool;
   if(q)list=pool.map(c=>[matchScore(c,q,qr),c]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]).map(x=>x[1]);
   const exact=q?list.filter(c=>matchScore(c,q,qr)===100):[],exMakes=[...new Set(exact.map(c=>c.marca))];
   const multi=exMakes.length>1&&(!make||showAll),hint=!make&&q?formatHint(q):null;
-  $('#ambig').innerHTML=multi?`<div class="ambig"><b>El código ${esc(raw.trim().toUpperCase())} existe en ${exMakes.length} marcas y es un color distinto en cada una. ¿Cuál es tu carro?</b><div class="chips">${exMakes.map(m=>`<button class="chip" type="button" data-pick="${esc(m)}">${esc(m)}</button>`).join('')}</div></div>`
-    :(hint&&!exact.length?`<div class="ambig"><b>Parece un código de ${esc(hint)}.</b><span class="small">Elige la marca arriba. Si no aparece, todavía no está en la base: calcúlalo en Color libre o impórtalo de tu proveedor.</span></div>`:'');
-  let head=`<span>${list.length} color${list.length===1?'':'es'}${make&&!showAll?' de '+esc(make):''}</span>`;
-  if(make&&showAll)head+=`<button type="button" id="onlymake">Solo ${esc(make)}</button>`;
+  $('#ambig').innerHTML=multi?`<div class="ambig"><b>${esc(t('ambig',qr.toUpperCase(),exMakes.length))}</b><div class="chips">${exMakes.map(m=>`<button class="chip" type="button" data-pick="${esc(m)}">${esc(m)}</button>`).join('')}</div></div>`
+    :(hint&&!exact.length?`<div class="ambig"><b>${esc(t('hint',hint))}</b><span class="small">${t('hint.p')}</span></div>`:'');
+  let head=`<span>${esc(t('count',list.length,make&&!showAll?make:''))}</span>`;
+  if(make&&showAll)head+=`<button type="button" id="onlymake">${esc(t('only',make))}</button>`;
   const el=$('#results');
-  el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${FIN[c.acabado]||''}</span></button>`).join('')
-    :`<div class="empty"><span>${make&&!showAll?`No tengo <b>${esc(raw.trim())}</b> en ${esc(make)}. Revisa la etiqueta o calcula el color en <b>Color libre</b>.`:'No encontré ese código. Revisa la etiqueta o calcula el color en <b>Color libre</b>.'}</span>${make&&!showAll?'<button class="btn" type="button" id="seeall">Buscar en todas las marcas</button>':''}<button class="btn" type="button" id="gofree">Ir a Color libre</button></div>`);
+  el.innerHTML=`<div class="rcount">${head}</div>`+(list.length?list.map((c,i)=>`<button class="ritem" type="button" data-i="${i}" aria-current="${c===current}"><span class="sw" style="background:${finishBg(c.hex,c.acabado)}"></span><span style="min-width:0"><b>${esc(c.codigo)}</b><span class="nm">${esc(c.marca)} · ${esc(c.nombre)}</span></span><span class="fin">${t('fin.'+c.acabado)}</span></button>`).join('')
+    :`<div class="empty"><span>${make&&!showAll?t('empty.make',esc(qr),esc(make)):t('empty.all')}</span>${make&&!showAll?`<button class="btn" type="button" id="seeall">${t('seeall')}</button>`:''}<button class="btn" type="button" id="gofree">${t('gofree')}</button></div>`);
   el.querySelectorAll('.ritem').forEach(b=>b.addEventListener('click',()=>select(list[+b.dataset.i],true)));
   const sa=$('#seeall');if(sa)sa.onclick=()=>{showAll=true;search()};
   const om=$('#onlymake');if(om)om.onclick=()=>{showAll=false;search()};
@@ -973,47 +1152,59 @@ function search(){
   return {list,exact,ambiguous:multi};
 }
 function select(c,scroll){
-  current=c;det.load(c,vinInfo&&vinInfo.make===c.marca&&vinInfo.year?'Año '+vinInfo.year:'');search();
+  current=c;det.load(c,vinInfo&&vinInfo.make===c.marca&&vinInfo.year?t('d.year')+' '+vinInfo.year:'');search();
   if(scroll&&window.matchMedia('(max-width:860px)').matches)$('#detail').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
 }
-function autoPick(){
-  const r=search();if(r.ambiguous)return;
-  if(r.exact.length===1)select(r.exact[0]);else if(r.list.length===1&&$('#q').value.trim())select(r.list[0]);
-}
+function autoPick(){const r=search();if(r.ambiguous)return;if(r.exact.length===1)select(r.exact[0]);else if(r.list.length===1&&$('#q').value.trim())select(r.list[0])}
 $('#q').addEventListener('input',autoPick);
 $('#q').addEventListener('keydown',e=>{if(e.key==='Enter'){const r=search();if(!r.ambiguous&&r.list[0])select(r.list[0],true)}});
 $('#qclear').addEventListener('click',()=>{$('#q').value='';search();$('#q').focus()});
 $('#makes').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;make=make===b.dataset.m?null:b.dataset.m;showAll=false;renderMakes();autoPick()});
 $('#ambig').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;make=b.dataset.pick;showAll=false;renderMakes();autoPick()});
-$('#vin').addEventListener('input',e=>{
-  const r=decodeVin(e.target.value),m=$('#vinmsg');vinInfo=null;
-  if(r.err!==undefined){m.textContent=r.err;return}
-  if(!r.make){m.innerHTML=`No reconozco el fabricante <b>${esc(r.wmi)}</b>. Elige la marca a mano.`;return}
-  vinInfo=r;make=r.make;showAll=false;renderMakes();
-  m.innerHTML=`<b>${esc(r.make)}${r.year?' · '+r.year:''}</b>. El VIN no trae el código de pintura: búscalo en la etiqueta.`;
-  autoPick();
-});
-
-/* ================= Pestañas y rutas ================= */
-function show(v){
-  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.v===v)));
-  ['buscar','libre','mis','tintes'].forEach(k=>$('#v-'+k).hidden=k!==v);
-  if(v==='libre')freeUpdate();if(v==='mis')renderSaved();
+function vinUpdate(){
+  const r=decodeVin($('#vin').value),m=$('#vinmsg');vinInfo=null;
+  if(r.err!==undefined){m.textContent=r.err;return false}
+  if(!r.make){m.innerHTML=t('vin.unk',esc(r.wmi));return false}
+  vinInfo=r;m.innerHTML=t('vin.ok',esc(r.make),r.year);return true;
 }
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>show(t.dataset.v)));
+$('#vin').addEventListener('input',()=>{if(vinUpdate()){make=vinInfo.make;showAll=false;renderMakes();autoPick()}});
+
+/* ================= Pestañas, idioma y rutas ================= */
+let tabNow='buscar';
+function show(v){
+  tabNow=v;
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',String(x.dataset.v===v)));
+  ['buscar','libre','mis','tintes'].forEach(k=>$('#v-'+k).hidden=k!==v);
+  if(v==='libre')freeUpdate();if(v==='mis')renderSaved();if(v==='buscar'&&det.col)setPaint(det.col.hex);
+}
+document.querySelectorAll('.tab').forEach(x=>x.addEventListener('click',()=>show(x.dataset.v)));
+
+function applyLang(){
+  document.documentElement.lang=L?'es':'en';
+  document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));
+  document.querySelectorAll('[data-th]').forEach(el=>el.innerHTML=t(el.dataset.th));
+  document.querySelectorAll('[data-tp]').forEach(el=>el.placeholder=t(el.dataset.tp));
+  document.querySelectorAll('[data-ta]').forEach(el=>el.setAttribute('aria-label',t(el.dataset.ta)));
+  document.querySelectorAll('[data-lang]').forEach(b=>{b.textContent=L?'EN':'ES';b.setAttribute('aria-label',L?'Switch to English':'Cambiar a español')});
+  renderFeats();renderPlans();renderFaq();demoRefresh();
+  if(appStarted){renderMakes();search();renderToners();if($('#vin').value)vinUpdate();if(det.col)det.render();if(fdet.col)fdet.render();if(tabNow==='mis')renderSaved();coachReset()}
+}
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{L=L?0:1;store.set('lang',L?'es':'en');applyLang()}));
+
 let appStarted=false;
 function route(){
   const app=location.hash==='#app';
   $('#landing').hidden=app;$('#app').hidden=!app;
-  if(app){window.scrollTo(0,0);if(!appStarted){appStarted=true;renderToners();make='Ford';renderMakes();$('#q').value='PQ';autoPick()}}
-  demo.running=!app;
+  if(app){window.scrollTo(0,0);if(!appStarted){appStarted=true;renderToners();make='Ford';renderMakes();$('#q').value='PQ';autoPick();coachReset()}else if(det.col&&tabNow==='buscar')setPaint(det.col.hex)}
+  else if(demo.col)setPaint(demo.col.hex);
+  demo.running=!app;onScroll();
 }
 window.addEventListener('hashchange',route);
 
 /* ================= Color libre ================= */
 const fdet=new Detail($('#detail-libre'));
 function freeUpdate(){let h=$('#fhex').value.trim();if(!/^#?[0-9a-f]{6}$/i.test(h))return;if(h[0]!=='#')h='#'+h;h=h.toUpperCase();$('#fpick').value=h;
-  fdet.load({marca:'Color libre',codigo:h,nombre:$('#fname').value.trim()||'Color a la medida',acabado:$('#ffin').value,hex:h,src:'libre'})}
+  fdet.load({marca:t('free.make'),codigo:h,nombre:$('#fname').value.trim()||t('free.def'),acabado:$('#ffin').value,hex:h,src:'libre'})}
 let fT;const fdeb=()=>{clearTimeout(fT);fT=setTimeout(freeUpdate,250)};
 $('#fpick').addEventListener('input',e=>{$('#fhex').value=e.target.value.toUpperCase();fdeb()});
 $('#fhex').addEventListener('input',fdeb);$('#ffin').addEventListener('change',freeUpdate);$('#fname').addEventListener('input',fdeb);
@@ -1026,79 +1217,222 @@ $('#fcanvas').addEventListener('click',e=>{const cv=e.currentTarget,rc=cv.getBou
 
 /* ================= Mis fórmulas ================= */
 function renderSaved(){const list=store.get('saved',[]),el=$('#savedlist');
-  if(!list.length){el.innerHTML=`<div class="empty">Todavía no guardas fórmulas. Busca un código, ajusta la variación y toca <b>Guardar en Mis fórmulas</b>.</div>`;return}
-  el.innerHTML=list.map(s=>`<div class="saved" data-id="${s.id}"><span class="sw" style="background:${finishBg(s.hex,s.acabado)}"></span><div style="min-width:0"><b class="mono">${esc(s.codigo)}</b> <span class="small muted">${esc(s.marca)} · ${esc(s.fecha)}${s.cliente?' · '+esc(s.cliente):''}</span><div>${esc(s.nombre)}</div></div><div class="acts"><button class="btn" type="button" data-a="open">Abrir</button><button class="btn danger" type="button" data-a="del">Borrar</button></div></div>`).join('')}
+  if(!list.length){el.innerHTML=`<div class="empty">${t('mine.empty')}</div>`;return}
+  el.innerHTML=list.map(s=>`<div class="saved" data-id="${s.id}"><span class="sw" style="background:${finishBg(s.hex,s.acabado)}"></span><div style="min-width:0"><b class="mono">${esc(s.codigo)}</b> <span class="small muted">${esc(s.marca)} · ${esc(s.fecha)}${s.cliente?' · '+esc(s.cliente):''}</span><div>${esc(s.nombre)}</div></div><div class="acts"><button class="btn" type="button" data-a="open">${t('open')}</button><button class="btn danger" type="button" data-a="del">${t('del')}</button></div></div>`).join('')}
 $('#savedlist').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const id=+b.closest('.saved').dataset.id,list=store.get('saved',[]),s=list.find(x=>x.id===id);if(!s)return;
   if(b.dataset.a==='open'){show('buscar');current=null;det.load(Object.assign({},s,{src:'mia'}),s.cliente||'');search()}
-  else if(b.dataset.sure){store.set('saved',list.filter(x=>x.id!==id));renderSaved();toast('Fórmula borrada')}
-  else{b.dataset.sure='1';b.textContent='¿Seguro? Toca otra vez'}});
+  else if(b.dataset.sure){store.set('saved',list.filter(x=>x.id!==id));renderSaved();toast(t('deleted'))}
+  else{b.dataset.sure='1';b.textContent=t('sure')}});
 
 /* ================= Mis tintes ================= */
 function renderToners(){
-  $('#line').innerHTML=LINES.map(l=>`<option${l===TCFG.line?' selected':''}>${esc(l)}</option>`).join('');$('#store').value=TCFG.store||'';
-  $('#tonerbody').innerHTML=TONERS.map(t=>`<tr><td><span class="tdot" style="background:${t.hex}"></span><span class="tc">${t.id}</span><span class="tn">${esc(t.name)}${t.fx?' · efecto':''}</span></td><td><input class="inp mono" data-code="${t.id}" value="${esc(TCFG.codes[t.id]||'')}" placeholder="${t.id}" aria-label="Tu código para ${esc(t.name)}"></td><td class="n"><input class="inp mono" style="width:100px;text-align:right" type="number" step="0.01" min="0" data-price="${t.id}" value="${TCFG.price[t.id]||''}" placeholder="$" aria-label="Precio por litro de ${esc(t.name)}"></td><td class="n"><input class="inp mono" style="width:86px;text-align:right" type="number" step="0.01" min="0.5" max="3" data-dens="${t.id}" value="${TCFG.dens[t.id]||t.d}" aria-label="Densidad de ${esc(t.name)}"></td></tr>`).join('');
+  $('#line').innerHTML=LINES.map((l,i)=>`<option value="${i}"${i===+TCFG.line?' selected':''}>${esc(lineName(i))}</option>`).join('');$('#store').value=TCFG.store||'';
+  $('#tonerbody').innerHTML=TONERS.map(x=>`<tr><td><span class="tdot" style="background:${x.hex}"></span><span class="tc">${x.id}</span><span class="tn">${esc(tname(x.id))}${x.fx?' · '+t('effect'):''}</span></td><td><input class="inp mono" data-code="${x.id}" value="${esc(TCFG.codes[x.id]||'')}" placeholder="${x.id}" aria-label="${esc(tname(x.id))}"></td><td class="n"><input class="inp mono" style="width:100px;text-align:right" type="number" step="0.01" min="0" data-price="${x.id}" value="${TCFG.price[x.id]||''}" placeholder="$" aria-label="$ ${esc(tname(x.id))}"></td><td class="n"><input class="inp mono" style="width:86px;text-align:right" type="number" step="0.01" min="0.5" max="3" data-dens="${x.id}" value="${TCFG.dens[x.id]||x.d}" aria-label="g/ml ${esc(tname(x.id))}"></td></tr>`).join('');
 }
-function saveToners(){store.set('toners',TCFG);if(det.col)det.render();if(fdet.col)fdet.render()}
-$('#line').addEventListener('change',e=>{TCFG.line=e.target.value;saveToners()});
+function saveToners(){store.set('toners2',TCFG);if(det.col)det.render();if(fdet.col)fdet.render()}
+$('#line').addEventListener('change',e=>{TCFG.line=+e.target.value;saveToners()});
 $('#store').addEventListener('change',e=>{TCFG.store=e.target.value;saveToners()});
-$('#tonerbody').addEventListener('change',e=>{const d=e.target.dataset;if(d.code)TCFG.codes[d.code]=e.target.value;if(d.dens)TCFG.dens[d.dens]=+e.target.value;if(d.price)TCFG.price[d.price]=+e.target.value;saveToners();toast('Tintes guardados')});
+$('#tonerbody').addEventListener('change',e=>{const d=e.target.dataset;if(d.code)TCFG.codes[d.code]=e.target.value;if(d.dens)TCFG.dens[d.dens]=+e.target.value;if(d.price)TCFG.price[d.price]=+e.target.value;saveToners();toast(t('ton.saved'))});
 $('#doimport').addEventListener('click',()=>{
   const lines=$('#csv').value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);if(lines.length&&/^marca\s*,/i.test(lines[0]))lines.shift();
   const ok=[],bad=[];
   lines.forEach((l,i)=>{let [marca,codigo,nombre,acabado,hex,formula,alias]=l.split(',').map(s=>s.trim());hex=(hex||'').startsWith('#')?hex:'#'+hex;acabado=(acabado||'S').toUpperCase()[0];
-    if(marca&&codigo&&/^#[0-9a-f]{6}$/i.test(hex))ok.push({marca,codigo,nombre:nombre||codigo,acabado:FIN[acabado]?acabado:'S',hex:hex.toUpperCase(),formula:formula||'',alias:(alias||'').split(/\s+/).filter(Boolean),src:'imp'});else bad.push(i+2)});
+    if(marca&&codigo&&/^#[0-9a-f]{6}$/i.test(hex))ok.push({marca,codigo,nombre:nombre||codigo,acabado:'SMPT'.includes(acabado)?acabado:'S',hex:hex.toUpperCase(),formula:formula||'',alias:(alias||'').split(/\s+/).filter(Boolean),src:'imp'});else bad.push(i+2)});
   const key=c=>c.marca+'|'+norm(c.codigo),map=new Map(IMPORTED.map(c=>[key(c),c]));ok.forEach(c=>map.set(key(c),c));
   IMPORTED=[...map.values()];store.set('imported',IMPORTED);renderMakes();search();
-  $('#importmsg').textContent=`${ok.length} color${ok.length===1?'':'es'} importado${ok.length===1?'':'s'}.`+(bad.length?` Revisa las líneas ${bad.join(', ')}: falta marca, código o el hex no es válido.`:'');
+  $('#importmsg').textContent=t('imp.msg',ok.length,bad.join(', '));
 });
-$('#clearimport').addEventListener('click',()=>{IMPORTED=[];store.set('imported',[]);renderMakes();search();$('#importmsg').textContent='Se quitaron los colores importados.'});
+$('#clearimport').addEventListener('click',()=>{IMPORTED=[];store.set('imported',[]);renderMakes();search();$('#importmsg').textContent=t('imp.cleared')});
 
-/* ================= Inicio: demo en vivo, funciones y precios ================= */
-const FEATS=[
-  ['#C4142C','Fórmula para báscula','Gramos acumulados con tus códigos de tinte, y aviso cuando un tinte pesa tan poco que conviene preparar más.'],
-  ['#0B3A8A','Marca y VIN primero','El VIN te da la marca y el año. Si un código existe en dos marcas, te preguntamos antes de mostrar la fórmula.'],
-  ['#EFA81C','Variaciones con corrección','Quemado de sol, más claro, más cálido. Te dice cuántos gramos agregar a la mezcla que ya tienes.'],
-  ['#0B6A4D','Color por foto','Toma una foto de la pieza, toca el color y obtén una fórmula de arranque para colores sin código.'],
-  ['#3F2770','Costo por mezcla','Pon el precio de tus tintes y cada fórmula te dice cuánto cuesta, para cotizar sin perder dinero.'],
-  ['#7E3322','Tus fórmulas, tu base','Guarda variaciones por cliente o placa e importa las fórmulas de tu proveedor desde un archivo.']
+/* ================= Asesor de pintura (guía de preguntas frecuentes) ================= */
+const KB=[
+ {l:'b',k:'code label where find paint code door jamb glove box vin codigo etiqueta donde encuentro puerta guantera',
+  en:['Where do I find the paint code?',"Usually on a label in the driver's door jamb. GM trucks often have it in the glove box (look for BC/CC U8555 or WA8555). VW puts it in the trunk, Subaru under the hood. The VIN doesn't contain the paint code, but in this app it tells you the make and year. Pick the make in step 1 and the app shows you where to look."],
+  es:['¿Dónde encuentro el código de pintura?','Normalmente en una etiqueta en el marco de la puerta del conductor. En camionetas GM suele estar en la guantera (busca BC/CC U8555 o WA8555). VW lo pone en la cajuela y Subaru bajo el cofre. El VIN no trae el código de pintura, pero en esta app te da la marca y el año. Elige la marca en el paso 1 y la app te dice dónde buscar.']},
+ {l:'b',k:'match mismatch silver plata metallic metalico right code doesnt match different color wrong not matching igualar no iguala codigo correcto diferente',
+  en:["I used the right code. Why doesn't it match?","It's the most common complaint on paint forums. One code can have several variants (lighter, standard, darker, depending on plant and year). The old paint may be sun-faded. The primer or sealer color changes the result. And the way you spray (pressure, distance, number of coats) shifts the color, especially metallics. Spray a test card, compare it to the car, and use the Variations section to tint. Blend into the next panel if needed."],
+  es:['Usé el código correcto. ¿Por qué no iguala?','Es la queja número uno en los foros. Un mismo código puede tener variantes (más claro, estándar, más oscuro, según planta y año). La pintura vieja puede estar quemada por el sol. El color del fondo o sellador cambia el resultado. Y la forma de aplicar (presión, distancia, número de manos) mueve el color, sobre todo en metálicos. Haz carta de prueba, compárala con el carro y usa Variaciones para ajustar. Si hace falta, difumina al panel de al lado.']},
+ {l:'b',k:'spray out card test card carta prueba muestra how to compare',
+  en:['What is a spray-out card and how do I use it?',"A test card you spray exactly like the job: same gun, pressure, number of coats and clear. Let it dry, then hold it against the car in daylight, head-on and at an angle. Most cards have a black-and-white strip so you can see when the color fully hides. Write the coats and settings on the back. If it doesn't match, tint and spray another card before touching the car."],
+  es:['¿Qué es la carta de prueba y cómo se usa?','Es una tarjeta que pintas igual que el trabajo: misma pistola, presión, número de manos y barniz. Déjala secar y ponla junto al carro a la luz del día, de frente y en ángulo. Casi todas traen una franja blanca y negra para ver cuándo el color ya cubre. Anota atrás las manos y los ajustes. Si no iguala, ajusta el color y pinta otra carta antes de tocar el carro.']},
+ {l:'b',k:'blend blending difuminar difuminado adjacent panel next panel when how far',
+  en:['When do I need to blend, and how far?',"Blend when the new color won't be invisible next to the old one: almost always with silvers, light metallics and pearls. Paint the repaired panel, then fade the basecoat into the middle of the next panel, extending each coat a few inches past the last one. Clear the whole panels. Dusting a light coat over the full panel isn't a blend. A slower reducer helps the edge lay down."],
+  es:['¿Cuándo tengo que difuminar y hasta dónde?','Difumina cuando el color nuevo no va a quedar invisible junto al viejo: casi siempre con platas, metálicos claros y perlas. Pinta el panel reparado y luego desvanece la base hasta la mitad del panel de al lado, alargando cada mano unos centímetros más que la anterior. Barniza los paneles completos. Echar una mano ligera a todo el panel no es difuminar. Un reductor más lento ayuda a que la orilla asiente.']},
+ {l:'b',k:'single stage basecoat clearcoat monocapa bicapa base barniz difference which easier',
+  en:['Single stage or basecoat/clearcoat?',"Single stage is color and gloss in one product: fewer steps, and runs or small repairs are easier to fix. Basecoat/clearcoat is color first, then a clear layer: more depth and gloss, better protection, and clear you can sand and polish. Most modern cars are base/clear, and metallics and pearls need it. Forums disagree on which is easier for beginners; practice on a scrap panel either way."],
+  es:['¿Monocapa o bicapa (base + barniz)?','La monocapa es color y brillo en un solo producto: menos pasos, y los escurridos o retoques se arreglan más fácil. La bicapa es primero el color y luego el barniz: más profundidad y brillo, más protección y barniz que puedes lijar y pulir. Casi todos los carros modernos son bicapa, y los metálicos y perlados la necesitan. En los foros no se ponen de acuerdo en cuál es más fácil para empezar; practica en una pieza de desecho.']},
+ {l:'b',k:'how much paint need buy quantity cuanta pintura necesito comprar cantidad litros galon',
+  en:['How much paint do I need?','Tap the parts you are painting in the Amount section and the app estimates the color base, already accounting for the reducer of your system. As a guide, a door or bumper takes about half a liter ready to spray, a whole sedan about 3 liters. Mix a bit extra for test cards and touch-ups, and for big jobs mix everything at once so it doesn\'t vary between batches.'],
+  es:['¿Cuánta pintura necesito?','Marca las piezas en la sección Cantidad y la app calcula el color base, ya contando el reductor de tu sistema. Como guía, una puerta o defensa lleva cerca de medio litro listo para aplicar y un sedán completo unos 3 litros. Prepara un poco de más para cartas de prueba y retoques, y en trabajos grandes mezcla todo de una vez para que no varíe entre mezclas.']},
+ {l:'b',k:'mix ratio hardener reducer catalyst thinner proporcion catalizador reductor diluyente 4:1:1 mezcla',
+  en:['How do I mix hardener and reducer?',"Always follow the technical data sheet (TDS) of your product: ratios change between brands and lines. Common examples: basecoat reduced about 1:1, 2K single stage around 4:1:1 (paint:hardener:reducer). Use ratio cups or a scale, never guess the hardener. Pick the reducer speed for your temperature. If the paint sprays badly, check viscosity with a cup before adding more thinner."],
+  es:['¿Cómo mezclo el catalizador y el reductor?','Sigue siempre la ficha técnica (TDS) de tu producto: las proporciones cambian entre marcas y líneas. Ejemplos comunes: base reducida más o menos 1:1, monocapa 2K alrededor de 4:1:1 (pintura:catalizador:reductor). Usa vaso medidor o báscula; nunca le calcules el catalizador a ojo. Escoge la velocidad del reductor según la temperatura. Si la pintura sale mal, revisa la viscosidad con copa antes de agregar más diluyente.']},
+ {l:'b',k:'flash time between coats wait oreo tiempo entre manos esperar matte dry',
+  en:['How long do I wait between coats?',"Until the basecoat turns matte (flat) evenly. Data sheets usually say 3 to 10 minutes at about 70 °F / 20 °C, and longer before clear. Cold, humidity, heavy coats and poor air flow make it slower. Don't rush it by blowing air with the gun: short flash time causes mottling in metallics and solvent pop in the clear."],
+  es:['¿Cuánto espero entre manos?','Hasta que la base se vea mate de forma pareja. Las fichas técnicas suelen dar de 3 a 10 minutos a unos 20 °C, y más antes del barniz. El frío, la humedad, las manos muy cargadas y poca ventilación lo alargan. No lo apures soplando aire con la pistola: el oreo corto causa manchas en metálicos y burbujas en el barniz.']},
+ {l:'b',k:'gun tip size nozzle pressure psi hvlp pistola boquilla presion libras setup distance distancia',
+  en:['What tip size and pressure should I use?',"Check your gun's manual and the paint's data sheet first. Common starting points: 1.2–1.4 mm for basecoat, 1.3–1.4 mm for clear, 1.7–2.0 mm for primer. Measure air pressure at the gun inlet, not at the compressor regulator, because the hose loses pressure. With HVLP, hold the gun about 6–8 in (15–20 cm) away, overlap each pass about half, and test the fan pattern on paper first."],
+  es:['¿Qué boquilla y qué presión uso?','Revisa primero el manual de tu pistola y la ficha técnica de la pintura. Puntos de partida comunes: 1.2–1.4 mm para base, 1.3–1.4 mm para barniz, 1.7–2.0 mm para primer. Mide la presión en la entrada de la pistola, no en el regulador del compresor, porque la manguera pierde presión. Con HVLP mantén la pistola a unos 15–20 cm, traslapa cada pasada a la mitad y prueba el abanico en papel primero.']},
+ {l:'b',k:'orange peel piel naranja texture textura fix',
+  en:['How do I fix orange peel?','Orange peel comes from paint that is too thick, low air pressure, the gun too far or moving too fast. Once cured, wet sand with a block (around 1500, then 2000–3000 grit) and polish, only if there is enough clear to sand. Beginners often spray 3 to 4 coats of clear to leave room for that.'],
+  es:['¿Cómo quito la piel de naranja?','La piel de naranja sale por pintura muy espesa, poca presión de aire, pistola muy lejos o pasadas muy rápidas. Ya curado, lija al agua con taco (más o menos 1500 y luego 2000–3000) y pule, solo si hay suficiente barniz para lijar. Muchos principiantes dan 3 o 4 manos de barniz para tener ese margen.']},
+ {l:'b',k:'runs sags drips escurridos chorreado colgado fix',
+  en:['How do I fix runs?','Runs come from coats that are too heavy, the gun too close or moving too slowly. Let the paint cure fully, then level the run with a razor blade or a hard block and fine sandpaper, and polish. In base/clear, a run in the clear is usually fixable this way; a run in the base may need re-spraying the panel.'],
+  es:['¿Cómo arreglo un escurrido?','Los escurridos salen por manos muy cargadas, pistola muy cerca o pasadas muy lentas. Deja curar bien la pintura, empareja el escurrido con navaja o taco duro y lija fina, y pule. En bicapa, un escurrido en el barniz casi siempre se arregla así; uno en la base puede requerir repintar el panel.']},
+ {l:'b',k:'fisheyes fish eyes ojos pescado craters crateres silicone silicon contamination',
+  en:['What causes fisheyes?',"Contamination on the surface: silicone, wax, oil, or even hand lotion. Clean with wax and grease remover before sanding and again before painting, wipe dry with a clean cloth, and tack rag right before spraying. Keep silicone products away from the shop and check your air line for oil and water."],
+  es:['¿Qué causa los ojos de pescado?','Contaminación en la superficie: silicón, cera, aceite o hasta crema de manos. Limpia con desengrasante antes de lijar y otra vez antes de pintar, seca con trapo limpio y pasa trapo atrapapolvo justo antes de aplicar. Mantén los productos con silicón lejos del taller y revisa que la línea de aire no traiga aceite ni agua.']},
+ {l:'b',k:'solvent pop bubbles burbujas poros pinholes clear',
+  en:['Why do I get bubbles (solvent pop) in the clear?',"Solvent got trapped under a surface that dried too fast. Usual causes: coats too heavy, not enough flash time, a reducer too fast for the temperature, or heat applied too soon. Spray medium coats, wait the flash time from the data sheet, and keep a distance of about 6–8 in (15–20 cm)."],
+  es:['¿Por qué me salen burbujas en el barniz?','El solvente quedó atrapado bajo una capa que secó muy rápido. Causas comunes: manos muy cargadas, poco oreo, reductor muy rápido para la temperatura o calor aplicado muy pronto. Aplica manos medianas, respeta el oreo de la ficha técnica y mantén una distancia de unos 15–20 cm.']},
+ {l:'b',k:'safety respirator mask isocyanate seguridad mascarilla respirador catalizador toxic toxico health salud',
+  en:['What protection do I need?',"2K hardeners contain isocyanates, which can cause serious and permanent breathing problems. Use a properly fitted respirator rated for paint (a supplied-air system is the safest), nitrile gloves, eye protection and good ventilation, and keep other people out of the area. Read the safety data sheet of every product."],
+  es:['¿Qué protección necesito?','Los catalizadores 2K llevan isocianatos, que pueden causar problemas respiratorios graves y permanentes. Usa un respirador para pintura bien ajustado (el de aire suministrado es el más seguro), guantes de nitrilo, lentes y buena ventilación, y no dejes que otras personas estén cerca. Lee la hoja de seguridad de cada producto.']},
+ {l:'b',k:'temperature cold hot humidity weather temperatura frio calor humedad clima reducer speed',
+  en:['Does temperature matter?','A lot. Pick the reducer speed for the temperature: fast for cold, medium around 70–80 °F (20–27 °C), slow for heat or big panels. Cold slows flash and cure; heat can cause dry spray and solvent pop. High humidity can make clear look cloudy. Avoid painting below the minimum temperature on the data sheet.'],
+  es:['¿Importa la temperatura?','Mucho. Escoge la velocidad del reductor según la temperatura: rápido para frío, medio alrededor de 20–27 °C, lento para calor o paneles grandes. El frío alarga el oreo y el curado; el calor puede dar pintura seca y burbujas. La humedad alta puede dejar el barniz opaco. No pintes por debajo de la temperatura mínima de la ficha técnica.']},
+ {l:'b',k:'primer sealer color under fondo sellador gris shade tono debajo',
+  en:['Does the primer color matter?','Yes. Colors with low hiding, like reds, yellows, some whites and pearls, look different over light or dark primer. Use the sealer or primer shade recommended for your color (many brands give a gray value), and spray your test card over the same shade you will use on the car.'],
+  es:['¿Importa el color del fondo?','Sí. Los colores que cubren poco, como rojos, amarillos, algunos blancos y perlas, se ven distintos sobre fondo claro u oscuro. Usa el tono de sellador o fondo recomendado para tu color (muchas marcas indican un gris) y haz la carta de prueba sobre ese mismo tono.']},
+ {l:'p',k:'metallic mottling striping tiger stripes manchas rayas metalico nublado clouding',
+  en:['How do I avoid mottling and striping in metallics?',"Keep the same distance, speed and overlap (about 50–75%) on every pass, and let each coat flash until matte. Don't apply heavy wet coats. Stir the paint well. Many painters finish with a lighter control coat at the same or slightly greater distance to even out the aluminum. If it shows after clear, it has to be sanded and re-sprayed."],
+  es:['¿Cómo evito manchas y rayas en metálicos?','Mantén la misma distancia, velocidad y traslape (50–75%) en cada pasada y deja orear cada mano hasta que esté mate. No apliques manos muy cargadas. Agita bien la pintura. Muchos pintores terminan con una mano de control más ligera, a la misma distancia o un poco más lejos, para emparejar el aluminio. Si aparece después del barniz, hay que lijar y repintar.']},
+ {l:'p',k:'tri coat tricoat pearl white let down panel tricapa perla blanca cuantas manos coats midcoat',
+  en:['How many pearl coats on a tri-coat?',"There's no fixed number: it depends on the car and your technique. Make a let-down panel: one card with the ground coat, then mask strips and spray 1, 2, 3 and 4 coats of pearl, clear it all, and compare to the car. Write the number of passes on the back. Use the same count on the job and blend both the ground coat and the pearl."],
+  es:['¿Cuántas manos de perla lleva un tricapa?','No hay número fijo: depende del carro y de tu técnica. Haz un panel de prueba: una carta con la base de fondo, luego enmascara franjas y aplica 1, 2, 3 y 4 manos de perla, barniza todo y compara con el carro. Anota atrás el número de pasadas. Usa ese mismo número en el trabajo y difumina tanto la base como la perla.']},
+ {l:'p',k:'variant variants variante variantes which choose escoger dealer plant year deck chips',
+  en:['How do I pick the right variant of a code?',"Clean and polish a spot on the car first, so you compare against real color and not oxidation. Then compare variant chips or test cards in daylight, head-on and from the side. The model year and plant help narrow it down. If none is exact, start from the closest one and tint; in this app, use Variations to see how far you are."],
+  es:['¿Cómo escojo la variante correcta de un código?','Primero limpia y pule una zona del carro, para comparar contra el color real y no contra la oxidación. Luego compara chips de variantes o cartas de prueba a la luz del día, de frente y de lado. El año y la planta ayudan a descartar. Si ninguna es exacta, parte de la más cercana y ajusta; en esta app usa Variaciones para ver qué tan lejos estás.']},
+ {l:'p',k:'tint tinting adjust ajustar entonar color add toner corregir how much',
+  en:['How should I tint a color that is off?',"Decide first what is wrong: lighter or darker, which hue direction, and whether it's dirty or clean. Tint with toners already in the formula, in small steps (1–2% of the mix), one toner at a time, and spray a card after each change. Write everything down. In this app, move the Variation sliders and it shows you the grams to add to what you already mixed."],
+  es:['¿Cómo ajusto un color que no quedó?','Primero decide qué está mal: más claro u oscuro, hacia qué tono, y si está sucio o limpio. Ajusta con los tintes que ya trae la fórmula, en pasos chicos (1–2% de la mezcla), un tinte a la vez, y pinta una carta después de cada cambio. Anótalo todo. En esta app mueve las barras de Variación y te dice los gramos a agregar a lo que ya mezclaste.']},
+ {l:'p',k:'flop face side tone angle metallic darker lighter wet dry aplicacion humeda seca angulo lado frente',
+  en:['Why does a metallic look right from the front but wrong from the side?',"That's flop. How you spray changes where the aluminum flakes sit: wetter coats usually look darker head-on and lighter from the side, drier coats the opposite. Adjust the technique first (pressure, distance, flash), and tint only after the application matches the factory look."],
+  es:['¿Por qué un metálico se ve bien de frente y mal de lado?','Eso es el "flop". La forma de aplicar cambia cómo se acomoda el aluminio: las manos más húmedas suelen verse más oscuras de frente y más claras de lado, y las más secas al revés. Ajusta primero la técnica (presión, distancia, oreo) y entona el color solo cuando la aplicación ya se parezca a la de fábrica.']},
+ {l:'p',k:'metamerism light lighting daylight luz dia lampara looks different sun shop',
+  en:['Why does the color match in the shop but not outside?','That is metamerism: two colors made with different pigments can match under one light and not under another. Always check cards in daylight, under a color-corrected lamp, and under your shop lights. If they only match under one, tint toward the daylight match.'],
+  es:['¿Por qué iguala en el taller pero no afuera?','Eso es metamerismo: dos colores hechos con pigmentos distintos pueden igualar con una luz y no con otra. Revisa siempre las cartas a la luz del día, con lámpara de color corregido y con la luz del taller. Si solo igualan con una, ajusta hacia la que iguala con luz de día.']},
+ {l:'p',k:'scale weigh weight grams cumulative bascula pesar gramos acumulado overshoot me pase',
+  en:['How do I use the scale formula, and what if I overshoot?',"Put the empty cup on the scale and zero it. The formula is cumulative: add each toner until the scale reaches the number in the Scale column. If you overshoot a toner, don't remove paint: recalculate the other toners in proportion, or use Variations to see what to add. Stir well and keep toners agitated."],
+  es:['¿Cómo uso la fórmula en báscula y qué hago si me paso?','Pon el vaso vacío en la báscula y ponla en cero. La fórmula es acumulada: agrega cada tinte hasta que la báscula marque el número de la columna Báscula. Si te pasas de un tinte, no saques pintura: recalcula los demás en proporción o usa Variaciones para ver qué agregar. Revuelve bien y mantén los tintes agitados.']},
+ {l:'p',k:'clear coats how many sanding cut buff barniz cuantas manos lijar pulir',
+  en:['How many coats of clear, and when can I sand?',"Usually 2 coats, or 3 if you plan to cut and buff. Respect the flash time between them. Sanding and polishing times depend on the clear and the temperature; check the data sheet (some allow it the next day, others need longer or a bake)."],
+  es:['¿Cuántas manos de barniz y cuándo puedo lijar?','Normalmente 2 manos, o 3 si vas a lijar y pulir. Respeta el oreo entre ellas. El tiempo para lijar y pulir depende del barniz y de la temperatura; revisa la ficha técnica (algunos permiten al día siguiente, otros necesitan más tiempo u horneado).']},
+ {l:'p',k:'reducer speed fast medium slow reductor rapido medio lento which blend big panel',
+  en:['Which reducer speed should I use?','Go by temperature and job size. Fast for cold days and small repairs, medium for normal shop temperatures, slow for hot days, large panels and blends, because it gives the paint more time to lay down. Too fast causes dry spray and poor blends; too slow can cause runs.'],
+  es:['¿Qué velocidad de reductor uso?','Depende de la temperatura y del tamaño del trabajo. Rápido para días fríos y reparaciones chicas, medio para temperatura normal de taller, lento para calor, paneles grandes y difuminados, porque da más tiempo a que la pintura asiente. Muy rápido da pintura seca y difuminados malos; muy lento puede escurrir.']}
 ];
-$('#feats').innerHTML=FEATS.map(([c,h,p])=>`<div class="feat"><span class="ico" style="background:linear-gradient(90deg,${c},${shade(c,25)})"></span><h3>${h}</h3><p>${p}</p></div>`).join('');
+const STOP=new Set('why does doesn how what when where which the and for can you your are with this that not but get que como por para los las del una uno con mis tus esta este cuando donde cual porque pero sin muy hay'.split(' '));
+const toks=s=>fold(s).split(/[^a-z0-9]+/).filter(w=>w.length>2&&!STOP.has(w));
+const KBI=KB.map(x=>({x,key:new Set(toks(x.k)),qs:new Set(toks(x.en[0]+' '+x.es[0]))}));
+function kbFind(q){
+  const ws=toks(q);if(!ws.length)return [];
+  const near=(set,w)=>w.length>=4&&[...set].some(v=>v.startsWith(w.slice(0,5))||w.startsWith(v.slice(0,5))&&v.length>=4);
+  return KBI.map(({x,key,qs})=>{let s=0;ws.forEach(w=>{if(key.has(w))s+=3;else if(near(key,w))s+=2;else if(qs.has(w))s+=1});return [s,x]}).filter(r=>r[0]>=2).sort((a,b)=>b[0]-a[0]).map(r=>r[1]);
+}
+const msgs=$('#msgs');
+function addMsg(html,me){const d=document.createElement('div');d.className='msg '+(me?'me':'bot');d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
+function suggest(list,label){
+  const d=document.createElement('div');d.className='sugg';
+  d.innerHTML=(label?`<h4>${label}</h4>`:'')+`<div>${list.map(x=>`<button type="button" data-kb="${KB.indexOf(x)}">${esc(x[L?'es':'en'][0])}</button>`).join('')}</div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function answer(x){const [q,a]=x[L?'es':'en'];addMsg(`<b class="q">${esc(q)}</b>${esc(a)}`);}
+function coachReset(){
+  msgs.innerHTML='';addMsg(esc(t('chat.hello')));
+  suggest(KB.filter(x=>x.l==='b').slice(0,6),t('chat.beg'));suggest(KB.filter(x=>x.l==='p').slice(0,4),t('chat.pro'));
+}
+msgs.addEventListener('click',e=>{const b=e.target.closest('[data-kb]');if(!b)return;const x=KB[+b.dataset.kb];addMsg(esc(x[L?'es':'en'][0]),true);setTimeout(()=>answer(x),RM?0:280)});
+$('#coachForm').addEventListener('submit',e=>{e.preventDefault();const q=$('#coachIn').value.trim();if(!q)return;$('#coachIn').value='';addMsg(esc(q),true);
+  const r=kbFind(q);setTimeout(()=>{if(r.length){answer(r[0]);if(r.length>1)suggest(r.slice(1,3),t('chat.rel'))}else{addMsg(esc(t('chat.none')));suggest(KB.slice(0,4))}},RM?0:320)});
+function coachOpen(o){$('#coach').hidden=!o;$('#coachBtn').setAttribute('aria-expanded',String(o));if(o)$('#coachIn').focus()}
+$('#coachBtn').addEventListener('click',()=>coachOpen($('#coach').hidden));
+$('#coachClose').addEventListener('click',()=>coachOpen(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#coach').hidden)coachOpen(false)});
+
+/* ================= Inicio: funciones, precios, preguntas ================= */
+const FEATS=[
+  [['#C4142C','#D0221B','#111214'],['Scale-ready formula','Fórmula para báscula'],['Cumulative grams with your toner codes, and a warning when a toner is too small to weigh well.','Gramos acumulados con tus códigos de tinte y aviso cuando un tinte pesa tan poco que conviene preparar más.']],
+  [['#0B3A8A','#26389B','#F6F6F3'],['Make and VIN first','Marca y VIN primero'],['The VIN gives you the make and year. If a code exists in two makes, we ask before showing a formula.','El VIN te da la marca y el año. Si un código existe en dos marcas, te preguntamos antes de mostrar la fórmula.']],
+  [['#EFA81C','#F2D31B','#C38F2E'],['Variations with correction','Variaciones con corrección'],['Sun-faded, lighter, warmer. It tells you the grams to add to the mix you already have.','Quemado de sol, más claro, más cálido. Te dice los gramos a agregar a la mezcla que ya tienes.']],
+  [['#0B6A4D','#2E6B5A','#B5B8BB'],['Color from a photo','Color por foto'],['Take a photo of the part, tap the color and get a starting formula for colors without a code.','Toma una foto de la pieza, toca el color y obtén una fórmula de arranque para colores sin código.']],
+  [['#3F2770','#8C1A4C','#ECEAE3'],['Cost per mix','Costo por mezcla'],['Enter your toner prices and every formula shows what it costs, so you quote without losing money.','Pon el precio de tus tintes y cada fórmula te dice cuánto cuesta, para cotizar sin perder dinero.']],
+  [['#7E3322','#E5601E','#16181B'],['Paint Coach inside','Asesor incluido'],['Questions about blending, flash time or pearls? The built-in coach answers the ones painters ask most.','¿Dudas de difuminado, oreo o perlas? El asesor integrado responde las que más preguntan los pintores.']]
+];
+function renderFeats(){$('#feats').innerHTML=FEATS.map(([c,h,p],i)=>`<div class="feat rise${riseReady?'':' pre'}" style="--d:${(i%3)*110}ms"><span class="sw">${c.map(x=>`<i style="background:${x}"></i>`).join('')}</span><h3>${h[L]}</h3><p>${p[L]}</p></div>`).join('');observeRise()}
 const PLANS=[
-  {n:'Pintor',who:'Para el que pinta solo, retoques y piezas.',m:14.99,f:['Búsqueda por marca, VIN y código','Fórmulas calculadas en gramos','Calculadora por piezas','Hasta 50 fórmulas guardadas','1 dispositivo']},
-  {n:'Pro',who:'Para el pintor que vive de igualar colores.',m:29.99,star:true,f:['Todo lo de Pintor','Variaciones con corrección en gramos','Color por foto','Costo por mezcla','Importar fórmulas de tu proveedor','Fórmulas ilimitadas · 2 dispositivos']},
-  {n:'Taller',who:'Para talleres con varios pintores.',m:59.99,f:['Todo lo de Pro','Hasta 5 pintores','Fórmulas compartidas del taller','Historial de trabajos por cliente','Soporte por WhatsApp']}
+  {n:['Painter','Pintor'],who:['For the solo painter: touch-ups and parts.','Para el que pinta solo: retoques y piezas.'],m:14.99,f:[['Search by make, VIN and code','Búsqueda por marca, VIN y código'],['Calculated formulas in grams','Fórmulas calculadas en gramos'],['Amount calculator by part','Calculadora por piezas'],['Paint Coach','Asesor de pintura'],['Up to 50 saved formulas · 1 device','Hasta 50 fórmulas guardadas · 1 dispositivo']]},
+  {n:['Pro','Pro'],who:['For the painter who lives off color matching.','Para el pintor que vive de igualar colores.'],m:29.99,star:true,f:[['Everything in Painter','Todo lo de Pintor'],['Variations with correction in grams','Variaciones con corrección en gramos'],['Color from a photo','Color por foto'],['Cost per mix','Costo por mezcla'],['Import your supplier’s formulas','Importar fórmulas de tu proveedor'],['Unlimited formulas · 2 devices','Fórmulas ilimitadas · 2 dispositivos']]},
+  {n:['Shop','Taller'],who:['For shops with several painters.','Para talleres con varios pintores.'],m:59.99,f:[['Everything in Pro','Todo lo de Pro'],['Up to 5 painters','Hasta 5 pintores'],['Shared shop formulas','Fórmulas compartidas del taller'],['Job history by customer','Historial de trabajos por cliente'],['WhatsApp support','Soporte por WhatsApp']]}
 ];
 let annual=false;
 function renderPlans(){
-  $('#plans').innerHTML=PLANS.map(p=>{const price=annual?p.m*10/12:p.m;
-    return `<div class="plan${p.star?' star':''}">${p.star?'<span class="ribbon">Recomendado</span>':''}<h3>${p.n}</h3><p class="who">${p.who}</p>
-    <div class="price"><b>$${price.toFixed(2)}</b><span>/ mes</span></div><div class="yr">${annual?`$${(p.m*10).toFixed(2)} al año · ahorras $${(p.m*2).toFixed(2)}`:''}</div>
-    <ul>${p.f.map(x=>`<li>${x}</li>`).join('')}</ul><a class="btn ${p.star?'primary':''} big" href="#app">Probar 14 días gratis</a></div>`}).join('');
+  $('#plans').innerHTML=PLANS.map((p,i)=>{const price=annual?p.m*10/12:p.m;
+    return `<div class="plan${p.star?' star':''}">${p.star?`<span class="ribbon">${t('price.rec')}</span>`:''}<h3>${p.n[L]}</h3><p class="who">${p.who[L]}</p>
+    <div class="price"><b>$${price.toFixed(2)}</b><span>${t('price.per')}</span></div><div class="yr">${annual?t('price.yr',(p.m*10).toFixed(2),(p.m*2).toFixed(2)):''}</div>
+    <ul>${p.f.map(x=>`<li>${x[L]}</li>`).join('')}</ul><a class="btn ${p.star?'primary':''} big" href="#app">${t('price.cta')}</a></div>`}).join('');
 }
 $('#pm').onclick=()=>{annual=false;$('#pm').setAttribute('aria-pressed','true');$('#pa').setAttribute('aria-pressed','false');renderPlans()};
 $('#pa').onclick=()=>{annual=true;$('#pa').setAttribute('aria-pressed','true');$('#pm').setAttribute('aria-pressed','false');renderPlans()};
-renderPlans();
+const FAQ=[
+  [['Where do the formulas come from?','¿De dónde salen las fórmulas?'],['Taller de Color calculates a starting formula from the color with a pigment-mixing model, and tells you how close it gets (ΔE). If your supplier gives you official formulas, or you have tested ones, import them and the app uses them instead. Always spray a test card before painting.','Taller de Color calcula una fórmula de arranque a partir del color con un modelo de mezcla de pigmentos y te dice qué tan cerca queda (ΔE). Si tu proveedor te da fórmulas oficiales o ya tienes fórmulas probadas, las importas y la app las usa en lugar de las calculadas. Haz siempre carta de prueba antes de pintar.']],
+  [['Does it work with the paint I buy?','¿Funciona con la pintura que yo compro?'],['Yes. In My toners you enter your brand’s code next to each toner (white, black, phthalo blue, aluminum…) and formulas come out with your codes. It works for basecoat, waterborne and single stage.','Sí. En Mis tintes pones el código de tu marca junto a cada tinte (blanco, negro, azul ftalo, aluminio…) y la fórmula sale con tus códigos. Sirve para bicapa, base agua y monocapa.']],
+  [['What if a code exists in two makes?','¿Qué pasa si el código existe en dos marcas?'],['It happens a lot: 040 is white on a Toyota and black on a Mercedes-Benz. That’s why you pick the make or paste the VIN first. If you don’t, the app asks before showing a formula.','Pasa seguido: el 040 es blanco en Toyota y negro en Mercedes-Benz. Por eso primero eliges la marca o pegas el VIN. Si no la eliges, la app te pregunta antes de mostrar la fórmula.']],
+  [['I’m new to painting. Will it help me?','Soy principiante. ¿Me sirve?'],['Yes. The Paint Coach inside the app answers the questions beginners ask most on painting forums: blending, flash time, spray-out cards, orange peel, runs and safety.','Sí. El Asesor dentro de la app responde las preguntas que más hacen los principiantes en los foros: difuminado, tiempo entre manos, carta de prueba, piel de naranja, escurridos y seguridad.']],
+  [['Can I cancel?','¿Puedo cancelar?'],['Yes. You pay month to month with no contract. You can export your saved formulas before you leave.','Sí. El pago es mes a mes, sin plazo forzoso. Tus fórmulas guardadas las puedes exportar antes de irte.']]
+];
+function renderFaq(){$('#faq').innerHTML=FAQ.map(([q,a])=>`<details><summary>${q[L]}</summary><p>${a[L]}</p></details>`).join('')}
 
-const demo={running:true,i:0,car:new Car($('#dcar')),list:[['Mazda','46V'],['Chevrolet / GMC','GAZ'],['Subaru','K7X'],['Ford','PQ'],['Toyota','1G3'],['Nissan','NAH'],['RAL (industrial)','RAL 6018']]};
+/* ================= Demo del héroe ================= */
+const demo={running:true,i:0,col:null,truck:new Truck($('#dtruck')),hold:0,list:[['Mazda','46V'],['Chevrolet / GMC','GAZ'],['Subaru','K7X'],['Ford','PQ'],['Toyota','1G3'],['Nissan','NAH'],['RAL','RAL 6018'],['Honda','B-593M']]};
+const demoCols=demo.list.map(([m,c])=>BASE.find(x=>x.marca===m&&x.codigo===c)).filter(Boolean);
+$('#rail').innerHTML=demoCols.map((c,i)=>`<button class="rchip" type="button" data-i="${i}" aria-pressed="false" aria-label="${esc(c.marca+' '+c.codigo)}"><i style="background:${finishBg(c.hex,c.acabado)}"></i><span>${esc(c.codigo)}</span></button>`).join('');
+$('#marq').innerHTML=Array(3).fill(BASE.filter((_,i)=>i%3===0).map(c=>`<span><i style="background:${c.hex}"></i>${esc(c.codigo)}</span>`).join('')).join('');
 function demoShow(col,typed){
   $('#dtyped').textContent=typed;
   if(typed!==col.codigo)return;
-  $('#dmake').textContent=col.marca+' · '+col.nombre;
-  const f=solve(linToLab(hexToLin(col.hex)),col.acabado);
-  demo.car.paint(col.hex,col.acabado);
-  document.querySelectorAll('.hero,.final').forEach(el=>setPaint(el,col.hex));
-  const dm=1/f.ids.reduce((s,id,i)=>s+f.c[i]/TBY[id].d,0),g=f.c.map(c=>c*250*dm);
-  $('#dbars').innerHTML=f.ids.slice(0,4).map((id,i)=>`<div class="bar"><span class="t">${id}</span><span class="track"><span class="fill" style="background:${TBY[id].hex}"></span></span><span class="g">${g[i].toFixed(1)} g</span></div>`).join('');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll('#dbars .fill').forEach((el,i)=>el.style.width=Math.max(3,f.c[i]*100)+'%')));
+  demo.col=col;
+  const f=solve(linToLab(hexToLin(col.hex)),col.acabado),fin=t('fin.'+col.acabado);
+  $('#dname').textContent=col.nombre;$('#dmeta').textContent=`${col.marca} · ${fin} · ΔE ${f.dE.toFixed(1)}`;
+  demo.truck.label(col.codigo,fin.toUpperCase());demo.truck.paint(col.hex,col.acabado);
+  if(demo.running)setPaint(col.hex);
+  document.querySelectorAll('#rail .rchip').forEach((b,i)=>b.setAttribute('aria-pressed',String(demoCols[i]===col)));
+  const dm=1/f.ids.reduce((s,id,i)=>s+f.c[i]/TBY[id].d,0),g=f.c.map(c=>c*250*dm);let acc=0;
+  $('#drows').innerHTML=f.ids.slice(0,5).map((id,i)=>{acc+=g[i];return `<div class="trow" style="animation-delay:${i*90}ms"><i style="background:${TBY[id].hex}"></i><span>${id} <span class="muted">${esc(tname(id))}</span></span><span class="dots"></span><span>${acc.toFixed(1)} g</span></div>`}).join('');
   countUp($('#dtotal'),g.reduce((a,b)=>a+b,0),' g');
 }
+function demoRefresh(){if(demo.col)demoShow(demo.col,demo.col.codigo)}
+let demoTimer;
 function demoNext(){
-  if(!demo.running||document.hidden){setTimeout(demoNext,800);return}
-  const [m,c]=demo.list[demo.i++%demo.list.length],col=BASE.find(x=>x.marca===m&&x.codigo===c);if(!col){setTimeout(demoNext,100);return}
-  if(RM){demoShow(col,col.codigo);setTimeout(demoNext,5000);return}
-  let k=0;const type=()=>{k++;demoShow(col,col.codigo.slice(0,k));if(k<col.codigo.length)setTimeout(type,140);else setTimeout(demoNext,3800)};
-  $('#dtyped').textContent='';setTimeout(type,350);
+  clearTimeout(demoTimer);
+  if(!demo.running||document.hidden||Date.now()<demo.hold){demoTimer=setTimeout(demoNext,900);return}
+  const col=demoCols[demo.i++%demoCols.length];
+  if(RM){demoShow(col,col.codigo);demoTimer=setTimeout(demoNext,5000);return}
+  let k=0;const type=()=>{if(Date.now()<demo.hold)return demoNext();k++;demoShow(col,col.codigo.slice(0,k));if(k<col.codigo.length)demoTimer=setTimeout(type,130);else demoTimer=setTimeout(demoNext,3600)};
+  $('#dtyped').textContent='';demoTimer=setTimeout(type,300);
 }
-route();demoNext();
+$('#rail').addEventListener('click',e=>{const b=e.target.closest('.rchip');if(!b)return;const i=+b.dataset.i;demo.hold=Date.now()+9000;demo.i=i+1;demoShow(demoCols[i],demoCols[i].codigo);clearTimeout(demoTimer);demoTimer=setTimeout(demoNext,9000)});
+
+/* ================= Movimiento con el scroll ================= */
+let riseReady=false,io=null;
+function observeRise(){
+  if(!('IntersectionObserver' in window)||RM){document.querySelectorAll('.rise.pre').forEach(el=>el.classList.remove('pre'));return}
+  if(!io)io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.remove('pre');io.unobserve(en.target)}}),{rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rise.pre').forEach(el=>io.observe(el));
+}
+const prog=$('#prog'),marq=$('#marq'),tbox=$('#dtruck');let ticking=false;
+function onScroll(){
+  if(ticking)return;ticking=true;
+  requestAnimationFrame(()=>{ticking=false;
+    const y=window.scrollY,h=document.documentElement.scrollHeight-innerHeight;
+    prog.style.setProperty('--p',h>0?Math.min(1,y/h):0);
+    if(RM||!$('#app').hidden)return;
+    marq.style.transform=`translateX(${-(y*0.35)%(marq.scrollWidth/3)}px)`;
+    tbox.style.transform=`translateY(${Math.min(40,y*0.06)}px)`;
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+
+applyLang();riseReady=true;observeRise();route();demoNext();
 })();
 </script>
