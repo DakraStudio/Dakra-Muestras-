@@ -138,7 +138,7 @@ def build(makes):
                 last=None; gap=False; acc=set()
                 for y in sorted(byy):
                     d=byy[y]
-                    real=d.get('ok') and d['r'] and 0<d.get('v',0)<90000
+                    real=d.get('ok') and d['r'] and 0<d.get('v',0)<53600
                     if not real:
                         if last is not None and d.get('ok'): gap=True
                         continue

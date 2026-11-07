@@ -6,7 +6,7 @@ HERE=os.path.dirname(os.path.abspath(__file__))
 CACHE=os.path.join(HERE,'cache'); OUT=os.path.join(HERE,'resultados'); os.makedirs(OUT,exist_ok=True)
 BASE='https://www.automotivetouchup.com/touch-up-paint/'; UA='Mozilla/5.0 (compatible; TallerDeColor-research/1.0)'
 DELAY=float(os.environ.get('DELAY','1.0'))
-VMAX=90000  # los años que no existen usan vehículos 'virtuales' con número alto
+VMAX=53600  # los años que no existen usan vehículos 'virtuales' con número alto
 def fetch(path):
     for a in range(4):
         try:
