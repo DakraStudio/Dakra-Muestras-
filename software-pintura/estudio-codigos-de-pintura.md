@@ -4,7 +4,7 @@ Taller de Color · noviembre 2026
 
 ## Resultado
 
-**22,698 códigos de pintura de 60 marcas**, de 1990 a 2025, más los modelos 2026 que siguen usando esos
+**22,698 códigos de pintura de 60 marcas**, de 1990 a 2025 (13,327 de ellos con los modelos en que se usaron), más los modelos 2026 que siguen usando esos
 códigos. Cada código trae:
 
 - marca y código de etiqueta;
@@ -115,8 +115,9 @@ Cómo leer la tabla:
 ## Lo que todavía falta
 
 - **Años antes de 1990**: quedan fuera del alcance acordado.
-- **Qué modelos usan cada código**: la fuente separa por modelo, pero bajar cada modelo de cada año son más
-  de 20,000 páginas (unas 10 horas). Se puede hacer en otra tanda; por ahora el filtro es por marca y año.
+- **Modelos en marcas de lujo y exóticas** (Aston Martin, Bentley, Ferrari, Lamborghini, Lotus, Maserati,
+  Maybach, Rolls-Royce) y en Daihatsu y Yugo: no se bajaron por modelo; sus códigos sí están por marca y año.
+- **Algunos modelos sin página propia en la fuente**: Chrysler Town & Country y Aspen, Kia Spectra.
 - **2026**: la fuente todavía no publica 2026. Los códigos de 2025 siguen vigentes en la mayoría de los
   modelos.
 - **Color exacto**: la fuente no da el color, solo el nombre. Cuando el pintor corrige el color en el
@@ -124,6 +125,42 @@ Cómo leer la tabla:
 - **Ram**: la fuente lo trae dentro de Dodge (modelos "Ram" y "Ram Truck"). Se armó como marca propia con
   esos modelos.
 - Si un código no aparece, el pintor lo puede agregar en segundos desde la búsqueda.
+
+## Modelos por código
+
+Segunda etapa del estudio: **42,890 páginas por modelo y año**. Resultado: **13,327 códigos** ya dicen en
+qué modelos y años se usaron, para **1,042 modelos**. El software tiene un filtro marca → año → modelo, y cada
+código muestra la lista de modelos con sus años.
+
+{tab}
+
+Los códigos sin modelo son, sobre todo, colores de otros mercados (Europa, Asia) o de modelos que la fuente
+no tiene por separado. Siguen apareciendo al buscar por marca y año.
+
+### Cómo se detectaron los años que no existieron
+
+Cuando un modelo no existió en un año, la fuente no da error: muestra colores de otro año o la lista
+genérica de la marca. Sin limpiar, la base habría dicho, por ejemplo, "Astro 1990–2024" o "Ridgeline 1990".
+Se aplicaron estas reglas, en orden:
+
+1. **Número de vehículo**: cada página trae un número interno. Los años reales usan números de hasta unos
+   53,300; los inventados usan bloques más altos (cada marca tiene el suyo). Se acepta solo por debajo de
+   53,600.
+2. **Página genérica de la marca**: si el mismo número de vehículo aparece en varios modelos del mismo año,
+   es la lista general de la marca y se descarta.
+3. **Copia después de un hueco**: si después de años inexistentes aparece un año con los mismos colores (o
+   menos) que los años reales anteriores, es una copia y se descarta. Un regreso real (Camaro 2010, Blazer
+   2019, Ranger 2019) trae colores nuevos y sí cuenta.
+4. **2022–2024**: solo cuenta si el modelo existía el año anterior, o si es un modelo nuevo con colores
+   recientes (Maverick, S10 Max).
+5. **Años sueltos**: tramos de 1 o 2 años separados del resto del modelo por 3 años o más se descartan.
+
+Ejemplos verificados: Chevrolet Astro 1991–2005, Volt 2011–2020, SSR 2003–2007; Ford Ranger 1991–2011 y
+2017 en adelante, Thunderbird 1991–1997 y 2001–2005; Toyota Supra 1990–1998 y 2020 en adelante; Honda S2000
+1999–2009, Ridgeline 2005–2014 y 2016 en adelante; Acura RSX 2002–2006; Nissan 350Z 2003–2010.
+
+Limitaciones: la regla es conservadora. Algunos modelos pierden su último año (por ejemplo, Ridgeline queda
+hasta 2022) y quedan detalles menores, como BMW Z3 con años antes de 1996 o Acura SLX con años de más.
 
 ## Errores que el estudio corrigió
 
@@ -142,3 +179,5 @@ Los programas están en `herramientas/`:
    repetir consultas.
 2. `python3 build.py` arma `colors.json`.
 3. `python3 report.py` imprime la tabla de cobertura.
+4. `python3 cola.py` baja la etapa por modelo (3 a la vez, reanudable) con `fetch_models.py`; los datos
+   quedan en `resultados/` y una copia comprimida en `herramientas/datos/`.
