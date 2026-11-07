@@ -125,6 +125,14 @@ def build(makes):
                 if mk=='ram' and 'ram' not in d['m']: continue
                 if mk=='dodge' and d['m'] in ('ram','ram-truck','new-ram-truck','ram-pickup') and d['y']>=2011: continue
                 per[d['m']][d['y']]=d
+            # el mismo número de vehículo en varios modelos del mismo año = página genérica de la marca
+            share=collections.defaultdict(set)
+            for m,byy in per.items():
+                for y,d in byy.items():
+                    if d.get('v'): share[(y,d['v'])].add(m)
+            for m,byy in per.items():
+                for y,d in list(byy.items()):
+                    if d.get('v') and len(share[(y,d['v'])])>1: d['r']=[]
             for m,byy in per.items():
                 last=None; gap=False; acc=set()
                 for y in sorted(byy):
