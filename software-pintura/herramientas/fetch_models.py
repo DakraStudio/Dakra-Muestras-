@@ -42,6 +42,6 @@ def run(mk):
         need=set()
         for y in vy: need|={x for x in range(y-3,y+4) if x in years}
         for y in sorted(need): get(m,y)
-    print('done',mk,len(done),flush=True)
+    print('done',mk,len(done),flush=True); open(os.path.join(OUT,f'{mk}.done'),'w').write(str(len(done)))
 for mk in sys.argv[1].split(','): run(mk)
 print('ALLDONE',flush=True)
