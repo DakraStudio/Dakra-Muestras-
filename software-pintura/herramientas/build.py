@@ -75,7 +75,8 @@ def find(par,x):
 MODELS_OUT={}
 def nice(slug):
     w=[x.upper() if (len(x)<=3 and any(ch.isdigit() for ch in x)) or x in ('gt','gti','suv','rs','ss','cx','hr','sl','xl') else x.capitalize() for x in slug.split('-')]
-    return ' '.join(w).replace('Cr V','CR-V').replace('Hr V','HR-V').replace('C HR','C-HR')
+    n=' '.join(w).replace('Cr V','CR-V').replace('Hr V','HR-V').replace('C HR','C-HR')
+    return re.sub(r'\b(CX|MX|RX|Mx|Cx|Rx) ?(\d+)',lambda m:m.group(1).upper()+'-'+m.group(2),n)
 def build(makes):
     out={}; stats={}
     for mk in makes:
