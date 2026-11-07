@@ -135,7 +135,7 @@ def build(makes):
                 for y,d in list(byy.items()):
                     if d.get('v') and len(share[(y,d['v'])])>1: d['r']=[]
             for m,byy in per.items():
-                last=None; gap=False; acc=set()
+                last=None; gap=False; acc=set(); kept={}
                 for y in sorted(byy):
                     d=byy[y]
                     real=d.get('ok') and d['r'] and 0<d.get('v',0)<53600
@@ -149,7 +149,19 @@ def build(makes):
                     # página copiada del último año real después de años inexistentes: se descarta
                     if gap and last is not None and ks<=last: continue
                     if 2022<=y<=2024 and (y-1) not in acc and (any(a<2022 for a in acc) or not any(k in groups and min(groups[k]['years'])>=2020 for k in ks)): continue
-                    last=(last or set())|ks; gap=False; acc.add(y)
+                    last=(last or set())|ks; gap=False; acc.add(y); kept[y]=ks
+                # tramos sueltos de 1-2 años separados del resto por 2+ años: casi siempre son páginas de relleno
+                ys=sorted(kept); runs=[]
+                for y in ys:
+                    if runs and y==runs[-1][-1]+1: runs[-1].append(y)
+                    else: runs.append([y])
+                if len(runs)>1:
+                    for i,r in enumerate(runs):
+                        prev=runs[i-1][-1] if i>0 else None; nxt=runs[i+1][0] if i+1<len(runs) else None
+                        far=(prev is None or r[0]-prev>=3) and (nxt is None or nxt-r[-1]>=3)
+                        if len(r)<=2 and far:
+                            for y in r: kept.pop(y,None)
+                for y,ks in kept.items():
                     for k in ks:
                         if k in groups: mods[k][m].add(y)
             mnames=sorted({m for v in mods.values() for m in v})
