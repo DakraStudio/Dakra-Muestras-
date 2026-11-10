@@ -592,7 +592,11 @@ footer .brand{color:#fff}
 (function(){
   const sw=document.getElementById("langSw");
   const B={es:"Hola Dakra Studio 👋 Vi su página web y quiero una muestra gratis. Mi negocio es: ",en:"Hi Dakra Studio 👋 I saw your website and I'd like a free preview. My business is: "};
-  function upd(){const l=sw&&sw.checked?"es":"en";document.querySelectorAll('a[href^="sms:"]').forEach(a=>a.href="sms:+19312922496?&body="+encodeURIComponent(B[l]))}
+  const MS={es:"Quiero mi muestra gratis · Dakra Studio",en:"Free website preview · Dakra Studio"};
+  const MB={es:"Hola Dakra Studio 👋\n\nVi su página web y quiero una muestra gratis de la página de mi negocio.\n\nMi negocio es: \nCiudad: \nMi teléfono: \n\n¡Gracias!",en:"Hi Dakra Studio 👋\n\nI saw your website and I'd like a free preview of a website for my business.\n\nMy business is: \nCity: \nMy phone: \n\nThanks!"};
+  const mailHref=l=>"mailto:dakrastudio@gmail.com?subject="+encodeURIComponent(MS[l])+"&body="+encodeURIComponent(MB[l]);
+  function upd(){const l=sw&&sw.checked?"es":"en";document.querySelectorAll('a[href^="sms:"]').forEach(a=>a.href="sms:+19312922496?&body="+encodeURIComponent(B[l]));document.querySelectorAll('a[href^="mailto:"]').forEach(a=>a.href=mailHref(l))}
+  document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest('a[href^="mailto:"],a[href^="sms:"]');if(!a)return;const l=sw&&sw.checked?"es":"en";a.href=a.href.startsWith("mailto:")?mailHref(l):"sms:+19312922496?&body="+encodeURIComponent(B[l])},true);
   upd(); if(sw)sw.addEventListener("change",upd);
   new MutationObserver(upd).observe(document.getElementById("botLog")||document.body,{childList:true,subtree:true});
 })();
