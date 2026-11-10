@@ -486,7 +486,6 @@ footer{background:var(--choco);color:var(--cream);padding:56px 0 30px}
         <h4 data-i18n="ft.contact">Contact</h4>
         <ul>
           <li><span data-i18n="ft.text">Text us:</span> <a id="footPhone" href="sms:+19315550123">(931) 555-0123</a></li>
-          <li><a id="footCall" href="tel:+19315550123" data-i18n="ft.call">Or call us</a></li>
           <li><span data-i18n="ft.email">Email:</span> <a id="footEmail" href="mailto:hello@madebymaryh.com">hello@madebymaryh.com</a></li>
           <li data-i18n="ft.area">Local delivery in and around Pulaski, TN</li>
         </ul>
@@ -640,7 +639,7 @@ const T = {
   'hw.s2':'Send it by text','hw.s2p':'Your order is written for you. We text back to confirm the day and time.',
   'hw.s3':'We deliver, you enjoy','hw.s3p':'Baked the day before and brought to your door in a box with a handwritten note.',
   'fq.eyebrow':'Questions','fq.title':'Good to know before you order',
-  'ft.about':'Small-batch homemade cookies, baked in Pulaski, Tennessee.','ft.contact':'Contact','ft.text':'Text us:','ft.call':'Or call us','ft.email':'Email:',
+  'ft.about':'Small-batch homemade cookies, baked in Pulaski, Tennessee.','ft.contact':'Contact','ft.text':'Text us:','ft.email':'Email:',
   'ft.area':'Local delivery in and around Pulaski, TN','ft.shop':'Order','ft.chat':'Ask our cookie helper','ft.by':'Website by',
   'co.title':'Almost done','co.name':'Your name','co.phone':'Your phone','co.addr':'Delivery address (street and town)','co.err.addr':'Please add the delivery address.',
   'co.date':'Date you need it','co.note':'Note (gift message, allergies, event)','co.send':'Send order by text','co.copy':'Copy order',
@@ -681,7 +680,7 @@ const T = {
   'hw.s2':'Mándala por mensaje','hw.s2p':'Tu pedido se escribe solo. Te respondemos para confirmar día y hora.',
   'hw.s3':'Te lo llevamos, tú disfrutas','hw.s3p':'Horneadas un día antes y entregadas en tu puerta, en caja con una nota escrita a mano.',
   'fq.eyebrow':'Preguntas','fq.title':'Lo que conviene saber antes de pedir',
-  'ft.about':'Galletas caseras en lotes pequeños, horneadas en Pulaski, Tennessee.','ft.contact':'Contacto','ft.text':'Mensaje de texto:','ft.call':'O llámanos','ft.email':'Correo:',
+  'ft.about':'Galletas caseras en lotes pequeños, horneadas en Pulaski, Tennessee.','ft.contact':'Contacto','ft.text':'Mensaje de texto:','ft.email':'Correo:',
   'ft.area':'Entrega a domicilio en Pulaski, TN y alrededores','ft.shop':'Pedidos','ft.chat':'Pregúntale al asistente','ft.by':'Página por',
   'co.title':'Ya casi','co.name':'Tu nombre','co.phone':'Tu teléfono','co.addr':'Dirección de entrega (calle y ciudad)','co.err.addr':'Escribe la dirección de entrega.',
   'co.date':'Fecha en que lo necesitas','co.note':'Nota (mensaje de regalo, alergias, evento)','co.send':'Enviar pedido por mensaje','co.copy':'Copiar pedido',
@@ -1126,7 +1125,6 @@ function setupReveal(){
 
 /* footer + faces */
 $('#footPhone').textContent = CONFIG.phoneDisplay; $('#footPhone').href = 'sms:' + CONFIG.phoneSms;
-$('#footCall').href = 'tel:' + CONFIG.phoneSms;
 $('#footEmail').textContent = CONFIG.email; $('#footEmail').href = 'mailto:' + CONFIG.email;
 $('#yr').textContent = new Date().getFullYear();
 $('#fabFace').innerHTML = faceSVG(); $('#topFace').innerHTML = faceSVG();
