@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Boy's Barber Shop · Pulaski, TN</title>
+<meta name="description" content="Barber shop on W Woodring St in Pulaski, Tennessee.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Karla:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--n:#13213A;--r:#B3261E;--c:#F5EEDF;--c2:#EADFC8;--k:#14181F;--df:'Abril Fatface',Georgia,serif;--bf:Karla,system-ui,sans-serif}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--c);color:var(--k);font:17px/1.6 var(--bf)}
+a{color:inherit}
+.demo{background:var(--n);color:#E9E3D3;font-size:13.5px;text-align:center;padding:7px 14px}
+.demo a{color:#fff;font-weight:800}
+.pole{height:12px;background:repeating-linear-gradient(-45deg,var(--r) 0 14px,#fff 14px 28px,var(--n) 28px 42px,#fff 42px 56px)}
+header{max-width:1080px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{font:400 24px/1 var(--df);text-decoration:none;color:var(--n)}
+.brand span{color:var(--r)}
+.tools{display:flex;gap:8px}
+.lang{border:2px solid var(--n);background:none;color:var(--n);font:800 14px var(--bf);padding:7px 12px;border-radius:999px;cursor:pointer}
+.call{background:var(--r);color:#fff;text-decoration:none;font:800 14px var(--bf);padding:9px 14px;border-radius:999px;white-space:nowrap}
+.hero{max-width:1080px;margin:0 auto;padding:30px 16px 60px;text-align:center}
+.est{display:inline-flex;align-items:center;gap:12px;font:800 13px var(--bf);letter-spacing:4px;text-transform:uppercase;color:var(--r)}
+.est:before,.est:after{content:"";width:40px;height:2px;background:var(--r)}
+h1{font:400 clamp(52px,11vw,124px)/.95 var(--df);color:var(--n);margin:14px 0 10px}
+h1 i{font-style:normal;color:var(--r)}
+.sub{font-size:20px;max-width:36ch;margin:0 auto 26px;color:#3A4150}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:800 17px var(--bf);padding:14px 22px;border-radius:999px}
+.btn.r{background:var(--r);color:#fff}.btn.n{background:var(--n);color:#fff}.btn.o{border:2px solid var(--n);color:var(--n)}
+.ticket{max-width:1080px;margin:0 auto 10px;padding:0 16px}
+.tk{background:var(--n);color:#fff;border-radius:16px;padding:30px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+.tk div{border-right:1px dashed rgba(255,255,255,.3);padding-right:16px}.tk div:last-child{border:0}
+.tk b{display:block;font:400 26px var(--df);margin-bottom:4px}
+.tk p{margin:0;color:#D3D8E4}
+.tk a{color:#fff;font-weight:800}
+section{max-width:1080px;margin:0 auto;padding:60px 16px}
+h2{font:400 clamp(36px,6vw,58px)/1 var(--df);color:var(--n);margin:0 0 8px;text-align:center}
+.lead2{text-align:center;max-width:52ch;margin:0 auto 30px;color:#3A4150}
+.menu{max-width:640px;margin:0 auto;background:#fff;border:2px solid var(--n);border-radius:6px;padding:26px 24px;box-shadow:8px 8px 0 var(--r)}
+.row{display:flex;align-items:baseline;gap:10px;padding:10px 0}
+.row span:first-child{font-weight:800;font-size:19px}
+.row .dots{flex:1;border-bottom:2px dotted #9AA0AC;transform:translateY(-4px)}
+.row span:last-child{font-weight:800;color:var(--r)}
+.note{text-align:center;font-size:14px;color:#5A6070;margin:16px 0 0}
+.visit{background:var(--c2)}
+.vin{max-width:1080px;margin:0 auto;padding:60px 16px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.vin h2{text-align:left}
+.addr{font:400 30px/1.15 var(--df);color:var(--n);margin:0 0 16px}
+.vin .ctas{justify-content:flex-start}
+.chair{background:var(--n);border-radius:18px;padding:30px;color:#fff;text-align:center}
+.chair .big{font-size:64px;line-height:1}
+.chair p{margin:10px 0 0;font-size:19px}
+footer{background:var(--n);color:#C8CEDA;text-align:center;padding:26px 16px 96px;font-size:14px}
+footer a{color:#fff}
+@media(max-width:760px){.tk{grid-template-columns:1fr}.tk div{border-right:0;border-bottom:1px dashed rgba(255,255,255,.3);padding:0 0 14px}.vin{grid-template-columns:1fr}}
+@media(max-width:480px){.brand{font-size:19px}.call span{display:none}}
+:root{--bc:#B3261E;--bc2:#13213A;--bi:#14181F;--bb:#F5EEDF;--bf:Karla,system-ui,sans-serif;--bd:'Abril Fatface',Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-en="Sample website made by" data-es="Página de muestra creada por">Sample website made by</span> <a href="https://dakrastudio.com">Dakra Studio</a> <span data-en="for Big Boy's Barber Shop" data-es="para Big Boy's Barber Shop">for Big Boy's Barber Shop</span></div>
+<div class="pole"></div>
+<header>
+  <a class="brand" href="#top">Big Boy's <span>Barber Shop</span></a>
+  <div class="tools"><button class="lang" type="button" data-lang>Español</button><a class="call" href="tel:+19316389280">📞 <span>(931) 638-9280</span></a></div>
+</header>
+<main id="top">
+<div class="hero">
+  <div class="est" data-en="Pulaski · Tennessee" data-es="Pulaski · Tennessee">Pulaski · Tennessee</div>
+  <h1 data-en="Fresh cuts on <i>Woodring</i> Street" data-es="Cortes frescos en la calle <i>Woodring</i>">Fresh cuts on <i>Woodring</i> Street</h1>
+  <p class="sub" data-en="Your neighborhood barber shop in Pulaski. Call ahead and grab a chair." data-es="Tu barbería del barrio en Pulaski. Llama antes y toma una silla.">Your neighborhood barber shop in Pulaski. Call ahead and grab a chair.</p>
+  <div class="ctas"><a class="btn r" href="tel:+19316389280">📞 <span data-en="Call the shop" data-es="Llamar a la barbería">Call the shop</span></a><a class="btn o" href="https://www.google.com/maps/search/?api=1&query=314+W+Woodring+St+Pulaski+TN+38478" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a></div>
+</div>
+<div class="ticket"><div class="tk">
+  <div><b data-en="Where" data-es="Dónde">Where</b><p>314 W Woodring St<br>Pulaski, TN 38478</p></div>
+  <div><b data-en="Hours" data-es="Horario">Hours</b><p data-en="Call for today's hours, they may change on Fridays and Saturdays." data-es="Llama para el horario de hoy; puede cambiar los viernes y sábados.">Call for today's hours, they may change on Fridays and Saturdays.</p></div>
+  <div><b data-en="Call" data-es="Llama">Call</b><p><a href="tel:+19316389280">(931) 638-9280</a></p></div>
+</div></div>
+
+<section id="services">
+  <h2 data-en="The chair menu" data-es="El menú de la silla">The chair menu</h2>
+  <p class="lead2" data-en="Prices coming soon. Call the shop to ask about any service." data-es="Precios muy pronto. Llama a la barbería para preguntar por cualquier servicio.">Prices coming soon. Call the shop to ask about any service.</p>
+  <div class="menu">
+    <div class="row"><span data-en="Haircut" data-es="Corte de cabello">Haircut</span><span class="dots"></span><span>$—</span></div>
+    <div class="row"><span data-en="Kids' cut" data-es="Corte para niños">Kids' cut</span><span class="dots"></span><span>$—</span></div>
+    <div class="row"><span data-en="Fade" data-es="Degradado (fade)">Fade</span><span class="dots"></span><span>$—</span></div>
+    <div class="row"><span data-en="Beard trim" data-es="Arreglo de barba">Beard trim</span><span class="dots"></span><span>$—</span></div>
+    <div class="row"><span data-en="Lineup" data-es="Delineado">Lineup</span><span class="dots"></span><span>$—</span></div>
+  </div>
+  <p class="note" data-en="Services and prices to be confirmed by the shop." data-es="Servicios y precios por confirmar con la barbería.">Services and prices to be confirmed by the shop.</p>
+</section>
+
+<div class="visit"><div class="vin">
+  <div>
+    <h2 data-en="Come on by" data-es="Pásale">Come on by</h2>
+    <p class="addr">314 W Woodring St, Pulaski</p>
+    <div class="ctas"><a class="btn n" href="https://www.google.com/maps/search/?api=1&query=314+W+Woodring+St+Pulaski+TN+38478" target="_blank" rel="noopener">📍 <span data-en="Directions" data-es="Cómo llegar">Directions</span></a><a class="btn r" href="tel:+19316389280">📞 <span data-en="Call" data-es="Llamar">Call</span></a></div>
+  </div>
+  <div class="chair"><div class="big">💈</div><p data-en="Call ahead to see how long the wait is." data-es="Llama antes para saber cuánto hay que esperar.">Call ahead to see how long the wait is.</p></div>
+</div></div>
+</main>
+<footer>Big Boy's Barber Shop · 314 W Woodring St, Pulaski, TN · <a href="tel:+19316389280">(931) 638-9280</a><br><span data-en="Sample website by" data-es="Página de muestra por">Sample website by</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+<script>
+(function(){
+  let lang="en";
+  function render(){document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="en"?"Español":"English");}
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+})();
+</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Big Boy's Barber Shop assistant" hidden>
+  <div class="bh"><div><b>Big Boy's Barber Shop</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Big Boy's Barber Shop",color:"#B3261E",color2:"#13213A",ink:"#14181F",bg:"#F5EEDF",font:"Karla,system-ui,sans-serif",display:"'Abril Fatface',Georgia,serif",
+  tel:"+19316389280",telTxt:"(931) 638-9280",maps:"https://www.google.com/maps/search/?api=1&query=314+W+Woodring+St+Pulaski+TN+38478",address:"314 W Woodring St, Pulaski, TN 38478",
+  H:[null,null,null,null,null,null,null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAPS=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|yo|sup|good (morning|afternoon|evening))\b/i,en:()=>"Hey! 💈 Ask me about hours, haircuts, wait times or directions.",es:()=>"¡Qué onda! 💈 Pregúntame por el horario, cortes, la espera o cómo llegar."},
+  {k:"thanks",re:/gracias|thank/i,en:()=>"Anytime! See you in the chair 💈",es:()=>"¡Con gusto! Te esperamos en la silla 💈"},
+  {k:"wait",re:/cu[aá]nto (tarda|tiempo|hay que esperar)|tardan|espera|fila|line|how long|wait|busy|appointment|cita|walk.?in|sin cita|reserv|book/i,en:()=>`Call ${TEL} before you come to ask how long the wait is and whether they take walk-ins or appointments. ⏱️`,es:()=>`Llama al ${TEL} antes de venir para preguntar cuánto hay que esperar y si atienden sin cita o con cita. ⏱️`},
+  {k:"open",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today|hora|horario|abre|abren|cierra|cierran|hours|close|when|domingo|sunday|s[aá]bado|saturday/i,en:()=>`Hours can change, especially Fridays and Saturdays. Call ${TEL} to check today's hours. ⏰`,es:()=>`El horario puede cambiar, sobre todo viernes y sábado. Llama al ${TEL} para confirmar el horario de hoy. ⏰`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|vale|price|how much|cost/i,en:()=>`Prices aren't posted here yet. Call ${TEL} to ask. 💵`,es:()=>`Los precios todavía no están en la página. Llama al ${TEL} para preguntar. 💵`},
+  {k:"kids",re:/ni[ñn]o|hijo|kid|child|boy|son|beb[eé]|baby/i,en:()=>`To ask about kids' cuts, call the shop at ${TEL}. 👦`,es:()=>`Para preguntar por cortes para niños, llama a la barbería al ${TEL}. 👦`},
+  {k:"cuts",re:/fade|degrad|barba|beard|shave|afeit|line ?up|delinea|corte|cut|taper|design|dise[ñn]o|servicio|service|what do you/i,en:()=>`We're a barber shop, so come get a fresh cut. To ask about a specific style (fades, beards, lineups), call ${TEL}. ✂️`,es:()=>`Somos barbería: ven por un corte fresco. Para preguntar por un estilo en especial (fade, barba, delineado), llama al ${TEL}. ✂️`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|apple ?pay|zelle|cash ?app|venmo|aceptan/i,en:()=>`To confirm payment options, call ${TEL}. 💳`,es:()=>`Para confirmar las formas de pago, llama al ${TEL}. 💳`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion/i,en:()=>`We're at ${MAPS}. 📍`,es:()=>`Estamos en ${MAPS}. 📍`},
+  {k:"group",re:/boda|wedding|evento|event|grupo|group|party|fiesta/i,en:()=>`For groups or events, call ${TEL} to set it up. 🎉`,es:()=>`Para grupos o eventos, llama al ${TEL} para organizarlo. 🎉`},
+  {k:"person",re:/persona|humano|due[ñn]o|encargado|barbero|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|barber|call|phone/i,en:()=>`Sure! Call the shop at ${TEL}. 📞`,es:()=>`¡Claro! Llama a la barbería al ${TEL}. 📞`},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan/i,en:()=>"This website works in English and Spanish. For anything else, call the shop. 🗣️",es:()=>"Esta página está en inglés y español. Para el idioma en la barbería, llama para preguntar. 🗣️"}
+];
+const CHIPS={en:[["open","Hours today"],["wait","Wait time"],["cuts","Cuts & beards"],["price","Prices"],["where","Directions"],["person","Call the shop"]],
+             es:[["open","Horario de hoy"],["wait","¿Cuánta espera?"],["cuts","Cortes y barba"],["price","Precios"],["where","Cómo llegar"],["person","Llamar"]]};
+const TXT={en:{hi:"Hey! 👋 I'm Big Boy's Barber Shop's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} and they'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Big Boy's Barber Shop. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} y con gusto te ayudan.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
