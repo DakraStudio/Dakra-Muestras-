@@ -1,0 +1,208 @@
+<!-- ==== Reservas de citas (Dakra Studio) · demo ==== -->
+<style>
+.bk{--k1:var(--bc,#B3261E);--k2:var(--bc2,#13213A);--kb:var(--bb,#F5EEDF);--ki:var(--bi,#14181F);--kf:var(--bf,system-ui,sans-serif);--kd:var(--bd,Georgia,serif);font-family:var(--kf);color:var(--ki);padding:64px 20px;background:var(--kb)}
+.bk *{box-sizing:border-box}
+.bk .bkw{max-width:980px;margin:0 auto}
+.bk h2{font:400 clamp(30px,5vw,46px)/1.05 var(--kd);margin:0 0 8px;color:var(--k2)}
+.bk .bkl{font-size:17px;margin:0 0 20px;max-width:620px;opacity:.85}
+.bk .bkdemo{font-size:13px;background:#fff;border:1px dashed rgba(0,0,0,.3);border-radius:10px;padding:8px 12px;margin:0 0 20px}
+.bk .bkt{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.bk .bkt button{border:2px solid var(--k2);background:#fff;color:var(--k2);border-radius:999px;padding:9px 16px;font:700 15px var(--kf);cursor:pointer}
+.bk .bkt button[aria-pressed=true]{background:var(--k2);color:#fff}
+.bk .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 0 rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.08)}
+.bk .step{font:700 14px var(--kf);margin:14px 0 8px;color:var(--k2)}
+.bk .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.bk .chips button,.bk .slots button{flex:none;border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:12px;padding:9px 12px;font:600 14px var(--kf);cursor:pointer;color:var(--ki);min-height:44px}
+.bk .chips button[aria-pressed=true],.bk .slots button[aria-pressed=true]{background:var(--k1);border-color:var(--k1);color:#fff}
+.bk .chips button small{display:block;font-weight:500;font-size:12px;opacity:.75}
+.bk .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.bk .slots button:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.bk .empty{font-size:14px;opacity:.75;padding:6px 0}
+.bk .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk label{font-size:13px;font-weight:700;display:block;margin-bottom:4px}
+.bk input[type=text],.bk input[type=tel],.bk input[type=number]{width:100%;border:1.5px solid rgba(0,0,0,.25);border-radius:10px;padding:11px 12px;font:16px var(--kf);color:var(--ki)}
+.bk .go{margin-top:14px;width:100%;border:0;background:var(--k1);color:#fff;border-radius:12px;padding:14px;font:800 16px var(--kf);cursor:pointer;min-height:50px}
+.bk .go:disabled{opacity:.45;cursor:not-allowed}
+.bk .sec{border:2px solid var(--k2);background:#fff;color:var(--k2)}
+.bk .feeNote{margin-top:12px;background:#FFF4D6;border-radius:10px;padding:10px 12px;font-size:14px}
+.bk .feeNote label{display:flex;gap:8px;align-items:flex-start;font-weight:600;margin:6px 0 0}
+.bk .msg{margin-top:12px;font-weight:700;min-height:1.4em}
+.bk .list{display:grid;gap:10px}
+.bk .ap{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.bk .ap .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.bk .ap b{font-size:16px}
+.bk .st{font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.bk .st.ok{background:#DDF5E6;color:#0f6b36}.bk .st.mv{background:#E4E9FF;color:#2a3a9a}.bk .st.cx{background:#FDE2E0;color:#a3231a}.bk .st.ns{background:#FFE9C7;color:#8a5200}.bk .st.dn{background:#EAEAEA;color:#444}
+.bk .ap.cxd{opacity:.65}
+.bk .ap .acts{display:flex;gap:6px;flex-wrap:wrap}
+.bk .ap .acts button{border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:10px;padding:7px 11px;font:700 13px var(--kf);cursor:pointer;color:var(--ki);min-height:38px}
+.bk .ap .acts .danger{border-color:#c0392b;color:#c0392b}
+.bk .hist{font-size:12px;opacity:.7}
+.bk .own{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bk .own>*,.bk .card,.bk .chips,.bk .list{min-width:0}
+.bk .ap span{overflow-wrap:anywhere}
+.bk .msg:not(:empty){animation:bkpop .35s ease}
+@keyframes bkpop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bk .msg{animation:none!important}}
+.bk .set{display:grid;gap:10px}
+.bk .tog{display:flex;align-items:center;gap:10px;font-weight:700}
+.bk .tog input{width:22px;height:22px}
+.bk .moving{background:#E4E9FF;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+.bk .moving button{border:0;background:none;text-decoration:underline;font:700 14px var(--kf);cursor:pointer;color:#2a3a9a}
+.bk :focus-visible{outline:3px solid var(--k1);outline-offset:2px}
+@media(max-width:760px){.bk .own,.bk .f2{grid-template-columns:1fr}}
+</style>
+<section class="bk" id="book" aria-labelledby="bkH">
+ <div class="bkw">
+  <h2 id="bkH" class="bk-t" data-k="title"></h2>
+  <p class="bkl bk-t" data-k="lead"></p>
+  <p class="bkdemo bk-t" data-k="demo"></p>
+  <div class="bkt" role="group" id="bkTabs">
+   <button type="button" data-v="book" aria-pressed="true" class="bk-t" data-k="tBook"></button>
+   <button type="button" data-v="mine" aria-pressed="false" class="bk-t" data-k="tMine"></button>
+   <button type="button" data-v="owner" aria-pressed="false" class="bk-t" data-k="tOwner"></button>
+  </div>
+  <div id="bkView"></div>
+ </div>
+</section>
+<script>
+(function(){
+/* Configuración: horario y servicios de EJEMPLO (la barbería pone los suyos) */
+const BK=window.BKCFG||{name:"Barber Shop",open:{2:[9,18],3:[9,18],4:[9,18],5:[9,19],6:[8,16]},step:30,days:14,
+  services:[{id:"cut",en:"Haircut",es:"Corte",min:30},{id:"fade",en:"Fade",es:"Degradado",min:45},{id:"beard",en:"Beard trim",es:"Barba",min:15},{id:"combo",en:"Cut + beard",es:"Corte + barba",min:60},{id:"kids",en:"Kids' cut",es:"Corte de niño",min:30}],
+  fee:{on:false,amt:10,hours:2}};
+const KEY="dakra-bk-"+location.pathname;
+const T={
+ en:{title:"Book your chair",lead:"Pick a service, a day and a time. You'll get a confirmation right away, and you can cancel or move your appointment yourself.",
+  demo:"Demo: sample hours and services. On this sample, appointments are saved only on this phone. On the real website, the shop sees every booking on its own phone.",
+  tBook:"Book",tMine:"My appointments",tOwner:"Shop view",s1:"1. Service",s2:"2. Day",s3:"3. Time",s4:"4. Your info",name:"Name",phone:"Phone",
+  book:"Book appointment",move:"Move to this time",none:"No times left this day. Try another day.",closed:"Closed",
+  ok:c=>`✅ Booked! Your code is ${c}. You can cancel or move it in "My appointments".`,moved:"✅ Moved. The old time is free again.",
+  feeTxt:(a,h)=>`This shop charges a $${a} no-show fee if you miss your appointment without canceling at least ${h} hours before.`,feeOk:"I understand the no-show policy",
+  mineEmpty:"You don't have appointments yet.",cancel:"Cancel",resched:"Move",rebook:"Book again",
+  st:{ok:"Confirmed",mv:"Moved",cx:"Canceled",ns:"No-show",dn:"Done"},movingTo:"Moving appointment of",stop:"Stop",
+  ownerDay:"Day",ownerEmpty:"No appointments this day.",noshow:"No-show",done:"Done",chargeFee:a=>`Charge $${a} no-show fee`,charged:a=>`Fee of $${a} charged (demo)`,
+  settings:"Settings",feeOn:"Charge a no-show fee (optional)",feeAmt:"Fee amount ($)",feeH:"Free cancellation up to (hours before)",
+  feeInfo:"In the real website the fee is charged with the shop's own payment method (for example a deposit with a Square link).",
+  canceledBy:"Canceled",today:"Today",tomorrow:"Tomorrow",was:"was",sample:"Sample",chooseAll:"Choose a service, day and time, and write your name and phone.",
+  conf:"Cancel this appointment? The time will be free for someone else."},
+ es:{title:"Aparta tu silla",lead:"Elige el servicio, el día y la hora. Te confirmamos al instante y tú mismo puedes cancelar o mover tu cita.",
+  demo:"Demo: horario y servicios de ejemplo. En esta muestra las citas se guardan solo en este teléfono. En la página real, la barbería ve todas las citas desde su propio teléfono.",
+  tBook:"Agendar",tMine:"Mis citas",tOwner:"Vista del dueño",s1:"1. Servicio",s2:"2. Día",s3:"3. Hora",s4:"4. Tus datos",name:"Nombre",phone:"Teléfono",
+  book:"Agendar cita",move:"Mover a esta hora",none:"Ya no hay horas este día. Prueba otro día.",closed:"Cerrado",
+  ok:c=>`✅ ¡Listo! Tu código es ${c}. Puedes cancelar o mover tu cita en "Mis citas".`,moved:"✅ Cita movida. La hora anterior quedó libre.",
+  feeTxt:(a,h)=>`Esta barbería cobra $${a} si no te presentas sin cancelar al menos ${h} horas antes.`,feeOk:"Entiendo la política de inasistencia",
+  mineEmpty:"Todavía no tienes citas.",cancel:"Cancelar",resched:"Mover",rebook:"Volver a agendar",
+  st:{ok:"Confirmada",mv:"Movida",cx:"Cancelada",ns:"No asistió",dn:"Atendida"},movingTo:"Moviendo la cita de",stop:"Dejar así",
+  ownerDay:"Día",ownerEmpty:"No hay citas este día.",noshow:"No asistió",done:"Atendida",chargeFee:a=>`Cobrar $${a} por no asistir`,charged:a=>`Se cobraron $${a} (demo)`,
+  settings:"Ajustes",feeOn:"Cobrar por no asistir (opcional)",feeAmt:"Monto ($)",feeH:"Cancelación gratis hasta (horas antes)",
+  feeInfo:"En la página real el cobro se hace con la forma de pago del propio negocio (por ejemplo, un depósito con link de Square).",
+  canceledBy:"Cancelada",today:"Hoy",tomorrow:"Mañana",was:"antes",sample:"Ejemplo",chooseAll:"Elige servicio, día y hora, y escribe tu nombre y teléfono.",
+  conf:"¿Cancelar esta cita? La hora quedará libre para alguien más."}};
+const L=()=>(document.documentElement.lang||"en").slice(0,2)==="es"?"es":"en";
+const t=k=>T[L()][k];
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const dkey=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseD=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtT=m=>{const h=Math.floor(m/60),mi=m%60;if(L()==="es")return h+":"+pad(mi);return((h+11)%12+1)+":"+pad(mi)+(h<12?" am":" pm")};
+const fmtD=k=>{const d=parseD(k),td=dkey(new Date()),tm=dkey(new Date(Date.now()+864e5));if(k===td)return t("today");if(k===tm)return t("tomorrow");return d.toLocaleDateString(L()==="es"?"es-MX":"en-US",{weekday:"short",month:"short",day:"numeric"})};
+const svc=id=>BK.services.find(s=>s.id===id)||BK.services[0];
+let S;
+function load(){try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}
+  if(!S||!S.v){S={v:1,fee:{...BK.fee},ap:[],mine:[]};seed()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function seed(){/* citas de ejemplo para que el dueño vea su agenda */
+  const days=nextDays().filter(d=>d.open).slice(0,2);
+  const names=[["Marcus","(931) 000-0101","fade"],["José","(931) 000-0102","combo"],["Tyler","(931) 000-0103","cut"]];
+  days.forEach((d,i)=>{const o=BK.open[parseD(d.k).getDay()];let m=o[0]*60+60*(i+1);
+    names.slice(i,i+2).forEach(n=>{S.ap.push({id:code(),day:d.k,start:m,svc:n[2],name:n[0],phone:n[1],st:"ok",sample:true,h:[]});m+=svc(n[2]).min})});}
+function code(){return Math.random().toString(36).slice(2,6).toUpperCase()}
+function nextDays(){const out=[];const b=new Date();b.setHours(0,0,0,0);for(let i=0;i<BK.days;i++){const d=new Date(b.getTime()+i*864e5);out.push({k:dkey(d),open:!!BK.open[d.getDay()]})}return out}
+const live=a=>a.st!=="cx";
+function free(day,start,min,ignore){/* inteligente: no se encima con otra cita; pegadas una tras otra sí */
+  const o=BK.open[parseD(day).getDay()];if(!o)return false;
+  if(start<o[0]*60||start+min>o[1]*60)return false;
+  if(day===dkey(new Date())){const n=new Date();if(start<=n.getHours()*60+n.getMinutes())return false}
+  return !S.ap.some(a=>a.id!==ignore&&a.day===day&&live(a)&&start<a.start+svc(a.svc).min&&a.start<start+min);}
+function slots(day,min,ignore){const o=BK.open[parseD(day).getDay()];if(!o)return[];const r=[];for(let m=o[0]*60;m+min<=o[1]*60;m+=BK.step)r.push({m,ok:free(day,m,min,ignore)});return r}
+let V="book",F={svc:BK.services[0].id,day:null,start:null},MOVE=null,OWNDAY=null,MSG="";
+function render(){
+  document.querySelectorAll("#book .bk-t").forEach(e=>{e.textContent=t(e.dataset.k)});
+  document.querySelectorAll("#bkTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===V));
+  const v=$("#bkView");
+  if(V==="book")v.innerHTML=bookView();else if(V==="mine")v.innerHTML=mineView();else v.innerHTML=ownerView();
+  wire();}
+function bookView(){
+  const days=nextDays();if(!F.day)F.day=(days.find(d=>d.open)||days[0]).k;
+  const s=svc(F.svc),mv=MOVE&&S.ap.find(a=>a.id===MOVE);
+  const sl=slots(F.day,mv?svc(mv.svc).min:s.min,MOVE);
+  const anyFree=sl.some(x=>x.ok);
+  return `<div class="card">
+   ${mv?`<div class="moving"><span>${esc(t("movingTo"))} ${esc(mv.name)} · ${esc(fmtD(mv.day))} ${esc(fmtT(mv.start))}</span><button type="button" id="bkStop">${esc(t("stop"))}</button></div>`:""}
+   ${mv?"":`<div class="step">${esc(t("s1"))}</div><div class="chips" id="bkSvc">${BK.services.map(x=>`<button type="button" data-id="${x.id}" aria-pressed="${x.id===F.svc}">${esc(x[L()])}<small>${x.min} min</small></button>`).join("")}</div>`}
+   <div class="step">${esc(t("s2"))}</div><div class="chips" id="bkDay">${days.map(d=>`<button type="button" data-k="${d.k}" aria-pressed="${d.k===F.day}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}${d.open?"":`<small>${esc(t("closed"))}</small>`}</button>`).join("")}</div>
+   <div class="step">${esc(t("s3"))}</div>${anyFree?`<div class="slots" id="bkSlots">${sl.map(x=>`<button type="button" data-m="${x.m}" ${x.ok?"":"disabled"} aria-pressed="${x.m===F.start}">${esc(fmtT(x.m))}</button>`).join("")}</div>`:`<p class="empty">${esc(t("none"))}</p>`}
+   ${mv?`<button class="go" type="button" id="bkGo" ${F.start==null?"disabled":""}>${esc(t("move"))}</button>`:`
+   <div class="step">${esc(t("s4"))}</div><div class="f2"><div><label for="bkN">${esc(t("name"))}</label><input type="text" id="bkN" autocomplete="name" value="${esc(F.name||"")}"></div><div><label for="bkP">${esc(t("phone"))}</label><input type="tel" id="bkP" autocomplete="tel" value="${esc(F.phone||"")}"></div></div>
+   ${S.fee.on?`<div class="feeNote">${esc(T[L()].feeTxt(S.fee.amt,S.fee.hours))}<label><input type="checkbox" id="bkFee" ${F.fee?"checked":""}> ${esc(t("feeOk"))}</label></div>`:""}
+   <button class="go" type="button" id="bkGo">${esc(t("book"))}</button>`}
+   <p class="msg" role="status">${esc(MSG)}</p></div>`;}
+function apCard(a,owner){
+  const st=a.st,cls={ok:"ok",mv:"mv",cx:"cx",ns:"ns",dn:"dn"}[st];
+  const s=svc(a.svc),past=a.day<dkey(new Date());
+  let acts="";
+  if(st==="ok"||st==="mv"){acts=`<button type="button" data-a="move" data-id="${a.id}">${esc(t("resched"))}</button><button type="button" class="danger" data-a="cancel" data-id="${a.id}">${esc(t("cancel"))}</button>`;
+    if(owner)acts+=`<button type="button" data-a="done" data-id="${a.id}">${esc(t("done"))}</button><button type="button" data-a="ns" data-id="${a.id}">${esc(t("noshow"))}</button>`;}
+  if(st==="cx"&&!owner)acts=`<button type="button" data-a="rebook" data-id="${a.id}">${esc(t("rebook"))}</button>`;
+  if(st==="ns"&&owner&&S.fee.on)acts=a.charged?`<span class="hist">${esc(T[L()].charged(S.fee.amt))}</span>`:`<button type="button" data-a="fee" data-id="${a.id}">${esc(T[L()].chargeFee(S.fee.amt))}</button>`;
+  const hist=(a.h||[]).map(h=>`${fmtD(h.day)} ${fmtT(h.start)}`).join(" → ");
+  return `<div class="ap ${st==="cx"?"cxd":""}"><div class="top"><b>${esc(fmtT(a.start))} · ${esc(s[L()])}${owner?" · "+esc(a.name):""}</b><span class="st ${cls}">${esc(t("st")[st])}</span></div>
+   <span>${owner?esc(a.phone)+" · ":""}${esc(fmtD(a.day))} · ${s.min} min${a.sample?" · "+esc(t("sample")):""} · #${esc(a.id)}</span>
+   ${hist?`<span class="hist">${esc(t("was"))}: ${esc(hist)}</span>`:""}
+   ${acts?`<div class="acts">${acts}</div>`:""}</div>`;}
+function mineView(){const mine=S.ap.filter(a=>S.mine.includes(a.id)).sort((a,b)=>(a.day+pad(a.start)).localeCompare(b.day+pad(b.start)));
+  return `<div class="list">${mine.length?mine.map(a=>apCard(a,false)).join(""):`<p class="empty">${esc(t("mineEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p>`;}
+function ownerView(){const days=nextDays();if(!OWNDAY)OWNDAY=(days.find(d=>S.ap.some(a=>a.day===d.k))||days.find(d=>d.open)||days[0]).k;
+  const list=S.ap.filter(a=>a.day===OWNDAY).sort((a,b)=>a.start-b.start);
+  return `<div class="own"><div><div class="step">${esc(t("ownerDay"))}</div><div class="chips" id="bkOD">${days.map(d=>{const n=S.ap.filter(a=>a.day===d.k&&live(a)).length;return `<button type="button" data-k="${d.k}" aria-pressed="${d.k===OWNDAY}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}<small>${d.open?n+" ✂️":esc(t("closed"))}</small></button>`}).join("")}</div>
+   <div class="list" style="margin-top:12px">${list.length?list.map(a=>apCard(a,true)).join(""):`<p class="empty">${esc(t("ownerEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p></div>
+   <div class="card set"><b>${esc(t("settings"))}</b><label class="tog"><input type="checkbox" id="bkFeeOn" ${S.fee.on?"checked":""}> ${esc(t("feeOn"))}</label>
+   ${S.fee.on?`<div class="f2"><div><label for="bkFeeAmt">${esc(t("feeAmt"))}</label><input type="number" min="1" id="bkFeeAmt" value="${S.fee.amt}"></div><div><label for="bkFeeH">${esc(t("feeH"))}</label><input type="number" min="0" id="bkFeeH" value="${S.fee.hours}"></div></div>`:""}
+   <p class="hist">${esc(t("feeInfo"))}</p></div></div>`;}
+function act(a,id){const ap=S.ap.find(x=>x.id===id);if(!ap)return;MSG="";
+  if(a==="cancel"){if(!confirmSafe(t("conf")))return;ap.st="cx";}
+  if(a==="move"){MOVE=id;F.day=ap.day;F.start=null;V="book";}
+  if(a==="rebook"){F.svc=ap.svc;F.name=ap.name;F.phone=ap.phone;F.day=null;F.start=null;V="book";}
+  if(a==="done")ap.st="dn";if(a==="ns")ap.st="ns";if(a==="fee")ap.charged=true;
+  save();render();}
+function confirmSafe(m){try{return window.confirm(m)}catch(e){return true}}
+function wire(){
+  document.querySelectorAll("#bkSvc button").forEach(b=>b.onclick=()=>{F.svc=b.dataset.id;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkDay button").forEach(b=>b.onclick=()=>{F.day=b.dataset.k;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkSlots button").forEach(b=>b.onclick=()=>{F.start=+b.dataset.m;keep();MSG="";render()});
+  document.querySelectorAll("#bkOD button").forEach(b=>b.onclick=()=>{OWNDAY=b.dataset.k;MSG="";render()});
+  document.querySelectorAll("#bkView [data-a]").forEach(b=>b.onclick=()=>act(b.dataset.a,b.dataset.id));
+  const st=$("#bkStop");if(st)st.onclick=()=>{MOVE=null;F.start=null;V=S.mine.length?"mine":"book";render()};
+  const fo=$("#bkFeeOn");if(fo)fo.onchange=()=>{S.fee.on=fo.checked;save();render()};
+  const fa=$("#bkFeeAmt");if(fa)fa.onchange=()=>{S.fee.amt=Math.max(1,+fa.value||1);save()};
+  const fh=$("#bkFeeH");if(fh)fh.onchange=()=>{S.fee.hours=Math.max(0,+fh.value||0);save()};
+  const fe=$("#bkFee");if(fe)fe.onchange=()=>{F.fee=fe.checked};
+  const go=$("#bkGo");if(go)go.onclick=submit;}
+function keep(){const n=$("#bkN"),p=$("#bkP");if(n)F.name=n.value;if(p)F.phone=p.value}
+function submit(){keep();
+  if(MOVE){const ap=S.ap.find(a=>a.id===MOVE);if(!ap||F.start==null)return;
+    if(!free(F.day,F.start,svc(ap.svc).min,ap.id)){MSG="";render();return}
+    ap.h=(ap.h||[]).concat([{day:ap.day,start:ap.start}]);ap.day=F.day;ap.start=F.start;ap.st="mv";MOVE=null;F.start=null;MSG=t("moved");save();V=S.mine.includes(ap.id)?"mine":"owner";if(V==="owner")OWNDAY=ap.day;render();return}
+  const s=svc(F.svc);
+  if(F.start==null||!(F.name||"").trim()||!(F.phone||"").trim()||(S.fee.on&&!F.fee)){MSG=t("chooseAll");render();return}
+  if(!free(F.day,F.start,s.min)){F.start=null;render();return}
+  const id=code();S.ap.push({id,day:F.day,start:F.start,svc:F.svc,name:F.name.trim(),phone:F.phone.trim(),st:"ok",h:[],fee:S.fee.on?{amt:S.fee.amt,hours:S.fee.hours}:null});S.mine.push(id);
+  F.start=null;F.fee=false;MSG=T[L()].ok(id);save();render();}
+document.querySelectorAll("#bkTabs button").forEach(b=>b.onclick=()=>{V=b.dataset.v;MOVE=null;MSG="";render()});
+load();render();
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+})();
+</script>
+<!-- ==== fin reservas ==== -->
