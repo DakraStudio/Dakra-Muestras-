@@ -60,6 +60,29 @@ footer a{color:#fff}
 @media(max-width:800px){.hero,.vin{grid-template-columns:1fr}.plate{max-width:300px;margin:0 auto}.fav{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}}
 @media(max-width:500px){.fav{grid-template-columns:1fr}.brand{font-size:18px}.call span{display:none}}
 :root{--bc:#C2502A;--bc2:#0F7C7A;--bi:#2A1A12;--bb:#FFF7EC;--bf:Mulish,system-ui,sans-serif;--bd:'Yeseva One',Georgia,serif}
+/* ---- Movimiento (Dakra Studio) ---- */
+body{overflow-x:clip}
+.picado{transform-origin:50% 0;animation:sway 4s ease-in-out infinite}
+.picado.b{animation-delay:-2s}
+@keyframes sway{0%,100%{transform:skewY(-.8deg) translateY(-1px)}50%{transform:skewY(.8deg) translateY(2px)}}
+.hero{position:relative;isolation:isolate}
+.hero>*{position:relative;z-index:1}
+.mo.blobs{position:absolute;z-index:0;inset:0;pointer-events:none}
+.mo.blobs i{position:absolute;border-radius:50%;filter:blur(2px);opacity:.18;animation:floaty 10s ease-in-out infinite}
+.mo.blobs i:nth-child(1){width:140px;height:140px;background:var(--q);left:-30px;top:10%}
+.mo.blobs i:nth-child(2){width:90px;height:90px;background:var(--m);left:40%;top:-20px;animation-delay:-4s}
+.mo.blobs i:nth-child(3){width:70px;height:70px;background:var(--t);left:8%;bottom:6%;animation-delay:-7s}
+@keyframes floaty{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,-18px)}}
+.plate{position:relative;animation:rise .9s .2s ease both}
+.steam{position:absolute;left:50%;top:-6px;width:120px;height:90px;transform:translateX(-50%);pointer-events:none}
+.steam i{position:absolute;bottom:0;width:14px;height:60px;border-radius:50%;border-left:4px solid rgba(255,255,255,.85);filter:drop-shadow(0 0 2px rgba(142,50,24,.35));opacity:0;animation:steam 3.2s ease-out infinite}
+.steam i:nth-child(1){left:28px}.steam i:nth-child(2){left:54px;animation-delay:1s}.steam i:nth-child(3){left:80px;animation-delay:2s}
+@keyframes steam{0%{opacity:0;transform:translateY(10px) scaleY(.6)}30%{opacity:.9}100%{opacity:0;transform:translateY(-40px) scaleY(1.1) skewX(12deg)}}
+.hero h1{animation:rise .8s ease both}.hero .lead{animation:rise .8s .15s ease both}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mo,.mo *,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 /* ---- Asistente de chat (Dakra Studio) ---- */
 .bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
 .bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
@@ -91,14 +114,14 @@ footer a{color:#fff}
   <div class="tools"><button class="lang" type="button" data-lang>English</button><a class="call" href="tel:+19312447335">📞 <span>(931) 244-7335</span></a></div>
 </header>
 <main id="top">
-<div class="hero">
+<div class="hero"><div class="mo blobs" aria-hidden="true"><i></i><i></i><i></i></div>
   <div>
     <span class="pill" data-es="Lawrenceburg, Tennessee" data-en="Lawrenceburg, Tennessee">Lawrenceburg, Tennessee</span>
     <h1 data-es="Tacos, birria y <span>sabor de casa</span>" data-en="Tacos, birria and <span>a taste of home</span>">Tacos, birria y <span>sabor de casa</span></h1>
     <p class="lead" data-es="Taquería y tienda latina en la N Locust Ave. Come aquí, en las mesas de afuera, o pide para llevar." data-en="Taquería and Latin market on N Locust Ave. Eat in, sit outside, or order to go.">Taquería y tienda latina en la N Locust Ave. Come aquí, en las mesas de afuera, o pide para llevar.</p>
     <div class="ctas"><a class="btn t" href="tel:+19312447335">📞 <span data-es="Llamar para ordenar" data-en="Call to order">Llamar para ordenar</span></a><a class="btn o" href="https://www.google.com/maps/search/?api=1&query=1201+N+Locust+Ave+Lawrenceburg+TN+38464" target="_blank" rel="noopener">📍 <span data-es="Cómo llegar" data-en="Get directions">Cómo llegar</span></a></div>
   </div>
-  <div class="plate"><div><b data-es="Tacos de birria" data-en="Birria tacos">Tacos de birria</b><p data-es="Los favoritos de la casa" data-en="A house favorite">Los favoritos de la casa</p></div></div>
+  <div class="plate"><span class="mo steam" aria-hidden="true"><i></i><i></i><i></i></span><div><b data-es="Tacos de birria" data-en="Birria tacos">Tacos de birria</b><p data-es="Los favoritos de la casa" data-en="A house favorite">Los favoritos de la casa</p></div></div>
 </div>
 <div class="picado b"></div>
 
@@ -216,5 +239,12 @@ const TXT={es:{hi:"¡Hola! 👋 Soy el asistente de Delicias Madai. Toca una pre
 })();
 
 </script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".f, .box, .hrs"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
 </body>
 </html>

@@ -61,6 +61,20 @@ footer a{color:var(--y)}
 @media(max-width:820px){.hin{grid-template-columns:1fr;padding-top:40px}.grid{grid-template-columns:1fr 1fr}.area{grid-template-columns:1fr}}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.callsm span{display:none}.logo{font-size:20px}}
 :root{--bc:#1F4D2B;--bc2:#143620;--bi:#18201A;--bb:#F4F1E6;--bf:'Source Sans 3',system-ui,sans-serif;--bd:'Saira Condensed',Impact,sans-serif}
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero:after{animation:mow 3s linear infinite}
+@keyframes mow{to{background-position:28px 0}}
+.mo.blade{position:absolute;right:-90px;top:-90px;width:340px;height:340px;opacity:.10;animation:spin 14s linear infinite;pointer-events:none}
+.mo.blade2{left:-70px;right:auto;top:auto;bottom:-60px;width:220px;height:220px;animation-duration:9s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hin{position:relative;z-index:1}
+.hero .card{animation:hover 5s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero h1{animation:rise .8s ease both}.hero .lead{animation:rise .8s .15s ease both}.hero .ctas{animation:rise .8s .3s ease both}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mo,.mo *,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 /* ---- Asistente de chat (Dakra Studio) ---- */
 .bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
 .bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
@@ -91,7 +105,7 @@ footer a{color:var(--y)}
   <div class="tools"><button class="lang" type="button" data-lang>Español</button><a class="callsm" href="tel:+19313633398">📞 <span>(931) 363-3398</span></a></div>
 </div></header>
 <main id="top">
-<div class="hero"><div class="hin">
+<div class="hero"><svg class="mo blade" viewBox="0 0 100 100" aria-hidden="true"><g fill="#F2C230"><circle cx="50" cy="50" r="9"/><path d="M50 50 L95 42 Q99 50 95 58 Z"/><path d="M50 50 L5 58 Q1 50 5 42 Z"/><path d="M50 50 L58 95 Q50 99 42 95 Z"/><path d="M50 50 L42 5 Q50 1 58 5 Z"/></g></svg><svg class="mo blade blade2" viewBox="0 0 100 100" aria-hidden="true"><g fill="#fff"><circle cx="50" cy="50" r="10"/><path d="M50 50 L96 44 Q99 50 96 56 Z"/><path d="M50 50 L4 56 Q1 50 4 44 Z"/></g></svg><div class="hin">
   <div>
     <span class="tag" data-en="Mowers · Repair · Service" data-es="Podadoras · Reparación · Servicio">Mowers · Repair · Service</span>
     <h1 data-en="Keep your <em>mower</em> running" data-es="Que tu <em>podadora</em> siga jalando">Keep your <em>mower</em> running</h1>
@@ -227,5 +241,12 @@ const TXT={en:{hi:"Hi! 👋 I'm McKay's Small Engine's assistant. Tap a question
 })();
 
 </script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".svc, .chips li, .visit, .band .in>*"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
 </body>
 </html>

@@ -60,6 +60,23 @@ footer a{color:#fff}
 @media(max-width:760px){.tk{grid-template-columns:1fr}.tk div{border-right:0;border-bottom:1px dashed rgba(255,255,255,.3);padding:0 0 14px}.vin{grid-template-columns:1fr}}
 @media(max-width:480px){.brand{font-size:19px}.call span{display:none}}
 :root{--bc:#B3261E;--bc2:#13213A;--bi:#14181F;--bb:#F5EEDF;--bf:Karla,system-ui,sans-serif;--bd:'Abril Fatface',Georgia,serif}
+/* ---- Movimiento (Dakra Studio) ---- */
+body{overflow-x:clip}
+.hero{position:relative;isolation:isolate}
+.hero>*{position:relative;z-index:1}
+.mo.deco{position:absolute;z-index:0;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);overflow:hidden;pointer-events:none}
+.mo .stripe{position:absolute;inset:-40% -10%;background:repeating-linear-gradient(-45deg,rgba(179,38,30,.07) 0 40px,transparent 40px 80px,rgba(19,33,58,.06) 80px 120px,transparent 120px 160px);animation:drift 18s linear infinite}
+@keyframes drift{to{transform:translateX(226px)}}
+.mo .fl{position:absolute;font-size:44px;opacity:.22;animation:floaty 9s ease-in-out infinite}
+.mo .fl:nth-child(2){left:6%;top:18%}.mo .fl:nth-child(3){right:7%;top:12%;animation-delay:-3s;font-size:56px}.mo .fl:nth-child(4){left:12%;bottom:12%;animation-delay:-5s}.mo .fl:nth-child(5){right:12%;bottom:16%;animation-delay:-1.5s;font-size:38px}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-16px) rotate(8deg)}}
+.hero h1{animation:rise .8s ease both}.hero .sub{animation:rise .8s .15s ease both}.hero .ctas{animation:rise .8s .3s ease both}
+.chair .big{display:inline-block;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mo,.mo *,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 /* ---- Asistente de chat (Dakra Studio) ---- */
 .bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
 .bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
@@ -91,7 +108,7 @@ footer a{color:#fff}
   <div class="tools"><button class="lang" type="button" data-lang>Español</button><a class="call" href="tel:+19316389280">📞 <span>(931) 638-9280</span></a></div>
 </header>
 <main id="top">
-<div class="hero">
+<div class="hero"><div class="mo deco" aria-hidden="true"><div class="stripe"></div><span class="fl">✂️</span><span class="fl">💈</span><span class="fl">🪒</span><span class="fl">✂️</span></div>
   <div class="est" data-en="Pulaski · Tennessee" data-es="Pulaski · Tennessee">Pulaski · Tennessee</div>
   <h1 data-en="Fresh cuts on <i>Woodring</i> Street" data-es="Cortes frescos en la calle <i>Woodring</i>">Fresh cuts on <i>Woodring</i> Street</h1>
   <p class="sub" data-en="Your neighborhood barber shop in Pulaski. Call ahead and grab a chair." data-es="Tu barbería del barrio en Pulaski. Llama antes y toma una silla.">Your neighborhood barber shop in Pulaski. Call ahead and grab a chair.</p>
@@ -414,5 +431,12 @@ const TXT={en:{hi:"Hey! 👋 I'm Big Boy's Barber Shop's assistant. Tap a questi
 })();
 
 </script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".menu .row, .ticket .tk>div, .chair, .visit h2"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
 </body>
 </html>
