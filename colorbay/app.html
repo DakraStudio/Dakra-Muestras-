@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ColorBay Shop · App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: inicio de sesión con PIN; luego barra lateral en PC y barra inferior en celular; la orden se abre en un panel */
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f5f7f9; --line:#d9dfe5;
+  --ink:#16202a; --muted:#5d6b78;
+  --bay:#1456b8; --bay-soft:#e3ecfa; --navy:#0c2347;
+  --paint:#e8541c; --paint-soft:#fde9df; --tape:#e9d9a8;
+  --ok:#1f8a4c; --ok-soft:#e1f3e8; --warn:#b7791f; --warn-soft:#fbf0dc; --bad:#c2352b; --bad-soft:#f9e1df;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:12px; --shadow:0 1px 2px rgba(16,30,50,.06),0 6px 20px rgba(16,30,50,.06);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1419; --surface:#171e26; --surface-2:#1d2630; --line:#2a3542;
+  --ink:#e8edf2; --muted:#93a1ae; --bay:#5b94ef; --bay-soft:#1b2a40;
+  --paint:#ff7a45; --paint-soft:#3a2117; --ok:#46c07a; --ok-soft:#163222; --warn:#e2a948; --warn-soft:#3a2d14; --bad:#ef6b5f; --bad-soft:#3a1a18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f1419; --surface:#171e26; --surface-2:#1d2630; --line:#2a3542;
+  --ink:#e8edf2; --muted:#93a1ae; --bay:#5b94ef; --bay-soft:#1b2a40;
+  --paint:#ff7a45; --paint-soft:#3a2117; --ok:#46c07a; --ok-soft:#163222; --warn:#e2a948; --warn-soft:#3a2d14; --bad:#ef6b5f; --bad-soft:#3a1a18;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark;}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+#root{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:.01em;margin:0;text-wrap:balance}
+a{color:var(--bay)}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--bay);outline-offset:2px}
+
+/* ---- Login ---- */
+.login{min-height:100%;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(1200px 600px at 80% -10%,#1d4f9c 0,transparent 60%),var(--navy);color:#fff}
+.login-card{width:min(440px,100%);display:flex;flex-direction:column;gap:18px;animation:rise .5s ease both}
+.tape{display:inline-block;background:var(--tape);color:#3d3420;font-family:var(--display);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:4px 14px;transform:rotate(-2deg);box-shadow:0 2px 0 rgba(0,0,0,.15);clip-path:polygon(2% 0,98% 4%,100% 100%,0 96%)}
+.login h1{font-size:44px;line-height:1}
+.login .shopname{opacity:.75}
+.users{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.user{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);border-radius:14px;padding:14px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;transition:background .2s,border-color .2s,transform .15s}
+.user:hover{background:rgba(255,255,255,.12)}
+.user.on{border-color:var(--paint);background:rgba(232,84,28,.18)}
+.ava{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:19px;color:#fff;flex:none}
+.user small{opacity:.7;font-size:12px}
+.pinrow{display:flex;justify-content:center;gap:14px;margin:4px 0}
+.pinrow i{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.5);transition:background .15s,transform .15s}
+.pinrow i.f{background:var(--paint);border-color:var(--paint);transform:scale(1.1)}
+.pinrow.shake{animation:shake .4s}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pad button{height:58px;border-radius:14px;border:0;background:rgba(255,255,255,.1);color:#fff;font-family:var(--display);font-size:26px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s}
+.pad button:hover{background:rgba(255,255,255,.18)}
+.pad button:active{transform:scale(.95)}
+.login .hint{font-size:13px;opacity:.75;text-align:center}
+.login a{color:#fff;opacity:.8}
+.login .pill-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
+.login .pill-btn.on{background:#fff;color:var(--navy);border-color:#fff}
+
+/* ---- App ---- */
+.app{display:grid;grid-template-columns:220px 1fr;height:100%}
+.side{background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 12px;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--bay),#0b3a85);display:grid;place-items:center;position:relative;overflow:hidden;flex:none}
+.brand-mark::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--paint);right:-4px;bottom:-4px;animation:drip 4s ease-in-out infinite}
+.brand-name{font-family:var(--display);font-size:22px;font-weight:700;line-height:1}
+.brand-name small{display:block;font-family:var(--body);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.nav-btn{display:flex;align-items:center;gap:12px;border:0;background:none;padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:600;text-align:left;transition:background .2s,color .2s}
+.nav-btn svg{width:20px;height:20px;flex:none}
+.nav-btn:hover{background:var(--surface-2);color:var(--ink)}
+.nav-btn.on{background:var(--bay-soft);color:var(--bay)}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px;padding:8px}
+.me{display:flex;align-items:center;gap:10px}
+.me .ava{width:34px;height:34px;font-size:15px}
+.me b{display:block;font-size:14px;line-height:1.1}
+.me small{color:var(--muted);font-size:12px}
+.pill-btn{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:600}
+.pill-btn.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+
+main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.top h1{font-size:34px;line-height:1}
+.top p{margin:4px 0 0;color:var(--muted)}
+.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .12s,box-shadow .2s,background .2s;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--bay);color:#fff;box-shadow:0 4px 14px color-mix(in srgb,var(--bay) 35%,transparent)}
+.btn-paint{background:var(--paint);color:#fff}
+.btn-ghost{background:var(--surface-2);border:1px solid var(--line);color:var(--ink)}
+.btn-sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.stat{padding:16px;position:relative;overflow:hidden}
+.stat .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.stat .val{font-family:var(--display);font-size:38px;font-weight:700;line-height:1.1;margin-top:6px}
+.stat .bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+.grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.grid2>*{min-width:0}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.sec-h h2{font-size:20px}
+.list{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--surface-2)}
+.thumb{width:52px;height:40px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);flex:none;overflow:hidden;display:grid;place-items:center;color:var(--muted)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.row .main{flex:1;min-width:0}
+.row .t1{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .t2{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ro{font-family:var(--display);font-weight:700;color:var(--bay);font-size:18px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);white-space:nowrap}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.c-bay{color:var(--bay);background:var(--bay-soft);border-color:transparent}
+.c-paint{color:var(--paint);background:var(--paint-soft);border-color:transparent}
+.c-ok{color:var(--ok);background:var(--ok-soft);border-color:transparent}
+.c-warn{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.c-bad{color:var(--bad);background:var(--bad-soft);border-color:transparent}
+.phasebar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--surface-2);margin:14px 16px 6px}
+.phasebar span{height:100%;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 16px 16px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.alert:last-child{border-bottom:0}
+.alert b{font-family:var(--display);font-size:16px}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.input,select.input,textarea.input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;min-width:0;width:100%}
+.toolbar .input{max-width:320px}
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;border-radius:8px;padding:6px 12px;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* Kanban */
+.kanban{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;min-height:60vh;align-items:flex-start}
+.col{flex:0 0 250px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:10px;transition:background .2s,border-color .2s}
+.col.over{background:var(--bay-soft);border-color:var(--bay)}
+.col-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--display);font-weight:700;font-size:17px;padding:2px 4px}
+.col-h .n{font-family:var(--body);font-size:12px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:grab;box-shadow:var(--shadow);transition:transform .15s}
+.kcard:hover{transform:translateY(-2px)}
+.kcard.dragging{opacity:.5}
+.kcard .kt{display:flex;justify-content:space-between;align-items:center}
+.kcard .km{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.kcard .kb{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.kmove{border:1px solid var(--line);background:var(--surface-2);border-radius:8px;min-width:30px;height:28px;cursor:pointer;font-weight:700}
+.mini-ava{width:24px;height:24px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+
+/* Panel de orden */
+.scrim{position:fixed;inset:0;background:rgba(10,18,28,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(780px,100%);background:var(--bg);z-index:21;transform:translateX(102%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.sheet.on{transform:none}
+.sheet-h{background:var(--bay);color:#fff;padding:14px 18px 0}
+.sheet-h .r1{display:flex;align-items:center;gap:10px}
+.sheet-h h2{font-size:26px;flex:1;min-width:0}
+.x{border:0;background:rgba(255,255,255,.15);color:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:20px;flex:none}
+.hbtn{border:0;background:rgba(255,255,255,.15);color:#fff;border-radius:10px;cursor:pointer;padding:8px 10px;font-weight:600;font-size:13px;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.hbtn:hover{background:rgba(255,255,255,.25)}
+.sheet-h .sub{opacity:.85;font-size:14px;margin:4px 0 10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;color:rgba(255,255,255,.7);padding:10px 12px;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tab.on{color:#fff;border-bottom-color:#fff}
+.sheet-b{flex:1;overflow-y:auto;padding:16px 18px 40px}
+.sheet-f{background:var(--bay);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.sheet-f .big{font-family:var(--display);font-size:24px}
+.pane{animation:rise .3s ease both}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:14px}
+.box-h{padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.box-b{padding:14px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.form .full{grid-column:1/-1}
+
+/* Diagrama de impacto (vehículo) */
+.impact{display:grid;justify-items:center}
+.impact svg{width:min(300px,100%);height:auto}
+.zone{cursor:pointer}
+.zone circle{fill:var(--surface);stroke:var(--muted);stroke-width:1.5;transition:fill .2s,stroke .2s}
+.zone.sel circle{fill:var(--paint);stroke:var(--paint)}
+.zone.sel.prim circle{animation:glow 1.6s ease-in-out infinite}
+.car-body{fill:var(--surface-2);stroke:var(--muted);stroke-width:1.5}
+.car-glass{fill:var(--line)}
+
+/* Inspección por partes */
+.insp{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:16px;align-items:start}
+.insp svg{width:100%;height:auto;max-width:300px;display:block;margin:0 auto}
+.part{cursor:pointer}
+.part rect,.part ellipse{stroke:var(--muted);stroke-width:1.3;transition:fill .25s,stroke .2s,stroke-width .2s}
+.part:hover rect,.part:hover ellipse{stroke:var(--bay);stroke-width:2}
+.part.cur rect,.part.cur ellipse{stroke:var(--bay);stroke-width:3}
+.part .cnt{font-size:11px;font-weight:700;fill:#fff;pointer-events:none}
+.part .cntbg{fill:var(--bay);pointer-events:none}
+.sev0{fill:var(--surface-2)} .sev1{fill:#f4d58a} .sev2{fill:#f39a5b} .sev3{fill:#d9483c}
+.sevkey{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--muted);margin-top:8px}
+.sevkey i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle;border:1px solid var(--line)}
+.partlist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center}
+.meter{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.meter span{display:block;height:100%;background:var(--ok);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+/* Fotos */
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.photos.four{grid-template-columns:repeat(4,1fr)}
+.ph{aspect-ratio:4/3;border-radius:10px;border:1px dashed var(--line);background:var(--surface-2);position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;transition:border-color .2s,transform .15s;text-align:center;padding:4px}
+.ph:hover{border-color:var(--bay)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph.has{border-style:solid}
+.ph .cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;padding:14px 6px 5px;font-size:11px;line-height:1.2}
+.ph svg{width:26px;height:26px}
+.ph.pop{animation:popin .4s cubic-bezier(.2,.9,.3,1.3)}
+
+/* Tablas */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .r{text-align:right}
+.tbl input{border:1px solid transparent;background:transparent;border-radius:6px;padding:4px 6px;width:100%}
+.tbl input:hover,.tbl input:focus{border-color:var(--line);background:var(--surface)}
+.del{border:0;background:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0 4px}
+.del:hover{color:var(--bad)}
+.totals{display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:14px;font-size:15px}
+.totals .gt{font-family:var(--display);font-size:24px;font-weight:700}
+.status{border:0;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer}
+
+/* Firma */
+.sigpad{width:100%;height:160px;border:1px dashed var(--muted);border-radius:10px;background:var(--surface-2);touch-action:none;cursor:crosshair;display:block}
+.sigimg{max-width:100%;height:110px;object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line)}
+
+/* Fases */
+.step{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;padding:10px 0;position:relative}
+.step::before{content:"";position:absolute;left:13px;top:30px;bottom:-10px;width:2px;background:var(--line)}
+.step:last-child::before{display:none}
+.step.done::before{background:var(--ok)}
+.sdot{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;z-index:1;color:#fff;font-size:14px}
+.step.done .sdot{background:var(--ok);border-color:var(--ok)}
+.step.cur .sdot{background:var(--paint);border-color:var(--paint);animation:glow 1.6s infinite}
+.step .sn{font-weight:600}
+.step .sd{font-size:13px;color:var(--ok)}
+.step.cur .sd{color:var(--paint)}
+.note{padding:12px 14px;border-bottom:1px solid var(--line)}
+.note:last-child{border-bottom:0}
+.note .nh{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:4px;gap:8px}
+.swatch{width:46px;height:46px;border-radius:10px;border:1px solid var(--line);flex:none}
+.gbar{height:6px;border-radius:3px;background:var(--paint);margin-top:4px;transition:width .6s}
+
+/* Pintura */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.fcard{padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:transform .15s}
+.fcard:hover{transform:translateY(-2px)}
+.fcard .code{font-family:var(--display);font-size:22px;font-weight:700;line-height:1}
+.stock{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.stock:last-child{border-bottom:0}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer;font-weight:700;font-size:16px}
+.qty b{min-width:44px;text-align:center}
+
+/* Modales y capas */
+.modal{position:fixed;inset:0;display:grid;place-items:center;z-index:40;padding:16px;pointer-events:none}
+.modal .mcard{width:min(560px,100%);max-height:90vh;overflow:auto;transform:scale(.95);opacity:0;transition:transform .2s,opacity .2s;pointer-events:none}
+.modal.on .mcard{transform:none;opacity:1;pointer-events:auto}
+.modal .mcard .sec-h{position:sticky;top:0;background:var(--surface);z-index:1}
+.mb{padding:16px}
+.mscrim{position:fixed;inset:0;background:rgba(10,18,28,.5);z-index:39;opacity:0;pointer-events:none;transition:opacity .2s}
+.mscrim.on{opacity:1;pointer-events:auto}
+.over{position:fixed;inset:0;z-index:35;background:var(--bg);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.over.on{transform:none}
+.over-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--navy);color:#fff}
+.over-bar b{font-family:var(--display);font-size:20px}
+
+/* Reporte */
+.report{max-width:860px;margin:20px auto 60px;background:#fff;color:#16202a;border-radius:6px;box-shadow:var(--shadow);padding:clamp(18px,4vw,44px);color-scheme:light}
+.report h1{font-size:32px}
+.report h3{font-size:20px;margin:26px 0 10px;padding-bottom:6px;border-bottom:2px solid #16202a}
+.report .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px 24px;font-size:14px;margin-top:14px}
+.report .meta span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#5d6b78;font-weight:600}
+.report .rph{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.report figure{margin:0}
+.report figure img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;border:1px solid #d9dfe5}
+.report figcaption{font-size:12px;color:#5d6b78;margin-top:3px}
+.report .stage{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin:10px 0 6px}
+.report table{width:100%;border-collapse:collapse;font-size:14px}
+.report td,.report th{padding:6px 8px;border-bottom:1px solid #e3e7eb;text-align:left}
+.report .foot{margin-top:30px;font-size:12px;color:#5d6b78;border-top:1px solid #d9dfe5;padding-top:12px}
+.report .sev{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700}
+
+/* Vista del cliente */
+.phone{width:min(360px,100%);margin:24px auto 60px;background:#fff;color:#16202a;border-radius:34px;border:10px solid #111;box-shadow:0 30px 60px rgba(0,0,0,.35);overflow:hidden;color-scheme:light}
+.phone .ph-top{background:var(--navy);color:#fff;padding:22px 18px 18px}
+.phone .ph-top h2{font-size:26px;line-height:1.05;margin-top:8px}
+.phone .ph-b{padding:16px 18px 22px;display:flex;flex-direction:column;gap:14px}
+.cprog{display:flex;flex-direction:column;gap:0}
+.cstep{display:flex;gap:10px;align-items:center;font-size:14px;padding:5px 0;color:#9aa5b1}
+.cstep i{width:14px;height:14px;border-radius:50%;border:2px solid #cfd6dd;flex:none}
+.cstep.d{color:#16202a}.cstep.d i{background:#1f8a4c;border-color:#1f8a4c}
+.cstep.c{color:#e8541c;font-weight:700}.cstep.c i{background:#e8541c;border-color:#e8541c;animation:glow 1.6s infinite}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:70vh;border-radius:8px}
+.lb .lbbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;width:min(640px,100%)}
+.lb input{flex:1;min-width:180px;border-radius:10px;border:0;padding:10px 12px}
+
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,30px);background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:600;opacity:0;transition:all .3s;z-index:60;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+.bottom{display:none}
+.view{animation:rise .35s ease both}
+.stagger>*{animation:rise .4s ease both}
+.stagger>*:nth-child(2){animation-delay:.05s}.stagger>*:nth-child(3){animation-delay:.1s}.stagger>*:nth-child(4){animation-delay:.15s}.stagger>*:nth-child(5){animation-delay:.2s}.stagger>*:nth-child(n+6){animation-delay:.25s}
+@keyframes rise{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popin{from{transform:scale(.8)}to{transform:none}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(232,84,28,.5);filter:none}50%{box-shadow:0 0 0 8px transparent;filter:brightness(1.15)}}
+@keyframes drip{0%,100%{transform:translate(0,0)}50%{transform:translate(-3px,-3px) scale(1.15)}}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.mobile-top{display:none;align-items:center;justify-content:space-between;margin:-8px 0 14px;gap:8px}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{display:none}
+  .bottom{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);z-index:10;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .bottom .nav-btn{flex-direction:column;gap:3px;font-size:11px;padding:6px 6px}
+  .stats{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .mobile-top{display:flex}
+  .insp{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .form{grid-template-columns:1fr}
+  .photos,.photos.four{grid-template-columns:repeat(2,1fr)}
+  .top h1{font-size:28px}
+  .stat .val{font-size:30px}
+  .tbl .hide-s{display:none}
+  .sheet-h h2{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hbtn span{display:none}
+  .row{padding:12px}
+  .row .chip{font-size:11px;padding:2px 7px}
+  .thumb{width:44px;height:36px}
+  .users{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="scrim" id="scrim"></div>
+<section class="sheet" id="sheet" aria-modal="true" role="dialog"></section>
+<section class="over" id="over" aria-modal="true" role="dialog"></section>
+<div class="mscrim" id="mscrim"></div>
+<div class="modal" id="modal"><div class="card mcard" id="modal-card"></div></div>
+<div class="lb" id="lb"></div>
+<div class="toast" id="toast" role="status"></div>
+<input type="file" id="file" accept="image/*" capture="environment" hidden>
+<input type="file" id="filem" accept="image/*" multiple hidden>
+
+<script>
+/* ================== Idioma ================== */
+const L={
+ es:{home:"Inicio",orders:"Órdenes",board:"Tablero",paint:"Pintura",customers:"Clientes",settings:"Ajustes",
+  sumToday:"Así va el taller hoy",inToday:"Entran hoy",outToday:"Salen hoy",onSite:"En el taller",owed:"Por cobrar",mine:"Mis carros",
+  recent:"Órdenes recientes",myCars:"Carros asignados a mí",byPhase:"Carros por fase",attention:"Necesitan atención",allGood:"Todo en orden. Nada atrasado.",
+  newOrder:"Nueva orden",search:"Buscar por cliente, carro, VIN o número",all:"Todas",noOrders:"No hay órdenes todavía.",
+  vehicle:"Vehículo",inspection:"Fotos",estimate:"Estimado",parts:"Partes",phases:"Fases",notes:"Notas",payments:"Cobros",formula:"Fórmula",
+  impact:"Punto de impacto",primary:"Principal",secondary:"Secundario",tapZones:"Toca las zonas del golpe. La primera es la principal.",
+  year:"Año",make:"Marca",model:"Modelo",trim:"Versión",vin:"VIN",color:"Color",paintCode:"Código de pintura",payer:"Paga",payerCust:"Cliente",payerIns:"Aseguradora",
+  insurer:"Aseguradora",claim:"Número de reclamo",tech:"Técnico asignado",nobody:"Sin asignar",
+  promised:"Fecha prometida",customer:"Cliente",phone:"Teléfono",email:"Correo",name:"Nombre",
+  general:"Fotos generales del carro",byPart:"Fotos por parte",tapPart:"Toca una parte del carro para marcar el daño y tomarle fotos.",
+  before:"Antes",during:"Durante",after:"Después",addPhoto:"Agregar foto",damageLvl:"Daño",sev:["Sin daño","Leve","Medio","Fuerte"],
+  photosOf:"fotos",entry:"Fotos de entrada",report:"Reporte",custView:"Vista cliente",
+  desc:"Descripción",type:"Tipo",qty:"Cant./Horas",price:"Precio",amount:"Importe",labor:"Mano de obra",partT:"Parte",paintT:"Pintura",other:"Otro",
+  addLine:"Agregar línea",subtotal:"Subtotal",tax:"Impuesto",total:"Total",paid:"Pagado",balance:"Saldo",
+  approval:"Aprobación del cliente",signHere:"Que el cliente firme aquí con el dedo",signName:"Nombre de quien firma",saveSig:"Guardar firma",clear:"Borrar",
+  signedBy:"Firmado por",
+  part:"Parte",status:"Estado",cost:"Costo",addPart:"Agregar parte",st:["Por pedir","Pedida","Recibida","Instalada"],
+  ph:{rec:"Recibido",tear:"Desarme",wait:"Esperando partes",body:"Hojalatería",prep:"Preparación",paint:"Pintura",asm:"Armado",ready:"Listo",out:"Entregado"},
+  advance:"Avanzar",pending:"Pendiente",
+  addNote:"Agregar nota",internal:"Interna",toCust:"Al cliente",toIns:"A la aseguradora",writeNote:"Escribe la nota…",save:"Guardar",cancel:"Cancelar",
+  addPay:"Registrar pago",method:"Método",cash:"Efectivo",card:"Tarjeta",cashapp:"Cash App",check:"Cheque",insPay:"Aseguradora",
+  noPays:"Todavía no hay pagos.",paintBrand:"Marca de pintura",toner:"Tóner",grams:"Gramos",mixFor:"Preparar (g)",addToner:"Agregar tóner",
+  formulaHint:"La fórmula de este carro. Escribe cuánto vas a preparar y se recalcula sola.",
+  scaled:"A pesar",fromLib:"Usar de la biblioteca",toLib:"Guardar en biblioteca",logMix:"Registrar mezcla",
+  library:"Fórmulas",mixes:"Mezclas",stock:"Inventario",newFormula:"Nueva fórmula",noFormulas:"No hay fórmulas guardadas.",
+  mixLog:"Registro de mezclas",gramsMonth:"Gramos mezclados este mes",low:"Poco material",unit:"Unidad",minimum:"Mínimo",addItem:"Agregar material",item:"Material",
+  ordersOf:"órdenes",spent:"Pagado",newCust:"Nuevo cliente",
+  shop:"Nombre del taller",rate:"Mano de obra ($/hora)",paintRate:"Pintura ($/hora)",taxRate:"Impuesto (%)",theme:"Tema",light:"Claro",dark:"Oscuro",auto:"Automático",
+  team:"Equipo",role:"Puesto",roles:{owner:"Dueño",tech:"Técnico",painter:"Pintor"},pin:"PIN (4 números)",addUser:"Agregar trabajador",
+  data:"Tus datos",dataNote:"Esta versión de prueba guarda todo en este navegador. La versión de pago guarda en la nube y se usa en varios celulares a la vez.",
+  copyData:"Copiar respaldo",resetDemo:"Cargar datos de ejemplo",sure:"¿Seguro? Toca otra vez",
+  saved:"Guardado",copied:"Copiado",noCopy:"No se pudo copiar",created:"Orden creada",deleted:"Borrado",deleteOrder:"Borrar orden",
+  overdue:"pasó su fecha prometida",waiting:"lleva días esperando partes",owes:"debe",noPhotos:"no tiene fotos de entrada",
+  existingCust:"Cliente existente",orNew:"o cliente nuevo",create:"Crear orden",today:"hoy",tomorrow:"mañana",move:"Mover",perMonth:"Cobrado este mes",
+  who:"¿Quién eres?",enterPin:"Escribe tu PIN",wrongPin:"PIN incorrecto",demoPins:"Prueba: Dueño 1234 · Técnico 1111 · Pintora 2222",logout:"Salir",
+  backWeb:"← Volver a la página",
+  repTitle:"Reporte de inspección y reparación",generated:"Generado",damagedParts:"Partes con daño",estSum:"Resumen del estimado",timeline:"Historial",
+  repFoot:"Cada foto lleva fecha, hora y número de orden grabados en la imagen. En la versión final este reporte se descarga en PDF y se manda por enlace al cliente o a la aseguradora.",
+  copySum:"Copiar resumen",custHello:"Hola",yourCar:"Tu carro está en",estReady:"Fecha estimada de entrega",latest:"Últimas fotos",payOnline:"Pagar en línea (próximamente)",
+  custNote:"Así verá tu cliente el avance con un enlace. En la versión final se le manda por mensaje de texto.",
+  note:"Nota de la foto",close:"Cerrar",takenBy:"por",dropIn:"Suelta aquí",sample:"Datos de ejemplo"},
+ en:{home:"Home",orders:"Orders",board:"Board",paint:"Paint",customers:"Customers",settings:"Settings",
+  sumToday:"Here is the shop today",inToday:"In today",outToday:"Out today",onSite:"On site",owed:"To collect",mine:"My cars",
+  recent:"Recent orders",myCars:"Cars assigned to me",byPhase:"Cars by phase",attention:"Needs attention",allGood:"All good. Nothing is late.",
+  newOrder:"New order",search:"Search customer, car, VIN or number",all:"All",noOrders:"No orders yet.",
+  vehicle:"Vehicle",inspection:"Photos",estimate:"Estimate",parts:"Parts",phases:"Phases",notes:"Notes",payments:"Payments",formula:"Formula",
+  impact:"Point of impact",primary:"Primary",secondary:"Secondary",tapZones:"Tap the impact areas. The first one is primary.",
+  year:"Year",make:"Make",model:"Model",trim:"Trim",vin:"VIN",color:"Color",paintCode:"Paint code",payer:"Payer",payerCust:"Customer",payerIns:"Insurance",
+  insurer:"Insurance company",claim:"Claim number",tech:"Assigned tech",nobody:"Unassigned",
+  promised:"Promised date",customer:"Customer",phone:"Phone",email:"Email",name:"Name",
+  general:"General car photos",byPart:"Photos by part",tapPart:"Tap a part of the car to mark damage and take photos.",
+  before:"Before",during:"During",after:"After",addPhoto:"Add photo",damageLvl:"Damage",sev:["No damage","Light","Medium","Heavy"],
+  photosOf:"photos",entry:"Check-in photos",report:"Report",custView:"Customer view",
+  desc:"Description",type:"Type",qty:"Qty/Hours",price:"Price",amount:"Amount",labor:"Labor",partT:"Part",paintT:"Paint",other:"Other",
+  addLine:"Add line",subtotal:"Subtotal",tax:"Tax",total:"Total",paid:"Paid",balance:"Balance",
+  approval:"Customer approval",signHere:"Have the customer sign here with a finger",signName:"Signer's name",saveSig:"Save signature",clear:"Clear",
+  signedBy:"Signed by",
+  part:"Part",status:"Status",cost:"Cost",addPart:"Add part",st:["To order","Ordered","Received","Installed"],
+  ph:{rec:"Received",tear:"Teardown",wait:"Waiting on parts",body:"Body work",prep:"Paint prep",paint:"Paint",asm:"Reassembly",ready:"Ready",out:"Delivered"},
+  advance:"Move",pending:"Pending",
+  addNote:"Add note",internal:"Internal",toCust:"To customer",toIns:"To insurance",writeNote:"Write the note…",save:"Save",cancel:"Cancel",
+  addPay:"Record payment",method:"Method",cash:"Cash",card:"Card",cashapp:"Cash App",check:"Check",insPay:"Insurance",
+  noPays:"No payments yet.",paintBrand:"Paint brand",toner:"Toner",grams:"Grams",mixFor:"Mix (g)",addToner:"Add toner",
+  formulaHint:"This car's formula. Type how much you will mix and it recalculates.",
+  scaled:"To weigh",fromLib:"Use from library",toLib:"Save to library",logMix:"Log mix",
+  library:"Formulas",mixes:"Mixes",stock:"Inventory",newFormula:"New formula",noFormulas:"No saved formulas.",
+  mixLog:"Mix log",gramsMonth:"Grams mixed this month",low:"Low stock",unit:"Unit",minimum:"Minimum",addItem:"Add material",item:"Material",
+  ordersOf:"orders",spent:"Paid",newCust:"New customer",
+  shop:"Shop name",rate:"Labor ($/hour)",paintRate:"Paint ($/hour)",taxRate:"Tax (%)",theme:"Theme",light:"Light",dark:"Dark",auto:"Auto",
+  team:"Team",role:"Role",roles:{owner:"Owner",tech:"Technician",painter:"Painter"},pin:"PIN (4 digits)",addUser:"Add worker",
+  data:"Your data",dataNote:"This trial keeps everything in this browser. The paid version saves to the cloud and works on several phones at once.",
+  copyData:"Copy backup",resetDemo:"Load sample data",sure:"Sure? Tap again",
+  saved:"Saved",copied:"Copied",noCopy:"Could not copy",created:"Order created",deleted:"Deleted",deleteOrder:"Delete order",
+  overdue:"is past its promised date",waiting:"has been waiting on parts for days",owes:"owes",noPhotos:"has no check-in photos",
+  existingCust:"Existing customer",orNew:"or new customer",create:"Create order",today:"today",tomorrow:"tomorrow",move:"Move",perMonth:"Collected this month",
+  who:"Who are you?",enterPin:"Enter your PIN",wrongPin:"Wrong PIN",demoPins:"Try: Owner 1234 · Tech 1111 · Painter 2222",logout:"Log out",
+  backWeb:"← Back to website",
+  repTitle:"Inspection and repair report",generated:"Generated",damagedParts:"Damaged parts",estSum:"Estimate summary",timeline:"History",
+  repFoot:"Every photo has the date, time and order number burned into the image. In the final version this report downloads as a PDF and is sent by link to the customer or insurer.",
+  copySum:"Copy summary",custHello:"Hi",yourCar:"Your car is in",estReady:"Estimated delivery",latest:"Latest photos",payOnline:"Pay online (coming soon)",
+  custNote:"This is what your customer sees with a link. In the final version it is sent by text message.",
+  note:"Photo note",close:"Close",takenBy:"by",dropIn:"Drop here",sample:"Sample data"}
+};
+const PH=["rec","tear","wait","body","prep","paint","asm","ready","out"];
+const PHC={rec:"#7b8794",tear:"#8e6bd8",wait:"#d69e2e",body:"#2b7bd8",prep:"#16a2b8",paint:"#e8541c",asm:"#5a67d8",ready:"#1f8a4c",out:"#a0aab4"};
+const ANG=["lf","front","rf","lside","rside","lr","rear","rr"];
+const ANGN={es:{lf:"Izq. frente",front:"Frente",rf:"Der. frente",lside:"Lado izq.",rside:"Lado der.",lr:"Izq. atrás",rear:"Atrás",rr:"Der. atrás"},
+            en:{lf:"Left front",front:"Front",rf:"Right front",lside:"Left side",rside:"Right side",lr:"Left rear",rear:"Rear",rr:"Right rear"}};
+const ZN={es:{front:"Frente",lf:"Izq. frente",rf:"Der. frente",lfd:"Puerta izq. del.",rfd:"Puerta der. del.",lrd:"Puerta izq. tras.",rrd:"Puerta der. tras.",lq:"Costado izq. tras.",rq:"Costado der. tras.",lr:"Izq. atrás",rr:"Der. atrás",rear:"Atrás",roof:"Techo",hood:"Cofre"},
+          en:{front:"Front",lf:"Left front",rf:"Right front",lfd:"Left front door",rfd:"Right front door",lrd:"Left rear door",rrd:"Right rear door",lq:"Left quarter",rq:"Right quarter",lr:"Left rear",rr:"Right rear",rear:"Rear",roof:"Roof",hood:"Hood"}};
+/* Partes del diagrama de inspección: [x,y,w,h,rx] */
+const PARTS={
+ fbumper:[58,22,144,26,13],hood:[72,58,116,84,10],lhead:[74,50,30,12,6],rhead:[156,50,30,12,6],windshield:[80,146,100,32,6],roof:[82,182,96,118,8],
+ backglass:[80,304,100,30,6],trunk:[72,338,116,68,10],ltail:[74,404,30,12,6],rtail:[156,404,30,12,6],rbumper:[58,418,144,26,13],
+ lfender:[40,56,30,100,10],rfender:[190,56,30,100,10],lfdoor:[40,160,36,80,6],rfdoor:[184,160,36,80,6],lrdoor:[40,244,36,76,6],rrdoor:[184,244,36,76,6],
+ lquarter:[40,324,30,92,10],rquarter:[190,324,30,92,10],lmirror:[14,150,22,14,5],rmirror:[224,150,22,14,5],
+ lfwheel:[22,78,14,50,5],rfwheel:[224,78,14,50,5],lrwheel:[22,348,14,50,5],rrwheel:[224,348,14,50,5]};
+const PN={es:{fbumper:"Defensa delantera",hood:"Cofre",lhead:"Faro izq.",rhead:"Faro der.",windshield:"Parabrisas",roof:"Techo",backglass:"Medallón",trunk:"Cajuela / compuerta",ltail:"Calavera izq.",rtail:"Calavera der.",rbumper:"Defensa trasera",lfender:"Salpicadera izq.",rfender:"Salpicadera der.",lfdoor:"Puerta izq. del.",rfdoor:"Puerta der. del.",lrdoor:"Puerta izq. tras.",rrdoor:"Puerta der. tras.",lquarter:"Costado izq.",rquarter:"Costado der.",lmirror:"Espejo izq.",rmirror:"Espejo der.",lfwheel:"Rueda del. izq.",rfwheel:"Rueda del. der.",lrwheel:"Rueda tras. izq.",rrwheel:"Rueda tras. der."},
+ en:{fbumper:"Front bumper",hood:"Hood",lhead:"Left headlamp",rhead:"Right headlamp",windshield:"Windshield",roof:"Roof",backglass:"Back glass",trunk:"Trunk / liftgate",ltail:"Left tail lamp",rtail:"Right tail lamp",rbumper:"Rear bumper",lfender:"Left fender",rfender:"Right fender",lfdoor:"Left front door",rfdoor:"Right front door",lrdoor:"Left rear door",rrdoor:"Right rear door",lquarter:"Left quarter panel",rquarter:"Right quarter panel",lmirror:"Left mirror",rmirror:"Right mirror",lfwheel:"Left front wheel",rfwheel:"Right front wheel",lrwheel:"Left rear wheel",rrwheel:"Right rear wheel"}};
+const SEVC=["var(--surface-2)","#f4d58a","#f39a5b","#d9483c"];
+const ROLEC={owner:"#1456b8",tech:"#1f8a4c",painter:"#e8541c"};
+
+/* ================== Datos ================== */
+const KEY="colorbay-shop-v2",SKEY="colorbay-session";
+const DAY=864e5;
+const localNow=()=>Date.now()-new Date().getTimezoneOffset()*6e4;
+const iso=d=>new Date(d).toISOString().slice(0,10);
+const today=()=>iso(localNow());
+const addD=n=>iso(localNow()+n*DAY);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const tsAgo=(days,h=10)=>{const d=new Date(Date.now()-days*DAY);d.setHours(h,Math.floor(Math.random()*59));return d.toISOString()};
+
+function defaultStock(){return[
+ {id:"s1",n:"Barniz (clear) 2K",u:"gal",q:3,min:2},{id:"s2",n:"Primer 2K gris",u:"gal",q:1,min:2},{id:"s3",n:"Reductor medio",u:"gal",q:4,min:2},
+ {id:"s4",n:"Endurecedor",u:"qt",q:2,min:2},{id:"s5",n:"Lija 400",u:"caja",q:1,min:1},{id:"s6",n:"Cinta de enmascarar 3/4",u:"rollo",q:9,min:6}]}
+function demo(){
+  const U=[{id:"u1",name:"Jorge Ramírez",role:"owner",pin:"1234"},{id:"u2",name:"Luis Pérez",role:"tech",pin:"1111"},{id:"u3",name:"Ana Ruiz",role:"painter",pin:"2222"}];
+  const C=[{id:"c1",name:"María Hernández",phone:"(931) 555-0142",email:""},{id:"c2",name:"Dale Whitaker",phone:"(931) 555-0187",email:"dalew@example.com"},
+    {id:"c3",name:"Luis Ortega",phone:"(615) 555-0110",email:""},{id:"c4",name:"Brenda Collins",phone:"(931) 555-0163",email:""},{id:"c5",name:"Taller El Primo (flota)",phone:"(931) 555-0199",email:""}];
+  const log=n=>{const o={};for(let i=0;i<=n;i++)o[PH[i]]=addD(-(n-i)-2);return o};
+  const P=(id,st,days,by,note="")=>({id,st,ts:tsAgo(days),by,note});
+  const base={insurer:"",claim:"",sig:null,formula:{brand:"",tn:[]},photosGen:{},insp:{}};
+  const O=[
+    {...base,id:"1048",cust:"c1",year:2020,make:"Ford",model:"Explorer",trim:"XLT",vin:"1FMSK7DH0LGA12345",color:"Blanco",paintCode:"YZ",payer:"ins",insurer:"Mutual del Sur (ejemplo)",claim:"MS-448210",tech:"u2",
+     impact:["rf","front"],phase:5,log:log(5),inDate:addD(-9),promised:addD(1),
+     photosGen:{lf:"demo-1048-lf",front:"demo-1048-front",rf:"demo-1048-rf"},
+     insp:{fbumper:{sev:3,ph:[P("demo-1048-fb1","before",9,"u2","Cubierta rota del lado derecho"),P("demo-1048-fb2","during",4,"u2"),P("demo-1048-fb3","after",1,"u3")]},
+           rfender:{sev:2,ph:[P("demo-1048-rf1","before",9,"u2"),P("demo-1048-rf2","after",1,"u3")]},rhead:{sev:3,ph:[P("demo-1048-rh1","before",9,"u2","Faro estrellado")]},hood:{sev:1,ph:[]}},
+     est:[{d:"Reparar defensa delantera",t:"labor",q:4.5,p:55},{d:"Cubierta de defensa",t:"part",q:1,p:412},{d:"Faro derecho",t:"part",q:1,p:389},{d:"Pintar defensa y salpicadera der.",t:"paint",q:5,p:45},{d:"Materiales de pintura",t:"other",q:1,p:180}],
+     parts:[{n:"Cubierta de defensa",s:3,c:412},{n:"Faro derecho",s:2,c:389},{n:"Rejilla XLT",s:2,c:168},{n:"Soporte der.",s:1,c:34}],
+     notes:[{k:"cli",d:addD(-3),x:"Le avisamos que las partes ya llegaron.",by:"u1"},{k:"ins",d:addD(-6),x:"Se mandó suplemento con fotos del soporte.",by:"u1"},{k:"int",d:addD(-6),x:"Revisar sensor de estacionamiento al armar.",by:"u2"}],
+     pays:[{a:500,m:"ins",d:addD(-4)}],sig:null,
+     formula:{brand:"PPG",code:"YZ",tn:[{n:"Blanco",g:180},{n:"Negro fino",g:4.2},{n:"Amarillo óxido",g:1.6},{n:"Aluminio fino",g:12}]}},
+    {...base,id:"1049",cust:"c2",year:2018,make:"Chevrolet",model:"Silverado 1500",trim:"LT",vin:"3GCUKREC5JG123456",color:"Rojo",paintCode:"G7C",payer:"cust",tech:"u2",
+     impact:["lq","lr"],phase:2,log:{...log(2),wait:addD(-5)},inDate:addD(-6),promised:addD(5),photosGen:{lside:"demo-1049-ls"},insp:{lquarter:{sev:2,ph:[P("demo-1049-lq1","before",6,"u2")]},ltail:{sev:3,ph:[]}},
+     est:[{d:"Reparar costado izq.",t:"labor",q:6,p:55},{d:"Calavera izq.",t:"part",q:1,p:240},{d:"Pintar costado",t:"paint",q:4,p:45}],
+     parts:[{n:"Calavera izq.",s:1,c:240},{n:"Moldura de caja",s:0,c:95}],notes:[],pays:[]},
+    {...base,id:"1050",cust:"c3",year:2015,make:"Honda",model:"Civic",trim:"EX",vin:"19XFB2F80FE012345",color:"Gris",paintCode:"NH797M",payer:"cust",tech:"u3",
+     impact:["hood"],phase:6,log:log(6),inDate:addD(-12),promised:today(),insp:{hood:{sev:1,ph:[]}},
+     est:[{d:"Repintar cofre",t:"paint",q:4,p:45},{d:"Materiales",t:"other",q:1,p:120},{d:"Desmontar y montar cofre",t:"labor",q:1,p:55}],
+     parts:[],notes:[{k:"int",d:addD(-1),x:"Cliente pasa hoy en la tarde.",by:"u1"}],pays:[{a:200,m:"cashapp",d:addD(-12)}],
+     sig:null,formula:{brand:"Axalta",code:"NH797M",tn:[{n:"Plata fino",g:120},{n:"Negro",g:14},{n:"Azul oscuro",g:2.5}]}},
+    {...base,id:"1051",cust:"c4",year:2021,make:"Toyota",model:"RAV4",trim:"LE",vin:"2T3H1RFV1MC123456",color:"Azul",paintCode:"8X8",payer:"ins",insurer:"Carretera Seguros (ejemplo)",claim:"",tech:"",
+     impact:["rr","rear"],phase:0,log:log(0),inDate:today(),promised:addD(8),
+     est:[{d:"Revisión y estimado",t:"labor",q:1,p:55}],parts:[],notes:[],pays:[]},
+    {...base,id:"1046",cust:"c5",year:2019,make:"Ram",model:"2500",trim:"Tradesman",vin:"3C6UR5CJ0KG123456",color:"Blanco",paintCode:"PW7",payer:"cust",tech:"u2",
+     impact:["lfd"],phase:7,log:log(7),inDate:addD(-15),promised:addD(-1),photosGen:{lf:"demo-1046-lf"},insp:{lfdoor:{sev:2,ph:[P("demo-1046-d1","before",15,"u2"),P("demo-1046-d2","after",1,"u3")]}},
+     est:[{d:"Reparar puerta izq.",t:"labor",q:3,p:55},{d:"Pintar puerta",t:"paint",q:3,p:45}],parts:[],notes:[],pays:[{a:150,m:"card",d:addD(-15)}]},
+    {...base,id:"1044",cust:"c1",year:2012,make:"Nissan",model:"Altima",trim:"S",vin:"1N4AL2AP8CN123456",color:"Negro",paintCode:"KH3",payer:"cust",tech:"u3",
+     impact:["rear"],phase:8,log:log(8),inDate:addD(-30),promised:addD(-20),
+     est:[{d:"Defensa trasera",t:"part",q:1,p:210},{d:"Pintar defensa",t:"paint",q:3,p:45},{d:"Instalar",t:"labor",q:1.5,p:55}],parts:[{n:"Defensa trasera",s:3,c:210}],notes:[],pays:[{a:427.5,m:"cash",d:addD(-20)}]}
+  ];
+  return{settings:{shop:"Taller Ramírez",rate:55,paintRate:45,tax:9.75,lang:"es",theme:"auto"},users:U,customers:C,orders:O,
+    paint:{library:[{id:"f1",code:"YZ",name:"Oxford White",brand:"PPG",make:"Ford",tn:[{n:"Blanco",g:180},{n:"Negro fino",g:4.2},{n:"Amarillo óxido",g:1.6},{n:"Aluminio fino",g:12}]},
+      {id:"f2",code:"G7C",name:"Red Hot",brand:"PPG",make:"Chevrolet",tn:[{n:"Rojo brillante",g:150},{n:"Magenta",g:22},{n:"Negro",g:3}]},
+      {id:"f3",code:"NH797M",name:"Modern Steel",brand:"Axalta",make:"Honda",tn:[{n:"Plata fino",g:120},{n:"Negro",g:14},{n:"Azul oscuro",g:2.5}]},
+      {id:"f4",code:"PW7",name:"Bright White",brand:"PPG",make:"Ram",tn:[{n:"Blanco",g:200},{n:"Negro fino",g:1.2}]}],
+     mixes:[{id:"m1",d:addD(-1),code:"YZ",order:"1048",g:500,by:"u3"},{id:"m2",d:addD(-3),code:"PW7",order:"1046",g:350,by:"u3"},{id:"m3",d:addD(-9),code:"NH797M",order:"1050",g:400,by:"u3"}],
+     stock:defaultStock()},demo:true};
+}
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+if(!S||!S.orders||!S.users)S=demo();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast("⚠ No se pudo guardar");return false}}
+let ME=null;
+try{const sid=sessionStorage.getItem(SKEY);ME=S.users.find(u=>u.id===sid)||null}catch(e){}
+
+/* ---- Fotos en IndexedDB (con respaldo en memoria) ---- */
+const PHOTOS={};let db=null;
+function idbOpen(){return new Promise(res=>{try{const r=indexedDB.open("colorbay-photos",1);r.onupgradeneeded=()=>r.result.createObjectStore("p");r.onsuccess=()=>{db=r.result;res()};r.onerror=()=>res()}catch(e){res()}})}
+function idbAll(){return new Promise(res=>{if(!db)return res();try{const rq=db.transaction("p").objectStore("p").openCursor();rq.onsuccess=()=>{const c=rq.result;if(c){PHOTOS[c.key]=c.value;c.continue()}else res()};rq.onerror=()=>res()}catch(e){res()}})}
+function idbPut(k,v){PHOTOS[k]=v;try{db&&db.transaction("p","readwrite").objectStore("p").put(v,k)}catch(e){}}
+function idbDel(k){delete PHOTOS[k];try{db&&db.transaction("p","readwrite").objectStore("p").delete(k)}catch(e){}}
+/* Fotos de ejemplo dibujadas (solo para la demo) */
+function fakePhoto(id){
+  const cv=document.createElement("canvas");cv.width=640;cv.height=480;const g=cv.getContext("2d");
+  const h=[...id].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const sky=g.createLinearGradient(0,0,0,480);sky.addColorStop(0,"#9fb3c8");sky.addColorStop(.55,"#d9dee3");sky.addColorStop(.56,"#6f757b");sky.addColorStop(1,"#4b5056");
+  g.fillStyle=sky;g.fillRect(0,0,640,480);
+  const white=/1048|1046/.test(id),red=/1049/.test(id);
+  const body=white?"#f1f1ec":red?"#a8232b":"#7d8288";
+  g.save();g.translate(320,300);g.rotate(((h%7)-3)/60);
+  g.fillStyle="rgba(0,0,0,.25)";g.beginPath();g.ellipse(0,92,250,22,0,0,7);g.fill();
+  g.fillStyle=body;g.beginPath();g.moveTo(-250,60);g.lineTo(-240,-10);g.quadraticCurveTo(-160,-30,-110,-90);g.lineTo(90,-95);g.quadraticCurveTo(150,-40,240,-20);g.lineTo(255,60);g.closePath();g.fill();
+  g.fillStyle="#2b3540";g.beginPath();g.moveTo(-95,-80);g.lineTo(80,-84);g.lineTo(125,-30);g.lineTo(-140,-28);g.closePath();g.fill();
+  g.fillStyle="#1d2227";[-160,160].forEach(x=>{g.beginPath();g.arc(x,62,44,0,7);g.fill();g.fillStyle="#9aa2aa";g.beginPath();g.arc(x,62,20,0,7);g.fill();g.fillStyle="#1d2227"});
+  if(/fb1|rf1|rh1|lq1|d1|-lf|-front|-rf|-ls/.test(id)&&!/fb3|rf2|d2/.test(id)){g.strokeStyle="#5a1c12";g.lineWidth=4;for(let i=0;i<6;i++){g.beginPath();const x=120+((h*i)%90),y=-10+((h*3*i)%50);g.moveTo(x,y);g.lineTo(x+40,y+18);g.stroke()}
+    g.fillStyle="rgba(60,20,10,.35)";g.beginPath();g.ellipse(170,20,55,30,.3,0,7);g.fill()}
+  if(/fb2/.test(id)){g.fillStyle="#9aa0a6";g.beginPath();g.ellipse(170,15,70,38,.2,0,7);g.fill()}
+  g.restore();
+  stamp(g,640,480,id.split("-")[1],new Date(Date.now()-(h%9)*DAY));
+  g.fillStyle="rgba(255,255,255,.85)";g.font="700 18px Barlow, sans-serif";g.fillText(S.settings.lang==="es"?"FOTO DE EJEMPLO":"SAMPLE PHOTO",16,30);
+  return cv.toDataURL("image/jpeg",.7);
+}
+function stamp(g,w,h,ro,date){
+  const txt=`#${ro} · ${date.toLocaleDateString("es-MX")} ${date.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"})} · ColorBay`;
+  g.font="600 "+Math.round(w/34)+"px Barlow, sans-serif";const tw=g.measureText(txt).width;
+  g.fillStyle="rgba(0,0,0,.6)";g.fillRect(w-tw-24,h-Math.round(w/18),tw+24,Math.round(w/18));
+  g.fillStyle="#fff";g.fillText(txt,w-tw-12,h-Math.round(w/60));
+}
+const photo=id=>{if(!id)return null;if(!PHOTOS[id]&&id.startsWith("demo-"))PHOTOS[id]=fakePhoto(id);return PHOTOS[id]||null};
+
+/* ================== Utilidades ================== */
+const t=k=>L[S.settings.lang][k]??k;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>(n<0?"-":"")+"$"+Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const cust=id=>S.customers.find(c=>c.id===id)||{name:"—",phone:""};
+const user=id=>S.users.find(u=>u.id===id);
+const initials=n=>esc(String(n||"?").split(" ").map(w=>w[0]).slice(0,2).join("").toUpperCase());
+const loc=()=>S.settings.lang==="es"?"es-MX":"en-US";
+const fmtD=d=>{if(!d)return"—";if(d===today())return t("today");if(d===addD(1))return t("tomorrow");
+  return new Date(d+"T12:00").toLocaleDateString(loc(),{weekday:"short",month:"short",day:"numeric"})};
+const fmtTS=s=>{const d=new Date(s);return d.toLocaleDateString(loc(),{month:"short",day:"numeric"})+" "+d.toLocaleTimeString(loc(),{hour:"2-digit",minute:"2-digit"})};
+const can=perm=>({money:["owner"],settings:["owner"],paint:["owner","painter"],customers:["owner"]}[perm]||["owner","tech","painter"]).includes(ME?.role);
+function totals(o){
+  let sub=0,taxable=0;o.est.forEach(l=>{const a=(+l.q||0)*(+l.p||0);sub+=a;if(l.t!=="labor")taxable+=a});
+  const tax=taxable*(+S.settings.tax||0)/100,tot=sub+tax,paid=o.pays.reduce((s,p)=>s+(+p.a||0),0);
+  return{sub,tax,tot,paid,bal:tot-paid};
+}
+function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove("on"),1900)}
+function countUp(el,to,isMoney){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){el.textContent=isMoney?money(to):to;return}
+  const st=performance.now();(function f(n){const k=Math.min(1,(n-st)/700),e=1-Math.pow(1-k,3),v=to*e;el.textContent=isMoney?money(v):Math.round(v);if(k<1)requestAnimationFrame(f)})(st);
+}
+function phaseChip(o){const k=PH[o.phase];return`<span class="chip" style="color:${PHC[k]};background:color-mix(in srgb,${PHC[k]} 14%,transparent);border-color:transparent"><span class="dot"></span>${t("ph")[k]}</span>`}
+function firstPhoto(o){const g=o.photosGen||{};const id=g.lf||g.front||g.rf||Object.values(g)[0]||Object.values(o.insp||{}).flatMap(p=>p.ph||[]).map(p=>p.id)[0];return photo(id)}
+function thumb(o){const p=firstPhoto(o);return`<div class="thumb">${p?`<img src="${p}" alt="">`:carIcon(22)}</div>`}
+const carIcon=s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13l2-5a2 2 0 0 1 2-1.3h10A2 2 0 0 1 19 8l2 5v4h-2"/><path d="M5 17H3v-4h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg>`;
+const camIcon=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
+const ava=(u,cls="ava")=>u?`<span class="${cls}" style="background:${ROLEC[u.role]}" title="${esc(u.name)}">${initials(u.name)}</span>`:"";
+const genCount=o=>ANG.filter(a=>o.photosGen&&o.photosGen[a]).length;
+
+/* ================== Inicio de sesión ================== */
+let pickUser=null,pinBuf="";
+function renderLogin(){
+  if(!pickUser&&S.users.length===1)pickUser=S.users[0].id;
+  $("#root").innerHTML=`<div class="login"><div class="login-card">
+    <div><span class="tape">ColorBay Shop</span></div>
+    <div><h1>${t("who")}</h1><div class="shopname">${esc(S.settings.shop)}</div></div>
+    <div class="users">${S.users.map(u=>`<button class="user ${pickUser===u.id?"on":""}" data-u="${u.id}">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small></button>`).join("")}</div>
+    ${pickUser?`<div style="text-align:center;opacity:.85">${t("enterPin")}</div>
+    <div class="pinrow" id="pinrow">${[0,1,2,3].map(i=>`<i class="${i<pinBuf.length?"f":""}"></i>`).join("")}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map(k=>k===""?"<span></span>":`<button data-k="${k}" aria-label="${k}">${k}</button>`).join("")}</div>`:""}
+    ${S.demo?`<div class="hint">${t("demoPins")}</div>`:""}
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><a href="index.html">${t("backWeb")}</a>
+     <span style="display:flex;gap:6px"><button class="pill-btn ${S.settings.lang==="es"?"on":""}" data-lang="es">ES</button><button class="pill-btn ${S.settings.lang==="en"?"on":""}" data-lang="en">EN</button></span></div>
+  </div></div>`;
+  document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{pickUser=b.dataset.u;pinBuf="";renderLogin()});
+  document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>pinKey(b.dataset.k));
+}
+function pinKey(k){
+  if(!pickUser)return;
+  if(k==="⌫")pinBuf=pinBuf.slice(0,-1);else if(pinBuf.length<4)pinBuf+=k;
+  document.querySelectorAll("#pinrow i").forEach((d,i)=>d.classList.toggle("f",i<pinBuf.length));
+  if(pinBuf.length===4){const u=user(pickUser);
+    if(u&&u.pin===pinBuf){ME=u;try{sessionStorage.setItem(SKEY,u.id)}catch(e){}pinBuf="";view="inicio";setTimeout(render,150)}
+    else{const r=$("#pinrow");r.classList.add("shake");toast(t("wrongPin"));setTimeout(()=>{pinBuf="";r.classList.remove("shake");r.querySelectorAll("i").forEach(d=>d.classList.remove("f"))},450)}}
+}
+document.addEventListener("keydown",e=>{if(!ME&&/^[0-9]$/.test(e.key))pinKey(e.key);if(!ME&&e.key==="Backspace")pinKey("⌫")});
+function logout(){ME=null;pickUser=null;try{sessionStorage.removeItem(SKEY)}catch(e){}closeSheet(true);closeOver();render()}
+
+/* ================== Navegación ================== */
+const NAV=[
+ ["inicio","home",'<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/>'],
+ ["ordenes","orders",'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>'],
+ ["tablero","board",'<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>'],
+ ["pintura","paint",'<path d="M4 4h12v5H4z"/><path d="M16 6.5h3v5h-8v3"/><rect x="9.5" y="14.5" width="3" height="6" rx="1"/>'],
+ ["clientes","customers",'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.5 5.2"/>'],
+ ["ajustes","settings",'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>']];
+const navOk=id=>({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings")}[id]??true);
+let view="inicio",filter="all",q="",paintTab="library";
+function navHtml(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
+function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
+document.addEventListener("click",e=>{
+  const g=e.target.closest("[data-go]");if(g){go(g.dataset.go);return}
+  const lg=e.target.closest("[data-lang]");if(lg){S.settings.lang=lg.dataset.lang;document.documentElement.lang=S.settings.lang;save();render();if(openId)renderSheet();return}
+  const o=e.target.closest("[data-open]");if(o){openOrder(o.dataset.open)}
+});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(ME&&NAV.some(n=>n[0]===h)&&navOk(h)&&h!==view){view=h;render()}});
+const langBtns=()=>`<span style="display:flex;gap:6px"><button class="pill-btn ${S.settings.lang==="es"?"on":""}" data-lang="es">ES</button><button class="pill-btn ${S.settings.lang==="en"?"on":""}" data-lang="en">EN</button></span>`;
+const brandHtml=`<div class="brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 13l2-5a2 2 0 0 1 2-1.3h10A2 2 0 0 1 19 8l2 5v4h-2"/><path d="M5 17H3v-4h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg></div><div class="brand-name">ColorBay<small>Shop</small></div>`;
+
+function render(){
+  if(!ME){renderLogin();return}
+  if(!navOk(view))view="inicio";
+  $("#root").innerHTML=`<div class="app">
+   <aside class="side"><div class="brand">${brandHtml}</div><nav>${navHtml()}</nav>
+    <div class="side-foot"><div class="me">${ava(ME)}<div><b>${esc(ME.name)}</b><small>${t("roles")[ME.role]}</small></div></div>
+     <div style="display:flex;justify-content:space-between;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()">${t("logout")}</button></div>
+     <a href="index.html" style="font-size:13px;color:var(--muted)">${t("backWeb")}</a></div></aside>
+   <main id="main"><div class="mobile-top"><div class="brand" style="padding:0">${brandHtml}</div><span style="display:flex;gap:6px;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()" aria-label="${t("logout")}">${ava(ME,"mini-ava")}</button></span></div>
+    <div class="view">${({inicio:vHome,ordenes:vOrders,tablero:vBoard,pintura:vPaint,clientes:vCust,ajustes:vSet})[view]()}</div></main></div>
+   <nav class="bottom">${navHtml()}</nav>`;
+  const m=$("#main");
+  m.querySelectorAll("[data-count]").forEach(el=>countUp(el,+el.dataset.count,el.dataset.money==="1"));
+  requestAnimationFrame(()=>requestAnimationFrame(()=>m.querySelectorAll("[data-w]").forEach(el=>el.style.width=el.dataset.w)));
+  if(view==="tablero")wireBoard();
+  if(view==="ordenes"){const s=$("#q");if(s)s.addEventListener("input",()=>{q=s.value;const pos=s.selectionStart;render();const n=$("#q");n.focus();n.setSelectionRange(pos,pos)})}
+  if(view==="ajustes")wireSet();
+  if(view==="pintura")wirePaint();
+}
+
+/* ================== Vistas ================== */
+function visibleOrders(){return ME.role==="owner"?S.orders:S.orders}
+function vHome(){
+  const act=S.orders.filter(o=>PH[o.phase]!=="out");
+  const inT=S.orders.filter(o=>o.inDate===today()).length;
+  const outT=S.orders.filter(o=>o.promised===today()&&PH[o.phase]!=="out").length;
+  const owed=S.orders.reduce((s,o)=>s+Math.max(0,totals(o).bal),0);
+  const mineN=act.filter(o=>o.tech===ME.id).length;
+  const mon=today().slice(0,7),col=S.orders.reduce((s,o)=>s+o.pays.filter(p=>(p.d||"").startsWith(mon)).reduce((a,p)=>a+ +p.a,0),0);
+  const counts=PH.slice(0,8).map(k=>[k,act.filter(o=>PH[o.phase]===k).length]).filter(x=>x[1]);
+  const alerts=[];
+  act.forEach(o=>{const c=cust(o.cust);const car=`${o.year} ${o.make} ${o.model}`;
+    if(o.promised&&o.promised<today())alerts.push(["c-paint",`<b>#${o.id}</b> ${esc(car)} ${t("overdue")}`,o.id]);
+    if(PH[o.phase]==="wait"&&o.log.wait&&(Date.parse(today())-Date.parse(o.log.wait))/DAY>=3)alerts.push(["c-warn",`<b>#${o.id}</b> ${esc(car)} ${t("waiting")}`,o.id]);
+    if(genCount(o)===0&&o.phase<=1)alerts.push(["c-bad",`<b>#${o.id}</b> ${esc(car)} ${t("noPhotos")}`,o.id]);
+    const b=totals(o).bal;if(can("money")&&PH[o.phase]==="ready"&&b>0.5)alerts.push(["c-bay",`<b>#${o.id}</b> ${esc(c.name)} ${t("owes")} ${money(b)}`,o.id]);});
+  if(can("paint"))S.paint.stock.filter(s=>s.q<s.min).forEach(s=>alerts.push(["c-warn",`<b>${t("low")}:</b> ${esc(s.n)} (${s.q} ${esc(s.u)})`,null]));
+  const recent=(ME.role==="owner"?[...S.orders]:S.orders.filter(o=>o.tech===ME.id&&PH[o.phase]!=="out")).sort((a,b)=>b.id.localeCompare(a.id)).slice(0,6);
+  const tiles=[["inToday",inT,0,"var(--bay)"],["outToday",outT,0,"var(--ok)"],["onSite",act.length,0,"var(--paint)"],can("money")?["owed",owed,1,"var(--warn)"]:["mine",mineN,0,"var(--warn)"]];
+  return`<div class="top"><div><h1>${esc(S.settings.shop)}</h1><p>${t("sumToday")} · ${new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"})}</p></div>
+   <button class="btn btn-pri" onclick="newOrder()">＋ ${t("newOrder")}</button></div>
+  <div class="stats stagger">${tiles.map(([k,v,mo,c])=>`<div class="card stat"><span class="bar" style="background:${c}"></span><div class="lbl">${t(k)}</div><div class="val num" data-count="${v}" data-money="${mo}">0</div></div>`).join("")}</div>
+  <div class="grid2">
+   <div class="card"><div class="sec-h"><h2>${ME.role==="owner"?t("recent"):t("myCars")}</h2><button class="btn btn-ghost btn-sm" data-go="ordenes">${t("orders")} →</button></div>
+    <div class="list stagger">${recent.length?recent.map(rowHtml).join(""):`<div class="empty">${t("noOrders")}</div>`}</div></div>
+   <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+    <div class="card"><div class="sec-h"><h2>${t("byPhase")}</h2><span class="chip num">${act.length}</span></div>
+     <div class="phasebar">${counts.map(([k,n])=>`<span style="background:${PHC[k]}" data-w="${n/act.length*100}%"></span>`).join("")}</div>
+     <div class="legend">${counts.map(([k,n])=>`<span><i style="background:${PHC[k]}"></i>${t("ph")[k]} <b class="num">${n}</b></span>`).join("")}</div>
+     ${can("money")?`<div style="padding:0 16px 16px;display:flex;justify-content:space-between;color:var(--muted);font-size:14px"><span>${t("perMonth")}</span><b class="num" style="color:var(--ink)" data-count="${col}" data-money="1">0</b></div>`:""}</div>
+    <div class="card"><div class="sec-h"><h2>${t("attention")}</h2><span class="chip ${alerts.length?"c-paint":"c-ok"} num">${alerts.length}</span></div>
+     ${alerts.length?alerts.map(([c,h,id])=>`<div class="alert" ${id?`data-open="${id}"`:`data-go="pintura"`}><span class="chip ${c}" style="padding:3px 6px;margin-top:2px"><span class="dot"></span></span><span>${h}</span></div>`).join(""):`<div class="empty">${t("allGood")}</div>`}</div>
+   </div></div>`;
+}
+function rowHtml(o){const c=cust(o.cust),tt=totals(o),u=user(o.tech);
+  return`<div class="row" data-open="${o.id}">${thumb(o)}<div class="main"><div class="t1"><span class="ro">#${o.id}</span> · ${esc(c.name)}</div>
+  <div class="t2">${o.year} ${esc(o.make)} ${esc(o.model)} ${esc(o.trim||"")}</div></div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">${phaseChip(o)}<span style="display:flex;gap:6px;align-items:center">${ava(u,"mini-ava")}${can("money")?`<span class="num" style="font-size:13px;color:${tt.bal>0.5?"var(--paint)":"var(--muted)"}">${money(tt.tot)}</span>`:""}</span></div></div>`}
+function vOrders(){
+  const ql=q.trim().toLowerCase();
+  const list=[...S.orders].sort((a,b)=>b.id.localeCompare(a.id)).filter(o=>{
+    if(filter!=="all"&&PH[o.phase]!==filter)return false;if(!ql)return true;const c=cust(o.cust);
+    return[o.id,c.name,c.phone,o.make,o.model,o.vin,o.year,o.claim].join(" ").toLowerCase().includes(ql)});
+  return`<div class="top"><div><h1>${t("orders")}</h1><p class="num">${S.orders.length} ${t("ordersOf")}</p></div><button class="btn btn-pri" onclick="newOrder()">＋ ${t("newOrder")}</button></div>
+  <div class="toolbar"><input class="input" id="q" placeholder="${t("search")}" value="${esc(q)}" aria-label="${t("search")}"></div>
+  <div class="filters" style="margin-bottom:14px">${["all",...PH].map(k=>`<button class="pill-btn ${filter===k?"on":""}" onclick="filter='${k}';render()">${k==="all"?t("all"):t("ph")[k]}</button>`).join("")}</div>
+  <div class="card"><div class="list stagger">${list.length?list.map(rowHtml).join(""):`<div class="empty">${t("noOrders")}</div>`}</div></div>`;
+}
+function vBoard(){
+  return`<div class="top"><div><h1>${t("board")}</h1><p>${S.settings.lang==="es"?"Arrastra un carro a otra columna, o toca la flecha para avanzarlo.":"Drag a car to another column, or tap the arrow to move it forward."}</p></div><button class="btn btn-pri" onclick="newOrder()">＋ ${t("newOrder")}</button></div>
+  <div class="kanban">${PH.slice(0,8).map((k,i)=>{const os=S.orders.filter(o=>o.phase===i);
+   return`<div class="col" data-col="${i}"><div class="col-h"><span style="display:flex;align-items:center;gap:8px"><i style="width:10px;height:10px;border-radius:3px;background:${PHC[k]}"></i>${t("ph")[k]}</span><span class="n num">${os.length}</span></div>
+   ${os.map(o=>{const c=cust(o.cust);const late=o.promised&&o.promised<today();
+    return`<div class="kcard" draggable="true" data-id="${o.id}"><div class="kt"><span class="ro">#${o.id}</span><span class="chip ${late?"c-paint":""}">${fmtD(o.promised)}</span></div>
+     <div class="km">${esc(c.name)}<br>${o.year} ${esc(o.make)} ${esc(o.model)}</div>
+     <div class="kb"><span style="display:flex;gap:6px;align-items:center">${ava(user(o.tech),"mini-ava")}${can("money")?`<span class="num" style="font-size:13px;font-weight:600">${money(totals(o).tot)}</span>`:""}</span>
+     <button class="kmove" aria-label="${t("move")}" onclick="event.stopPropagation();setPhase('${o.id}',${Math.min(8,i+1)})">→</button></div></div>`}).join("")}</div>`}).join("")}</div>`;
+}
+function wireBoard(){
+  let dragId=null;
+  document.querySelectorAll(".kcard").forEach(c=>{
+    c.addEventListener("dragstart",e=>{dragId=c.dataset.id;c.classList.add("dragging");try{e.dataTransfer.setData("text/plain",dragId)}catch(x){}});
+    c.addEventListener("dragend",()=>c.classList.remove("dragging"));
+    c.addEventListener("click",e=>{if(!e.target.closest("button"))openOrder(c.dataset.id)});});
+  document.querySelectorAll(".col").forEach(col=>{
+    col.addEventListener("dragover",e=>{e.preventDefault();col.classList.add("over")});
+    col.addEventListener("dragleave",()=>col.classList.remove("over"));
+    col.addEventListener("drop",e=>{e.preventDefault();col.classList.remove("over");if(dragId)setPhase(dragId,+col.dataset.col)});});
+}
+function setPhase(id,p){const o=S.orders.find(x=>x.id===id);if(!o)return;
+  o.phase=p;for(let i=0;i<=p;i++)if(!o.log[PH[i]])o.log[PH[i]]=today();
+  for(let i=p+1;i<PH.length;i++)delete o.log[PH[i]];
+  save();toast(`#${id} → ${t("ph")[PH[p]]}`);render();if(openId===id)renderSheet()}
+
+/* ---- Pintura ---- */
+function swatchColor(c){c=(c||"").toLowerCase();
+  const m=[["blanc","#f2f2ee"],["white","#f2f2ee"],["negr","#16181b"],["black","#16181b"],["roj","#b3202a"],["red","#b3202a"],["azul","#1f4d9c"],["blue","#1f4d9c"],["gris","#7d8288"],["gray","#7d8288"],["steel","#7d8288"],["grey","#7d8288"],["plat","#b9bdc2"],["silver","#b9bdc2"],["verde","#2e6b3f"],["green","#2e6b3f"],["amar","#e3b521"],["yellow","#e3b521"],["naranj","#e2671c"],["orange","#e2671c"]];
+  const f=m.find(([k])=>c.includes(k));return f?f[1]:"linear-gradient(135deg,var(--bay),var(--paint))"}
+function vPaint(){
+  const P=S.paint,mon=today().slice(0,7),gm=P.mixes.filter(m=>m.d.startsWith(mon)).reduce((s,m)=>s+ +m.g,0);
+  let body="";
+  if(paintTab==="library")body=`<div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
+   <div class="fgrid stagger" id="flist">${fCards(P.library)}</div>`;
+  if(paintTab==="mixes")body=`<div class="stats" style="grid-template-columns:1fr 1fr"><div class="card stat"><span class="bar" style="background:var(--paint)"></span><div class="lbl">${t("gramsMonth")}</div><div class="val num" data-count="${gm}">0</div></div>
+    <div class="card stat"><span class="bar" style="background:var(--bay)"></span><div class="lbl">${t("mixes")}</div><div class="val num" data-count="${P.mixes.length}">0</div></div></div>
+   <div class="card"><div class="sec-h"><h2>${t("mixLog")}</h2></div><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${S.settings.lang==="es"?"Fecha":"Date"}</th><th>${t("paintCode")}</th><th class="r">${t("grams")}</th><th>${t("orders")}</th><th class="hide-s">${S.settings.lang==="es"?"Quién":"Who"}</th></tr></thead><tbody>
+   ${[...P.mixes].sort((a,b)=>b.d.localeCompare(a.d)).map(m=>`<tr><td>${fmtD(m.d)}</td><td><b>${esc(m.code)}</b></td><td class="r num">${m.g}</td><td>${m.order?`<span class="ro" style="cursor:pointer;font-size:15px" data-open="${m.order}">#${m.order}</span>`:"—"}</td><td class="hide-s">${esc(user(m.by)?.name||"")}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">—</td></tr>`}</tbody></table></div></div>`;
+  if(paintTab==="stock")body=`<div class="card"><div class="sec-h"><h2>${t("stock")}</h2><button class="btn btn-ghost btn-sm" id="st-add">＋ ${t("addItem")}</button></div>
+   ${P.stock.map(s=>`<div class="stock"><div><b>${esc(s.n)}</b> ${s.q<s.min?`<span class="chip c-warn">${t("low")}</span>`:""}<div style="font-size:13px;color:var(--muted)">${t("minimum")}: ${s.min} ${esc(s.u)}</div></div>
+    <div class="qty"><button data-sq="${s.id}" data-d="-1" aria-label="-">−</button><b class="num">${s.q} <small style="font-weight:500;color:var(--muted)">${esc(s.u)}</small></b><button data-sq="${s.id}" data-d="1" aria-label="+">＋</button></div></div>`).join("")}</div>`;
+  return`<div class="top"><div><h1>${t("paint")}</h1><p>${S.settings.lang==="es"?"Fórmulas, mezclas y material del cuarto de pintura.":"Formulas, mixes and paint-room materials."}</p></div></div>
+  <div class="seg" style="margin-bottom:16px">${["library","mixes","stock"].map(k=>`<button class="${paintTab===k?"on":""}" onclick="paintTab='${k}';render()">${t(k)}</button>`).join("")}</div>${body}`;
+}
+function fCards(list){return list.length?list.map(f=>`<div class="card fcard" data-fc="${f.id}"><div class="swatch" style="background:${swatchColor(f.name)}"></div><div style="min-width:0"><div class="code">${esc(f.code)}</div><div style="font-weight:600">${esc(f.name)}</div><div style="font-size:13px;color:var(--muted)">${esc(f.brand)} · ${esc(f.make)} · ${f.tn.length} ${t("toner").toLowerCase()}</div></div></div>`).join(""):`<div class="empty">${t("noFormulas")}</div>`}
+function wirePaint(){
+  const fq=$("#fq");if(fq)fq.oninput=()=>{const v=fq.value.toLowerCase();$("#flist").innerHTML=fCards(S.paint.library.filter(f=>[f.code,f.name,f.brand,f.make].join(" ").toLowerCase().includes(v)));wireFCards()};
+  wireFCards();
+  document.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const s=S.paint.stock.find(x=>x.id===b.dataset.sq);s.q=Math.max(0,s.q+ +b.dataset.d);save();render()});
+  const sa=$("#st-add");if(sa)sa.onclick=()=>openModal(`<div class="sec-h"><h2>${t("addItem")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="st-form"><div class="form"><label class="full">${t("item")}<input class="input" id="st-n" required></label><label>${t("unit")}<input class="input" id="st-u" value="gal"></label><label>${t("minimum")}<input class="input" id="st-m" type="number" value="1"></label></div>
+   <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{$("#st-form").onsubmit=e=>{e.preventDefault();S.paint.stock.push({id:"s"+uid(),n:$("#st-n").value,u:$("#st-u").value,q:0,min:+$("#st-m").value});save();closeModal();render()}});
+}
+function wireFCards(){document.querySelectorAll("[data-fc]").forEach(c=>c.onclick=()=>editFormula(c.dataset.fc))}
+function editFormula(id,fromOrder){
+  const f=id?S.paint.library.find(x=>x.id===id):{id:"f"+uid(),code:"",name:"",brand:"",make:"",tn:[{n:"",g:0}]};
+  const draft=JSON.parse(JSON.stringify(f));let mix=draft.tn.reduce((s,x)=>s+ +x.g,0);
+  const draw=()=>{const sum=draft.tn.reduce((s,x)=>s+(+x.g||0),0),k=sum?(mix||sum)/sum:0;
+    $("#fe-rows").innerHTML=draft.tn.map((x,i)=>`<tr><td><input data-fi="${i}" data-k="n" value="${esc(x.n)}" placeholder="${t("toner")}"></td><td class="r" style="width:90px"><input class="num" style="text-align:right" type="number" step="0.1" data-fi="${i}" data-k="g" value="${x.g}"></td><td class="r num" style="width:80px"><b>${(x.g*k).toFixed(1)}</b></td><td><button type="button" class="del" data-fd="${i}">×</button></td></tr>`).join("");
+    document.querySelectorAll("[data-fi]").forEach(inp=>inp.onchange=()=>{draft.tn[+inp.dataset.fi][inp.dataset.k]=inp.dataset.k==="g"?+inp.value:inp.value;draw()});
+    document.querySelectorAll("[data-fd]").forEach(b=>b.onclick=()=>{draft.tn.splice(+b.dataset.fd,1);draw()});};
+  openModal(`<div class="sec-h"><h2>${id?esc(f.code):t("newFormula")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="fe"><div class="form"><label>${t("paintCode")}<input class="input" id="fe-code" value="${esc(f.code)}" required></label><label>${t("color")}<input class="input" id="fe-name" value="${esc(f.name)}"></label>
+   <label>${t("paintBrand")}<input class="input" id="fe-brand" value="${esc(f.brand)}"></label><label>${t("make")}<input class="input" id="fe-make" value="${esc(f.make)}"></label>
+   <label class="full">${t("mixFor")}<input class="input num" id="fe-mix" type="number" value="${Math.round(mix*10)/10}"></label></div>
+   <table class="tbl" style="margin-top:12px"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody id="fe-rows"></tbody></table>
+   <button type="button" class="btn btn-ghost btn-sm" id="fe-addt" style="margin-top:8px">＋ ${t("addToner")}</button>
+   <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><button type="button" class="btn btn-paint" id="fe-log">${t("logMix")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    draw();$("#fe-mix").onchange=e=>{mix=+e.target.value;draw()};$("#fe-addt").onclick=()=>{draft.tn.push({n:"",g:0});draw()};
+    const collect=()=>{Object.assign(draft,{code:$("#fe-code").value.trim().toUpperCase(),name:$("#fe-name").value.trim(),brand:$("#fe-brand").value.trim(),make:$("#fe-make").value.trim()})};
+    $("#fe-log").onclick=()=>{collect();S.paint.mixes.push({id:"m"+uid(),d:today(),code:draft.code,order:fromOrder||"",g:Math.round(mix||draft.tn.reduce((s,x)=>s+ +x.g,0)),by:ME.id});save();toast(t("saved"))};
+    $("#fe").onsubmit=e=>{e.preventDefault();collect();const i=S.paint.library.findIndex(x=>x.id===draft.id);if(i>=0)S.paint.library[i]=draft;else S.paint.library.push(draft);save();closeModal();toast(t("saved"));render()};});
+}
+
+/* ---- Clientes ---- */
+function vCust(){
+  const rows=S.customers.map(c=>{const os=S.orders.filter(o=>o.cust===c.id);return{c,os,paid:os.reduce((s,o)=>s+totals(o).paid,0),bal:os.reduce((s,o)=>s+Math.max(0,totals(o).bal),0)}}).sort((a,b)=>b.os.length-a.os.length);
+  return`<div class="top"><div><h1>${t("customers")}</h1><p class="num">${S.customers.length}</p></div><button class="btn btn-pri" onclick="newCustomer()">＋ ${t("newCust")}</button></div>
+  <div class="card"><div class="list stagger">${rows.map(({c,os,paid,bal})=>`<div class="row" ${os[0]?`data-open="${os[os.length-1].id}"`:""}>
+   <div class="thumb" style="border-radius:50%;width:42px;height:42px;font-family:var(--display);font-weight:700;color:var(--bay);background:var(--bay-soft);border:0">${initials(c.name)}</div>
+   <div class="main"><div class="t1">${esc(c.name)}</div><div class="t2">${esc(c.phone)} · ${os.length} ${t("ordersOf")}${os.length?" · "+os.map(o=>esc(o.make+" "+o.model)).slice(0,2).join(", "):""}</div></div>
+   <div style="text-align:right;font-size:13px" class="num"><div>${t("spent")} <b>${money(paid)}</b></div>${bal>0.5?`<div style="color:var(--paint)">${t("balance")} ${money(bal)}</div>`:""}</div></div>`).join("")||`<div class="empty">—</div>`}</div></div>`;
+}
+/* ---- Ajustes ---- */
+let resetArm=false;
+function vSet(){const s=S.settings;
+  return`<div class="top"><div><h1>${t("settings")}</h1></div></div>
+  <div class="grid2"><div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+  <div class="card"><div class="sec-h"><h2>${t("shop")}</h2></div><div class="box-b"><div class="form">
+   <label class="full">${t("shop")}<input class="input" id="s-shop" value="${esc(s.shop)}"></label>
+   <label>${t("rate")}<input class="input num" id="s-rate" type="number" step="0.5" value="${s.rate}"></label>
+   <label>${t("paintRate")}<input class="input num" id="s-prate" type="number" step="0.5" value="${s.paintRate}"></label>
+   <label>${t("taxRate")}<input class="input num" id="s-tax" type="number" step="0.01" value="${s.tax}"></label>
+   <label>${t("theme")}<select class="input" id="s-theme"><option value="auto">${t("auto")}</option><option value="light">${t("light")}</option><option value="dark">${t("dark")}</option></select></label></div></div></div>
+  <div class="card"><div class="sec-h"><h2>${t("team")}</h2><button class="btn btn-ghost btn-sm" id="u-add">＋ ${t("addUser")}</button></div>
+   ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
+  <div class="card" style="align-self:start"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
+   <p style="margin:0;color:var(--muted)">${t("dataNote")}</p>
+   <button class="btn btn-ghost" id="s-copy">${t("copyData")}</button>
+   <button class="btn btn-ghost" id="s-reset" style="color:var(--bad)">${t("resetDemo")}</button></div></div></div>`;
+}
+function wireSet(){
+  $("#s-theme").value=S.settings.theme||"auto";
+  const bind=(id,k,num)=>$(id).addEventListener("change",e=>{S.settings[k]=num?+e.target.value:e.target.value;save();toast(t("saved"));if(k==="theme")applyTheme()});
+  bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
+  $("#s-copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(S));toast(t("copied"))}catch(e){toast(t("noCopy"))}};
+  $("#s-reset").onclick=e=>{if(!resetArm){resetArm=true;e.target.textContent=t("sure");setTimeout(()=>{resetArm=false},3000);return}
+    const lang=S.settings.lang;S=demo();S.settings.lang=lang;save();resetArm=false;ME=S.users[0];try{sessionStorage.setItem(SKEY,ME.id)}catch(x){}applyTheme();render()};
+  document.querySelectorAll("[data-du]").forEach(b=>b.onclick=()=>{S.users=S.users.filter(u=>u.id!==b.dataset.du);save();render()});
+  $("#u-add").onclick=()=>openModal(`<div class="sec-h"><h2>${t("addUser")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="u-form"><div class="form"><label class="full">${t("name")}<input class="input" id="u-n" required></label>
+   <label>${t("role")}<select class="input" id="u-r">${Object.entries(t("roles")).map(([k,v])=>`<option value="${k}" ${k==="tech"?"selected":""}>${v}</option>`).join("")}</select></label>
+   <label>${t("pin")}<input class="input num" id="u-p" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required></label></div>
+   <div style="display:flex;justify-content:flex-end;margin-top:16px"><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    $("#u-form").onsubmit=e=>{e.preventDefault();S.users.push({id:"u"+uid(),name:$("#u-n").value.trim(),role:$("#u-r").value,pin:$("#u-p").value});save();closeModal();toast(t("saved"));render()}});
+}
+function applyTheme(){const th=S.settings.theme;if(th==="light"||th==="dark")document.documentElement.dataset.theme=th;else delete document.documentElement.dataset.theme}
+
+/* ================== Panel de orden ================== */
+let openId=null,tab="vehicle",curPart=null,stage="before";
+function openOrder(id){openId=id;tab="vehicle";curPart=null;renderSheet();$("#sheet").classList.add("on");$("#scrim").classList.add("on")}
+function closeSheet(silent){openId=null;$("#sheet").classList.remove("on");$("#scrim").classList.remove("on");if(!silent)render()}
+$("#scrim").onclick=()=>closeSheet();
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("#lb").classList.contains("on"))closeLb();else if($("#modal").classList.contains("on"))closeModal();else if($("#over").classList.contains("on"))closeOver();else if(openId)closeSheet()});
+const tabsFor=()=>["vehicle","inspection",...(can("money")?["estimate"]:[]),"parts","phases","notes",...(can("money")?["payments"]:[]),...(can("paint")?["formula"]:[])];
+function renderSheet(){
+  const o=S.orders.find(x=>x.id===openId);if(!o)return closeSheet();
+  if(!tabsFor().includes(tab))tab="vehicle";
+  const c=cust(o.cust),tt=totals(o);
+  $("#sheet").innerHTML=`<div class="sheet-h"><div class="r1"><button class="x" onclick="closeSheet()" aria-label="${t("close")}">×</button><h2>#${o.id} · ${esc(c.name)}</h2>
+    <button class="hbtn" onclick="openReport('${o.id}')" title="${t("report")}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h4"/></svg><span>${t("report")}</span></button>
+    ${can("money")?`<button class="hbtn" onclick="openCustView('${o.id}')" title="${t("custView")}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg><span>${t("custView")}</span></button>`:""}</div>
+   <div class="sub"><span>${o.year} ${esc(o.make)} ${esc(o.model)} ${esc(o.trim||"")}</span>${phaseChipLight(o)}${o.payer==="ins"?`<span class="chip" style="background:rgba(255,255,255,.18);color:#fff;border-color:transparent">${esc(o.insurer||t("payerIns"))}</span>`:""}</div>
+   <div class="tabs" role="tablist">${tabsFor().map(k=>`<button class="tab ${tab===k?"on":""}" role="tab" onclick="tab='${k}';renderSheet()">${t(k)}</button>`).join("")}</div></div>
+   <div class="sheet-b" id="sheet-b"><div class="pane">${({vehicle:pVeh,inspection:pInsp,estimate:pEst,parts:pParts,phases:pPhases,notes:pNotes,payments:pPays,formula:pForm})[tab](o)}</div></div>
+   ${can("money")?`<div class="sheet-f"><span>${t("balance")}: <span class="big num">${money(tt.bal)}</span></span><span class="num" style="opacity:.85">${t("total")} ${money(tt.tot)}</span></div>`:""}`;
+  wireSheet(o);
+  const act=$("#sheet .tab.on");if(act)act.scrollIntoView({block:"nearest",inline:"center"});
+}
+function phaseChipLight(o){return`<span class="chip" style="background:rgba(255,255,255,.18);color:#fff;border-color:transparent"><span class="dot"></span>${t("ph")[PH[o.phase]]}</span>`}
+
+/* Vehículo */
+const ZONES={front:[120,22],hood:[120,92],lf:[50,58],rf:[190,58],lfd:[40,150],rfd:[200,150],lrd:[40,205],rrd:[200,205],roof:[120,180],lq:[50,262],rq:[190,262],lr:[60,318],rr:[180,318],rear:[120,345]};
+const fld=(k,v,type="text",full)=>`<label class="${full?"full":""}">${t(k)}<input class="input" data-f="${k}" type="${type}" value="${esc(v??"")}"></label>`;
+function pVeh(o){const zn=ZN[S.settings.lang];
+  return`<div class="box"><div class="box-h">${t("impact")}</div><div class="box-b impact">
+   <svg viewBox="0 0 240 368" role="group" aria-label="${t("impact")}">
+    <rect class="car-body" x="78" y="40" width="84" height="290" rx="34"/>
+    <path class="car-glass" d="M88 118 Q120 104 152 118 L148 150 Q120 142 92 150 Z"/><path class="car-glass" d="M92 250 Q120 258 148 250 L152 280 Q120 292 88 280 Z"/>
+    <rect x="92" y="156" width="56" height="90" rx="8" fill="none" stroke="var(--line)" stroke-width="1.5"/>
+    ${[[70,80],[160,80],[70,262],[160,262]].map(([x,y])=>`<rect x="${x}" y="${y}" width="10" height="34" rx="4" fill="var(--muted)"/>`).join("")}
+    ${Object.entries(ZONES).map(([k,[x,y]])=>{const i=o.impact.indexOf(k);return`<g class="zone ${i>=0?"sel":""} ${i===0?"prim":""}" data-zone="${k}" tabindex="0" role="button" aria-pressed="${i>=0}" aria-label="${zn[k]}"><circle cx="${x}" cy="${y}" r="13"/>${i>=0?`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">${i+1}</text>`:""}</g>`}).join("")}
+   </svg><p style="color:var(--muted);font-size:13px;margin:6px 0 10px;text-align:center">${t("tapZones")}</p>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">${o.impact.map((k,i)=>`<span class="chip ${i===0?"c-paint":""}">${i===0?t("primary"):t("secondary")}: ${zn[k]}</span>`).join("")}</div></div></div>
+  <div class="box"><div class="box-h">${t("vehicle")}</div><div class="box-b"><div class="form">
+   ${fld("year",o.year,"number")}${fld("make",o.make)}${fld("model",o.model)}${fld("trim",o.trim)}
+   <label class="full">${t("vin")}<input class="input num" data-f="vin" value="${esc(o.vin)}" maxlength="17" style="text-transform:uppercase;letter-spacing:.06em"></label>
+   ${fld("color",o.color)}${fld("paintCode",o.paintCode)}
+   <label>${t("payer")}<select class="input" data-f="payer"><option value="cust" ${o.payer==="cust"?"selected":""}>${t("payerCust")}</option><option value="ins" ${o.payer==="ins"?"selected":""}>${t("payerIns")}</option></select></label>
+   ${fld("promised",o.promised,"date")}
+   ${o.payer==="ins"?fld("insurer",o.insurer)+fld("claim",o.claim):""}
+   <label class="full">${t("tech")}<select class="input" data-f="tech"><option value="">${t("nobody")}</option>${S.users.map(u=>`<option value="${u.id}" ${o.tech===u.id?"selected":""}>${esc(u.name)} · ${t("roles")[u.role]}</option>`).join("")}</select></label>
+  </div></div></div>
+  <div class="box"><div class="box-h">${t("customer")}</div><div class="box-b"><div class="form">
+   <label>${t("name")}<input class="input" data-c="name" value="${esc(cust(o.cust).name)}"></label><label>${t("phone")}<input class="input" data-c="phone" value="${esc(cust(o.cust).phone)}" inputmode="tel"></label></div></div></div>
+  ${ME.role==="owner"?`<button class="btn btn-ghost" id="del-order" style="color:var(--bad)">${t("deleteOrder")}</button>`:""}`;
+}
+
+/* Inspección por partes */
+function pInsp(o){
+  const pn=PN[S.settings.lang],an=ANGN[S.settings.lang],ins=o.insp||(o.insp={});
+  const gN=genCount(o);
+  const cur=curPart?ins[curPart]||{sev:0,ph:[]}:null;
+  const svg=`<svg viewBox="0 0 260 466" role="group" aria-label="${t("byPart")}">
+   <text x="130" y="12" text-anchor="middle" font-size="10" fill="var(--muted)" font-weight="600" letter-spacing="1">${S.settings.lang==="es"?"FRENTE":"FRONT"}</text>
+   <text x="130" y="462" text-anchor="middle" font-size="10" fill="var(--muted)" font-weight="600" letter-spacing="1">${S.settings.lang==="es"?"ATRÁS":"REAR"}</text>
+   ${Object.entries(PARTS).map(([k,[x,y,w,h,r]])=>{const p=ins[k]||{sev:0,ph:[]},n=(p.ph||[]).length;
+     return`<g class="part ${curPart===k?"cur":""}" data-part="${k}" tabindex="0" role="button" aria-label="${pn[k]}"><rect class="sev${p.sev||0}" x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}"/>
+     ${n?`<circle class="cntbg" cx="${x+w-4}" cy="${y+4}" r="8"/><text class="cnt" x="${x+w-4}" y="${y+7.5}" text-anchor="middle">${n}</text>`:""}</g>`}).join("")}
+  </svg>`;
+  const stagePhotos=cur?(cur.ph||[]).map((p,i)=>({...p,i})).filter(p=>p.st===stage):[];
+  return`<div class="box"><div class="box-h">${t("entry")} <span class="num">${gN}/8</span></div><div style="padding:10px 14px 0"><div class="meter"><span style="width:${gN/8*100}%"></span></div></div>
+   <div class="box-b photos four">${ANG.map(k=>{const src=photo(o.photosGen?.[k]);return`<div class="ph ${src?"has":""}" data-gen="${k}" role="button" tabindex="0">${src?`<img src="${src}" alt="${an[k]}"><div class="cap">${an[k]}</div>`:`${camIcon}<span>${an[k]}</span>`}</div>`}).join("")}</div></div>
+  <div class="box"><div class="box-h">${t("byPart")}<span>${Object.values(ins).filter(p=>p.sev>0).length} ${S.settings.lang==="es"?"con daño":"damaged"}</span></div><div class="box-b insp">
+   <div>${svg}<div class="sevkey">${t("sev").map((s,i)=>`<span><i style="background:${SEVC[i]}"></i>${s}</span>`).join("")}</div></div>
+   <div>${!cur?`<div class="empty" style="padding:40px 10px">${carIcon(40)}<p>${t("tapPart")}</p></div>
+     <div class="partlist">${Object.entries(ins).filter(([k,p])=>p.sev>0||(p.ph||[]).length).map(([k,p])=>`<button class="chip" style="cursor:pointer;background:${SEVC[p.sev||0]};color:${p.sev>=3?"#fff":"inherit"}" data-part="${k}">${pn[k]} · ${(p.ph||[]).length}</button>`).join("")}</div>`
+   :`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px"><h3 style="font-size:24px">${pn[curPart]}</h3><button class="del" onclick="curPart=null;renderSheet()" aria-label="${t("close")}">×</button></div>
+     <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${t("damageLvl")}</div>
+     <div class="seg" style="margin-bottom:14px">${t("sev").map((s,i)=>`<button class="${(cur.sev||0)===i?"on":""}" data-sev="${i}"><i style="display:inline-block;width:9px;height:9px;border-radius:3px;background:${SEVC[i]};margin-right:5px;border:1px solid var(--line)"></i>${s}</button>`).join("")}</div>
+     <div class="seg" style="margin-bottom:12px">${["before","during","after"].map(s=>`<button class="${stage===s?"on":""}" data-stage="${s}">${t(s)} <span class="num" style="opacity:.6">${(cur.ph||[]).filter(p=>p.st===s).length}</span></button>`).join("")}</div>
+     <div class="photos">${stagePhotos.map(p=>`<div class="ph has" data-pv="${p.i}"><img src="${photo(p.id)||""}" alt=""><div class="cap">${fmtTS(p.ts)} · ${esc(user(p.by)?.name.split(" ")[0]||"")}${p.note?"<br>"+esc(p.note):""}</div></div>`).join("")}
+      <div class="ph" data-addph="1" role="button" tabindex="0">${camIcon}<span>${t("addPhoto")}<br><small style="font-weight:500">${t(stage)}</small></span></div></div>`}
+   </div></div></div>`;
+}
+
+/* Estimado + firma */
+function pEst(o){const tt=totals(o),types=["labor","part","paint","other"],tn={labor:t("labor"),part:t("partT"),paint:t("paintT"),other:t("other")};
+  return`<div class="box"><div class="box-h">${t("estimate")}<button class="btn btn-pri btn-sm" id="add-line">＋ ${t("addLine")}</button></div>
+  <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${t("desc")}</th><th class="hide-s">${t("type")}</th><th class="r">${t("qty")}</th><th class="r hide-s">${t("price")}</th><th class="r">${t("amount")}</th><th></th></tr></thead><tbody>
+  ${o.est.map((l,i)=>`<tr><td><input data-l="${i}" data-k="d" value="${esc(l.d)}" aria-label="${t("desc")}"></td>
+   <td class="hide-s"><select class="input" style="padding:4px 6px" data-l="${i}" data-k="t">${types.map(x=>`<option value="${x}" ${l.t===x?"selected":""}>${tn[x]}</option>`).join("")}</select></td>
+   <td class="r" style="width:76px"><input class="num" style="text-align:right" type="number" step="0.1" data-l="${i}" data-k="q" value="${l.q}"></td>
+   <td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" step="0.01" data-l="${i}" data-k="p" value="${l.p}"></td>
+   <td class="r num" style="white-space:nowrap">${money(l.q*l.p)}</td><td><button class="del" data-dl="${i}" aria-label="x">×</button></td></tr>`).join("")}</tbody></table></div>
+  <div class="totals num" style="border-top:1px solid var(--line)"><span>${t("subtotal")}</span><span style="text-align:right">${money(tt.sub)}</span>
+   <span>${t("tax")} (${S.settings.tax}%, ${S.settings.lang==="es"?"partes y materiales":"parts & materials"})</span><span style="text-align:right">${money(tt.tax)}</span>
+   <span class="gt">${t("total")}</span><span class="gt" style="text-align:right">${money(tt.tot)}</span></div></div>
+  <div class="box"><div class="box-h">${t("approval")}${o.sig?`<span class="chip c-ok">✓ ${fmtD(o.sig.d)}</span>`:""}</div><div class="box-b">
+   ${o.sig?`<img class="sigimg" src="${o.sig.img}" alt="firma"><p style="margin:8px 0 10px">${t("signedBy")} <b>${esc(o.sig.name)}</b> · ${fmtD(o.sig.d)} · ${money(o.sig.total)}</p><button class="btn btn-ghost btn-sm" id="sig-clear">${t("clear")}</button>`
+   :`<p style="margin:0 0 8px;color:var(--muted);font-size:13px">${t("signHere")}</p><canvas class="sigpad" id="sigpad"></canvas>
+    <div class="form" style="margin-top:10px"><label>${t("signName")}<input class="input" id="sig-name" value="${esc(cust(o.cust).name)}"></label>
+    <div style="display:flex;gap:8px;align-items:flex-end"><button class="btn btn-ghost" id="sig-reset">${t("clear")}</button><button class="btn btn-pri" id="sig-save">${t("saveSig")}</button></div></div>`}
+  </div></div>`;
+}
+function pParts(o){const sc=["","c-bay","c-warn","c-ok"],got=o.parts.filter(p=>p.s>=2).length;
+  return`<div class="box"><div class="box-h">${t("parts")} <span class="num">${got}/${o.parts.length}</span></div>
+  <div style="padding:10px 14px 0"><div class="meter"><span style="width:${o.parts.length?got/o.parts.length*100:0}%"></span></div></div>
+  <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${t("part")}</th>${can("money")?`<th class="r hide-s">${t("cost")}</th>`:""}<th class="r">${t("status")}</th><th></th></tr></thead><tbody>
+  ${o.parts.map((p,i)=>`<tr><td><input data-p="${i}" data-k="n" value="${esc(p.n)}"></td>${can("money")?`<td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" data-p="${i}" data-k="c" value="${p.c}"></td>`:""}
+   <td class="r"><button class="status chip ${sc[p.s]}" data-ps="${i}">${t("st")[p.s]}</button></td><td><button class="del" data-dp="${i}">×</button></td></tr>`).join("")||`<tr><td colspan="4" class="empty">—</td></tr>`}
+  </tbody></table></div><div class="box-b"><button class="btn btn-ghost btn-sm" id="add-part">＋ ${t("addPart")}</button></div></div>`;
+}
+function pPhases(o){
+  return`<div class="box"><div class="box-h">${t("phases")}<span>${t("promised")}: ${fmtD(o.promised)}</span></div><div class="box-b">
+  ${PH.map((k,i)=>{const st=i<o.phase?"done":i===o.phase?"cur":"";
+   return`<div class="step ${st}"><div class="sdot">${i<o.phase?"✓":""}</div><div><div class="sn">${t("ph")[k]}</div><div class="sd">${o.log[k]?fmtD(o.log[k]):`<span style="color:var(--muted)">${t("pending")}</span>`}</div></div>
+   <div>${i===o.phase+1?`<button class="btn btn-pri btn-sm" onclick="setPhase('${o.id}',${i})">${t("advance")} →</button>`:""}</div></div>`}).join("")}</div></div>`;
+}
+function pNotes(o){const kc={int:"",cli:"c-bay",ins:"c-warn"},kn={int:t("internal"),cli:t("toCust"),ins:t("toIns")};
+  return`<div class="box"><div class="box-h">${t("addNote")}</div><div class="box-b" style="display:flex;flex-direction:column;gap:10px">
+   <textarea class="input" id="note-x" rows="3" placeholder="${t("writeNote")}"></textarea>
+   <div style="display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap"><select class="input" id="note-k" style="width:auto">${Object.entries(kn).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select>
+   <button class="btn btn-pri" id="note-add">${t("save")}</button></div></div></div>
+  <div class="box">${o.notes.length?o.notes.map(n=>`<div class="note"><div class="nh"><span class="chip ${kc[n.k]}">${kn[n.k]}</span><span>${esc(user(n.by)?.name||"")} · ${fmtD(n.d)}</span></div>${esc(n.x)}</div>`).join(""):`<div class="empty">—</div>`}</div>`;
+}
+function pPays(o){const tt=totals(o),mt={cash:t("cash"),card:t("card"),cashapp:t("cashapp"),check:t("check"),ins:t("insPay")},pct=tt.tot?Math.min(100,tt.paid/tt.tot*100):0;
+  return`<div class="box"><div class="box-b">
+   <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--muted)"><span>${t("paid")} <b class="num" style="color:var(--ok)">${money(tt.paid)}</b></span><span>${t("total")} <b class="num" style="color:var(--ink)">${money(tt.tot)}</b></span></div>
+   <div class="meter" style="height:12px;margin-top:8px"><span style="width:${pct}%"></span></div></div></div>
+  <div class="box"><div class="box-h">${t("addPay")}</div><div class="box-b"><div class="form">
+   <label>${t("amount")}<input class="input num" id="pay-a" type="number" step="0.01" inputmode="decimal" value="${tt.bal>0?tt.bal.toFixed(2):""}"></label>
+   <label>${t("method")}<select class="input" id="pay-m">${Object.entries(mt).map(([k,v])=>`<option value="${k}" ${o.payer==="ins"&&k==="ins"?"selected":""}>${v}</option>`).join("")}</select></label>
+   <div class="full"><button class="btn btn-pri" id="pay-add">${t("addPay")}</button></div></div></div></div>
+  <div class="box"><div class="box-h">${t("payments")}</div>${o.pays.length?`<table class="tbl"><tbody>${o.pays.map((p,i)=>`<tr><td>${fmtD(p.d)}</td><td>${mt[p.m]||p.m}</td><td class="r num"><b>${money(+p.a)}</b></td><td style="width:30px"><button class="del" data-dpay="${i}">×</button></td></tr>`).join("")}</tbody></table>`:`<div class="empty">${t("noPays")}</div>`}</div>`;
+}
+function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn.reduce((s,x)=>s+(+x.g||0),0),mix=+f.mix||sum,k=sum?mix/sum:0;
+  const lib=S.paint.library.filter(x=>x.code&&o.paintCode&&x.code.toUpperCase()===o.paintCode.toUpperCase());
+  return`<div class="box"><div class="box-b" style="display:flex;gap:14px;align-items:center"><div class="swatch" style="background:${swatchColor(o.color)}"></div>
+   <div style="flex:1;min-width:0"><div style="font-family:var(--display);font-size:22px;font-weight:700">${esc(o.paintCode||"—")} · ${esc(o.color||"")}</div><div style="color:var(--muted);font-size:13px">${t("formulaHint")}</div></div></div>
+   <div class="box-b" style="border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
+    ${lib.length?`<button class="btn btn-ghost btn-sm" id="f-fromlib">↓ ${t("fromLib")} (${esc(lib[0].brand)})</button>`:""}
+    <button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
+  <div class="box"><div class="box-b"><div class="form">
+   <label>${t("paintBrand")}<input class="input" id="f-brand" value="${esc(f.brand)}"></label>
+   <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
+  <div class="box"><div class="box-h">${t("formula")}<span class="num">${Math.round(sum*10)/10} g</span></div>
+   <table class="tbl"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody>
+   ${f.tn.map((x,i)=>`<tr><td><input data-tn="${i}" data-k="n" value="${esc(x.n)}"><div class="gbar" style="width:${sum?Math.max(2,x.g/sum*100):0}%"></div></td>
+    <td class="r" style="width:90px"><input class="num" style="text-align:right" type="number" step="0.1" data-tn="${i}" data-k="g" value="${x.g}"></td>
+    <td class="r num" style="width:80px"><b>${(x.g*k).toFixed(1)}</b></td><td><button class="del" data-dtn="${i}">×</button></td></tr>`).join("")||`<tr><td colspan="4" class="empty">—</td></tr>`}
+   </tbody></table><div class="box-b"><button class="btn btn-ghost btn-sm" id="add-tn">＋ ${t("addToner")}</button></div></div>`;
+}
+
+/* ---- Captura de fotos ---- */
+let photoCb=null;
+function pickPhoto(multi,cb){photoCb=cb;(multi?$("#filem"):$("#file")).click()}
+function processFile(f,ro){return new Promise(res=>{const img=new Image(),url=URL.createObjectURL(f);
+  img.onload=()=>{const k=Math.min(1,1024/Math.max(img.width,img.height)),cv=document.createElement("canvas");cv.width=Math.round(img.width*k);cv.height=Math.round(img.height*k);
+    const g=cv.getContext("2d");g.drawImage(img,0,0,cv.width,cv.height);stamp(g,cv.width,cv.height,ro,new Date());URL.revokeObjectURL(url);res(cv.toDataURL("image/jpeg",.75))};
+  img.onerror=()=>{URL.revokeObjectURL(url);res(null)};img.src=url})}
+["#file","#filem"].forEach(sel=>$(sel).addEventListener("change",async e=>{const files=[...e.target.files];e.target.value="";if(!files.length||!photoCb)return;
+  const o=S.orders.find(x=>x.id===openId);const out=[];for(const f of files){const d=await processFile(f,o?.id||"");if(d)out.push(d)}photoCb(out)}));
+
+function wireSheet(o){
+  const sb=$("#sheet");
+  sb.querySelectorAll("[data-zone]").forEach(z=>{const fn=()=>{const k=z.dataset.zone,i=o.impact.indexOf(k);if(i>=0)o.impact.splice(i,1);else o.impact.push(k);save();renderSheet()};
+    z.addEventListener("click",fn);z.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}})});
+  sb.querySelectorAll("[data-f]").forEach(i=>i.addEventListener("change",()=>{let v=i.value;if(i.dataset.f==="vin")v=v.toUpperCase();if(i.dataset.f==="year")v=+v;o[i.dataset.f]=v;save();toast(t("saved"));renderSheet()}));
+  sb.querySelectorAll("[data-c]").forEach(i=>i.addEventListener("change",()=>{const c=S.customers.find(x=>x.id===o.cust);if(c){c[i.dataset.c]=i.value;save();toast(t("saved"));renderSheet()}}));
+  const del=$("#del-order");if(del){let arm=false;del.onclick=()=>{if(!arm){arm=true;del.textContent=t("sure");setTimeout(()=>{arm=false;if(del.isConnected)del.textContent=t("deleteOrder")},3000);return}
+    S.orders=S.orders.filter(x=>x.id!==o.id);save();toast(t("deleted"));closeSheet()}}
+  /* inspección */
+  const act=(el,fn)=>{el.addEventListener("click",fn);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}})};
+  sb.querySelectorAll("[data-gen]").forEach(p=>act(p,()=>{const k=p.dataset.gen;if(o.photosGen?.[k]){openLb(o,{gen:k});return}
+    pickPhoto(false,arr=>{if(!arr[0])return;const id="p"+uid();idbPut(id,arr[0]);o.photosGen=o.photosGen||{};o.photosGen[k]=id;save();toast(t("saved"));renderSheet();sb.querySelector(`[data-gen="${k}"]`)?.classList.add("pop")})}));
+  sb.querySelectorAll("[data-part]").forEach(p=>act(p,()=>{curPart=p.dataset.part;stage=(o.insp[curPart]?.ph||[]).some(x=>x.st==="before")&&o.phase>=3?(o.phase>=6?"after":"during"):"before";renderSheet();
+    if(innerWidth<900)setTimeout(()=>sb.querySelector(".insp>div:last-child")?.scrollIntoView({behavior:"smooth",block:"start"}),60)}));
+  sb.querySelectorAll("[data-sev]").forEach(b=>b.onclick=()=>{o.insp[curPart]=o.insp[curPart]||{sev:0,ph:[]};o.insp[curPart].sev=+b.dataset.sev;save();renderSheet()});
+  sb.querySelectorAll("[data-stage]").forEach(b=>b.onclick=()=>{stage=b.dataset.stage;renderSheet()});
+  sb.querySelectorAll("[data-addph]").forEach(p=>act(p,()=>pickPhoto(true,arr=>{const part=o.insp[curPart]=o.insp[curPart]||{sev:0,ph:[]};
+    arr.forEach(d=>{const id="p"+uid();idbPut(id,d);part.ph.push({id,st:stage,ts:new Date().toISOString(),by:ME.id,note:""})});
+    if(!part.sev&&stage==="before")part.sev=1;save();toast(`${arr.length} ${arr.length===1?(S.settings.lang==="es"?"foto":"photo"):t("photosOf")} · ${t(stage)}`);renderSheet()})));
+  sb.querySelectorAll("[data-pv]").forEach(p=>p.onclick=()=>openLb(o,{part:curPart,i:+p.dataset.pv}));
+  /* estimado */
+  sb.querySelectorAll("[data-l]").forEach(i=>i.addEventListener("change",()=>{const l=o.est[+i.dataset.l];l[i.dataset.k]=i.dataset.k==="q"||i.dataset.k==="p"?+i.value:i.value;
+    if(i.dataset.k==="t"){if(i.value==="labor")l.p=S.settings.rate;if(i.value==="paint")l.p=S.settings.paintRate}save();renderSheet()}));
+  sb.querySelectorAll("[data-dl]").forEach(b=>b.onclick=()=>{o.est.splice(+b.dataset.dl,1);save();renderSheet()});
+  const al=$("#add-line");if(al)al.onclick=()=>{o.est.push({d:"",t:"labor",q:1,p:S.settings.rate});save();renderSheet();const ins=sb.querySelectorAll('[data-k="d"][data-l]');ins[ins.length-1]?.focus()};
+  const pad=$("#sigpad");if(pad)wireSig(pad,o);
+  const sc=$("#sig-clear");if(sc)sc.onclick=()=>{o.sig=null;save();renderSheet()};
+  /* partes */
+  sb.querySelectorAll("[data-p]").forEach(i=>i.addEventListener("change",()=>{o.parts[+i.dataset.p][i.dataset.k]=i.dataset.k==="c"?+i.value:i.value;save()}));
+  sb.querySelectorAll("[data-ps]").forEach(b=>b.onclick=()=>{const p=o.parts[+b.dataset.ps];p.s=(p.s+1)%4;save();renderSheet()});
+  sb.querySelectorAll("[data-dp]").forEach(b=>b.onclick=()=>{o.parts.splice(+b.dataset.dp,1);save();renderSheet()});
+  const ap=$("#add-part");if(ap)ap.onclick=()=>{o.parts.push({n:"",s:0,c:0});save();renderSheet();const ins=sb.querySelectorAll('[data-p][data-k="n"]');ins[ins.length-1]?.focus()};
+  /* notas y cobros */
+  const na=$("#note-add");if(na)na.onclick=()=>{const x=$("#note-x").value.trim();if(!x)return;o.notes.unshift({k:$("#note-k").value,d:today(),x,by:ME.id});save();toast(t("saved"));renderSheet()};
+  const pa=$("#pay-add");if(pa)pa.onclick=()=>{const a=+$("#pay-a").value;if(!(a>0))return;o.pays.push({a,m:$("#pay-m").value,d:today()});save();toast(t("saved"));renderSheet()};
+  sb.querySelectorAll("[data-dpay]").forEach(b=>b.onclick=()=>{o.pays.splice(+b.dataset.dpay,1);save();renderSheet()});
+  /* fórmula */
+  const fb=$("#f-brand");if(fb)fb.onchange=()=>{o.formula.brand=fb.value;save()};
+  const fm=$("#f-mix");if(fm)fm.onchange=()=>{o.formula.mix=+fm.value;save();renderSheet()};
+  sb.querySelectorAll("[data-tn]").forEach(i=>i.addEventListener("change",()=>{o.formula.tn[+i.dataset.tn][i.dataset.k]=i.dataset.k==="g"?+i.value:i.value;save();renderSheet()}));
+  sb.querySelectorAll("[data-dtn]").forEach(b=>b.onclick=()=>{o.formula.tn.splice(+b.dataset.dtn,1);save();renderSheet()});
+  const at=$("#add-tn");if(at)at.onclick=()=>{o.formula.tn.push({n:"",g:0});save();renderSheet()};
+  const fl=$("#f-fromlib");if(fl)fl.onclick=()=>{const L0=S.paint.library.find(x=>x.code.toUpperCase()===o.paintCode.toUpperCase());o.formula={brand:L0.brand,code:L0.code,tn:JSON.parse(JSON.stringify(L0.tn))};save();toast(t("saved"));renderSheet()};
+  const ft=$("#f-tolib");if(ft)ft.onclick=()=>{const code=(o.paintCode||"").toUpperCase();if(!code){toast(t("paintCode")+"?");return}
+    const ex=S.paint.library.find(x=>x.code.toUpperCase()===code);const rec={id:ex?.id||"f"+uid(),code,name:o.color||"",brand:o.formula.brand||"",make:o.make,tn:JSON.parse(JSON.stringify(o.formula.tn))};
+    if(ex)Object.assign(ex,rec);else S.paint.library.push(rec);save();toast(t("saved"))};
+  const flog=$("#f-log");if(flog)flog.onclick=()=>{const sum=o.formula.tn.reduce((s,x)=>s+ +x.g,0);S.paint.mixes.push({id:"m"+uid(),d:today(),code:o.paintCode||"—",order:o.id,g:Math.round(+o.formula.mix||sum),by:ME.id});save();toast(t("saved"))};
+}
+function wireSig(cv,o){
+  const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;cv.width=r.width*dpr;cv.height=r.height*dpr;
+  const g=cv.getContext("2d");g.scale(dpr,dpr);g.lineWidth=2.4;g.lineCap="round";g.lineJoin="round";g.strokeStyle="#16202a";
+  let draw=false,dirty=false,last=null;const pt=e=>{const b=cv.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]};
+  cv.onpointerdown=e=>{draw=true;last=pt(e);cv.setPointerCapture(e.pointerId)};
+  cv.onpointermove=e=>{if(!draw)return;const p=pt(e);g.beginPath();g.moveTo(...last);g.lineTo(...p);g.stroke();last=p;dirty=true};
+  cv.onpointerup=cv.onpointercancel=()=>{draw=false};
+  $("#sig-reset").onclick=()=>{g.clearRect(0,0,cv.width,cv.height);dirty=false};
+  $("#sig-save").onclick=()=>{if(!dirty){toast(t("signHere"));return}
+    const out=document.createElement("canvas");out.width=cv.width;out.height=cv.height;const og=out.getContext("2d");og.fillStyle="#fff";og.fillRect(0,0,out.width,out.height);og.drawImage(cv,0,0);
+    o.sig={img:out.toDataURL("image/jpeg",.8),name:$("#sig-name").value.trim(),d:today(),total:totals(o).tot};save();toast(t("saved"));renderSheet()};
+}
+
+/* ---- Visor de foto ---- */
+let lbRef=null;
+function openLb(o,ref){lbRef={o,ref};
+  const isGen=!!ref.gen,p=isGen?null:o.insp[ref.part].ph[ref.i],src=photo(isGen?o.photosGen[ref.gen]:p.id);
+  $("#lb").innerHTML=`<img src="${src}" alt=""><div style="color:#fff;font-size:14px;text-align:center">${isGen?ANGN[S.settings.lang][ref.gen]:`${PN[S.settings.lang][ref.part]} · ${t(p.st)} · ${fmtTS(p.ts)} ${t("takenBy")} ${esc(user(p.by)?.name||"")}`}</div>
+   <div class="lbbar">${isGen?"":`<input id="lb-note" placeholder="${t("note")}" value="${esc(p.note||"")}">`}
+   <button class="btn btn-ghost" id="lb-del" style="color:var(--bad)">${S.settings.lang==="es"?"Borrar foto":"Delete photo"}</button><button class="btn btn-pri" id="lb-close">${t("close")}</button></div>`;
+  $("#lb").classList.add("on");
+  let arm=false;$("#lb-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}
+    if(isGen){idbDel(o.photosGen[ref.gen]);delete o.photosGen[ref.gen]}else{idbDel(p.id);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
+  $("#lb-close").onclick=closeLb;
+}
+function closeLb(){if(lbRef&&!lbRef.ref.gen){const n=$("#lb-note");if(n){lbRef.o.insp[lbRef.ref.part].ph[lbRef.ref.i].note=n.value;save()}}$("#lb").classList.remove("on");lbRef=null;if(openId)renderSheet()}
+$("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLb()});
+
+/* ---- Reporte y vista del cliente ---- */
+function openOver(html){$("#over").innerHTML=html;$("#over").classList.add("on");$("#over").scrollTop=0}
+function closeOver(){$("#over").classList.remove("on")}
+function partDiagramStatic(o){return`<svg viewBox="0 0 260 466" style="width:200px;height:auto;flex:none">${Object.entries(PARTS).map(([k,[x,y,w,h,r]])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${["#f1f3f5","#f4d58a","#f39a5b","#d9483c"][o.insp?.[k]?.sev||0]}" stroke="#8a96a3" stroke-width="1.2"/>`).join("")}</svg>`}
+function openReport(id){
+  const o=S.orders.find(x=>x.id===id),c=cust(o.cust),pn=PN[S.settings.lang],an=ANGN[S.settings.lang],tt=totals(o);
+  const sevBg=["#eef1f4","#f4d58a","#f39a5b","#d9483c"],sevFg=["#5d6b78","#5a4300","#5a2300","#fff"];
+  const parts=Object.entries(o.insp||{}).filter(([k,p])=>p.sev>0||(p.ph||[]).length);
+  const fig=(src,cap)=>`<figure><img src="${src}" alt=""><figcaption>${cap}</figcaption></figure>`;
+  openOver(`<div class="over-bar"><b>${t("report")} · #${o.id}</b><span style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" id="rep-copy">${t("copySum")}</button><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></span></div>
+  <article class="report">
+   <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start"><div><div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#5d6b78;font-weight:700">${esc(S.settings.shop)}</div><h1>${t("repTitle")}</h1></div>
+    <div style="text-align:right;font-size:13px;color:#5d6b78">${t("orders")} <b style="font-size:20px;color:#1456b8;font-family:var(--display)">#${o.id}</b><br>${t("generated")}: ${fmtTS(new Date().toISOString())}</div></div>
+   <div class="meta"><div><span>${t("customer")}</span>${esc(c.name)}<br>${esc(c.phone)}</div><div><span>${t("vehicle")}</span>${o.year} ${esc(o.make)} ${esc(o.model)} ${esc(o.trim||"")}<br>VIN ${esc(o.vin)}</div>
+    <div><span>${t("color")}</span>${esc(o.color)} · ${esc(o.paintCode)}</div><div><span>${t("payer")}</span>${o.payer==="ins"?`${esc(o.insurer||t("payerIns"))}${o.claim?"<br>"+t("claim")+": "+esc(o.claim):""}`:t("payerCust")}</div></div>
+   <h3>${t("damagedParts")}</h3>
+   <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start">${partDiagramStatic(o)}<table style="flex:1;min-width:240px"><tbody>${parts.map(([k,p])=>`<tr><td>${pn[k]}</td><td><span class="sev" style="background:${sevBg[p.sev||0]};color:${sevFg[p.sev||0]}">${t("sev")[p.sev||0]}</span></td><td style="text-align:right">${(p.ph||[]).length} ${t("photosOf")}</td></tr>`).join("")||"<tr><td>—</td></tr>"}</tbody></table></div>
+   <h3>${t("general")}</h3><div class="rph">${ANG.filter(a=>o.photosGen?.[a]).map(a=>fig(photo(o.photosGen[a]),an[a])).join("")||"—"}</div>
+   ${parts.filter(([k,p])=>(p.ph||[]).length).map(([k,p])=>`<h3>${pn[k]} <span class="sev" style="background:${sevBg[p.sev||0]};color:${sevFg[p.sev||0]};vertical-align:middle">${t("sev")[p.sev||0]}</span></h3>
+     ${["before","during","after"].map(s=>{const ps=p.ph.filter(x=>x.st===s);return ps.length?`<div class="stage">${t(s)}</div><div class="rph">${ps.map(x=>fig(photo(x.id),`${fmtTS(x.ts)} · ${esc(user(x.by)?.name||"")}${x.note?" · "+esc(x.note):""}`)).join("")}</div>`:""}).join("")}`).join("")}
+   ${can("money")?`<h3>${t("estSum")}</h3><table><tbody>${o.est.map(l=>`<tr><td>${esc(l.d)}</td><td style="text-align:right">${money(l.q*l.p)}</td></tr>`).join("")}
+     <tr><td>${t("tax")}</td><td style="text-align:right">${money(tt.tax)}</td></tr><tr><td><b>${t("total")}</b></td><td style="text-align:right"><b>${money(tt.tot)}</b></td></tr></tbody></table>`:""}
+   <h3>${t("timeline")}</h3><table><tbody>${PH.filter(k=>o.log[k]).map(k=>`<tr><td>${t("ph")[k]}</td><td style="text-align:right">${fmtD(o.log[k])}</td></tr>`).join("")}</tbody></table>
+   ${o.sig?`<h3>${t("approval")}</h3><img src="${o.sig.img}" alt="" style="height:90px;border:1px solid #d9dfe5;border-radius:6px"><div style="font-size:13px">${t("signedBy")} ${esc(o.sig.name)} · ${fmtD(o.sig.d)}</div>`:""}
+   <div class="foot">${t("repFoot")}</div></article>`);
+  $("#rep-copy").onclick=async()=>{const txt=[`${S.settings.shop} — ${t("repTitle")} #${o.id}`,`${c.name} · ${o.year} ${o.make} ${o.model} · VIN ${o.vin}`,o.payer==="ins"?`${o.insurer} ${o.claim}`:"",
+    `${t("damagedParts")}: `+parts.map(([k,p])=>`${pn[k]} (${t("sev")[p.sev||0]})`).join(", "),can("money")?`${t("total")}: ${money(tt.tot)}`:"",`${t("ph")[PH[o.phase]]}`].filter(Boolean).join("\n");
+    try{await navigator.clipboard.writeText(txt);toast(t("copied"))}catch(e){toast(t("noCopy"))}};
+}
+function openCustView(id){
+  const o=S.orders.find(x=>x.id===id),c=cust(o.cust),tt=totals(o);
+  const afters=Object.values(o.insp||{}).flatMap(p=>p.ph||[]).filter(p=>p.st!=="before").slice(-3);
+  const show=PH.filter(k=>k!=="tear");
+  openOver(`<div class="over-bar"><b>${t("custView")}</b><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></div>
+  <p style="text-align:center;color:var(--muted);max-width:420px;margin:16px auto 0;padding:0 16px">${t("custNote")}</p>
+  <div class="phone"><div class="ph-top"><span class="tape" style="font-size:11px">${esc(S.settings.shop)}</span><h2>${t("custHello")} ${esc(c.name.split(" ")[0])}, ${t("yourCar").toLowerCase()} <span style="color:#ff9a6b">${t("ph")[PH[o.phase]]}</span></h2>
+   <div style="opacity:.8;font-size:13px;margin-top:6px">${o.year} ${esc(o.make)} ${esc(o.model)} · #${o.id}</div></div>
+   <div class="ph-b"><div class="cprog">${show.map(k=>{const i=PH.indexOf(k);return`<div class="cstep ${i<o.phase?"d":i===o.phase?"c":""}"><i></i>${t("ph")[k]}</div>`}).join("")}</div>
+    <div style="background:#f5f7f9;border-radius:12px;padding:12px;font-size:14px">${t("estReady")}<br><b style="font-size:18px;font-family:var(--display)">${fmtD(o.promised)}</b></div>
+    ${afters.length?`<div><div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5d6b78;margin-bottom:6px">${t("latest")}</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${afters.map(p=>`<img src="${photo(p.id)}" alt="" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">`).join("")}</div></div>`:""}
+    <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e3e7eb;padding-top:12px"><span>${t("balance")}</span><b style="font-family:var(--display);font-size:24px">${money(Math.max(0,tt.bal))}</b></div>
+    <button class="btn btn-pri" disabled>${t("payOnline")}</button></div></div>`);
+}
+
+/* ---- Modales ---- */
+function openModal(html,after){$("#modal-card").innerHTML=html;$("#modal").classList.add("on");$("#mscrim").classList.add("on");if(after)after();setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
+function closeModal(){$("#modal").classList.remove("on");$("#mscrim").classList.remove("on")}
+$("#mscrim").onclick=closeModal;
+function newOrder(){
+  openModal(`<div class="sec-h"><h2>${t("newOrder")}</h2><button class="del" onclick="closeModal()" aria-label="${t("cancel")}">×</button></div>
+  <form class="mb" id="no-form"><div class="form">
+   <label class="full">${t("existingCust")}<select class="input" id="no-c"><option value="">—</option>${S.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></label>
+   <label>${t("orNew")}: ${t("name")}<input class="input" id="no-cn"></label><label>${t("phone")}<input class="input" id="no-cp" inputmode="tel"></label>
+   <label>${t("year")}<input class="input num" id="no-y" type="number" value="${new Date().getFullYear()-4}"></label><label>${t("make")}<input class="input" id="no-mk" required></label>
+   <label>${t("model")}<input class="input" id="no-md" required></label><label>${t("color")}<input class="input" id="no-col"></label>
+   <label class="full">${t("vin")}<input class="input num" id="no-vin" maxlength="17" style="text-transform:uppercase"></label>
+   <label>${t("payer")}<select class="input" id="no-pay"><option value="cust">${t("payerCust")}</option><option value="ins">${t("payerIns")}</option></select></label>
+   <label>${t("promised")}<input class="input" id="no-pr" type="date" value="${addD(7)}"></label>
+  </div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" class="btn btn-ghost" onclick="closeModal()">${t("cancel")}</button><button class="btn btn-pri">${t("create")}</button></div></form>`,()=>{
+  $("#no-form").onsubmit=e=>{e.preventDefault();
+    let cid=$("#no-c").value;const nn=$("#no-cn").value.trim();
+    if(!cid){if(!nn){$("#no-cn").focus();return}cid="c"+uid();S.customers.push({id:cid,name:nn,phone:$("#no-cp").value.trim(),email:""})}
+    const id=String(Math.max(1000,...S.orders.map(o=>+o.id||0))+1);
+    S.orders.push({id,cust:cid,year:+$("#no-y").value,make:$("#no-mk").value.trim(),model:$("#no-md").value.trim(),trim:"",vin:$("#no-vin").value.trim().toUpperCase(),color:$("#no-col").value.trim(),paintCode:"",payer:$("#no-pay").value,
+      insurer:"",claim:"",tech:ME.role==="owner"?"":ME.id,impact:[],phase:0,log:{rec:today()},inDate:today(),promised:$("#no-pr").value,photosGen:{},insp:{},est:[],parts:[],notes:[],pays:[],sig:null,formula:{brand:"",tn:[]}});
+    save();closeModal();toast(t("created"));render();openOrder(id);tab="inspection";renderSheet()}});
+}
+function newCustomer(){
+  openModal(`<div class="sec-h"><h2>${t("newCust")}</h2><button class="del" onclick="closeModal()">×</button></div>
+  <form class="mb" id="nc-form"><div class="form"><label class="full">${t("name")}<input class="input" id="nc-n" required></label><label>${t("phone")}<input class="input" id="nc-p" inputmode="tel"></label><label>${t("email")}<input class="input" id="nc-e" type="email"></label></div>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" class="btn btn-ghost" onclick="closeModal()">${t("cancel")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+  $("#nc-form").onsubmit=e=>{e.preventDefault();S.customers.push({id:"c"+uid(),name:$("#nc-n").value.trim(),phone:$("#nc-p").value.trim(),email:$("#nc-e").value.trim()});save();closeModal();toast(t("saved"));render()}});
+}
+
+/* ================== Arranque ================== */
+{const h=location.hash.slice(1);if(NAV.some(n=>n[0]===h))view=h}
+document.documentElement.lang=S.settings.lang;applyTheme();
+render();
+idbOpen().then(idbAll).then(()=>{if(ME)render()});
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ColorBay Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Idea: la página es un taller. Etiquetas de cinta de enmascarar, un brochazo naranja y el diagrama del carro que se va marcando solo. */
+:root{
+  --navy:#0c2347; --navy-2:#13305e; --bay:#1456b8; --paint:#e8541c; --tape:#e9d9a8; --tape-ink:#3d3420;
+  --bg:#eef0f1; --surface:#ffffff; --ink:#16202a; --muted:#5d6b78; --line:#d9dfe5;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif; --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1419;--surface:#171e26;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1419;--surface:#171e26;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:.95;text-wrap:balance}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--paint);outline-offset:3px}
+.wrap{width:min(1160px,100% - 32px);margin-inline:auto}
+.tape{display:inline-block;background:var(--tape);color:var(--tape-ink);font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:14px;padding:5px 16px;transform:rotate(-2deg);box-shadow:0 2px 0 rgba(0,0,0,.18);clip-path:polygon(1.5% 0,98.5% 5%,100% 100%,0 95%)}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:12px;padding:14px 22px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn-paint{background:var(--paint);color:#fff;box-shadow:0 8px 24px rgba(232,84,28,.35)}
+.btn-paint:hover{box-shadow:0 10px 30px rgba(232,84,28,.5);transform:translateY(-1px)}
+.btn-line{border:1.5px solid rgba(255,255,255,.35);color:#fff}
+.btn-line:hover{background:rgba(255,255,255,.08)}
+
+/* Barra */
+.nav{position:sticky;top:0;z-index:20;background:rgba(12,35,71,.92);backdrop-filter:blur(10px);color:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:24px}
+.logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#2d6fd6,#0b3a85);position:relative;overflow:hidden;display:block}
+.logo i::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--paint);right:-3px;bottom:-3px}
+.links{display:flex;align-items:center;gap:22px;font-weight:500;font-size:15px}
+.links a{text-decoration:none;opacity:.85}.links a:hover{opacity:1}
+.lang{display:flex;gap:4px}
+.lang button{border:1px solid rgba(255,255,255,.3);background:none;color:#fff;border-radius:999px;padding:4px 10px;font-weight:600;font-size:13px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy)}
+.nav .btn{padding:9px 16px;font-size:14px}
+
+/* Héroe */
+.hero{background:radial-gradient(900px 500px at 85% 10%,#1d4f9c 0,transparent 60%),var(--navy);color:#fff;overflow:hidden;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:64px 0 84px}
+.hero h1{font-size:clamp(50px,7vw,92px);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;margin:22px 0 22px}
+.swipe{position:relative;white-space:nowrap;z-index:0;padding:0 .06em}
+.swipe::before{content:"";position:absolute;left:-.06em;right:-.1em;top:.18em;bottom:.02em;background:var(--paint);z-index:-1;transform-origin:left;border-radius:.08em .3em .12em .25em;clip-path:polygon(0 8%,4% 0,100% 6%,97% 52%,100% 100%,3% 94%,1% 50%);animation:swipe .9s .35s cubic-bezier(.7,0,.2,1) both}
+.hero .lead{font-size:20px;max-width:34ch;opacity:.88;margin:0 0 30px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero .small{margin-top:16px;font-size:14px;opacity:.7}
+
+/* Teléfono del héroe */
+.phone{width:min(330px,100%);justify-self:center;background:#0a0f16;border-radius:40px;padding:10px;box-shadow:0 40px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08);transform:rotate(3deg);animation:float 7s ease-in-out infinite}
+.screen{background:#eef1f4;border-radius:31px;overflow:hidden;color:#16202a}
+.sc-h{background:var(--bay);color:#fff;padding:18px 16px 10px}
+.sc-h b{font-family:var(--display);font-size:22px;display:block}
+.sc-h span{font-size:12px;opacity:.85}
+.sc-tabs{display:flex;gap:12px;font-size:10px;font-weight:700;letter-spacing:.08em;margin-top:10px;opacity:.9}
+.sc-tabs u{text-decoration:none;border-bottom:2px solid #fff;padding-bottom:4px}
+.sc-b{padding:12px;display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:start}
+.sc-b svg{width:100%;height:auto}
+.hp rect{fill:#f5f7f9;stroke:#9aa5b1;stroke-width:1.4}
+.hp.a rect{animation:fillA 6s infinite}
+.hp.b rect{animation:fillB 6s infinite}
+.hp.c rect{animation:fillC 6s infinite}
+.shots{display:flex;flex-direction:column;gap:8px}
+.shot{background:#fff;border-radius:10px;padding:6px;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:10px;color:#5d6b78;animation:shot 6s infinite both}
+.shot:nth-child(2){animation-delay:.25s}.shot:nth-child(3){animation-delay:.5s}
+.shot .img{height:46px;border-radius:6px;background:linear-gradient(180deg,#a9bccd 0 55%,#6f757b 56%);position:relative;overflow:hidden;margin-bottom:4px}
+.shot .img::before{content:"";position:absolute;left:14%;right:12%;bottom:22%;height:34%;background:#f1f1ec;border-radius:40% 50% 8px 8px}
+.shot .img::after{content:attr(data-s);position:absolute;right:3px;bottom:2px;font-size:7px;color:#fff;background:rgba(0,0,0,.6);padding:1px 3px;border-radius:2px}
+.shot b{color:#16202a;font-size:11px}
+.sc-f{background:var(--bay);color:#fff;display:flex;justify-content:space-between;padding:12px 16px;font-size:13px}
+.sc-f b{font-family:var(--display);font-size:18px}
+.sticker{position:absolute;font-family:var(--display);font-weight:700;background:#fff;color:var(--ink);border-radius:12px;padding:8px 12px;box-shadow:0 12px 30px rgba(0,0,0,.3);font-size:15px;display:flex;gap:8px;align-items:center}
+.sticker i{width:10px;height:10px;border-radius:50%;background:#1f8a4c;display:block}
+
+/* Secciones */
+section{padding:96px 0}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end;margin-bottom:48px}
+.sec-head h2{font-size:clamp(40px,5.4vw,68px);text-transform:uppercase;font-weight:800;margin-top:16px}
+.sec-head p{margin:0;color:var(--muted);font-size:19px;max-width:46ch}
+.probs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.prob{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.prob .before{font-family:var(--display);font-size:26px;font-weight:700;text-decoration:line-through;text-decoration-color:var(--paint);text-decoration-thickness:3px;color:var(--muted)}
+.prob .after{font-family:var(--display);font-size:30px;font-weight:700;line-height:1}
+.prob p{margin:0;color:var(--muted)}
+
+.insp{background:var(--surface);border-block:1px solid var(--line)}
+.insp .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.insp h2{font-size:clamp(40px,5vw,64px);text-transform:uppercase;font-weight:800;margin:16px 0 18px}
+.insp ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:14px}
+.insp li{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start}
+.insp li b{font-family:var(--display);font-size:22px;color:var(--paint)}
+.board{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:24px;display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+.board svg{width:100%;height:auto}
+.stamps{display:grid;gap:12px}
+.stamp{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center}
+.stamp .img{aspect-ratio:4/3;border-radius:8px;background:linear-gradient(180deg,#a9bccd 0 55%,#6f757b 56%);position:relative;overflow:hidden}
+.stamp .img::before{content:"";position:absolute;left:10%;right:8%;bottom:22%;height:36%;background:#f1f1ec;border-radius:40% 50% 8px 8px}
+.stamp .dmg::after{content:"";position:absolute;right:16%;bottom:30%;width:22%;height:20%;background:rgba(160,40,20,.6);border-radius:50%}
+.stamp b{display:block}
+.stamp small{display:block;color:var(--muted);font-size:13px}
+.stage{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:4px}
+
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.feat{background:var(--surface);padding:30px;display:flex;flex-direction:column;gap:10px;transition:background .2s}
+.feat:hover{background:color-mix(in srgb,var(--paint) 6%,var(--surface))}
+.feat svg{width:34px;height:34px;color:var(--paint)}
+.feat h3{font-size:28px;font-weight:700}
+.feat p{margin:0;color:var(--muted)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:s}
+.step{border-top:3px solid var(--ink);padding-top:18px}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--display);font-weight:800;font-size:64px;line-height:1;color:var(--paint);display:block;margin-bottom:8px}
+.step h3{font-size:28px;margin-bottom:8px}
+.step p{margin:0;color:var(--muted)}
+
+.cta{background:var(--navy);color:#fff;text-align:left}
+.cta .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+.cta h2{font-size:clamp(44px,6vw,84px);text-transform:uppercase;font-weight:800;margin-top:16px}
+.cta .box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.price{font-family:var(--display);font-size:56px;font-weight:800;line-height:1}
+.price small{font-size:20px;font-weight:600;opacity:.7}
+footer{background:#081a36;color:rgba(255,255,255,.75);padding:36px 0;font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:#fff}
+
+@keyframes swipe{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes float{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-10px)}}
+@keyframes fillA{0%,10%{fill:#f5f7f9}18%,100%{fill:#d9483c}}
+@keyframes fillB{0%,30%{fill:#f5f7f9}38%,100%{fill:#f39a5b}}
+@keyframes fillC{0%,50%{fill:#f5f7f9}58%,100%{fill:#f4d58a}}
+@keyframes shot{0%,12%{transform:translateX(0);opacity:1}14%{transform:translateX(6px)}18%,100%{transform:none}}
+.rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+@keyframes rise{from{opacity:.001;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+@media (max-width:920px){
+  .hero .wrap,.insp .wrap,.cta .wrap,.sec-head{grid-template-columns:1fr}
+  .probs,.feats,.steps{grid-template-columns:1fr}
+  .links .hide{display:none}
+  .board{grid-template-columns:150px 1fr}
+  .phone{transform:none;animation:none}
+  section{padding:64px 0}
+}
+@media (max-width:520px){
+  .board{grid-template-columns:1fr}.board svg{max-width:180px;margin:0 auto}
+  .links{gap:10px}.nav .btn{display:none}
+  .hero .wrap{padding:40px 0 60px}
+}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><i></i>ColorBay</a>
+  <nav class="links">
+    <a class="hide" href="info.html#funciones" data-en="Features">Funciones</a>
+    <a class="hide" href="info.html#precios" data-en="Pricing">Precios</a>
+    <a href="app.html" data-en="Log in">Entrar</a>
+    <span class="lang"><button data-lang="toggle" aria-label="English">EN</button></span>
+    <a class="btn btn-paint" href="info.html#prueba" data-en="Free trial">Prueba gratis</a>
+  </nav></div></header>
+
+<main>
+<section class="hero" style="padding:0"><div class="wrap">
+  <div>
+    <span class="tape rise" data-en="For body &amp; paint shops">Para talleres de hojalatería y pintura</span>
+    <h1 class="rise d1"><span data-en="Your shop and your">Tu taller y tu</span> <span class="swipe" data-en="paint,">pintura,</span><br><span data-en="all in one place.">en un solo lugar.</span></h1>
+    <p class="lead rise d2" data-en="Every car, every photo, every formula and every dollar, from your phone. In Spanish and English.">Cada carro, cada foto, cada fórmula y cada dólar, desde tu celular. En español y en inglés.</p>
+    <div class="ctas rise d3"><a class="btn btn-paint" href="info.html#prueba" data-en="Try it free for 60 days">Pruébalo gratis 60 días</a><a class="btn btn-line" href="app.html" data-en="See the live demo">Ver la demo en vivo</a></div>
+    <p class="small" data-en="No contract. No install. Works on any phone or computer.">Sin contrato. Sin instalar nada. Funciona en cualquier celular o computadora.</p>
+  </div>
+  <div style="position:relative;display:grid">
+    <div class="phone" aria-hidden="true"><div class="screen">
+      <div class="sc-h"><b>#1048 · María H.</b><span>2020 Ford Explorer XLT</span><div class="sc-tabs"><span>VEHÍCULO</span><u>FOTOS</u><span>ESTIMADO</span><span>FASES</span></div></div>
+      <div class="sc-b">
+        <svg viewBox="0 0 120 210"><g class="hp a"><rect x="24" y="6" width="72" height="14" rx="7"/></g><g class="hp"><rect x="32" y="24" width="56" height="40" rx="6"/></g>
+          <g class="hp"><rect x="14" y="24" width="15" height="48" rx="5"/></g><g class="hp b"><rect x="91" y="24" width="15" height="48" rx="5"/></g>
+          <g class="hp"><rect x="34" y="68" width="52" height="16" rx="4"/></g><g class="hp"><rect x="36" y="88" width="48" height="52" rx="5"/></g>
+          <g class="hp"><rect x="14" y="76" width="18" height="38" rx="4"/></g><g class="hp c"><rect x="88" y="76" width="18" height="38" rx="4"/></g>
+          <g class="hp"><rect x="14" y="118" width="18" height="36" rx="4"/></g><g class="hp"><rect x="88" y="118" width="18" height="36" rx="4"/></g>
+          <g class="hp"><rect x="34" y="144" width="52" height="14" rx="4"/></g><g class="hp"><rect x="32" y="162" width="56" height="26" rx="6"/></g>
+          <g class="hp"><rect x="24" y="192" width="72" height="13" rx="6"/></g></svg>
+        <div class="shots"><div class="shot"><div class="img" data-s="#1048 · 9:12 a.m."></div><b>Defensa del.</b> · Antes</div><div class="shot"><div class="img" data-s="#1048 · 9:13 a.m."></div><b>Salpicadera der.</b> · Antes</div><div class="shot"><div class="img" data-s="#1048 · 3:40 p.m."></div><b>Defensa del.</b> · Después</div></div>
+      </div>
+      <div class="sc-f"><span>Saldo</span><b>$1,071.09</b></div>
+    </div></div>
+    <div class="sticker" style="left:-4%;bottom:14%"><i></i><span data-en="Customer approved · signed">Cliente aprobó · firmado</span></div>
+    <div class="sticker" style="right:-2%;top:8%"><span style="color:var(--paint)">YZ</span><span data-en="formula saved">fórmula guardada</span></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div><span class="tape" data-en="The problem">El problema</span><h2 data-en="The notebook doesn't cut it anymore">La libreta ya no alcanza</h2></div>
+  <p data-en="Big shops use systems that cost hundreds a month and only come in English. Small shops run on paper, memory and phone photos lost in the camera roll.">Los talleres grandes usan sistemas de cientos de dólares al mes y solo en inglés. Los chicos se las arreglan con papel, memoria y fotos perdidas en el celular.</p></div>
+  <div class="probs">
+    <div class="prob"><div class="before" data-en="“Who still owes me?”">“¿Quién me debe?”</div><div class="after" data-en="Every payment logs itself.">Cada pago se anota solo.</div><p data-en="Deposits, insurance checks and balances per car. The home screen tells you how much is pending.">Anticipos, cheques de aseguranza y saldo por carro. El inicio te dice cuánto falta por cobrar.</p></div>
+    <div class="prob"><div class="before" data-en="“That dent was already there.”">“Ese golpe ya estaba.”</div><div class="after" data-en="Photos with date and time.">Fotos con fecha y hora.</div><p data-en="Every photo is stamped with the date, time and order number. Proof for the customer and the insurer.">Cada foto lleva grabada la fecha, la hora y el número de orden. Prueba para el cliente y la aseguranza.</p></div>
+    <div class="prob"><div class="before" data-en="“What was the formula?”">“¿Cuál era la fórmula?”</div><div class="after" data-en="Saved per car and per code.">Guardada por carro y por código.</div><p data-en="Your painter's formula library. Type how much to mix and the grams recalculate.">La biblioteca de fórmulas de tu pintor. Escribe cuánto vas a preparar y los gramos se recalculan.</p></div>
+  </div>
+</div></section>
+
+<section class="insp"><div class="wrap">
+  <div><span class="tape" data-en="Photo inspection">Inspección con fotos</span>
+   <h2 data-en="Mark the part. Take the photo. Done.">Marca la parte. Toma la foto. Listo.</h2>
+   <p style="color:var(--muted);font-size:19px;margin:0" data-en="Tap any part of the car on the diagram, rate the damage, and take photos before, during and after the repair.">Toca cualquier parte del carro en el diagrama, marca qué tan dañada está y toma fotos de antes, durante y después.</p>
+   <ul>
+    <li><b>01</b><span data-en="25 parts: bumpers, doors, fenders, lights, mirrors, wheels.">25 partes: defensas, puertas, salpicaderas, faros, espejos, ruedas.</span></li>
+    <li><b>02</b><span data-en="Each photo records who took it and when.">Cada foto guarda quién la tomó y cuándo.</span></li>
+    <li><b>03</b><span data-en="One tap builds a report for the customer or the insurer.">Con un toque sale el reporte para el cliente o la aseguradora.</span></li>
+   </ul></div>
+  <div class="board">
+    <svg viewBox="0 0 120 210" aria-hidden="true"><g class="hp a"><rect x="24" y="6" width="72" height="14" rx="7"/></g><g class="hp"><rect x="32" y="24" width="56" height="40" rx="6"/></g>
+      <g class="hp"><rect x="14" y="24" width="15" height="48" rx="5"/></g><g class="hp b"><rect x="91" y="24" width="15" height="48" rx="5"/></g>
+      <g class="hp"><rect x="34" y="68" width="52" height="16" rx="4"/></g><g class="hp"><rect x="36" y="88" width="48" height="52" rx="5"/></g>
+      <g class="hp"><rect x="14" y="76" width="18" height="38" rx="4"/></g><g class="hp c"><rect x="88" y="76" width="18" height="38" rx="4"/></g>
+      <g class="hp"><rect x="14" y="118" width="18" height="36" rx="4"/></g><g class="hp"><rect x="88" y="118" width="18" height="36" rx="4"/></g>
+      <g class="hp"><rect x="34" y="144" width="52" height="14" rx="4"/></g><g class="hp"><rect x="32" y="162" width="56" height="26" rx="6"/></g>
+      <g class="hp"><rect x="24" y="192" width="72" height="13" rx="6"/></g></svg>
+    <div class="stamps">
+      <div class="stamp"><div class="img dmg"></div><div><span class="stage" style="background:#fbe3d9;color:#b8400f" data-en="Before">Antes</span><b data-en="Front bumper · Heavy">Defensa delantera · Fuerte</b><small>Nov 3 · 10:50 a.m. · Luis P.</small></div></div>
+      <div class="stamp"><div class="img"></div><div><span class="stage" style="background:#e3ecfa;color:#1456b8" data-en="During">Durante</span><b data-en="Front bumper · Primer">Defensa delantera · Primer</b><small>Nov 8 · 10:55 a.m. · Luis P.</small></div></div>
+      <div class="stamp"><div class="img"></div><div><span class="stage" style="background:#e1f3e8;color:#1f8a4c" data-en="After">Después</span><b data-en="Front bumper · Finished">Defensa delantera · Terminada</b><small>Nov 11 · 10:36 a.m. · Ana R.</small></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-head"><div><span class="tape" data-en="Everything included">Todo incluido</span><h2 data-en="One system, the whole shop">Un sistema, todo el taller</h2></div>
+   <p data-en="What the big systems do for a busy body shop, without the parts a small shop never uses.">Lo que hacen los sistemas grandes para un taller con trabajo, sin lo que un taller chico nunca usa.</p></div>
+  <div class="feats">
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg><h3 data-en="Repair orders">Órdenes de trabajo</h3><p data-en="Vehicle, VIN, impact point, insurer and claim number, assigned tech.">Vehículo, VIN, punto de impacto, aseguradora y número de reclamo, técnico asignado.</p></div>
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><h3 data-en="Photos by part">Fotos por parte</h3><p data-en="Before, during and after, stamped with date and time. Report in one tap.">Antes, durante y después, con fecha y hora. Reporte con un toque.</p></div>
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h12v5H4z"/><path d="M16 6.5h3v5h-8v3"/><rect x="9.5" y="14.5" width="3" height="6" rx="1"/></svg><h3 data-en="Paint room">Cuarto de pintura</h3><p data-en="Formula library, mix log and paint inventory with low-stock alerts.">Biblioteca de fórmulas, registro de mezclas e inventario con aviso de poco material.</p></div>
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 17c3-5 5 2 8-3s5 1 8-2"/><path d="M4 21h16"/></svg><h3 data-en="Estimate &amp; signature">Estimado y firma</h3><p data-en="Labor, parts and paint add up with tax. The customer signs on your phone.">Mano de obra, partes y pintura se suman con impuesto. El cliente firma en tu celular.</p></div>
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/></svg><h3 data-en="Shop board">Tablero del taller</h3><p data-en="Drag each car from teardown to paint to ready. See what's late at a glance.">Arrastra cada carro de desarme a pintura a listo. Ve lo atrasado de un vistazo.</p></div>
+   <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/></svg><h3 data-en="Your team">Tu equipo</h3><p data-en="Each worker logs in with a PIN. Techs and painters don't see the money.">Cada trabajador entra con su PIN. Técnicos y pintores no ven el dinero.</p></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="sec-head"><div><span class="tape" data-en="How to start">Cómo empiezas</span><h2 data-en="Running in one afternoon">Trabajando en una tarde</h2></div></div>
+  <div class="steps">
+    <div class="step"><h3 data-en="Create your shop">Crea tu taller</h3><p data-en="Shop name, your name and a 4-digit PIN. That's it.">Nombre del taller, tu nombre y un PIN de 4 números. Nada más.</p></div>
+    <div class="step"><h3 data-en="Add your team">Agrega a tu equipo</h3><p data-en="Each tech and painter gets their own PIN to log in from their phone.">Cada técnico y pintor tiene su PIN para entrar desde su celular.</p></div>
+    <div class="step"><h3 data-en="Photograph the next car">Fotografía el próximo carro</h3><p data-en="Create the order when it arrives and take the check-in photos. Everything else follows.">Crea la orden cuando llegue y toma las fotos de entrada. Lo demás sale solo.</p></div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="wrap">
+  <div><span class="tape" data-en="Founders offer">Oferta fundadores</span><h2 data-en="The first 5 shops pay less forever">Los primeros 5 talleres pagan menos para siempre</h2></div>
+  <div class="box"><div class="price">$29<small data-en=" /month for life"> /mes de por vida</small></div>
+   <p style="margin:0;opacity:.85" data-en="60 days free, then the Shop plan at the founders price. In exchange we only ask for your honest feedback.">60 días gratis y después el plan Taller a precio de fundador. A cambio solo te pedimos tu opinión sincera.</p>
+   <a class="btn btn-paint" href="info.html#prueba" style="justify-content:center" data-en="Claim my spot">Quiero mi lugar</a>
+   <a href="info.html#precios" style="opacity:.8;font-size:15px;text-align:center" data-en="See all plans">Ver todos los planes</a></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div><b>ColorBay Shop</b> · <span data-en="A Dakra Studio product">Un producto de Dakra Studio</span></div>
+  <div><span data-en="Text us:">Mándanos mensaje de texto:</span> <b>+1 (931) 292-2496</b> · dakrastudio@gmail.com</div>
+</div></footer>
+
+<script>
+const LK="colorbay-web-lang";
+document.querySelectorAll("[data-en]").forEach(e=>e.dataset.es=e.innerHTML);
+function setLang(l){document.documentElement.lang=l;document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
+  document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=l==="en"?"ES":"EN";b.setAttribute("aria-label",l==="en"?"Español":"English")});try{localStorage.setItem(LK,l)}catch(e){}}
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(document.documentElement.lang==="en"?"es":"en"));
+let l0="es";try{l0=localStorage.getItem(LK)||"es"}catch(e){}if(l0!=="es")setLang(l0);
+</script>
+</body>
+</html>

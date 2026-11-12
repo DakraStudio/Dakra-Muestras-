@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ColorBay Shop · Funciones y precios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Página de referencia: índice fijo a la izquierda en PC, secciones con etiqueta de cinta */
+:root{
+  --navy:#0c2347; --bay:#1456b8; --paint:#e8541c; --tape:#e9d9a8; --tape-ink:#3d3420; --ok:#1f8a4c;
+  --bg:#eef0f1; --surface:#ffffff; --surface-2:#f5f7f9; --ink:#16202a; --muted:#5d6b78; --line:#d9dfe5;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif; --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1;text-wrap:balance}
+a{color:var(--bay)}
+:focus-visible{outline:2px solid var(--paint);outline-offset:3px}
+.wrap{width:min(1160px,100% - 32px);margin-inline:auto}
+.tape{display:inline-block;background:var(--tape);color:var(--tape-ink);font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:14px;padding:5px 16px;transform:rotate(-2deg);box-shadow:0 2px 0 rgba(0,0,0,.18);clip-path:polygon(1.5% 0,98.5% 5%,100% 100%,0 95%)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:12px;padding:13px 20px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:16px;transition:transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-paint{background:var(--paint);color:#fff;box-shadow:0 8px 24px rgba(232,84,28,.3)}
+.btn-ghost{background:var(--surface-2);border:1px solid var(--line);color:var(--ink)}
+.nav{position:sticky;top:0;z-index:20;background:rgba(12,35,71,.94);backdrop-filter:blur(10px);color:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:24px;color:#fff}
+.logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#2d6fd6,#0b3a85);position:relative;overflow:hidden;display:block}
+.logo i::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--paint);right:-3px;bottom:-3px}
+.links{display:flex;align-items:center;gap:18px;font-weight:500;font-size:15px}
+.links a{color:#fff;text-decoration:none;opacity:.85}
+.lang{display:flex;gap:4px}
+.lang button{border:1px solid rgba(255,255,255,.3);background:none;color:#fff;border-radius:999px;padding:4px 10px;font-weight:600;font-size:13px;cursor:pointer}
+.lang button.on{background:#fff;color:var(--navy)}
+.head{background:var(--navy);color:#fff;padding:56px 0 64px}
+.head h1{font-size:clamp(48px,7vw,92px);text-transform:uppercase;font-weight:800;margin-top:18px}
+.head p{font-size:20px;opacity:.85;max-width:52ch;margin:16px 0 0}
+.layout>div{min-width:0}
+.layout{display:grid;grid-template-columns:200px 1fr;gap:48px;padding:56px 0 90px}
+.toc{position:sticky;top:90px;align-self:start;display:flex;flex-direction:column;gap:2px}
+.toc a{color:var(--muted);text-decoration:none;font-weight:600;padding:7px 12px;border-left:3px solid var(--line);transition:color .2s,border-color .2s}
+.toc a.on{color:var(--ink);border-color:var(--paint)}
+section{scroll-margin-top:84px;margin-bottom:80px}
+section>h2{font-size:clamp(36px,4.6vw,56px);text-transform:uppercase;font-weight:800;margin:14px 0 12px}
+section>p.lead{color:var(--muted);font-size:19px;margin:0 0 28px;max-width:60ch}
+.mods{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px}
+.mod h3{font-size:28px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.mod h3 i{width:10px;height:10px;border-radius:3px;background:var(--paint);display:block}
+.mod ul{margin:0;padding-left:18px;color:var(--muted)}
+.mod li{margin:4px 0}
+.mod .new{font-family:var(--body);font-size:12px;font-weight:700;color:var(--paint);background:color-mix(in srgb,var(--paint) 14%,transparent);padding:2px 8px;border-radius:999px;letter-spacing:.04em}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.role{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;border-top:5px solid var(--c)}
+.role h3{font-size:26px;margin-bottom:6px}
+.role p{margin:0;color:var(--muted);font-size:15px}
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+th,td{padding:12px 16px;border-bottom:1px solid var(--line);text-align:left}
+th{font-family:var(--display);font-size:18px;font-weight:700}
+th.us{color:var(--paint)}
+tr:last-child td{border-bottom:0}
+td.y{color:var(--ok);font-weight:700}td.n{color:var(--muted)}
+.toggle{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:22px}
+.toggle button{border:0;background:none;border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;color:var(--muted);font-size:15px}
+.toggle button.on{background:var(--ink);color:var(--surface)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px;position:relative;transition:transform .2s}
+.plan:hover{transform:translateY(-3px)}
+.plan.best{border:2px solid var(--paint);box-shadow:0 18px 40px rgba(232,84,28,.15)}
+.plan .badge{position:absolute;top:-14px;left:22px}
+.plan h3{font-size:30px}
+.plan .who{color:var(--muted);font-size:15px;margin:0}
+.amt{font-family:var(--display);font-size:60px;font-weight:800;line-height:1}
+.amt small{font-size:18px;font-weight:600;color:var(--muted)}
+.plan ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:15px;flex:1}
+.plan li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.plan li::before{content:"✓";color:var(--ok);font-weight:700}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{cursor:pointer;padding:16px 20px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";font-family:var(--display);font-size:24px;line-height:1;color:var(--paint);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0;padding:0 20px 18px;color:var(--muted)}
+.trial{background:var(--navy);color:#fff;border-radius:22px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.trial h2{font-size:clamp(36px,4.6vw,56px);text-transform:uppercase;font-weight:800;margin:14px 0 12px}
+.trial p{opacity:.85;margin:0}
+form{display:flex;flex-direction:column;gap:12px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;opacity:.9}
+input{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:10px;padding:12px 14px;font:inherit;font-size:16px;text-transform:none;letter-spacing:0}
+input::placeholder{color:rgba(255,255,255,.45)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.err{color:#ffb39a;font-size:14px;min-height:1em}
+footer{background:#081a36;color:rgba(255,255,255,.75);padding:36px 0;font-size:15px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer b{color:#fff}
+.rise{animation:rise .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:.001;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (max-width:920px){.layout{grid-template-columns:1fr}.toc{display:none}.mods,.roles,.plans,.trial{grid-template-columns:1fr}.links .hide{display:none}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}.links{gap:10px}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><i></i>ColorBay</a>
+  <nav class="links"><a class="hide" href="index.html" data-en="Home">Inicio</a><a href="app.html" data-en="Log in">Entrar</a>
+   <span class="lang"><button data-lang="toggle" aria-label="English">EN</button></span></nav></div></header>
+
+<div class="head"><div class="wrap">
+  <span class="tape rise" data-en="Everything about ColorBay Shop">Todo sobre ColorBay Shop</span>
+  <h1 class="rise" data-en="What it does, what it costs">Qué hace y cuánto cuesta</h1>
+  <p class="rise" data-en="Shop management and paint room in one system, built for shops of 1 to 10 people.">Control del taller y del cuarto de pintura en un solo sistema, hecho para talleres de 1 a 10 personas.</p>
+</div></div>
+
+<div class="wrap layout">
+<nav class="toc" aria-label="Índice">
+  <a href="#funciones" data-en="Features">Funciones</a><a href="#equipo" data-en="Your team">Tu equipo</a><a href="#comparar" data-en="Compare">Comparar</a>
+  <a href="#precios" data-en="Pricing">Precios</a><a href="#preguntas" data-en="Questions">Preguntas</a><a href="#prueba" data-en="Free trial">Prueba gratis</a>
+</nav>
+<div>
+<section id="funciones"><span class="tape" data-en="Features">Funciones</span><h2 data-en="Six modules, one app">Seis módulos, una sola app</h2>
+ <p class="lead" data-en="Everything works on a phone at the car and on the office computer.">Todo funciona en el celular junto al carro y en la computadora de la oficina.</p>
+ <div class="mods">
+  <div class="mod"><h3><i></i><span data-en="Repair orders">Órdenes de trabajo</span></h3><ul>
+   <li data-en="Vehicle, VIN, color and paint code">Vehículo, VIN, color y código de pintura</li><li data-en="Impact point on a car diagram">Punto de impacto en el diagrama del carro</li>
+   <li data-en="Customer or insurance pay, with claim number">Paga cliente o aseguradora, con número de reclamo</li><li data-en="Assigned technician and promised date">Técnico asignado y fecha prometida</li></ul></div>
+  <div class="mod"><h3><i></i><span data-en="Photo inspection">Inspección con fotos</span> <span class="new" data-en="NEW">NUEVO</span></h3><ul>
+   <li data-en="8 check-in angles with progress meter">8 ángulos de entrada con medidor de avance</li><li data-en="25 car parts to mark: light, medium, heavy">25 partes del carro para marcar: leve, medio, fuerte</li>
+   <li data-en="Before, during and after photos for each part">Fotos de antes, durante y después por cada parte</li><li data-en="Date, time and order number stamped on every photo">Fecha, hora y número de orden grabados en cada foto</li>
+   <li data-en="Report for the customer or the insurer">Reporte para el cliente o la aseguradora</li></ul></div>
+  <div class="mod"><h3><i></i><span data-en="Paint room">Cuarto de pintura</span></h3><ul>
+   <li data-en="Formula library by code, brand and make">Biblioteca de fórmulas por código, marca y armadora</li><li data-en="Recalculates grams for any amount">Recalcula los gramos para cualquier cantidad</li>
+   <li data-en="Mix log: who mixed what, for which car">Registro de mezclas: quién, qué y para qué carro</li><li data-en="Inventory with low-stock alerts">Inventario con aviso de poco material</li></ul></div>
+  <div class="mod"><h3><i></i><span data-en="Estimate and payments">Estimado y cobros</span></h3><ul>
+   <li data-en="Labor, parts, paint and materials with tax">Mano de obra, partes, pintura y materiales con impuesto</li><li data-en="Customer signs the approval on screen">El cliente firma la aprobación en la pantalla</li>
+   <li data-en="Deposits and payments by cash, card, Cash App or insurer">Anticipos y pagos en efectivo, tarjeta, Cash App o aseguradora</li><li data-en="Balance always visible">Saldo siempre a la vista</li></ul></div>
+  <div class="mod"><h3><i></i><span data-en="Shop board">Tablero del taller</span></h3><ul>
+   <li data-en="9 phases from received to delivered">9 fases de recibido a entregado</li><li data-en="Drag cars between columns">Arrastra los carros entre columnas</li>
+   <li data-en="Alerts: late cars, parts delays, missing photos">Avisos: carros atrasados, partes que no llegan, fotos que faltan</li></ul></div>
+  <div class="mod"><h3><i></i><span data-en="Customers">Clientes</span></h3><ul>
+   <li data-en="History of every car per customer">Historial de cada carro por cliente</li><li data-en="Progress page the customer can open">Página de avance que el cliente puede abrir</li>
+   <li data-en="Spanish and English with one button">Español e inglés con un botón</li></ul></div>
+ </div></section>
+
+<section id="equipo"><span class="tape" data-en="Your team">Tu equipo</span><h2 data-en="Everyone logs in with their PIN">Cada quien entra con su PIN</h2>
+ <p class="lead" data-en="The owner buys the plan and creates the shop. Workers log in from their own phone with a 4-digit PIN and only see what they need.">El dueño compra el plan y crea el taller. Los trabajadores entran desde su celular con un PIN de 4 números y solo ven lo que necesitan.</p>
+ <div class="roles">
+  <div class="role" style="--c:#1456b8"><h3 data-en="Owner">Dueño</h3><p data-en="Sees everything: money, estimates, customers, settings and team.">Ve todo: dinero, estimados, clientes, ajustes y equipo.</p></div>
+  <div class="role" style="--c:#1f8a4c"><h3 data-en="Technician">Técnico</h3><p data-en="Orders, photos, parts, phases and notes. Does not see prices.">Órdenes, fotos, partes, fases y notas. No ve precios.</p></div>
+  <div class="role" style="--c:#e8541c"><h3 data-en="Painter">Pintor</h3><p data-en="Everything a tech sees plus formulas, mixes and paint inventory.">Lo del técnico más fórmulas, mezclas e inventario de pintura.</p></div>
+ </div></section>
+
+<section id="comparar"><span class="tape" data-en="Compare">Comparar</span><h2 data-en="Notebook, big systems or ColorBay">Libreta, sistemas grandes o ColorBay</h2>
+ <div class="tbl-wrap"><table><thead><tr><th></th><th data-en="Notebook">Libreta</th><th data-en="Big systems">Sistemas grandes</th><th class="us">ColorBay Shop</th></tr></thead><tbody>
+  <tr><td data-en="Price per month">Precio al mes</td><td>$0</td><td data-en="$99 to $199 or more">$99 a $199 o más</td><td><b data-en="$29 to $89">$29 a $89</b></td></tr>
+  <tr><td data-en="In Spanish">En español</td><td class="y">✓</td><td class="n" data-en="Rarely">Casi nunca</td><td class="y">✓</td></tr>
+  <tr><td data-en="Photos with date and time">Fotos con fecha y hora</td><td class="n">—</td><td class="y">✓</td><td class="y">✓</td></tr>
+  <tr><td data-en="Paint formulas">Fórmulas de pintura</td><td class="n" data-en="On paper">En papel</td><td class="n" data-en="Separate system">Sistema aparte</td><td class="y">✓</td></tr>
+  <tr><td data-en="Direct insurer connection">Conexión directa con aseguradoras</td><td class="n">—</td><td class="y">✓</td><td class="n" data-en="Report to send">Reporte para enviar</td></tr>
+  <tr><td data-en="Contract">Contrato</td><td>—</td><td data-en="Often yearly">Muchas veces anual</td><td><b data-en="None">Ninguno</b></td></tr>
+ </tbody></table></div>
+ <p class="note" data-en="Big-system prices from public listings on G2 and Capterra (Shopmonkey, Tekmetric, AutoLeap). CCC does not publish its price.">Precios de sistemas grandes según listados públicos en G2 y Capterra (Shopmonkey, Tekmetric, AutoLeap). CCC no publica su precio.</p></section>
+
+<section id="precios"><span class="tape" data-en="Pricing">Precios</span><h2 data-en="Simple plans, no contract">Planes simples, sin contrato</h2>
+ <div class="toggle" role="group"><button class="on" data-bill="m" data-en="Monthly">Mensual</button><button data-bill="y" data-en="Yearly · 2 months free">Anual · 2 meses gratis</button></div>
+ <div class="plans">
+  <div class="plan"><h3 data-en="Solo">Solo</h3><p class="who" data-en="Painter or body tech working alone">Pintor u hojalatero que trabaja solo</p><div class="amt" data-m="29">$29<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="1 user">1 usuario</li><li data-en="Orders, photos and reports">Órdenes, fotos y reportes</li><li data-en="Estimates and payments">Estimados y cobros</li><li data-en="Paint formulas">Fórmulas de pintura</li></ul><a class="btn btn-ghost" href="#prueba" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan best"><span class="tape badge" data-en="Most popular">El más pedido</span><h3 data-en="Shop">Taller</h3><p class="who" data-en="Shops with 2 to 5 people">Talleres de 2 a 5 personas</p><div class="amt" data-m="59">$59<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="Up to 5 users with PIN">Hasta 5 usuarios con PIN</li><li data-en="Everything in Solo">Todo lo de Solo</li><li data-en="Shop board and alerts">Tablero y avisos</li><li data-en="Paint inventory and mix log">Inventario de pintura y mezclas</li><li data-en="Customer progress page">Página de avance para el cliente</li></ul><a class="btn btn-paint" href="#prueba" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan"><h3 data-en="Shop Plus">Taller Plus</h3><p class="who" data-en="Busy shops">Talleres con mucho trabajo</p><div class="amt" data-m="89">$89<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="Unlimited users">Usuarios ilimitados</li><li data-en="Everything in Shop">Todo lo de Taller</li><li data-en="Text messages to customers (coming soon)">Mensajes de texto al cliente (próximamente)</li><li data-en="PDF reports by link (coming soon)">Reportes PDF por enlace (próximamente)</li></ul><a class="btn btn-ghost" href="#prueba" data-en="Start free">Empezar gratis</a></div>
+ </div>
+ <p class="note" data-en="Founders: the first 5 shops get 60 days free and then the Shop plan at $29/month for life.">Fundadores: los primeros 5 talleres tienen 60 días gratis y después el plan Taller a $29/mes de por vida.</p></section>
+
+<section id="preguntas"><span class="tape" data-en="Questions">Preguntas</span><h2 data-en="What shops ask us">Lo que nos preguntan</h2>
+ <details><summary data-en="Do I need to install anything?">¿Tengo que instalar algo?</summary><p data-en="No. It opens in the browser on any phone or computer. On the phone you can add it to the home screen like an app.">No. Se abre en el navegador de cualquier celular o computadora. En el celular puedes ponerla en la pantalla de inicio como una app.</p></details>
+ <details><summary data-en="Does it replace CCC for insurance work?">¿Reemplaza a CCC para trabajos de aseguranza?</summary><p data-en="Not completely. Insurers that require CCC still need it for the estimate. ColorBay gives you the photo report, the timeline and the payments to send them, and runs the rest of your shop.">No del todo. Las aseguradoras que piden CCC lo siguen pidiendo para el estimado. ColorBay te da el reporte de fotos, el historial y los cobros para mandárselos, y lleva todo lo demás del taller.</p></details>
+ <details><summary data-en="Are my photos and data mine?">¿Mis fotos y datos son míos?</summary><p data-en="Yes. You can copy a full backup any time, and if you leave we give you everything.">Sí. Puedes copiar un respaldo completo cuando quieras, y si te vas te damos todo.</p></details>
+ <details><summary data-en="Who do I talk to if something fails?">¿Con quién hablo si algo falla?</summary><p data-en="Text us at +1 (931) 292-2496. We answer in Spanish or English.">Mándanos mensaje de texto al +1 (931) 292-2496. Te contestamos en español o en inglés.</p></details>
+ <details><summary data-en="Can I cancel?">¿Puedo cancelar?</summary><p data-en="Any time. There is no contract and no cancellation fee.">Cuando quieras. No hay contrato ni cargo por cancelar.</p></details>
+</section>
+
+<section id="prueba" style="margin-bottom:0"><div class="trial">
+ <div><span class="tape" data-en="Free trial">Prueba gratis</span><h2 data-en="Create your shop now">Crea tu taller ahora</h2>
+  <p data-en="Fill this in and you'll go straight into your empty shop as the owner. Add your workers from Settings.">Llena esto y entras directo a tu taller vacío como dueño. A tus trabajadores los agregas desde Ajustes.</p>
+  <p style="margin-top:14px;font-size:14px;opacity:.7" data-en="This trial version saves on this device. It replaces the sample shop on this browser.">Esta versión de prueba guarda en este aparato. Reemplaza al taller de ejemplo en este navegador.</p>
+  <p style="margin-top:18px"><a href="app.html" style="color:#fff" data-en="Rather see the sample shop first →">Prefiero ver primero el taller de ejemplo →</a></p></div>
+ <form id="tf" novalidate>
+  <label><span data-en="Shop name">Nombre del taller</span><input id="t-shop" autocomplete="organization" placeholder="Taller Hernández"></label>
+  <label><span data-en="Your name">Tu nombre</span><input id="t-name" autocomplete="name"></label>
+  <div class="row2"><label><span data-en="Phone">Teléfono</span><input id="t-phone" inputmode="tel" autocomplete="tel"></label>
+   <label><span data-en="4-digit PIN">PIN de 4 números</span><input id="t-pin" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
+  <div class="err" id="t-err" role="alert"></div>
+  <button class="btn btn-paint" data-en="Create my shop">Crear mi taller</button>
+ </form></div></section>
+</div></div>
+
+<footer><div class="wrap"><div><b>ColorBay Shop</b> · <span data-en="A Dakra Studio product">Un producto de Dakra Studio</span></div>
+ <div><span data-en="Text us:">Mándanos mensaje de texto:</span> <b>+1 (931) 292-2496</b> · dakrastudio@gmail.com</div></div></footer>
+
+<script>
+const LK="colorbay-web-lang";let lang="es";
+document.querySelectorAll("[data-en]").forEach(e=>e.dataset.es=e.innerHTML);
+function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
+  document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=l==="en"?"ES":"EN";b.setAttribute("aria-label",l==="en"?"Español":"English")});try{localStorage.setItem(LK,l)}catch(e){}bill(billing)}
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(document.documentElement.lang==="en"?"es":"en"));
+/* precios mensual / anual */
+let billing="m";
+function bill(m){billing=m;document.querySelectorAll("[data-bill]").forEach(b=>b.classList.toggle("on",b.dataset.bill===m));
+  document.querySelectorAll(".amt").forEach(a=>{const v=+a.dataset.m,small=a.querySelector("small");
+    const n=m==="m"?v:Math.round(v*10/12*100)/100;a.firstChild.nodeValue="$"+(Number.isInteger(n)?n:n.toFixed(2));
+    small.innerHTML=m==="m"?(lang==="en"?" /month":" /mes"):(lang==="en"?" /mo, billed $"+v*10+"/yr":" /mes, $"+v*10+" al año")})}
+document.querySelectorAll("[data-bill]").forEach(b=>b.onclick=()=>bill(b.dataset.bill));
+let l0="es";try{l0=localStorage.getItem(LK)||"es"}catch(e){}if(l0!=="es")setLang(l0);
+/* índice activo */
+const secs=[...document.querySelectorAll("section[id]")];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
+secs.forEach(s=>io.observe(s));
+/* crear taller de prueba */
+document.getElementById("tf").addEventListener("submit",e=>{e.preventDefault();
+  const v=id=>document.getElementById(id).value.trim(),err=document.getElementById("t-err");
+  const shop=v("t-shop"),name=v("t-name"),pin=v("t-pin");
+  if(!shop||!name){err.textContent=lang==="en"?"Write the shop name and your name.":"Escribe el nombre del taller y tu nombre.";return}
+  if(!/^\d{4}$/.test(pin)){err.textContent=lang==="en"?"The PIN must be 4 digits.":"El PIN debe tener 4 números.";return}
+  const stock=[{id:"s1",n:"Barniz (clear) 2K",u:"gal",q:0,min:0},{id:"s2",n:"Primer 2K",u:"gal",q:0,min:0},{id:"s3",n:"Reductor",u:"gal",q:0,min:0},{id:"s4",n:"Endurecedor",u:"qt",q:0,min:0},{id:"s5",n:"Lija 400",u:"caja",q:0,min:0},{id:"s6",n:"Cinta de enmascarar",u:"rollo",q:0,min:0}];
+  const S={settings:{shop,rate:55,paintRate:45,tax:9.75,lang,theme:"auto",phone:v("t-phone")},users:[{id:"u1",name,role:"owner",pin}],customers:[],orders:[],paint:{library:[],mixes:[],stock},demo:false};
+  try{localStorage.setItem("colorbay-shop-v2",JSON.stringify(S));sessionStorage.setItem("colorbay-session","u1")}catch(x){err.textContent=lang==="en"?"This browser blocked saving. Try another browser.":"Este navegador no dejó guardar. Prueba con otro navegador.";return}
+  location.href="app.html#inicio";
+});
+</script>
+</body>
+</html>
