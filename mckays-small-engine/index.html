@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>McKay's Small Engine · Pulaski, TN</title>
+<meta name="description" content="Mower and small engine sales, repair and service in Pulaski, Tennessee.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#1F4D2B;--g2:#143620;--y:#F2C230;--k:#18201A;--p:#F4F1E6;--line:#D9D3BD;--df:'Saira Condensed',Impact,sans-serif;--bf:'Source Sans 3',system-ui,sans-serif}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--p);color:var(--k);font:17px/1.55 var(--bf)}
+a{color:inherit}img{max-width:100%}
+.demo{background:var(--k);color:#EDEAD9;font-size:13.5px;text-align:center;padding:7px 14px}
+.demo a{color:var(--y);font-weight:700}
+header{background:var(--g);color:#fff;position:sticky;top:0;z-index:40;border-bottom:4px solid var(--y)}
+.bar{max-width:1120px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font:800 24px/1 var(--df);letter-spacing:.5px;text-transform:uppercase;text-decoration:none}
+.logo small{display:block;font:600 12px var(--bf);letter-spacing:2px;color:var(--y)}
+.tools{display:flex;gap:8px;align-items:center}
+.lang{border:2px solid var(--y);background:transparent;color:var(--y);font:700 14px var(--bf);padding:7px 12px;border-radius:6px;cursor:pointer}
+.callsm{background:var(--y);color:var(--k);text-decoration:none;font:700 14px var(--bf);padding:9px 14px;border-radius:6px;white-space:nowrap}
+.hero{background:linear-gradient(135deg,var(--g) 0%,var(--g2) 100%);color:#fff;overflow:hidden;position:relative}
+.hero:after{content:"";position:absolute;inset:auto 0 0 0;height:26px;background:repeating-linear-gradient(90deg,#2C6B3C 0 14px,#245C33 14px 28px);opacity:.9}
+.hin{max-width:1120px;margin:0 auto;padding:56px 16px 74px;display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:center}
+.tag{display:inline-block;background:var(--y);color:var(--k);font:800 13px var(--df);letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:3px}
+h1{font:800 clamp(44px,8vw,84px)/.92 var(--df);text-transform:uppercase;margin:16px 0 14px;letter-spacing:.5px}
+h1 em{font-style:normal;color:var(--y)}
+.lead{font-size:19px;max-width:34ch;color:#E7EFE3;margin:0 0 24px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 17px var(--bf);padding:14px 20px;border-radius:8px}
+.btn.y{background:var(--y);color:var(--k)}.btn.o{border:2px solid #fff;color:#fff}
+.card{background:#fff;color:var(--k);border-radius:12px;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.28);border-top:8px solid var(--y)}
+.card h2{font:800 26px var(--df);text-transform:uppercase;margin:0 0 6px}
+.now{font-weight:700;color:var(--g);margin:0 0 12px}
+.hrs{width:100%;border-collapse:collapse;font-size:16px}
+.hrs td{padding:6px 0;border-bottom:1px dashed var(--line)}.hrs td:last-child{text-align:right;font-weight:600}
+.hrs tr.today td{color:var(--g);font-weight:800}
+section{max-width:1120px;margin:0 auto;padding:60px 16px}
+.kicker{font:800 14px var(--df);letter-spacing:3px;text-transform:uppercase;color:var(--g)}
+h2.t{font:800 clamp(34px,5vw,52px)/1 var(--df);text-transform:uppercase;margin:6px 0 26px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc{background:#fff;border:2px solid var(--line);border-radius:10px;padding:20px}
+.svc .ic{font-size:30px}
+.svc h3{font:800 23px var(--df);text-transform:uppercase;margin:8px 0 4px}
+.svc p{margin:0;color:#3E463F}
+.band{background:var(--y)}
+.band .in{max-width:1120px;margin:0 auto;padding:34px 16px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.band p{font:800 clamp(24px,4vw,36px)/1.05 var(--df);text-transform:uppercase;margin:0;max-width:24ch}
+.band .btn{background:var(--k);color:#fff}
+.area{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:0;list-style:none}
+.chips li{background:#fff;border:2px solid var(--g);color:var(--g);font-weight:700;border-radius:999px;padding:5px 14px}
+.visit{background:var(--g);color:#fff;border-radius:12px;padding:24px}
+.visit h3{font:800 28px var(--df);text-transform:uppercase;margin:0 0 8px}
+.visit p{margin:0 0 14px}
+.visit .btn{margin:4px 8px 4px 0}
+footer{background:var(--k);color:#C9CDBF;text-align:center;padding:26px 16px 96px;font-size:14px}
+footer a{color:var(--y)}
+@media(max-width:820px){.hin{grid-template-columns:1fr;padding-top:40px}.grid{grid-template-columns:1fr 1fr}.area{grid-template-columns:1fr}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.callsm span{display:none}.logo{font-size:20px}}
+:root{--bc:#1F4D2B;--bc2:#143620;--bi:#18201A;--bb:#F4F1E6;--bf:'Source Sans 3',system-ui,sans-serif;--bd:'Saira Condensed',Impact,sans-serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-en="Sample website made by" data-es="Página de muestra creada por">Sample website made by</span> <a href="https://dakrastudio.com">Dakra Studio</a> <span data-en="for McKay's Small Engine" data-es="para McKay's Small Engine">for McKay's Small Engine</span></div>
+<header><div class="bar">
+  <a class="logo" href="#top">McKay's Small Engine<small>Pulaski · TN</small></a>
+  <div class="tools"><button class="lang" type="button" data-lang>Español</button><a class="callsm" href="tel:+19313633398">📞 <span>(931) 363-3398</span></a></div>
+</div></header>
+<main id="top">
+<div class="hero"><div class="hin">
+  <div>
+    <span class="tag" data-en="Mowers · Repair · Service" data-es="Podadoras · Reparación · Servicio">Mowers · Repair · Service</span>
+    <h1 data-en="Keep your <em>mower</em> running" data-es="Que tu <em>podadora</em> siga jalando">Keep your <em>mower</em> running</h1>
+    <p class="lead" data-en="Sales, repair and service for mowers and small engines, right on N 1st Street in Pulaski. Homeowners and commercial crews welcome." data-es="Venta, reparación y servicio de podadoras y motores pequeños, en la calle N 1st de Pulaski. Para casas y para cuadrillas de jardinería.">Sales, repair and service for mowers and small engines, right on N 1st Street in Pulaski. Homeowners and commercial crews welcome.</p>
+    <div class="ctas"><a class="btn y" href="tel:+19313633398">📞 <span data-en="Call the shop" data-es="Llamar al taller">Call the shop</span></a><a class="btn o" href="https://www.google.com/maps/search/?api=1&query=433+N+1st+St+Pulaski+TN+38478" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a></div>
+  </div>
+  <div class="card">
+    <h2 data-en="Shop hours" data-es="Horario del taller">Shop hours</h2>
+    <p class="now" id="now"></p>
+    <table class="hrs" id="hrs"></table>
+    <p style="font-size:13.5px;color:#5A6359;margin:10px 0 0" data-en="Hours from public listings. Call to confirm before you haul it in." data-es="Horario tomado de directorios públicos. Llama para confirmar antes de traer tu equipo.">Hours from public listings. Call to confirm before you haul it in.</p>
+  </div>
+</div></div>
+
+<section id="services">
+  <div class="kicker" data-en="What we do" data-es="Lo que hacemos">What we do</div>
+  <h2 class="t" data-en="Sales & service under one roof" data-es="Venta y servicio en un solo lugar">Sales & service under one roof</h2>
+  <div class="grid">
+    <div class="svc"><div class="ic">🚜</div><h3 data-en="Mower sales" data-es="Venta de podadoras">Mower sales</h3><p data-en="Authorized dealer for Exmark commercial and residential mowers, plus Cub Cadet." data-es="Distribuidor autorizado de podadoras Exmark comerciales y residenciales, y también Cub Cadet.">Authorized dealer for Exmark commercial and residential mowers, plus Cub Cadet.</p></div>
+    <div class="svc"><div class="ic">🔧</div><h3 data-en="Repair & service" data-es="Reparación y servicio">Repair & service</h3><p data-en="Repairs and service for mowers and small engines. Call with your make and model." data-es="Reparación y servicio de podadoras y motores pequeños. Llama con la marca y el modelo.">Repairs and service for mowers and small engines. Call with your make and model.</p></div>
+    <div class="svc"><div class="ic">🪚</div><h3 data-en="Echo & Shindaiwa" data-es="Echo y Shindaiwa">Echo & Shindaiwa</h3><p data-en="Handheld outdoor power equipment brands carried at the shop." data-es="Marcas de equipo de mano para jardín que maneja el taller.">Handheld outdoor power equipment brands carried at the shop.</p></div>
+  </div>
+</section>
+
+<div class="band"><div class="in"><p data-en="Mower acting up? Bring it to McKay's." data-es="¿Tu podadora falla? Tráela a McKay's.">Mower acting up? Bring it to McKay's.</p><a class="btn" href="tel:+19313633398">📞 (931) 363-3398</a></div></div>
+
+<section id="visit">
+  <div class="area">
+    <div>
+      <div class="kicker" data-en="Who we serve" data-es="A quién atendemos">Who we serve</div>
+      <h2 class="t" data-en="Pulaski & nearby" data-es="Pulaski y alrededores">Pulaski & nearby</h2>
+      <p data-en="Customers from all around southern Giles County bring their equipment to us." data-es="Clientes de todo el sur del condado de Giles nos traen su equipo.">Customers from all around southern Giles County bring their equipment to us.</p>
+      <ul class="chips"><li>Pulaski</li><li>Ethridge</li><li>Five Points</li><li>Goodspring</li><li>Lynnville</li><li>Minor Hill</li></ul>
+    </div>
+    <div class="visit">
+      <h3 data-en="Visit the shop" data-es="Visita el taller">Visit the shop</h3>
+      <p>433 N 1st St, Pulaski, TN 38478</p>
+      <a class="btn y" href="https://www.google.com/maps/search/?api=1&query=433+N+1st+St+Pulaski+TN+38478" target="_blank" rel="noopener">📍 <span data-en="Directions" data-es="Cómo llegar">Directions</span></a><a class="btn o" href="tel:+19313633398">📞 <span data-en="Call" data-es="Llamar">Call</span></a>
+    </div>
+  </div>
+</section>
+</main>
+<footer>McKay's Small Engine · 433 N 1st St, Pulaski, TN · <a href="tel:+19313633398">(931) 363-3398</a><br><span data-en="Sample website by" data-es="Página de muestra por">Sample website by</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+<script>
+(function(){
+  const H=[null,null,[8,17],[8,17],[8,17],[8,17],[8,12]];
+  const D={en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],es:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"]};
+  const f=h=>{const r=Math.floor(h),m=Math.round((h-r)*60);return((r+11)%12+1)+(m?":"+String(m).padStart(2,"0"):"")+(r>=12?" pm":" am")};
+  let lang="en";
+  function nowCT(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:parseInt(g("hour"),10)%24+parseInt(g("minute"),10)/60}}
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="en"?"Español":"English");
+    const t=nowCT(),r=H[t.d];
+    document.getElementById("now").textContent=(r&&t.h>=r[0]&&t.h<r[1])?(lang==="en"?"🟢 Open now":"🟢 Abierto ahora"):(lang==="en"?"🔴 Closed now":"🔴 Cerrado ahora");
+    document.getElementById("hrs").innerHTML=[2,3,4,5,6,0,1].map(d=>`<tr class="${d===t.d?"today":""}"><td>${D[lang][d]}</td><td>${H[d]?f(H[d][0])+" – "+f(H[d][1]):(lang==="en"?"Closed":"Cerrado")}</td></tr>`).join("");
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+})();
+</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="McKay's Small Engine assistant" hidden>
+  <div class="bh"><div><b>McKay's Small Engine</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"McKay's Small Engine",color:"#1F4D2B",color2:"#143620",ink:"#18201A",bg:"#F4F1E6",font:"'Source Sans 3',system-ui,sans-serif",display:"'Saira Condensed',Impact,sans-serif",
+  tel:"+19313633398",telTxt:"(931) 363-3398",maps:"https://www.google.com/maps/search/?api=1&query=433+N+1st+St+Pulaski+TN+38478",address:"433 N 1st St, Pulaski, TN 38478",
+  H:[null,null,[8,17],[8,17],[8,17],[8,17],[8,12]]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAPS=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|good (morning|afternoon|evening))\b/i,en:()=>"Hi! 👋 Ask me about hours, repairs, mowers we sell or directions.",es:()=>"¡Hola! 👋 Pregúntame por el horario, reparaciones, las podadoras que vendemos o cómo llegar."},
+  {k:"thanks",re:/gracias|thank/i,en:()=>"You're welcome! Happy mowing 🌱",es:()=>"¡Con gusto! Que te rinda el pasto 🌱"},
+  {k:"monday",re:/lunes|monday|domingo|sunday/i,en:()=>"We're closed Sunday and Monday. Tuesday–Friday 8 am–5 pm and Saturday 8 am–noon (call to confirm). 📅",es:()=>"Cerramos domingo y lunes. Martes a viernes de 8 am a 5 pm y sábado de 8 am a 12 pm (llama para confirmar). 📅"},
+  {k:"open",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today/i,en:()=>STATUS().en+" ⏰",es:()=>STATUS().es+" ⏰"},
+  {k:"hours",re:/hora|horario|abre|abren|cierra|cierran|hours|close|when/i,en:()=>STATUS().en+"\n\n"+HOURS("en")+"\n\nHours come from public listings, please call to confirm.",es:()=>STATUS().es+"\n\n"+HOURS("es")+"\n\nEl horario viene de directorios públicos, llama para confirmar."},
+  {k:"pickup",re:/recog|pick ?up|haul|traer|llevar|trailer|remolque|a domicilio|come to|deliver|entreg|env[ií]o/i,en:()=>`To ask about pickup or delivery of equipment, call ${TEL}. 🚚`,es:()=>`Para preguntar si recogen o entregan equipo, llama al ${TEL}. 🚚`},
+  {k:"wait",re:/cu[aá]nto (tarda|tiempo)|tardan|espera|r[aá]pido|how long|wait|fast|turnaround|appointment|cita|ready/i,en:()=>`Repair time depends on the job and parts. Call ${TEL} to ask how long yours will take. ⏱️`,es:()=>`El tiempo depende del trabajo y de las piezas. Llama al ${TEL} para preguntar cuánto tardaría el tuyo. ⏱️`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|vale|price|how much|cost|quote|cotiza|estimate|presupuesto/i,en:()=>`Prices depend on the machine and the job. Call ${TEL} with your make and model for a price. 💵`,es:()=>`El precio depende del equipo y del trabajo. Llama al ${TEL} con la marca y el modelo para que te den precio. 💵`},
+  {k:"warranty",re:/garant[ií]a|warrant/i,en:()=>`For warranty questions on Exmark or Cub Cadet equipment, call ${TEL}. 🛡️`,es:()=>`Para preguntas de garantía de equipo Exmark o Cub Cadet, llama al ${TEL}. 🛡️`},
+  {k:"parts",re:/pieza|parte|refacci|repuesto|part|blade|cuchilla|belt|banda|filtro|filter|aceite|oil/i,en:()=>`To check if a part is in stock, call ${TEL} with your model number. 🔩`,es:()=>`Para saber si tienen una pieza, llama al ${TEL} con el número de modelo. 🔩`},
+  {k:"brands",re:/exmark|cub ?cadet|echo|shindaiwa|marca|brand|venden|vender|comprar|buy|sell|new mower|nueva/i,en:()=>"We're an authorized Exmark dealer (commercial and residential mowers) and also carry Cub Cadet, Echo and Shindaiwa. 🚜",es:()=>"Somos distribuidor autorizado de Exmark (podadoras comerciales y residenciales) y también manejamos Cub Cadet, Echo y Shindaiwa. 🚜"},
+  {k:"repair",re:/repar|arregl|fix|repair|service|servicio|tune|afinaci|no prende|won.?t start|motor|engine|mower|podadora|cortac|trimmer|chainsaw|motosierra/i,en:()=>`Yes, we repair and service mowers and small engines. Call ${TEL} or bring it by ${MAPS}. 🔧`,es:()=>`Sí, reparamos y damos servicio a podadoras y motores pequeños. Llama al ${TEL} o tráela a ${MAPS}. 🔧`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|apple ?pay|zelle|aceptan|financ/i,en:()=>`To confirm payment options or financing, call ${TEL}. 💳`,es:()=>`Para confirmar formas de pago o financiamiento, llama al ${TEL}. 💳`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion/i,en:()=>`We're at ${MAPS}. 📍`,es:()=>`Estamos en ${MAPS}. 📍`},
+  {k:"area",re:/ethridge|five points|goodspring|lynnville|minor hill|zona|area|serve/i,en:()=>"We serve Pulaski, Ethridge, Five Points, Goodspring, Lynnville and Minor Hill. 🗺️",es:()=>"Atendemos Pulaski, Ethridge, Five Points, Goodspring, Lynnville y Minor Hill. 🗺️"},
+  {k:"person",re:/persona|humano|due[ñn]o|encargado|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|manager|call|phone/i,en:()=>`Sure! Call the shop at ${TEL}. 📞`,es:()=>`¡Claro! Llama al taller al ${TEL}. 📞`},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan/i,en:()=>"This website works in English and Spanish. For anything else, call the shop. 🗣️",es:()=>"Esta página está en inglés y español. Para el idioma en el taller, llama para preguntar. 🗣️"}
+];
+const CHIPS={en:[["open","Are you open?"],["repair","Repairs"],["brands","Mowers we sell"],["price","Prices"],["hours","Hours"],["where","Directions"],["person","Call the shop"]],
+             es:[["open","¿Están abiertos?"],["repair","Reparaciones"],["brands","Podadoras"],["price","Precios"],["hours","Horario"],["where","Cómo llegar"],["person","Llamar al taller"]]};
+const TXT={en:{hi:"Hi! 👋 I'm McKay's Small Engine's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} and they'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de McKay's Small Engine. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} y con gusto te ayudan.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
