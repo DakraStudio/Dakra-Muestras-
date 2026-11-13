@@ -149,6 +149,9 @@ a{color:var(--bay)}
 .pad button:hover{background:rgba(255,255,255,.18)}
 .pad button:active{transform:scale(.95)}
 .login .hint{font-size:13px;opacity:.75;text-align:center}
+.demo-banner{display:flex;flex-direction:column;gap:3px;background:rgba(233,217,168,.14);border:1px solid rgba(233,217,168,.45);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.4}
+.demo-banner b{color:#e9d9a8;font-size:15px}
+.pin-chip{margin-top:4px;font-size:12px;font-weight:700;letter-spacing:.04em;background:#e9d9a8;color:#3d3420;border-radius:999px;padding:2px 8px}
 .login a{color:#fff;opacity:.8}
 .login .pill-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
 .login .pill-btn.on{background:#fff;color:var(--navy);border-color:#fff}
@@ -511,7 +514,7 @@ const L={
   saved:"Guardado",copied:"Copiado",noCopy:"No se pudo copiar",created:"Orden creada",deleted:"Borrado",deleteOrder:"Borrar orden",
   overdue:"pasó su fecha prometida",waiting:"lleva días esperando partes",owes:"debe",noPhotos:"no tiene fotos de entrada",
   existingCust:"Cliente existente",orNew:"o cliente nuevo",create:"Crear orden",today:"hoy",tomorrow:"mañana",move:"Mover",perMonth:"Cobrado este mes",
-  who:"¿Quién eres?",enterPin:"Escribe tu PIN",wrongPin:"PIN incorrecto",demoPins:"Prueba: Dueño 1234 · Técnico 1111 · Pintora 2222",logout:"Salir",
+  who:"¿Quién eres?",enterPin:"Escribe tu PIN",wrongPin:"PIN incorrecto",demoPins:"Prueba: Dueño 1234 · Técnico 1111 · Pintora 2222",demoT:"Taller de ejemplo",demoP:"Explora con confianza: nada es real. Toca a una persona y escribe el PIN que aparece debajo de su nombre. Cada puesto ve cosas distintas.",demoFill:"Escribir el PIN por mí",logout:"Salir",
   backWeb:"← Volver a la página",
   repTitle:"Reporte de inspección y reparación",generated:"Generado",damagedParts:"Partes con daño",estSum:"Resumen del estimado",timeline:"Historial",
   repFoot:"Cada foto lleva fecha, hora y número de orden grabados en la imagen. En la versión final este reporte se descarga en PDF y se manda por enlace al cliente o a la aseguradora.",
@@ -552,7 +555,7 @@ const L={
   saved:"Saved",copied:"Copied",noCopy:"Could not copy",created:"Order created",deleted:"Deleted",deleteOrder:"Delete order",
   overdue:"is past its promised date",waiting:"has been waiting on parts for days",owes:"owes",noPhotos:"has no check-in photos",
   existingCust:"Existing customer",orNew:"or new customer",create:"Create order",today:"today",tomorrow:"tomorrow",move:"Move",perMonth:"Collected this month",
-  who:"Who are you?",enterPin:"Enter your PIN",wrongPin:"Wrong PIN",demoPins:"Try: Owner 1234 · Tech 1111 · Painter 2222",logout:"Log out",
+  who:"Who are you?",enterPin:"Enter your PIN",wrongPin:"Wrong PIN",demoPins:"Try: Owner 1234 · Tech 1111 · Painter 2222",demoT:"Sample shop",demoP:"Explore freely: nothing here is real. Tap a person and type the PIN shown under their name. Each role sees something different.",demoFill:"Type the PIN for me",logout:"Log out",
   backWeb:"← Back to website",
   repTitle:"Inspection and repair report",generated:"Generated",damagedParts:"Damaged parts",estSum:"Estimate summary",timeline:"History",
   repFoot:"Every photo has the date, time and order number burned into the image. In the final version this report downloads as a PDF and is sent by link to the customer or insurer.",
@@ -725,16 +728,19 @@ function renderLogin(){
   $("#root").innerHTML=`<div class="login"><div class="login-card">
     <div><span class="tape">ColorBay Shop</span></div>
     <div><h1>${t("who")}</h1><div class="shopname">${esc(S.settings.shop)}</div></div>
-    <div class="users">${S.users.map(u=>`<button class="user ${pickUser===u.id?"on":""}" data-u="${u.id}">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small></button>`).join("")}</div>
+    ${S.demo?`<div class="demo-banner"><b>${t("demoT")}</b><span>${t("demoP")}</span></div>`:""}
+    <div class="users">${S.users.map(u=>`<button class="user ${pickUser===u.id?"on":""}" data-u="${u.id}">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small>${S.demo&&u.pin?`<span class="pin-chip">PIN ${esc(u.pin)}</span>`:""}</button>`).join("")}</div>
+    ${pickUser&&S.demo?`<button class="btn btn-paint" id="demo-fill" type="button" style="width:100%">${t("demoFill")}</button>`:""}
     ${pickUser?`<div style="text-align:center;opacity:.85">${t("enterPin")}</div>
     <div class="pinrow" id="pinrow">${[0,1,2,3].map(i=>`<i class="${i<pinBuf.length?"f":""}"></i>`).join("")}</div>
     <div class="pad">${[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map(k=>k===""?"<span></span>":`<button data-k="${k}" aria-label="${k}">${k}</button>`).join("")}</div>`:""}
-    ${S.demo?`<div class="hint">${t("demoPins")}</div>`:""}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><a href="index.html">${t("backWeb")}</a>
      <span style="display:flex;gap:6px"><button class="pill-btn ${S.settings.lang==="es"?"on":""}" data-lang="es">ES</button><button class="pill-btn ${S.settings.lang==="en"?"on":""}" data-lang="en">EN</button></span></div>
   </div></div>`;
   document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{pickUser=b.dataset.u;pinBuf="";renderLogin()});
   document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>pinKey(b.dataset.k));
+  const df=$("#demo-fill");if(df)df.onclick=()=>{const u=S.users.find(x=>x.id===pickUser);if(!u||!u.pin)return;df.disabled=true;pinBuf="";
+    [...String(u.pin)].forEach((d,i)=>setTimeout(()=>pinKey(d),180*(i+1)))};
 }
 function pinKey(k){
   if(!pickUser)return;
