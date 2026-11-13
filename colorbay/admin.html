@@ -72,6 +72,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const CFG=window.COLORBAY_CONFIG||{};let sb=null,SHOPS=[],q="",fil="all";
 const PLAN={trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"};
 const PC={trial:"#b7791f",paid:"#1f8a4c",founder:"#1456b8",courtesy:"#8e6bd8"};
+const TIER={solo:"Solo · 1 persona",shop:"Taller · hasta 5",plus:"Plus · sin límite"};
 function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove("on"),2200)}
 const fmt=d=>d?new Date(d).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}):"—";
 const daysLeft=d=>Math.ceil((new Date(d)-new Date())/864e5);
@@ -116,11 +117,12 @@ function render(){
     <button class="btn btn-ghost" onclick="load()">Actualizar</button></div>
    ${list.map(s=>{const o=open(s);return`<div class="card shop" style="--c:${o?PC[s.plan]:"var(--bad)"}" data-id="${s.id}">
      <div><h3>${esc(s.name)}</h3><div class="meta"><span>${esc(s.owner_email||"")}</span>${s.phone?`<span>${esc(s.phone)}</span>`:""}<span>Código <b>${esc(s.join_code)}</b></span></div>
-      <div class="meta"><span class="chip" style="color:${PC[s.plan]}">${PLAN[s.plan]}</span><span class="chip" style="color:${o?"var(--ok)":"var(--bad)"}">${o?"Activo":s.status==="suspended"?"Suspendido":"Prueba vencida"}</span>
+      <div class="meta"><span class="chip" style="color:${PC[s.plan]}">${PLAN[s.plan]}</span><span class="chip">${(TIER[s.tier]||TIER.shop).split(" · ")[0]}</span><span class="chip" style="color:${o?"var(--ok)":"var(--bad)"}">${o?"Activo":s.status==="suspended"?"Suspendido":"Prueba vencida"}</span>
        ${s.plan==="trial"?`<span>${daysLeft(s.trial_ends)>0?daysLeft(s.trial_ends)+" días de prueba":"venció el "+fmt(s.trial_ends)}</span>`:""}</div>
       <div class="meta"><span>${s.orders} órdenes</span><span>${s.workers} personas</span><span>Último uso: ${fmt(s.last_activity)}</span><span>Alta: ${fmt(s.created_at)}</span></div></div>
      <div class="form">
       <label>Plan<select data-k="plan">${Object.entries(PLAN).map(([k,v])=>`<option value="${k}" ${s.plan===k?"selected":""}>${v}</option>`).join("")}</select></label>
+      <label>Nivel<select data-k="tier">${Object.entries(TIER).map(([k,v])=>`<option value="${k}" ${(s.tier||"shop")===k?"selected":""}>${v}</option>`).join("")}</select></label>
       <label>Estado<select data-k="status"><option value="active" ${s.status==="active"?"selected":""}>Activo</option><option value="suspended" ${s.status==="suspended"?"selected":""}>Suspendido</option></select></label>
       <label class="full">Fin de la prueba<input type="date" data-k="trial_ends" value="${(s.trial_ends||"").slice(0,10)}"></label>
       <label class="full">Notas privadas<input data-k="notes" value="${esc(s.notes||"")}" placeholder="Ej. compañero, gratis de por vida"></label>
@@ -128,7 +130,7 @@ function render(){
   $("#q").oninput=e=>{q=e.target.value;const p=e.target.selectionStart;render();$("#q").focus();$("#q").setSelectionRange(p,p)};
   $("#fil").onchange=e=>{fil=e.target.value;render()};
   document.querySelectorAll("[data-save]").forEach(b=>b.onclick=async()=>{const c=b.closest(".shop"),v=k=>c.querySelector(`[data-k="${k}"]`).value;
-    const te=v("trial_ends");const{error}=await sb.rpc("admin_update_shop",{p_shop:c.dataset.id,p_plan:v("plan"),p_status:v("status"),p_trial_ends:te?new Date(te+"T23:59:00").toISOString():null,p_notes:v("notes")});
+    const te=v("trial_ends");const{error}=await sb.rpc("admin_update_shop",{p_shop:c.dataset.id,p_plan:v("plan"),p_status:v("status"),p_trial_ends:te?new Date(te+"T23:59:00").toISOString():null,p_notes:v("notes"),p_tier:v("tier")});
     if(error){toast("Error: "+error.message);return}toast("Guardado");load()});
   document.querySelectorAll("[data-exp]").forEach(b=>b.onclick=async()=>{const id=b.closest(".shop").dataset.id;const{data,error}=await sb.rpc("admin_export",{p_shop:id});
     if(error){toast("Error: "+error.message);return}const s=SHOPS.find(x=>x.id===id);

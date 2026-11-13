@@ -24,6 +24,9 @@ create table if not exists public.shops(
   notes       text,
   created_at  timestamptz not null default now()
 );
+alter table public.shops add column if not exists tier text not null default 'shop';
+do $$ begin alter table public.shops add constraint shops_tier_chk check (tier in ('solo','shop','plus'));
+exception when duplicate_object then null; end $$;
 
 create table if not exists public.workers(
   id         uuid primary key default gen_random_uuid(),
@@ -57,6 +60,26 @@ create table if not exists public.orders(
   primary key (shop_id, id)
 );
 
+-- Precios de cada orden (estimado, pagos, costos) separados, para poder esconderlos a técnicos y pintores.
+create table if not exists public.order_money(
+  shop_id    uuid not null references public.shops(id) on delete cascade,
+  id         text not null,
+  doc        jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now(),
+  primary key (shop_id, id)
+);
+
+-- Papelera: lo borrado se guarda 30 días y el dueño lo puede recuperar.
+create table if not exists public.trash(
+  id         uuid primary key default gen_random_uuid(),
+  shop_id    uuid not null references public.shops(id) on delete cascade,
+  kind       text not null,
+  label      text,
+  item       jsonb not null,
+  deleted_by uuid,
+  deleted_at timestamptz not null default now()
+);
+
 create table if not exists public.join_fails(
   shop_id uuid not null references public.shops(id) on delete cascade,
   at      timestamptz not null default now()
@@ -85,6 +108,15 @@ language sql stable security definer set search_path = public as $$
   select (public.my_role(s) is not null and public.shop_open(s)) or public.is_admin()
 $$;
 
+-- ¿Esta persona puede ver precios? Dueño siempre; técnico o pintor solo si el dueño lo permite.
+create or replace function public.money_ok(s uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select public.can_use(s) and (
+    public.is_admin() or public.my_role(s) = 'owner'
+    or (public.my_role(s) = 'tech'    and coalesce((select (doc->'settings'->>'techPrices')::boolean    from shop_data where shop_id = s), false))
+    or (public.my_role(s) = 'painter' and coalesce((select (doc->'settings'->>'painterPrices')::boolean from shop_data where shop_id = s), false)))
+$$;
+
 -- ---------- Seguridad por fila ----------
 alter table public.platform_admins enable row level security;
 alter table public.shops           enable row level security;
@@ -93,6 +125,8 @@ alter table public.members         enable row level security;
 alter table public.shop_data       enable row level security;
 alter table public.orders          enable row level security;
 alter table public.join_fails      enable row level security;
+alter table public.order_money     enable row level security;
+alter table public.trash           enable row level security;
 
 drop policy if exists shops_read   on public.shops;
 drop policy if exists shops_admin  on public.shops;
@@ -104,6 +138,13 @@ drop policy if exists orders_read  on public.orders;
 drop policy if exists orders_ins   on public.orders;
 drop policy if exists orders_upd   on public.orders;
 drop policy if exists orders_del   on public.orders;
+drop policy if exists money_read   on public.order_money;
+drop policy if exists money_ins    on public.order_money;
+drop policy if exists money_upd    on public.order_money;
+drop policy if exists money_del    on public.order_money;
+drop policy if exists trash_read   on public.trash;
+drop policy if exists trash_ins    on public.trash;
+drop policy if exists trash_del    on public.trash;
 
 create policy shops_read   on public.shops     for select using (public.my_role(id) is not null or public.is_admin());
 create policy shops_admin  on public.shops     for update using (public.is_admin()) with check (public.is_admin());
@@ -115,6 +156,13 @@ create policy orders_read  on public.orders    for select using (public.can_use(
 create policy orders_ins   on public.orders    for insert with check (public.can_use(shop_id));
 create policy orders_upd   on public.orders    for update using (public.can_use(shop_id)) with check (public.can_use(shop_id));
 create policy orders_del   on public.orders    for delete using (public.can_use(shop_id) and public.my_role(shop_id) = 'owner');
+create policy money_read   on public.order_money for select using (public.money_ok(shop_id));
+create policy money_ins    on public.order_money for insert with check (public.money_ok(shop_id));
+create policy money_upd    on public.order_money for update using (public.money_ok(shop_id)) with check (public.money_ok(shop_id));
+create policy money_del    on public.order_money for delete using (public.money_ok(shop_id) and (public.my_role(shop_id) = 'owner' or public.is_admin()));
+create policy trash_read   on public.trash for select using (public.can_use(shop_id) and (public.my_role(shop_id) = 'owner' or public.is_admin()));
+create policy trash_ins    on public.trash for insert with check (public.can_use(shop_id));
+create policy trash_del    on public.trash for delete using (public.can_use(shop_id) and (public.my_role(shop_id) = 'owner' or public.is_admin()));
 
 -- Nadie puede leer el PIN cifrado desde la app.
 revoke select on public.workers from anon, authenticated;
@@ -174,8 +222,28 @@ begin
   if p_role not in ('tech', 'painter') then raise exception 'bad_role'; end if;
   if p_pin !~ '^[0-9]{4}$' then raise exception 'bad_pin'; end if;
   if exists(select 1 from workers where shop_id = p_shop and pin_hash = crypt(p_pin, pin_hash)) then raise exception 'pin_taken'; end if;
+  -- Límite de personas por nivel: Solo = solo el dueño, Taller = 5, Plus = sin límite.
+  if (select tier from shops where id = p_shop) = 'solo' then raise exception 'limit_reached'; end if;
+  if (select tier from shops where id = p_shop) = 'shop' and (select count(*) from workers where shop_id = p_shop) >= 5 then raise exception 'limit_reached'; end if;
   insert into workers(shop_id, name, role, pin_hash) values (p_shop, p_name, p_role, crypt(p_pin, gen_salt('bf'))) returning id into w;
   return w;
+end $$;
+
+create or replace function public.update_worker(p_shop uuid, p_worker uuid, p_name text, p_role text, p_pin text default null)
+returns void language plpgsql security definer set search_path = public, extensions as $$
+declare cur text;
+begin
+  if public.my_role(p_shop) is distinct from 'owner' then raise exception 'not_allowed'; end if;
+  select role into cur from workers where id = p_worker and shop_id = p_shop;
+  if cur is null then raise exception 'not_found'; end if;
+  if cur <> 'owner' and p_role not in ('tech', 'painter') then raise exception 'bad_role'; end if;
+  if p_pin is not null and p_pin <> '' then
+    if p_pin !~ '^[0-9]{4}$' then raise exception 'bad_pin'; end if;
+    if exists(select 1 from workers where shop_id = p_shop and id <> p_worker and pin_hash = crypt(p_pin, pin_hash)) then raise exception 'pin_taken'; end if;
+    update workers set pin_hash = crypt(p_pin, gen_salt('bf')) where id = p_worker;
+  end if;
+  update workers set name = coalesce(nullif(trim(p_name), ''), name), role = case when cur = 'owner' then 'owner' else p_role end where id = p_worker;
+  update members set role = (select role from workers where id = p_worker) where worker_id = p_worker;
 end $$;
 
 create or replace function public.remove_worker(p_shop uuid, p_worker uuid)
@@ -186,11 +254,13 @@ begin
 end $$;
 
 -- ---------- Panel de administrador (solo Dakra Studio) ----------
+drop function if exists public.admin_shops();
+drop function if exists public.admin_update_shop(uuid, text, text, timestamptz, text);
 create or replace function public.admin_shops()
-returns table(id uuid, name text, owner_email text, phone text, plan text, status text, trial_ends timestamptz,
+returns table(id uuid, name text, owner_email text, phone text, plan text, tier text, status text, trial_ends timestamptz,
               join_code text, notes text, created_at timestamptz, orders bigint, workers bigint, last_activity timestamptz)
 language sql stable security definer set search_path = public as $$
-  select s.id, s.name, s.owner_email, s.phone, s.plan, s.status, s.trial_ends, s.join_code, s.notes, s.created_at,
+  select s.id, s.name, s.owner_email, s.phone, s.plan, s.tier, s.status, s.trial_ends, s.join_code, s.notes, s.created_at,
          (select count(*) from orders o where o.shop_id = s.id),
          (select count(*) from workers w where w.shop_id = s.id),
          greatest((select max(o.updated_at) from orders o where o.shop_id = s.id),
@@ -198,11 +268,12 @@ language sql stable security definer set search_path = public as $$
   from shops s where public.is_admin() order by s.created_at desc
 $$;
 
-create or replace function public.admin_update_shop(p_shop uuid, p_plan text, p_status text, p_trial_ends timestamptz, p_notes text)
+create or replace function public.admin_update_shop(p_shop uuid, p_plan text, p_status text, p_trial_ends timestamptz, p_notes text, p_tier text default null)
 returns void language plpgsql security definer set search_path = public as $$
 begin
   if not public.is_admin() then raise exception 'not_admin'; end if;
-  update shops set plan = p_plan, status = p_status, trial_ends = coalesce(p_trial_ends, trial_ends), notes = p_notes
+  update shops set plan = p_plan, status = p_status, trial_ends = coalesce(p_trial_ends, trial_ends), notes = p_notes,
+                   tier = coalesce(p_tier, tier)
    where id = p_shop;
 end $$;
 
@@ -212,6 +283,8 @@ language sql stable security definer set search_path = public as $$
     'shop',    (select to_jsonb(s) - 'owner_id' from shops s where s.id = p_shop),
     'data',    (select doc from shop_data where shop_id = p_shop),
     'orders',  (select coalesce(jsonb_agg(doc), '[]'::jsonb) from orders where shop_id = p_shop),
+    'money',   (select coalesce(jsonb_object_agg(id, doc), '{}'::jsonb) from order_money where shop_id = p_shop),
+    'trash',   (select coalesce(jsonb_agg(jsonb_build_object('kind', kind, 'label', label, 'item', item, 'deleted_at', deleted_at)), '[]'::jsonb) from trash where shop_id = p_shop),
     'workers', (select coalesce(jsonb_agg(jsonb_build_object('name', name, 'role', role)), '[]'::jsonb) from workers where shop_id = p_shop))
   end
 $$;
@@ -250,4 +323,5 @@ create policy colorbay_photos_delete on storage.objects for delete to authentica
 do $$ begin
   begin alter publication supabase_realtime add table public.orders;    exception when others then null; end;
   begin alter publication supabase_realtime add table public.shop_data; exception when others then null; end;
+  begin alter publication supabase_realtime add table public.order_money; exception when others then null; end;
 end $$;

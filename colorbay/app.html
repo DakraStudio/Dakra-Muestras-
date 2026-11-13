@@ -65,6 +65,25 @@ a{color:var(--bay)}
 .sync.ok{color:var(--ok)}.sync.err{color:var(--bad)}
 @media (max-width:900px){.sync{bottom:78px}}
 .codebox{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.25em;color:var(--bay)}
+/* ---- Interruptor ---- */
+.switch{display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:600;font-size:15px}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch span{width:44px;height:26px;border-radius:999px;background:var(--line);position:relative;flex:none;transition:background .2s}
+.switch span::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.switch input:checked+span{background:var(--ok)}
+.switch input:checked+span::after{transform:translateX(18px)}
+.switch input:focus-visible+span{outline:2px solid var(--bay);outline-offset:2px}
+.report .paid{display:inline-block;margin-top:8px;border:3px solid #1f8a4c;color:#1f8a4c;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.12em;padding:2px 12px;transform:rotate(-6deg)}
+.report.doc th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#5d6b78}
+@media print{
+  @page{margin:12mm}
+  body{background:#fff!important}
+  body>*:not(#over){display:none!important}
+  #over{position:static!important;transform:none!important;overflow:visible!important;background:#fff!important;display:block!important}
+  #over .over-bar{display:none!important}
+  .report{box-shadow:none!important;margin:0!important;max-width:none!important;padding:0!important}
+  .report figure{break-inside:avoid}
+}
 /* ---- Ayuda ---- */
 .helpbtn{position:fixed;right:16px;bottom:16px;z-index:16;width:52px;height:52px;border-radius:50%;border:0;background:var(--paint);color:#fff;font-family:var(--display);font-size:28px;font-weight:700;box-shadow:0 8px 24px rgba(232,84,28,.4);cursor:pointer;transition:transform .15s}
 .helpbtn:active{transform:scale(.92)}
@@ -582,10 +601,10 @@ function demo(lang){
       {id:"f3",code:"NH797M",name:"Modern Steel",brand:"Axalta",make:"Honda",tn:[{n:"Plata fino",g:120},{n:"Negro",g:14},{n:"Azul oscuro",g:2.5}]},
       {id:"f4",code:"PW7",name:"Bright White",brand:"PPG",make:"Ram",tn:[{n:"Blanco",g:200},{n:"Negro fino",g:1.2}]}],
      mixes:[{id:"m1",d:addD(-1),code:"YZ",order:"1048",g:500,by:"u3"},{id:"m2",d:addD(-3),code:"PW7",order:"1046",g:350,by:"u3"},{id:"m3",d:addD(-9),code:"NH797M",order:"1050",g:400,by:"u3"}],
-     stock:defaultStock()},demo:true};
+     stock:defaultStock()},appts:[{id:"a1",d:today(),time:"10:30",name:"Kevin Brooks",phone:"(931) 555-0175",car:"2017 Honda Accord",note:"Golpe en la puerta trasera"},{id:"a2",d:addD(1),time:"08:00",name:"Rosa Méndez",phone:"(931) 555-0121",car:"2020 Nissan Rogue",note:"Estimado de aseguranza"}],trash:[],demo:true};
   return lang==="en"?trDemo(out):out;
 }
-const DEMO_EN={"Taller Ramírez": "Ramirez Auto Body", "Taller El Primo (flota)": "Primo's Garage (fleet)", "Mutual del Sur (ejemplo)": "Southern Mutual (sample)", "Carretera Seguros (ejemplo)": "Highway Insurance (sample)", "Blanco": "White", "Rojo": "Red", "Gris": "Gray", "Azul": "Blue", "Negro": "Black", "Cubierta rota del lado derecho": "Cover cracked on the right side", "Faro estrellado": "Headlamp cracked", "Reparar defensa delantera": "Repair front bumper", "Cubierta de defensa": "Bumper cover", "Faro derecho": "Right headlamp", "Pintar defensa y salpicadera der.": "Paint bumper and right fender", "Materiales de pintura": "Paint materials", "Reparar costado izq.": "Repair left quarter panel", "Calavera izq.": "Left tail lamp", "Pintar costado": "Paint quarter panel", "Repintar cofre": "Refinish hood", "Materiales": "Materials", "Desmontar y montar cofre": "R&I hood", "Revisión y estimado": "Inspection and estimate", "Reparar puerta izq.": "Repair left door", "Pintar puerta": "Paint door", "Defensa trasera": "Rear bumper", "Pintar defensa": "Paint bumper", "Instalar": "Install", "Rejilla XLT": "XLT grille", "Soporte der.": "Right bracket", "Moldura de caja": "Bed molding", "Le avisamos que las partes ya llegaron.": "Told the customer the parts arrived.", "Se mandó suplemento con fotos del soporte.": "Sent supplement with bracket photos.", "Revisar sensor de estacionamiento al armar.": "Check parking sensor at reassembly.", "Cliente pasa hoy en la tarde.": "Customer picks up this afternoon.", "Negro fino": "Fine black", "Amarillo óxido": "Oxide yellow", "Aluminio fino": "Fine aluminum", "Rojo brillante": "Bright red", "Plata fino": "Fine silver", "Azul oscuro": "Dark blue", "Barniz (clear) 2K": "2K clearcoat", "Primer 2K gris": "2K gray primer", "Reductor medio": "Medium reducer", "Endurecedor": "Hardener", "Lija 400": "400 grit sandpaper", "Cinta de enmascarar 3/4": "3/4 masking tape", "caja": "box", "rollo": "roll"};
+const DEMO_EN={"Taller Ramírez": "Ramirez Auto Body", "Taller El Primo (flota)": "Primo's Garage (fleet)", "Mutual del Sur (ejemplo)": "Southern Mutual (sample)", "Carretera Seguros (ejemplo)": "Highway Insurance (sample)", "Blanco": "White", "Rojo": "Red", "Gris": "Gray", "Azul": "Blue", "Negro": "Black", "Cubierta rota del lado derecho": "Cover cracked on the right side", "Faro estrellado": "Headlamp cracked", "Reparar defensa delantera": "Repair front bumper", "Cubierta de defensa": "Bumper cover", "Faro derecho": "Right headlamp", "Pintar defensa y salpicadera der.": "Paint bumper and right fender", "Materiales de pintura": "Paint materials", "Reparar costado izq.": "Repair left quarter panel", "Calavera izq.": "Left tail lamp", "Pintar costado": "Paint quarter panel", "Repintar cofre": "Refinish hood", "Materiales": "Materials", "Desmontar y montar cofre": "R&I hood", "Revisión y estimado": "Inspection and estimate", "Reparar puerta izq.": "Repair left door", "Pintar puerta": "Paint door", "Defensa trasera": "Rear bumper", "Pintar defensa": "Paint bumper", "Instalar": "Install", "Rejilla XLT": "XLT grille", "Soporte der.": "Right bracket", "Moldura de caja": "Bed molding", "Le avisamos que las partes ya llegaron.": "Told the customer the parts arrived.", "Se mandó suplemento con fotos del soporte.": "Sent supplement with bracket photos.", "Revisar sensor de estacionamiento al armar.": "Check parking sensor at reassembly.", "Cliente pasa hoy en la tarde.": "Customer picks up this afternoon.", "Golpe en la puerta trasera": "Dent on the rear door", "Estimado de aseguranza": "Insurance estimate", "Negro fino": "Fine black", "Amarillo óxido": "Oxide yellow", "Aluminio fino": "Fine aluminum", "Rojo brillante": "Bright red", "Plata fino": "Fine silver", "Azul oscuro": "Dark blue", "Barniz (clear) 2K": "2K clearcoat", "Primer 2K gris": "2K gray primer", "Reductor medio": "Medium reducer", "Endurecedor": "Hardener", "Lija 400": "400 grit sandpaper", "Cinta de enmascarar 3/4": "3/4 masking tape", "caja": "box", "rollo": "roll"};
 function trDemo(x){if(typeof x==="string")return DEMO_EN[x]??x;if(Array.isArray(x))return x.map(trDemo);if(x&&typeof x==="object"){const o={};for(const k in x)o[k]=(k==="id"||k==="pin")?x[k]:trDemo(x[k]);return o}return x}
 const CFG=window.COLORBAY_CONFIG||{};
 const DEMO=!(CFG.url&&CFG.key)||new URLSearchParams(location.search).has("demo");
@@ -644,10 +663,10 @@ const loc=()=>S.settings.lang==="es"?"es-MX":"en-US";
 const fmtD=d=>{if(!d)return"—";if(d===today())return t("today");if(d===addD(1))return t("tomorrow");
   return new Date(d+"T12:00").toLocaleDateString(loc(),{weekday:"short",month:"short",day:"numeric"})};
 const fmtTS=s=>{const d=new Date(s);return d.toLocaleDateString(loc(),{month:"short",day:"numeric"})+" "+d.toLocaleTimeString(loc(),{hour:"2-digit",minute:"2-digit"})};
-const can=perm=>({money:["owner"],settings:["owner"],paint:["owner","painter"],customers:["owner"]}[perm]||["owner","tech","painter"]).includes(ME?.role);
+const can=perm=>{const r=ME?.role;if(perm==="money")return r==="owner"||(r==="tech"&&!!S.settings.techPrices)||(r==="painter"&&!!S.settings.painterPrices);return({settings:["owner"],paint:["owner","painter"],customers:["owner"],reports:["owner"]}[perm]||["owner","tech","painter"]).includes(r)};
 function totals(o){
-  let sub=0,taxable=0;o.est.forEach(l=>{const a=(+l.q||0)*(+l.p||0);sub+=a;if(l.t!=="labor")taxable+=a});
-  const tax=taxable*(+S.settings.tax||0)/100,tot=sub+tax,paid=o.pays.reduce((s,p)=>s+(+p.a||0),0);
+  let sub=0,taxable=0;(o.est||[]).forEach(l=>{const a=(+l.q||0)*(+l.p||0);sub+=a;if(l.t!=="labor")taxable+=a});
+  const tax=taxable*(+S.settings.tax||0)/100,tot=sub+tax,paid=(o.pays||[]).reduce((s,p)=>s+(+p.a||0),0);
   return{sub,tax,tot,paid,bal:tot-paid};
 }
 function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove("on"),1900)}
@@ -699,12 +718,16 @@ const NAV=[
  ["inicio","home",'<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/>'],
  ["ordenes","orders",'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>'],
  ["tablero","board",'<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>'],
+ ["citas","appts",'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h3"/>'],
  ["pintura","paint",'<path d="M4 4h12v5H4z"/><path d="M16 6.5h3v5h-8v3"/><rect x="9.5" y="14.5" width="3" height="6" rx="1"/>'],
  ["clientes","customers",'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.5 5.2"/>'],
+ ["reportes","reports",'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'],
  ["ajustes","settings",'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>']];
-const navOk=id=>({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings")}[id]??true);
+const navOk=id=>({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings"),reportes:can("reports")}[id]??true);
+const PRIMARY=["inicio","ordenes","tablero","citas"];
 let view="inicio",filter="all",q="",paintTab="library";
-function navHtml(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
+function navHtml(mobile){const list=NAV.filter(n=>navOk(n[0])&&(!mobile||PRIMARY.includes(n[0])));const extra=mobile&&NAV.some(n=>navOk(n[0])&&!PRIMARY.includes(n[0]));return list.map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")+(extra?`<button class="nav-btn ${PRIMARY.includes(view)?"":"on"}" onclick="openMore()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>${t("more")}</button>`:"")}
+function navHtmlOld(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
 document.addEventListener("click",e=>{
   const g=e.target.closest("[data-go]");if(g){go(g.dataset.go);return}
@@ -725,8 +748,8 @@ function render(){
      <div style="display:flex;justify-content:space-between;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()">${t("logout")}</button></div>
      <a href="index.html" style="font-size:13px;color:var(--muted)">${t("backWeb")}</a></div></aside>
    <main id="main"><div class="mobile-top"><div class="brand" style="padding:0">${brandHtml}</div><span style="display:flex;gap:6px;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()" aria-label="${t("logout")}">${ava(ME,"mini-ava")}</button></span></div>
-    <div class="view">${({inicio:vHome,ordenes:vOrders,tablero:vBoard,pintura:vPaint,clientes:vCust,ajustes:vSet})[view]()}</div></main></div>
-   <nav class="bottom">${navHtml()}</nav>`;
+    <div class="view">${({inicio:vHome,ordenes:vOrders,tablero:vBoard,citas:vAppts,pintura:vPaint,clientes:vCust,reportes:vReports,ajustes:vSet})[view]()}</div></main></div>
+   <nav class="bottom">${navHtml(true)}</nav>`;
   const m=$("#main");
   m.querySelectorAll("[data-count]").forEach(el=>countUp(el,+el.dataset.count,el.dataset.money==="1"));
   requestAnimationFrame(()=>requestAnimationFrame(()=>m.querySelectorAll("[data-w]").forEach(el=>el.style.width=el.dataset.w)));
@@ -734,6 +757,9 @@ function render(){
   if(view==="ordenes"){const s=$("#q");if(s)s.addEventListener("input",()=>{q=s.value;const pos=s.selectionStart;render();const n=$("#q");n.focus();n.setSelectionRange(pos,pos)})}
   if(view==="ajustes")wireSet();
   if(view==="pintura")wirePaint();
+  if(view==="citas")wireAppts();
+  if(view==="reportes")wireReports();
+  if(view==="clientes")document.querySelectorAll("[data-cust]").forEach(r=>r.onclick=()=>openCustomer(r.dataset.cust));
 }
 
 /* ================== Vistas ================== */
@@ -744,7 +770,7 @@ function vHome(){
   const outT=S.orders.filter(o=>o.promised===today()&&PH[o.phase]!=="out").length;
   const owed=S.orders.reduce((s,o)=>s+Math.max(0,totals(o).bal),0);
   const mineN=act.filter(o=>o.tech===ME.id).length;
-  const mon=today().slice(0,7),col=S.orders.reduce((s,o)=>s+o.pays.filter(p=>(p.d||"").startsWith(mon)).reduce((a,p)=>a+ +p.a,0),0);
+  const mon=today().slice(0,7),col=S.orders.reduce((s,o)=>s+(o.pays||[]).filter(p=>(p.d||"").startsWith(mon)).reduce((a,p)=>a+ +p.a,0),0);
   const counts=PH.slice(0,8).map(k=>[k,act.filter(o=>PH[o.phase]===k).length]).filter(x=>x[1]);
   const alerts=[];
   act.forEach(o=>{const c=cust(o.cust);const car=`${o.year} ${o.make} ${o.model}`;
@@ -758,6 +784,8 @@ function vHome(){
   return`<div class="top"><div><h1>${esc(S.settings.shop)}</h1><p>${t("sumToday")} · ${new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"})}</p></div>
    <button class="btn btn-pri" onclick="newOrder()">＋ ${t("newOrder")}</button></div>
   <div class="stats stagger">${tiles.map(([k,v,mo,c])=>`<div class="card stat"><span class="bar" style="background:${c}"></span><div class="lbl">${t(k)}</div><div class="val num" data-count="${v}" data-money="${mo}">0</div></div>`).join("")}</div>
+  ${(S.appts||[]).some(x=>x.d===today())?`<div class="card" style="margin-bottom:18px"><div class="sec-h"><h2>${t("todayAppts")}</h2><button class="btn btn-ghost btn-sm" data-go="citas">${t("appts")} →</button></div>
+   <div class="list">${(S.appts||[]).filter(x=>x.d===today()).sort((x,y)=>(x.time||"").localeCompare(y.time||"")).map(x=>`<div class="row" data-go="citas"><div class="thumb" style="font-family:var(--display);font-weight:700;color:var(--bay);background:var(--bay-soft);border:0">${esc(x.time||"—")}</div><div class="main"><div class="t1">${esc(x.name)}</div><div class="t2">${esc(x.car||"")}</div></div></div>`).join("")}</div></div>`:""}
   <div class="grid2">
    <div class="card"><div class="sec-h"><h2>${ME.role==="owner"?t("recent"):t("myCars")}</h2><button class="btn btn-ghost btn-sm" data-go="ordenes">${t("orders")} →</button></div>
     <div class="list stagger">${recent.length?recent.map(rowHtml).join(""):`<div class="empty">${t("noOrders")}</div>`}</div></div>
@@ -824,7 +852,7 @@ function vPaint(){
    <div class="card"><div class="sec-h"><h2>${t("mixLog")}</h2></div><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${S.settings.lang==="es"?"Fecha":"Date"}</th><th>${t("paintCode")}</th><th class="r">${t("grams")}</th><th>${t("orders")}</th><th class="hide-s">${S.settings.lang==="es"?"Quién":"Who"}</th></tr></thead><tbody>
    ${[...P.mixes].sort((a,b)=>b.d.localeCompare(a.d)).map(m=>`<tr><td>${fmtD(m.d)}</td><td><b>${esc(m.code)}</b></td><td class="r num">${m.g}</td><td>${m.order?`<span class="ro" style="cursor:pointer;font-size:15px" data-open="${m.order}">#${m.order}</span>`:"—"}</td><td class="hide-s">${esc(user(m.by)?.name||"")}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">—</td></tr>`}</tbody></table></div></div>`;
   if(paintTab==="stock")body=`<div class="card"><div class="sec-h"><h2>${t("stock")}</h2><button class="btn btn-ghost btn-sm" id="st-add">＋ ${t("addItem")}</button></div>
-   ${P.stock.map(s=>`<div class="stock"><div><b>${esc(s.n)}</b> ${s.q<s.min?`<span class="chip c-warn">${t("low")}</span>`:""}<div style="font-size:13px;color:var(--muted)">${t("minimum")}: ${s.min} ${esc(s.u)}</div></div>
+   ${P.stock.map(s=>`<div class="stock"><div data-es="${s.id}" style="cursor:pointer"><b>${esc(s.n)}</b> <span style="color:var(--muted);font-size:12px">✎</span> ${s.q<s.min?`<span class="chip c-warn">${t("low")}</span>`:""}<div style="font-size:13px;color:var(--muted)">${t("minimum")}: ${s.min} ${esc(s.u)}</div></div>
     <div class="qty"><button data-sq="${s.id}" data-d="-1" aria-label="-">−</button><b class="num">${s.q} <small style="font-weight:500;color:var(--muted)">${esc(s.u)}</small></b><button data-sq="${s.id}" data-d="1" aria-label="+">＋</button></div></div>`).join("")}</div>`;
   return`<div class="top"><div><h1>${t("paint")}</h1><p>${S.settings.lang==="es"?"Fórmulas, mezclas y material del cuarto de pintura.":"Formulas, mixes and paint-room materials."}</p></div></div>
   <div class="seg" style="margin-bottom:16px">${["library","mixes","stock"].map(k=>`<button class="${paintTab===k?"on":""}" onclick="paintTab='${k}';render()">${t(k)}</button>`).join("")}</div>${body}`;
@@ -833,6 +861,7 @@ function fCards(list){return list.length?list.map(f=>`<div class="card fcard" da
 function wirePaint(){
   const fq=$("#fq");if(fq)fq.oninput=()=>{const v=fq.value.toLowerCase();$("#flist").innerHTML=fCards(S.paint.library.filter(f=>[f.code,f.name,f.brand,f.make].join(" ").toLowerCase().includes(v)));wireFCards()};
   wireFCards();
+  document.querySelectorAll("[data-es]").forEach(d=>d.onclick=()=>editStock(d.dataset.es));
   document.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const s=S.paint.stock.find(x=>x.id===b.dataset.sq);s.q=Math.max(0,s.q+ +b.dataset.d);save();render()});
   const sa=$("#st-add");if(sa)sa.onclick=()=>openModal(`<div class="sec-h"><h2>${t("addItem")}</h2><button class="del" onclick="closeModal()">×</button></div>
    <form class="mb" id="st-form"><div class="form"><label class="full">${t("item")}<input class="input" id="st-n" required></label><label>${t("unit")}<input class="input" id="st-u" value="gal"></label><label>${t("minimum")}<input class="input" id="st-m" type="number" step="any" min="0" value="1"></label></div>
@@ -852,7 +881,8 @@ function editFormula(id,fromOrder){
    <label class="full">${t("mixFor")}<input class="input num" id="fe-mix" type="number" step="any" min="0" value="${Math.round(mix*10)/10}"></label></div>
    <table class="tbl" style="margin-top:12px"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody id="fe-rows"></tbody></table>
    <button type="button" class="btn btn-ghost btn-sm" id="fe-addt" style="margin-top:8px">＋ ${t("addToner")}</button>
-   <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><button type="button" class="btn btn-paint" id="fe-log">${t("logMix")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+   <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="display:flex;gap:8px">${id?`<button type="button" class="btn btn-ghost" id="fe-del" style="color:var(--bad)">${t("delete")}</button>`:""}<button type="button" class="btn btn-paint" id="fe-log">${t("logMix")}</button></span><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    let farm=false;const fd=$("#fe-del");if(fd)fd.onclick=e=>{if(!farm){farm=true;e.target.textContent=t("sure");return}trashAdd("formula",f,f.code+" "+(f.name||""));S.paint.library=S.paint.library.filter(x=>x.id!==f.id);save();closeModal();render()};
     draw();$("#fe-mix").onchange=e=>{mix=+e.target.value;draw()};$("#fe-addt").onclick=()=>{draft.tn.push({n:"",g:0});draw()};
     const collect=()=>{Object.assign(draft,{code:$("#fe-code").value.trim().toUpperCase(),name:$("#fe-name").value.trim(),brand:$("#fe-brand").value.trim(),make:$("#fe-make").value.trim()})};
     $("#fe-log").onclick=()=>{collect();S.paint.mixes.push({id:"m"+uid(),d:today(),code:draft.code,order:fromOrder||"",g:Math.round(mix||draft.tn.reduce((s,x)=>s+ +x.g,0)),by:ME.id});save();toast(t("saved"))};
@@ -863,30 +893,43 @@ function editFormula(id,fromOrder){
 function vCust(){
   const rows=S.customers.map(c=>{const os=S.orders.filter(o=>o.cust===c.id);return{c,os,paid:os.reduce((s,o)=>s+totals(o).paid,0),bal:os.reduce((s,o)=>s+Math.max(0,totals(o).bal),0)}}).sort((a,b)=>b.os.length-a.os.length);
   return`<div class="top"><div><h1>${t("customers")}</h1><p class="num">${S.customers.length}</p></div><button class="btn btn-pri" onclick="newCustomer()">＋ ${t("newCust")}</button></div>
-  <div class="card"><div class="list stagger">${rows.map(({c,os,paid,bal})=>`<div class="row" ${os[0]?`data-open="${os[os.length-1].id}"`:""}>
+  <div class="card"><div class="list stagger">${rows.map(({c,os,paid,bal})=>`<div class="row" data-cust="${c.id}">
    <div class="thumb" style="border-radius:50%;width:42px;height:42px;font-family:var(--display);font-weight:700;color:var(--bay);background:var(--bay-soft);border:0">${initials(c.name)}</div>
    <div class="main"><div class="t1">${esc(c.name)}</div><div class="t2">${esc(c.phone)} · ${os.length} ${t("ordersOf")}${os.length?" · "+os.map(o=>esc(o.make+" "+o.model)).slice(0,2).join(", "):""}</div></div>
    <div style="text-align:right;font-size:13px" class="num"><div>${t("spent")} <b>${money(paid)}</b></div>${bal>0.5?`<div style="color:var(--paint)">${t("balance")} ${money(bal)}</div>`:""}</div></div>`).join("")||`<div class="empty">—</div>`}</div></div>`;
 }
 /* ---- Ajustes ---- */
 let resetArm=false;
-function vSet(){const s=S.settings;
+function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier||"shop");
   return`<div class="top"><div><h1>${t("settings")}</h1></div></div>
   <div class="grid2"><div style="display:flex;flex-direction:column;gap:18px;min-width:0">
   <div class="card"><div class="sec-h"><h2>${t("shop")}</h2></div><div class="box-b"><div class="form">
    <label class="full">${t("shop")}<input class="input" id="s-shop" value="${esc(s.shop)}"></label>
-   <label>${t("rate")}<input class="input num" id="s-rate" type="number" step="0.5" value="${s.rate}"></label>
-   <label>${t("paintRate")}<input class="input num" id="s-prate" type="number" step="0.5" value="${s.paintRate}"></label>
-   <label>${t("taxRate")}<input class="input num" id="s-tax" type="number" step="0.01" value="${s.tax}"></label>
+   <label>${t("rate")}<input class="input num" id="s-rate" type="number" step="any" value="${s.rate}"></label>
+   <label>${t("paintRate")}<input class="input num" id="s-prate" type="number" step="any" value="${s.paintRate}"></label>
+   <label>${t("taxRate")}<input class="input num" id="s-tax" type="number" step="any" value="${s.tax}"></label>
    <label>${t("theme")}<select class="input" id="s-theme"><option value="auto">${t("auto")}</option><option value="light">${t("light")}</option><option value="dark">${t("dark")}</option></select></label></div></div></div>
-  ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></div>
+  <div class="card"><div class="sec-h"><h2>${t("shopInfo")}</h2></div><div class="box-b"><div class="form">
+   <label class="full">${t("address")}<input class="input" id="s-addr" value="${esc(s.address||"")}"></label>
+   <label>${t("phone")}<input class="input" id="s-phone" inputmode="tel" value="${esc(s.phone||"")}"></label><label>${t("email")}<input class="input" id="s-email" type="email" value="${esc(s.email||"")}"></label>
+   <label class="full">${t("terms")}<textarea class="input" id="s-terms" rows="2" placeholder="${esc(t("termsDef"))}">${esc(s.terms||"")}</textarea></label>
+   <div class="full" style="display:flex;gap:12px;align-items:center">${s.logo?`<img src="${s.logo}" alt="" style="max-height:48px;max-width:120px;border-radius:6px;background:#fff;padding:4px">`:""}<button class="btn btn-ghost btn-sm" id="s-logo">${t("changeLogo")}</button>${s.logo?`<button class="del" id="s-logo-x" aria-label="x">×</button>`:""}</div></div></div></div>
+  <div class="card"><div class="sec-h"><h2>${t("pricesWho")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:10px">
+   <label class="switch"><input type="checkbox" id="s-tp" ${s.techPrices?"checked":""}><span></span>${t("techPrices")}</label>
+   <label class="switch"><input type="checkbox" id="s-pp" ${s.painterPrices?"checked":""}><span></span>${t("painterPrices")}</label>
+   <p style="margin:0;font-size:13px;color:var(--muted)">${t("pricesNote")}</p></div></div>
+  ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span style="display:flex;gap:6px"><span class="chip">${t("tiers")[tier]}</span><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></span></div>
    ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}</div>
   <div class="card"><div class="sec-h"><h2>${t("joinCode")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px">
    <div class="codebox">${esc(SHOP.join_code)}</div><p style="margin:0;color:var(--muted);font-size:14px">${t("joinHow")}</p>
    <p style="margin:0;font-size:14px"><b>dakrastudio.com/colorbay/app.html</b></p></div></div>`:""}
   <div class="card"><div class="sec-h"><h2>${t("team")}</h2><button class="btn btn-ghost btn-sm" id="u-add">＋ ${t("addUser")}</button></div>
-   ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id&&u.role!=="owner"?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
+   ${S.users.map(u=>`<div class="row" data-ew="${u.id}">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div><span style="color:var(--muted)">✎</span></div>`).join("")}</div></div>
   <div style="display:flex;flex-direction:column;gap:18px;min-width:0;align-self:start">
+  <div class="card"><div class="sec-h"><h2>${t("trash")}</h2><button class="btn btn-ghost btn-sm" id="s-trash">${t("trash")} →</button></div><div class="box-b" style="font-size:14px;color:var(--muted)">${S.settings.lang==="es"?"Lo que se borra se guarda 30 días y lo puedes recuperar.":"Deleted items are kept 30 days so you can restore them."}</div></div>
+  <div class="card"><div class="sec-h"><h2>${t("plusTitle")}</h2><span class="chip ${tier==="plus"?"c-ok":"c-paint"}">${tier==="plus"?t("inPlus"):"Plus"}</span></div><div class="box-b" style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+   <div style="display:flex;justify-content:space-between;gap:10px"><span>💬 ${t("plusSms")}</span><span class="chip">${t("soon")}</span></div>
+   <div style="display:flex;justify-content:space-between;gap:10px"><span>✨ ${t("plusAi")}</span><span class="chip">${t("soon")}</span></div></div></div>
   <div class="card"><div class="sec-h"><h2>${t("helpBtnSet")}</h2></div><div class="box-b"><button class="btn btn-ghost" id="s-help">${helpOff?t("helpShow"):t("helpHide")}</button></div></div>
   <div class="card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
    <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
@@ -900,6 +943,13 @@ function wireSet(){
   $("#s-help").onclick=()=>{helpOff=!helpOff;try{localStorage.setItem(HKEY,helpOff?"1":"0")}catch(e){}render()};
   const bind=(id,k,num)=>$(id).addEventListener("change",e=>{S.settings[k]=num?+e.target.value:e.target.value;save();toast(t("saved"));if(k==="theme")applyTheme()});
   bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
+  bind("#s-addr","address");bind("#s-phone","phone");bind("#s-email","email");bind("#s-terms","terms");
+  [["#s-tp","techPrices"],["#s-pp","painterPrices"]].forEach(([id,k])=>$(id).onchange=e=>{S.settings[k]=e.target.checked;save();toast(t("saved"))});
+  $("#s-trash").onclick=openTrash;
+  document.querySelectorAll("[data-ew]").forEach(r=>r.onclick=()=>editWorker(r.dataset.ew));
+    $("#s-logo").onclick=()=>{const inp=document.createElement("input");inp.type="file";inp.accept="image/*";inp.onchange=()=>{const f=inp.files[0];if(!f)return;const img=new Image(),url=URL.createObjectURL(f);
+    img.onload=()=>{const k=Math.min(1,320/Math.max(img.width,img.height)),cv=document.createElement("canvas");cv.width=Math.round(img.width*k);cv.height=Math.round(img.height*k);cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);URL.revokeObjectURL(url);S.settings.logo=cv.toDataURL("image/png");save();render()};img.src=url};inp.click()};
+  const lx=$("#s-logo-x");if(lx)lx.onclick=()=>{delete S.settings.logo;save();render()};
   $("#s-copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(S));toast(t("copied"))}catch(e){toast(t("noCopy"))}};
   if($("#s-reset"))$("#s-reset").onclick=e=>{if(!resetArm){resetArm=true;e.target.textContent=t("sure");setTimeout(()=>{resetArm=false},3000);return}
     S=demo(S.settings.lang);save();resetArm=false;ME=S.users[0];try{sessionStorage.setItem(SKEY,ME.id)}catch(x){}applyTheme();render()};
@@ -914,7 +964,7 @@ function wireSet(){
     $("#u-form").onsubmit=async e=>{e.preventDefault();
       if(!DEMO){const pin=$("#u-p").value;if(!/^\d{4}$/.test(pin)){toast(t("pin"));return}
         const{error}=await sb.rpc("add_worker",{p_shop:SHOP.id,p_name:$("#u-n").value.trim(),p_role:$("#u-r").value,p_pin:pin});
-        if(error){toast(/pin_taken/.test(error.message)?t("pinTaken"):t("errNet"));return}await reloadWorkers();closeModal();toast(t("saved"));render();return}
+        if(error){toast(/pin_taken/.test(error.message)?t("pinTaken"):/limit_reached/.test(error.message)?t("limitReached"):t("errNet"));return}await reloadWorkers();closeModal();toast(t("saved"));render();return}
       S.users.push({id:"u"+uid(),name:$("#u-n").value.trim(),role:$("#u-r").value,pin:$("#u-p").value});save();closeModal();toast(t("saved"));render()}});
 }
 function applyTheme(){const th=S.settings.theme;if(th==="light"||th==="dark")document.documentElement.dataset.theme=th;else delete document.documentElement.dataset.theme}
@@ -959,7 +1009,7 @@ function pVeh(o){const zn=ZN[S.settings.lang];
    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">${o.impact.map((k,i)=>`<span class="chip ${i===0?"c-paint":""}">${i===0?t("primary"):t("secondary")}: ${zn[k]}</span>`).join("")}</div></div></div>
   <div class="box"><div class="box-h">${t("vehicle")}</div><div class="box-b"><div class="form">
    ${fld("year",o.year,"number")}${fld("make",o.make)}${fld("model",o.model)}${fld("trim",o.trim)}
-   <label class="full">${t("vin")}<input class="input num" data-f="vin" value="${esc(o.vin)}" maxlength="17" style="text-transform:uppercase;letter-spacing:.06em"></label>
+   <label class="full">${t("vin")}<span style="display:flex;gap:8px"><input class="input num" data-f="vin" value="${esc(o.vin)}" maxlength="17" style="text-transform:uppercase;letter-spacing:.06em"><button type="button" class="btn btn-ghost btn-sm" id="vin-go" style="white-space:nowrap">${t("decodeVin")}</button></span></label>
    ${fld("color",o.color)}${fld("paintCode",o.paintCode)}
    <label>${t("payer")}<select class="input" data-f="payer"><option value="cust" ${o.payer==="cust"?"selected":""}>${t("payerCust")}</option><option value="ins" ${o.payer==="ins"?"selected":""}>${t("payerIns")}</option></select></label>
    ${fld("promised",o.promised,"date")}
@@ -967,7 +1017,7 @@ function pVeh(o){const zn=ZN[S.settings.lang];
    <label class="full">${t("tech")}<select class="input" data-f="tech"><option value="">${t("nobody")}</option>${S.users.map(u=>`<option value="${u.id}" ${o.tech===u.id?"selected":""}>${esc(u.name)} · ${t("roles")[u.role]}</option>`).join("")}</select></label>
   </div></div></div>
   <div class="box"><div class="box-h">${t("customer")}</div><div class="box-b"><div class="form">
-   <label>${t("name")}<input class="input" data-c="name" value="${esc(cust(o.cust).name)}"></label><label>${t("phone")}<input class="input" data-c="phone" value="${esc(cust(o.cust).phone)}" inputmode="tel"></label></div></div></div>
+   <label>${t("name")}<input class="input" data-c="name" value="${esc(cust(o.cust).name)}"></label><label>${t("phone")}<input class="input" data-c="phone" value="${esc(cust(o.cust).phone)}" inputmode="tel"></label></div>${cust(o.cust).phone?`<button class="btn btn-ghost btn-sm" id="o-sms" style="margin-top:10px">💬 ${t("textCust")}</button>`:""}</div></div>
   ${ME.role==="owner"?`<button class="btn btn-ghost" id="del-order" style="color:var(--bad)">${t("deleteOrder")}</button>`:""}`;
 }
 
@@ -1001,9 +1051,9 @@ function pInsp(o){
 
 /* Estimado + firma */
 function pEst(o){const tt=totals(o),types=["labor","part","paint","other"],tn={labor:t("labor"),part:t("partT"),paint:t("paintT"),other:t("other")};
-  return`<div class="box"><div class="box-h">${t("estimate")}<button class="btn btn-pri btn-sm" id="add-line">＋ ${t("addLine")}</button></div>
+  return`<div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-ghost btn-sm" onclick="openDoc('${o.id}','estimate')">📄 ${t("estimatePdf")}</button></div><div class="box"><div class="box-h">${t("estimate")}<button class="btn btn-pri btn-sm" id="add-line">＋ ${t("addLine")}</button></div>
   <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${t("desc")}</th><th class="hide-s">${t("type")}</th><th class="r">${t("qty")}</th><th class="r hide-s">${t("price")}</th><th class="r">${t("amount")}</th><th></th></tr></thead><tbody>
-  ${o.est.map((l,i)=>`<tr><td><input data-l="${i}" data-k="d" list="dl-ops" autocomplete="off" value="${esc(l.d)}" aria-label="${t("desc")}"></td>
+  ${(o.est||[]).map((l,i)=>`<tr><td><input data-l="${i}" data-k="d" list="dl-ops" autocomplete="off" value="${esc(l.d)}" aria-label="${t("desc")}"></td>
    <td class="hide-s"><select class="input" style="padding:4px 6px" data-l="${i}" data-k="t">${types.map(x=>`<option value="${x}" ${l.t===x?"selected":""}>${tn[x]}</option>`).join("")}</select></td>
    <td class="r" style="width:76px"><input class="num" style="text-align:right" type="number" step="0.1" data-l="${i}" data-k="q" value="${l.q}"></td>
    <td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" step="0.01" data-l="${i}" data-k="p" value="${l.p}"></td>
@@ -1037,17 +1087,17 @@ function pNotes(o){const kc={int:"",cli:"c-bay",ins:"c-warn"},kn={int:t("interna
    <textarea class="input" id="note-x" rows="3" placeholder="${t("writeNote")}"></textarea>
    <div style="display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap"><select class="input" id="note-k" style="width:auto">${Object.entries(kn).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select>
    <button class="btn btn-pri" id="note-add">${t("save")}</button></div></div></div>
-  <div class="box">${o.notes.length?o.notes.map(n=>`<div class="note"><div class="nh"><span class="chip ${kc[n.k]}">${kn[n.k]}</span><span>${esc(user(n.by)?.name||"")} · ${fmtD(n.d)}</span></div>${esc(n.x)}</div>`).join(""):`<div class="empty">—</div>`}</div>`;
+  <div class="box">${o.notes.length?o.notes.map((n,i)=>`<div class="note"><div class="nh"><span class="chip ${kc[n.k]}">${kn[n.k]}</span><span>${esc(user(n.by)?.name||"")} · ${fmtD(n.d)} ${ME.role==="owner"||n.by===ME.id?`<button class="del" data-dn="${i}" aria-label="${t("delete")}">×</button>`:""}</span></div>${esc(n.x)}</div>`).join(""):`<div class="empty">—</div>`}</div>`;
 }
 function pPays(o){const tt=totals(o),mt={cash:t("cash"),card:t("card"),cashapp:t("cashapp"),check:t("check"),ins:t("insPay")},pct=tt.tot?Math.min(100,tt.paid/tt.tot*100):0;
-  return`<div class="box"><div class="box-b">
+  return`<div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-ghost btn-sm" onclick="openDoc('${o.id}','invoice')">📄 ${t("invoicePdf")}</button></div><div class="box"><div class="box-b">
    <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--muted)"><span>${t("paid")} <b class="num" style="color:var(--ok)">${money(tt.paid)}</b></span><span>${t("total")} <b class="num" style="color:var(--ink)">${money(tt.tot)}</b></span></div>
    <div class="meter" style="height:12px;margin-top:8px"><span style="width:${pct}%"></span></div></div></div>
   <div class="box"><div class="box-h">${t("addPay")}</div><div class="box-b"><div class="form">
    <label>${t("amount")}<input class="input num" id="pay-a" type="number" step="0.01" inputmode="decimal" value="${tt.bal>0?tt.bal.toFixed(2):""}"></label>
    <label>${t("method")}<select class="input" id="pay-m">${Object.entries(mt).map(([k,v])=>`<option value="${k}" ${o.payer==="ins"&&k==="ins"?"selected":""}>${v}</option>`).join("")}</select></label>
    <div class="full"><button class="btn btn-pri" id="pay-add">${t("addPay")}</button></div></div></div></div>
-  <div class="box"><div class="box-h">${t("payments")}</div>${o.pays.length?`<table class="tbl"><tbody>${o.pays.map((p,i)=>`<tr><td>${fmtD(p.d)}</td><td>${mt[p.m]||p.m}</td><td class="r num"><b>${money(+p.a)}</b></td><td style="width:30px"><button class="del" data-dpay="${i}">×</button></td></tr>`).join("")}</tbody></table>`:`<div class="empty">${t("noPays")}</div>`}</div>`;
+  <div class="box"><div class="box-h">${t("payments")}</div>${(o.pays||[]).length?`<table class="tbl"><tbody>${o.pays.map((p,i)=>`<tr><td>${fmtD(p.d)}</td><td>${mt[p.m]||p.m}</td><td class="r num"><b>${money(+p.a)}</b></td><td style="width:30px"><button class="del" data-dpay="${i}">×</button></td></tr>`).join("")}</tbody></table>`:`<div class="empty">${t("noPays")}</div>`}</div>`;
 }
 function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn.reduce((s,x)=>s+(+x.g||0),0),mix=+f.mix||sum,k=sum?mix/sum:0;
   const lib=S.paint.library.filter(x=>x.code&&o.paintCode&&x.code.toUpperCase()===o.paintCode.toUpperCase());
@@ -1077,6 +1127,7 @@ function processFile(f,ro){return new Promise(res=>{const img=new Image(),url=UR
 ["#file","#filem"].forEach(sel=>$(sel).addEventListener("change",async e=>{const files=[...e.target.files];e.target.value="";if(!files.length||!photoCb)return;
   const o=S.orders.find(x=>x.id===openId);const out=[];for(const f of files){const d=await processFile(f,o?.id||"");if(d)out.push(d)}photoCb(out)}));
 
+const sb2val=f=>$(`#sheet [data-f="${f}"]`)?.value||"";
 function wireSheet(o){
   const sb=$("#sheet");
   sb.querySelectorAll("[data-zone]").forEach(z=>{const fn=()=>{const k=z.dataset.zone,i=o.impact.indexOf(k);if(i>=0)o.impact.splice(i,1);else o.impact.push(k);save();renderSheet()};
@@ -1084,7 +1135,10 @@ function wireSheet(o){
   sb.querySelectorAll("[data-f]").forEach(i=>i.addEventListener("change",()=>{let v=i.value;if(i.dataset.f==="vin")v=v.toUpperCase();if(i.dataset.f==="year")v=+v;o[i.dataset.f]=v;save();toast(t("saved"));renderSheet()}));
   sb.querySelectorAll("[data-c]").forEach(i=>i.addEventListener("change",()=>{const c=S.customers.find(x=>x.id===o.cust);if(c){c[i.dataset.c]=i.value;save();toast(t("saved"));renderSheet()}}));
   const del=$("#del-order");if(del){let arm=false;del.onclick=()=>{if(!arm){arm=true;del.textContent=t("sure");setTimeout(()=>{arm=false;if(del.isConnected)del.textContent=t("deleteOrder")},3000);return}
-    S.orders=S.orders.filter(x=>x.id!==o.id);save();toast(t("deleted"));closeSheet()}}
+    trashAdd("order",o,`#${o.id} · ${cust(o.cust).name} · ${o.make} ${o.model}`);S.orders=S.orders.filter(x=>x.id!==o.id);save();closeSheet()}}
+  const vg=$("#vin-go");if(vg)vg.onclick=async()=>{const v=sb2val("vin");const r=await decodeVin(v);if(!r)return;Object.assign(o,{year:r.year||o.year,make:r.make||o.make,model:r.model||o.model,trim:r.trim||o.trim,vin:v.toUpperCase()});save();renderSheet()};
+  const os2=$("#o-sms");if(os2)os2.onclick=()=>openSms(cust(o.cust).phone,cust(o.cust).name.split(" ")[0],o);
+  sb.querySelectorAll("[data-dn]").forEach(b=>b.onclick=()=>{const n=o.notes[+b.dataset.dn];trashAdd("note",{orderId:o.id,note:n},`#${o.id} · ${n.x.slice(0,30)}`);o.notes.splice(+b.dataset.dn,1);save();renderSheet()});
   /* inspección */
   const act=(el,fn)=>{el.addEventListener("click",fn);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}})};
   sb.querySelectorAll("[data-gen]").forEach(p=>act(p,()=>{const k=p.dataset.gen;if(o.photosGen?.[k]){openLb(o,{gen:k});return}
@@ -1101,7 +1155,7 @@ function wireSheet(o){
   sb.querySelectorAll("[data-l]").forEach(i=>i.addEventListener("change",()=>{const l=o.est[+i.dataset.l];l[i.dataset.k]=i.dataset.k==="q"||i.dataset.k==="p"?+i.value:i.value;
     if(i.dataset.k==="t"){if(i.value==="labor")l.p=S.settings.rate;if(i.value==="paint")l.p=S.settings.paintRate}save();renderSheet()}));
   sb.querySelectorAll("[data-dl]").forEach(b=>b.onclick=()=>{o.est.splice(+b.dataset.dl,1);save();renderSheet()});
-  const al=$("#add-line");if(al)al.onclick=()=>{o.est.push({d:"",t:"labor",q:1,p:S.settings.rate});save();renderSheet();const ins=sb.querySelectorAll('[data-k="d"][data-l]');ins[ins.length-1]?.focus()};
+  const al=$("#add-line");if(al)al.onclick=()=>{(o.est=o.est||[]).push({d:"",t:"labor",q:1,p:S.settings.rate});save();renderSheet();const ins=sb.querySelectorAll('[data-k="d"][data-l]');ins[ins.length-1]?.focus()};
   const pad=$("#sigpad");if(pad)wireSig(pad,o);
   const sc=$("#sig-clear");if(sc)sc.onclick=()=>{o.sig=null;save();renderSheet()};
   /* partes */
@@ -1111,7 +1165,7 @@ function wireSheet(o){
   const ap=$("#add-part");if(ap)ap.onclick=()=>{o.parts.push({n:"",s:0,c:0});save();renderSheet();const ins=sb.querySelectorAll('[data-p][data-k="n"]');ins[ins.length-1]?.focus()};
   /* notas y cobros */
   const na=$("#note-add");if(na)na.onclick=()=>{const x=$("#note-x").value.trim();if(!x)return;o.notes.unshift({k:$("#note-k").value,d:today(),x,by:ME.id});save();toast(t("saved"));renderSheet()};
-  const pa=$("#pay-add");if(pa)pa.onclick=()=>{const a=+$("#pay-a").value;if(!(a>0))return;o.pays.push({a,m:$("#pay-m").value,d:today()});save();toast(t("saved"));renderSheet()};
+  const pa=$("#pay-add");if(pa)pa.onclick=()=>{const a=+$("#pay-a").value;if(!(a>0))return;(o.pays=o.pays||[]).push({a,m:$("#pay-m").value,d:today()});save();toast(t("saved"));renderSheet()};
   sb.querySelectorAll("[data-dpay]").forEach(b=>b.onclick=()=>{o.pays.splice(+b.dataset.dpay,1);save();renderSheet()});
   /* fórmula */
   const fb=$("#f-brand");if(fb)fb.onchange=()=>{o.formula.brand=fb.value;save()};
@@ -1147,7 +1201,7 @@ function openLb(o,ref){lbRef={o,ref};
    <button class="btn btn-ghost" id="lb-del" style="color:var(--bad)">${S.settings.lang==="es"?"Borrar foto":"Delete photo"}</button><button class="btn btn-pri" id="lb-close">${t("close")}</button></div>`;
   $("#lb").classList.add("on");lockBg();
   let arm=false;$("#lb-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}
-    if(isGen){removePhoto(o.photosGen[ref.gen]);delete o.photosGen[ref.gen]}else{removePhoto(p.id);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
+    if(isGen){trashAdd("photo",{orderId:o.id,gen:ref.gen,id:o.photosGen[ref.gen]},`#${o.id} · ${ANGN[S.settings.lang][ref.gen]}`);delete o.photosGen[ref.gen]}else{trashAdd("photo",{orderId:o.id,part:ref.part,ph:p},`#${o.id} · ${PN[S.settings.lang][ref.part]} · ${t(p.st)}`);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
   $("#lb-close").onclick=closeLb;
 }
 function closeLb(){if(lbRef&&!lbRef.ref.gen){const n=$("#lb-note");if(n){lbRef.o.insp[lbRef.ref.part].ph[lbRef.ref.i].note=n.value;save()}}$("#lb").classList.remove("on");lockBg();lbRef=null;if(openId)renderSheet()}
@@ -1162,7 +1216,7 @@ function openReport(id){
   const sevBg=["#eef1f4","#f4d58a","#f39a5b","#d9483c"],sevFg=["#5d6b78","#5a4300","#5a2300","#fff"];
   const parts=Object.entries(o.insp||{}).filter(([k,p])=>p.sev>0||(p.ph||[]).length);
   const fig=(src,cap)=>`<figure><img src="${src}" alt=""><figcaption>${cap}</figcaption></figure>`;
-  openOver(`<div class="over-bar"><b>${t("report")} · #${o.id}</b><span style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" id="rep-copy">${t("copySum")}</button><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></span></div>
+  openOver(`<div class="over-bar"><b>${t("report")} · #${o.id}</b><span style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" id="rep-copy">${t("copySum")}</button><button class="btn btn-paint btn-sm" onclick="window.print()">${t("printPdf")}</button><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></span></div>
   <article class="report">
    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start"><div><div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#5d6b78;font-weight:700">${esc(S.settings.shop)}</div><h1>${t("repTitle")}</h1></div>
     <div style="text-align:right;font-size:13px;color:#5d6b78">${t("orders")} <b style="font-size:20px;color:#1456b8;font-family:var(--display)">#${o.id}</b><br>${t("generated")}: ${fmtTS(new Date().toISOString())}</div></div>
@@ -1173,7 +1227,7 @@ function openReport(id){
    <h3>${t("general")}</h3><div class="rph">${ANG.filter(a=>o.photosGen?.[a]).map(a=>fig(photo(o.photosGen[a]),an[a])).join("")||"—"}</div>
    ${parts.filter(([k,p])=>(p.ph||[]).length).map(([k,p])=>`<h3>${pn[k]} <span class="sev" style="background:${sevBg[p.sev||0]};color:${sevFg[p.sev||0]};vertical-align:middle">${t("sev")[p.sev||0]}</span></h3>
      ${["before","during","after"].map(s=>{const ps=p.ph.filter(x=>x.st===s);return ps.length?`<div class="stage">${t(s)}</div><div class="rph">${ps.map(x=>fig(photo(x.id),`${fmtTS(x.ts)} · ${esc(user(x.by)?.name||"")}${x.note?" · "+esc(x.note):""}`)).join("")}</div>`:""}).join("")}`).join("")}
-   ${can("money")?`<h3>${t("estSum")}</h3><table><tbody>${o.est.map(l=>`<tr><td>${esc(l.d)}</td><td style="text-align:right">${money(l.q*l.p)}</td></tr>`).join("")}
+   ${can("money")?`<h3>${t("estSum")}</h3><table><tbody>${(o.est||[]).map(l=>`<tr><td>${esc(l.d)}</td><td style="text-align:right">${money(l.q*l.p)}</td></tr>`).join("")}
      <tr><td>${t("tax")}</td><td style="text-align:right">${money(tt.tax)}</td></tr><tr><td><b>${t("total")}</b></td><td style="text-align:right"><b>${money(tt.tot)}</b></td></tr></tbody></table>`:""}
    <h3>${t("timeline")}</h3><table><tbody>${PH.filter(k=>o.log[k]).map(k=>`<tr><td>${t("ph")[k]}</td><td style="text-align:right">${fmtD(o.log[k])}</td></tr>`).join("")}</tbody></table>
    ${o.sig?`<h3>${t("approval")}</h3><img src="${o.sig.img}" alt="" style="height:90px;border:1px solid #d9dfe5;border-radius:6px"><div style="font-size:13px">${t("signedBy")} ${esc(o.sig.name)} · ${fmtD(o.sig.d)}</div>`:""}
@@ -1201,23 +1255,26 @@ function openCustView(id){
 function openModal(html,after){refreshLists();$("#modal-card").innerHTML=html;$("#modal-card").scrollTop=0;$("#modal").classList.add("on");$("#mscrim").classList.add("on");lockBg();if(after)after();if(matchMedia("(pointer:fine)").matches)setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
 function closeModal(){$("#modal").classList.remove("on");$("#mscrim").classList.remove("on");lockBg()}
 $("#mscrim").onclick=closeModal;
-function newOrder(){
+function newOrder(pre){pre=pre||{};
   openModal(`<div class="sec-h"><h2>${t("newOrder")}</h2><button class="del" onclick="closeModal()" aria-label="${t("cancel")}">×</button></div>
   <form class="mb" id="no-form"><div class="form">
    <label class="full">${t("existingCust")}<select class="input" id="no-c"><option value="">—</option>${S.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></label>
-   <label>${t("orNew")}: ${t("name")}<input class="input" id="no-cn"></label><label>${t("phone")}<input class="input" id="no-cp" inputmode="tel"></label>
-   <label>${t("year")}<input class="input num" id="no-y" inputmode="numeric" list="dl-years" autocomplete="off" value="${new Date().getFullYear()-4}"></label><label>${t("make")}<input class="input" id="no-mk" list="dl-makes" autocomplete="off" required></label>
-   <label>${t("model")}<input class="input" id="no-md" list="dl-models" autocomplete="off" required></label><label>${t("color")}<input class="input" id="no-col" list="dl-colors" autocomplete="off"></label>
-   <label class="full">${t("vin")}<input class="input num" id="no-vin" maxlength="17" style="text-transform:uppercase"></label>
+   <label>${t("orNew")}: ${t("name")}<input class="input" id="no-cn" value="${esc(pre.name||"")}"></label><label>${t("phone")}<input class="input" id="no-cp" inputmode="tel" value="${esc(pre.phone||"")}"></label>
+   <label>${t("year")}<input class="input num" id="no-y" inputmode="numeric" list="dl-years" autocomplete="off" value="${esc(pre.year||new Date().getFullYear()-4)}"></label><label>${t("make")}<input class="input" id="no-mk" list="dl-makes" autocomplete="off" value="${esc(pre.make||"")}" required></label>
+   <label>${t("model")}<input class="input" id="no-md" list="dl-models" autocomplete="off" value="${esc(pre.model||"")}" required></label><label>${t("color")}<input class="input" id="no-col" list="dl-colors" autocomplete="off"></label>
+   <label class="full">${t("vin")}<span style="display:flex;gap:8px"><input class="input num" id="no-vin" maxlength="17" style="text-transform:uppercase"><button type="button" class="btn btn-ghost btn-sm" id="no-vin-go" style="white-space:nowrap">${t("decodeVin")}</button></span></label>
    <label>${t("payer")}<select class="input" id="no-pay"><option value="cust">${t("payerCust")}</option><option value="ins">${t("payerIns")}</option></select></label>
    <label>${t("promised")}<input class="input" id="no-pr" type="date" value="${addD(7)}"></label>
   </div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" class="btn btn-ghost" onclick="closeModal()">${t("cancel")}</button><button class="btn btn-pri">${t("create")}</button></div></form>`,()=>{
+  $("#no-vin-go").onclick=async()=>{const r=await decodeVin($("#no-vin").value);if(!r)return;if(r.year)$("#no-y").value=r.year;if(r.make)$("#no-mk").value=r.make;if(r.model)$("#no-md").value=r.model};
+  if(pre.name){const c=S.customers.find(x=>x.name===pre.name);if(c){$("#no-c").value=c.id;$("#no-cn").value=""}}
   $("#no-form").onsubmit=e=>{e.preventDefault();
     let cid=$("#no-c").value;const nn=$("#no-cn").value.trim();
     if(!cid){if(!nn){$("#no-cn").focus();return}cid="c"+uid();S.customers.push({id:cid,name:nn,phone:$("#no-cp").value.trim(),email:""})}
     const id=String(Math.max(1000,...S.orders.map(o=>+o.id||0))+1);
     S.orders.push({id,cust:cid,year:+$("#no-y").value,make:$("#no-mk").value.trim(),model:$("#no-md").value.trim(),trim:"",vin:$("#no-vin").value.trim().toUpperCase(),color:$("#no-col").value.trim(),paintCode:"",payer:$("#no-pay").value,
       insurer:"",claim:"",tech:ME.role==="owner"?"":ME.id,impact:[],phase:0,log:{rec:today()},inDate:today(),promised:$("#no-pr").value,photosGen:{},insp:{},est:[],parts:[],notes:[],pays:[],sig:null,formula:{brand:"",tn:[]}});
+    if(pre.apptId){const ap=(S.appts||[]).find(x=>x.id===pre.apptId);if(ap)ap.orderId=id}
     save();closeModal();toast(t("created"));render();openOrder(id);tab="inspection";renderSheet()}});
 }
 function newCustomer(){
@@ -1264,14 +1321,273 @@ function refreshLists(make){
   set("#dl-colors",uniq([...COLORS[lang],...S.orders.map(o=>o.color)]));
   set("#dl-ins",uniq([...INSURERS,...S.orders.map(o=>o.insurer)]));
   set("#dl-brands",uniq([...PAINT_BRANDS,...S.paint.library.map(f=>f.brand)]));
-  set("#dl-parts",uniq([...PARTS_L[lang],...S.orders.flatMap(o=>o.parts.map(p=>p.n))]));
-  set("#dl-ops",uniq([...OPS_L[lang],...S.orders.flatMap(o=>o.est.map(l=>l.d))]));
+  set("#dl-parts",uniq([...PARTS_L[lang],...S.orders.flatMap(o=>(o.parts||[]).map(p=>p.n))]));
+  set("#dl-ops",uniq([...OPS_L[lang],...S.orders.flatMap(o=>(o.est||[]).map(l=>l.d))]));
   set("#dl-years",Array.from({length:30},(_,i)=>String(new Date().getFullYear()+1-i)));
   fillModels(make);
 }
 document.addEventListener("input",e=>{const el=e.target;if(el.matches('#no-mk,[data-f="make"]'))fillModels(el.value)});
 document.addEventListener("focusin",e=>{const el=e.target;if(el.matches('#no-md,[data-f="model"]')){const mk=el.matches("#no-md")?$("#no-mk")?.value:S.orders.find(x=>x.id===openId)?.make;fillModels(mk)}});
 
+
+/* ================== Funciones nuevas: papelera, clientes, documentos, VIN, citas, reportes, mensajes ================== */
+Object.assign(L.es,{appts:"Citas",reports:"Reportes",more:"Más",toTrash:"Se fue a la papelera (30 días)",trash:"Papelera",trashEmpty:"La papelera está vacía.",restore:"Recuperar",restored:"Recuperado",daysKeep:"días para recuperar",
+ kinds:{order:"Orden",customer:"Cliente",photo:"Foto",note:"Nota",formula:"Fórmula",stock:"Material",appt:"Cita"},
+ delete:"Borrar",edit:"Editar",custHistory:"Historial",notesLbl:"Notas",textCust:"Mandar mensaje",tmpl:"Mensaje",msgLang:"Idioma del mensaje",openSms:"Abrir mensajes",copyMsg:"Copiar mensaje",
+ tmpls:{ready:"Su carro está listo",parts:"Llegaron las partes",estimate:"El estimado está listo",update:"Avance de la reparación",appt:"Recordatorio de cita"},
+ estimatePdf:"Estimado PDF",invoicePdf:"Factura PDF",printPdf:"Imprimir / Guardar PDF",estimateT:"ESTIMADO",invoiceT:"FACTURA",paidStamp:"PAGADO",date:"Fecha",terms:"Condiciones",
+ shopInfo:"Datos del taller (salen en estimados y facturas)",address:"Dirección",logo:"Logo",changeLogo:"Subir logo",termsDef:"Gracias por su confianza. El estimado puede cambiar si se encuentran daños ocultos al desarmar.",
+ decodeVin:"Leer VIN",vinBad:"El VIN debe tener 17 letras y números.",vinFail:"No se pudo leer ese VIN.",vinOk:"Datos del VIN cargados",
+ pricesWho:"¿Quién ve los precios?",techPrices:"Los técnicos ven precios",painterPrices:"Los pintores ven precios",pricesNote:"Si está apagado, los precios ni siquiera llegan a su celular.",
+ tierLbl:"Nivel",tiers:{solo:"Solo",shop:"Taller",plus:"Plus"},limitReached:"Tu plan no permite más personas. Escríbenos para subir de plan.",
+ plusTitle:"Funciones Plus",plusSms:"Mensajes de texto automáticos al cliente",plusAi:"Asistente con inteligencia artificial: traducir mensajes, dictar el estimado, resumir reportes",soon:"Próximamente",inPlus:"Incluido en tu plan",
+ newAppt:"Nueva cita",time:"Hora",noAppts:"No hay citas en estos días.",todayAppts:"Citas de hoy",makeOrder:"Crear orden",apptText:"Recordar por mensaje",past:"Pasadas",upcoming:"Próximas",
+ month:"Mes",collected:"Cobrado",billed:"Facturado (entregados)",delivered:"Carros entregados",received:"Carros recibidos",avgDays:"Días promedio en el taller",owedNow:"Por cobrar hoy",owedIns:"Lo deben aseguradoras",owedCust:"Lo deben clientes",
+ last6:"Cobrado por mes (últimos 6 meses)",byMethod:"Cobrado por método",byInsurer:"Por aseguradora",noData:"Sin datos todavía.",editWorker:"Editar trabajador",newPinOpt:"Nuevo PIN (déjalo vacío para no cambiarlo)",editItem:"Editar material"});
+Object.assign(L.en,{appts:"Appointments",reports:"Reports",more:"More",toTrash:"Moved to trash (30 days)",trash:"Trash",trashEmpty:"Trash is empty.",restore:"Restore",restored:"Restored",daysKeep:"days to restore",
+ kinds:{order:"Order",customer:"Customer",photo:"Photo",note:"Note",formula:"Formula",stock:"Material",appt:"Appointment"},
+ delete:"Delete",edit:"Edit",custHistory:"History",notesLbl:"Notes",textCust:"Send text",tmpl:"Message",msgLang:"Message language",openSms:"Open messages",copyMsg:"Copy message",
+ tmpls:{ready:"Your car is ready",parts:"Parts arrived",estimate:"Estimate is ready",update:"Repair update",appt:"Appointment reminder"},
+ estimatePdf:"Estimate PDF",invoicePdf:"Invoice PDF",printPdf:"Print / Save PDF",estimateT:"ESTIMATE",invoiceT:"INVOICE",paidStamp:"PAID",date:"Date",terms:"Terms",
+ shopInfo:"Shop details (shown on estimates and invoices)",address:"Address",logo:"Logo",changeLogo:"Upload logo",termsDef:"Thank you for your business. The estimate may change if hidden damage is found during teardown.",
+ decodeVin:"Read VIN",vinBad:"The VIN must have 17 letters and numbers.",vinFail:"Could not read that VIN.",vinOk:"VIN details loaded",
+ pricesWho:"Who sees prices?",techPrices:"Technicians see prices",painterPrices:"Painters see prices",pricesNote:"When off, prices never even reach their phone.",
+ tierLbl:"Tier",tiers:{solo:"Solo",shop:"Shop",plus:"Plus"},limitReached:"Your plan doesn't allow more people. Text us to upgrade.",
+ plusTitle:"Plus features",plusSms:"Automatic text messages to customers",plusAi:"AI assistant: translate messages, dictate estimates, summarize reports",soon:"Coming soon",inPlus:"Included in your plan",
+ newAppt:"New appointment",time:"Time",noAppts:"No appointments these days.",todayAppts:"Today's appointments",makeOrder:"Create order",apptText:"Text reminder",past:"Past",upcoming:"Upcoming",
+ month:"Month",collected:"Collected",billed:"Billed (delivered)",delivered:"Cars delivered",received:"Cars received",avgDays:"Average days in shop",owedNow:"Owed today",owedIns:"Owed by insurers",owedCust:"Owed by customers",
+ last6:"Collected per month (last 6 months)",byMethod:"Collected by method",byInsurer:"By insurer",noData:"No data yet.",editWorker:"Edit worker",newPinOpt:"New PIN (leave empty to keep it)",editItem:"Edit material"});
+
+/* ---------- Papelera ---------- */
+function trashAdd(kind,item,label){
+  const it=JSON.parse(JSON.stringify(item));it._by=ME?.id||null;
+  if(DEMO){(S.trash=S.trash||[]).unshift({id:"t"+uid(),kind,label,item:it,deleted_at:new Date().toISOString()});save()}
+  else if(SHOP)sb.from("trash").insert({shop_id:SHOP.id,kind,label,item:it}).then(({error})=>{if(error)console.error("trash",error)});
+  toast(t("toTrash"));
+}
+async function trashList(){
+  if(DEMO){purgeTrash();return S.trash||[]}
+  const{data,error}=await sb.from("trash").select("id,kind,label,item,deleted_at").eq("shop_id",SHOP.id).order("deleted_at",{ascending:false});
+  if(error){toast(t("errNet"));return[]}return data||[];
+}
+const trashPhotoIds=e=>e.kind==="photo"?[e.item.ph?.id||e.item.id].filter(Boolean):e.kind==="order"?[...Object.values(e.item.photosGen||{}),...Object.values(e.item.insp||{}).flatMap(p=>(p.ph||[]).map(x=>x.id))]:[];
+async function purgeTrash(){
+  const lim=Date.now()-30*DAY;
+  if(DEMO){if(S.trash?.length){const before=S.trash.length;S.trash=S.trash.filter(e=>Date.parse(e.deleted_at)>lim);if(S.trash.length!==before)save()}return}
+  if(ME?.role!=="owner"||!SHOP)return;
+  const{data}=await sb.from("trash").select("id,kind,item,deleted_at").eq("shop_id",SHOP.id).lt("deleted_at",new Date(lim).toISOString());
+  if(!data?.length)return;
+  const ph=data.flatMap(trashPhotoIds).map(id=>`${SHOP.id}/${id}.jpg`);if(ph.length)await sb.storage.from("photos").remove(ph).catch(()=>{});
+  await sb.from("trash").delete().in("id",data.map(e=>e.id));
+}
+function trashRestore(e){
+  const it={...e.item};delete it._by;
+  if(e.kind==="order"){if(S.orders.some(o=>o.id===it.id))it.id=String(Math.max(1000,...S.orders.map(o=>+o.id||0))+1);S.orders.push(it)}
+  if(e.kind==="customer"&&!S.customers.some(c=>c.id===it.id))S.customers.push(it);
+  if(e.kind==="formula")S.paint.library.push(it);
+  if(e.kind==="stock")S.paint.stock.push(it);
+  if(e.kind==="appt")(S.appts=S.appts||[]).push(it);
+  const o=it.orderId&&S.orders.find(x=>x.id===it.orderId);
+  if(e.kind==="note"&&o)o.notes.unshift(it.note);
+  if(e.kind==="photo"&&o){if(it.gen){o.photosGen=o.photosGen||{};if(!o.photosGen[it.gen])o.photosGen[it.gen]=it.id}else{o.insp[it.part]=o.insp[it.part]||{sev:0,ph:[]};o.insp[it.part].ph.push(it.ph)}}
+  save();
+}
+async function openTrash(){
+  const list=await trashList();
+  const draw=items=>`<div class="sec-h"><h2>${t("trash")}</h2><button class="del" onclick="closeModal()">×</button></div><div class="mb">
+   ${items.length?items.map((e,i)=>{const left=Math.max(0,30-Math.floor((Date.now()-Date.parse(e.deleted_at))/DAY));
+    return`<div class="row" style="cursor:default;padding:10px 0"><div class="main"><div class="t1">${esc(t("kinds")[e.kind]||e.kind)} · ${esc(e.label||"")}</div><div class="t2">${fmtTS(e.deleted_at)} · ${left} ${t("daysKeep")}</div></div><button class="btn btn-ghost btn-sm" data-tr="${i}">${t("restore")}</button></div>`}).join(""):`<div class="empty">${t("trashEmpty")}</div>`}</div>`;
+  openModal(draw(list),()=>wire());
+  function wire(){document.querySelectorAll("[data-tr]").forEach(b=>b.onclick=async()=>{const e=list[+b.dataset.tr];trashRestore(e);
+    if(DEMO){S.trash=S.trash.filter(x=>x.id!==e.id);save()}else await sb.from("trash").delete().eq("id",e.id);
+    list.splice(+b.dataset.tr,1);toast(t("restored"));$("#modal-card").innerHTML=draw(list);wire();render();if(openId)renderSheet()})}
+}
+
+/* ---------- Clientes ---------- */
+function openCustomer(id){
+  const c=S.customers.find(x=>x.id===id);if(!c)return;const os=S.orders.filter(o=>o.cust===id).sort((a,b)=>b.id.localeCompare(a.id));
+  openModal(`<div class="sec-h"><h2>${esc(c.name)}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="cu-form"><div class="form"><label class="full">${t("name")}<input class="input" id="cu-n" value="${esc(c.name)}" required></label>
+    <label>${t("phone")}<input class="input" id="cu-p" inputmode="tel" value="${esc(c.phone||"")}"></label><label>${t("email")}<input class="input" id="cu-e" type="email" value="${esc(c.email||"")}"></label>
+    <label class="full">${t("notesLbl")}<textarea class="input" id="cu-x" rows="2">${esc(c.notes||"")}</textarea></label></div>
+    <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 6px">${t("custHistory")} · ${os.length}</div>
+    <div class="card" style="box-shadow:none">${os.map(o=>`<div class="row" data-co="${o.id}"><div class="main"><div class="t1"><span class="ro">#${o.id}</span> · ${o.year} ${esc(o.make)} ${esc(o.model)}</div><div class="t2">${fmtD(o.inDate)}</div></div>${phaseChip(o)}${can("money")?`<span class="num" style="font-size:13px">${money(totals(o).tot)}</span>`:""}</div>`).join("")||`<div class="empty">—</div>`}</div>
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="display:flex;gap:8px"><button type="button" class="btn btn-ghost" id="cu-del" style="color:var(--bad)">${t("delete")}</button>${c.phone?`<button type="button" class="btn btn-ghost" id="cu-sms">${t("textCust")}</button>`:""}</span><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    document.querySelectorAll("[data-co]").forEach(r=>r.onclick=()=>{closeModal();openOrder(r.dataset.co)});
+    $("#cu-form").onsubmit=e=>{e.preventDefault();Object.assign(c,{name:$("#cu-n").value.trim(),phone:$("#cu-p").value.trim(),email:$("#cu-e").value.trim(),notes:$("#cu-x").value.trim()});save();closeModal();toast(t("saved"));render()};
+    let arm=false;$("#cu-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}trashAdd("customer",c,c.name);S.customers=S.customers.filter(x=>x.id!==id);save();closeModal();render()};
+    const sm=$("#cu-sms");if(sm)sm.onclick=()=>{closeModal();openSms(c.phone,c.name.split(" ")[0],null)}});
+}
+
+/* ---------- Mensajes de texto desde el celular ---------- */
+function smsText(kind,lang,first,o){
+  const shop=S.settings.shop,car=o?`${o.year} ${o.make} ${o.model}`:"",bal=o&&can("money")?money(Math.max(0,totals(o).bal)):"";
+  const M={es:{ready:`Hola ${first}, le saluda ${shop}. Su ${car} ya está listo para recoger.${bal?` El saldo es ${bal}.`:""} ¡Gracias!`,
+    parts:`Hola ${first}, le saluda ${shop}. Ya llegaron las partes de su ${car} y seguimos con la reparación.`,
+    estimate:`Hola ${first}, le saluda ${shop}. El estimado de su ${car} está listo. ¿Le parece si lo revisamos?`,
+    update:`Hola ${first}, le saluda ${shop}. Su ${car} está en: ${o?t("ph")[PH[o.phase]]:""}. Fecha estimada de entrega: ${o?fmtD(o.promised):""}.`,
+    appt:`Hola ${first}, le saluda ${shop}. Le recordamos su cita con nosotros. ¡Lo esperamos!`},
+   en:{ready:`Hi ${first}, this is ${shop}. Your ${car} is ready for pickup.${bal?` The balance is ${bal}.`:""} Thank you!`,
+    parts:`Hi ${first}, this is ${shop}. The parts for your ${car} arrived and we're moving ahead with the repair.`,
+    estimate:`Hi ${first}, this is ${shop}. The estimate for your ${car} is ready. Can we go over it?`,
+    update:`Hi ${first}, this is ${shop}. Your ${car} is in: ${o?L.en.ph[PH[o.phase]]:""}. Estimated delivery: ${o?new Date(o.promised+"T12:00").toLocaleDateString("en-US",{month:"short",day:"numeric"}):""}.`,
+    appt:`Hi ${first}, this is ${shop}. Reminder of your appointment with us. See you soon!`}};
+  return M[lang][kind];
+}
+function openSms(phone,first,o,kind){
+  let lang=S.settings.lang==="es"?"es":"en";kind=kind||(o?(PH[o.phase]==="ready"?"ready":"update"):"appt");
+  const keys=o?["ready","parts","estimate","update"]:["appt"];
+  const draw=()=>{$("#sm-x").value=smsText(kind,lang,first||"",o)};
+  openModal(`<div class="sec-h"><h2>${t("textCust")}</h2><button class="del" onclick="closeModal()">×</button></div><div class="mb" style="display:flex;flex-direction:column;gap:10px">
+   <div class="form"><label>${t("tmpl")}<select class="input" id="sm-k">${keys.map(k=>`<option value="${k}" ${k===kind?"selected":""}>${t("tmpls")[k]}</option>`).join("")}</select></label>
+   <label>${t("msgLang")}<select class="input" id="sm-l"><option value="en" ${lang==="en"?"selected":""}>English</option><option value="es" ${lang==="es"?"selected":""}>Español</option></select></label></div>
+   <textarea class="input" id="sm-x" rows="5"></textarea><div style="font-size:13px;color:var(--muted)">${esc(phone||"")}</div>
+   <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn btn-ghost" id="sm-c">${t("copyMsg")}</button><a class="btn btn-pri" id="sm-o" href="#">${t("openSms")}</a></div></div>`,()=>{
+    draw();$("#sm-k").onchange=e=>{kind=e.target.value;draw()};$("#sm-l").onchange=e=>{lang=e.target.value;draw()};
+    $("#sm-c").onclick=async()=>{try{await navigator.clipboard.writeText($("#sm-x").value);toast(t("copied"))}catch(e){toast(t("noCopy"))}};
+    $("#sm-o").onclick=e=>{e.currentTarget.href=`sms:${String(phone||"").replace(/[^\d+]/g,"")}?&body=${encodeURIComponent($("#sm-x").value)}`}});
+}
+
+/* ---------- Leer VIN (servicio gratis de NHTSA) ---------- */
+async function decodeVin(vin){
+  vin=String(vin||"").trim().toUpperCase();if(!/^[A-HJ-NPR-Z0-9]{17}$/.test(vin)){toast(t("vinBad"));return null}
+  try{const r=await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`);const j=await r.json();const x=j.Results?.[0];
+    if(!x||!x.Make){toast(t("vinFail"));return null}
+    const tc=s=>String(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\bBmw\b/,"BMW").replace(/\bGmc\b/,"GMC");
+    toast(t("vinOk"));return{year:+x.ModelYear||"",make:tc(x.Make),model:x.Model||"",trim:x.Trim||x.Series||""};
+  }catch(e){toast(t("vinFail"));return null}
+}
+
+/* ---------- Estimado y factura para imprimir o guardar en PDF ---------- */
+function openDoc(id,kind){
+  const o=S.orders.find(x=>x.id===id),c=cust(o.cust),tt=totals(o),s=S.settings,isInv=kind==="invoice";
+  const tn={labor:t("labor"),part:t("partT"),paint:t("paintT"),other:t("other")};
+  openOver(`<div class="over-bar"><b>${isInv?t("invoicePdf"):t("estimatePdf")} · #${o.id}</b><span style="display:flex;gap:8px"><button class="btn btn-paint btn-sm" onclick="window.print()">${t("printPdf")}</button><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></span></div>
+  <article class="report doc">
+   <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start">
+    <div style="display:flex;gap:14px;align-items:center">${s.logo?`<img src="${s.logo}" alt="" style="max-height:64px;max-width:140px">`:""}<div><div style="font-family:var(--display);font-size:26px;font-weight:700">${esc(s.shop)}</div>
+     <div style="font-size:13px;color:#5d6b78;white-space:pre-line">${esc([s.address,s.phone,s.email].filter(Boolean).join("\n"))}</div></div></div>
+    <div style="text-align:right"><div style="font-family:var(--display);font-size:30px;font-weight:700;letter-spacing:.06em">${isInv?t("invoiceT"):t("estimateT")}</div>
+     <div style="font-size:14px">#${o.id} · ${t("date")}: ${new Date().toLocaleDateString(loc())}</div>${isInv&&tt.bal<=0.005?`<div class="paid">${t("paidStamp")}</div>`:""}</div></div>
+   <div class="meta"><div><span>${t("customer")}</span>${esc(c.name)}<br>${esc(c.phone||"")}${c.email?"<br>"+esc(c.email):""}</div>
+    <div><span>${t("vehicle")}</span>${o.year} ${esc(o.make)} ${esc(o.model)} ${esc(o.trim||"")}<br>VIN ${esc(o.vin||"—")}<br>${esc(o.color||"")} ${o.paintCode?"· "+esc(o.paintCode):""}</div>
+    ${o.payer==="ins"?`<div><span>${t("payerIns")}</span>${esc(o.insurer||"")}${o.claim?"<br>"+t("claim")+": "+esc(o.claim):""}</div>`:""}</div>
+   <h3>${t("estimate")}</h3><table><thead><tr><th>${t("desc")}</th><th>${t("type")}</th><th style="text-align:right">${t("qty")}</th><th style="text-align:right">${t("price")}</th><th style="text-align:right">${t("amount")}</th></tr></thead>
+    <tbody>${(o.est||[]).map(l=>`<tr><td>${esc(l.d)}</td><td>${tn[l.t]||""}</td><td style="text-align:right">${l.q}</td><td style="text-align:right">${money(+l.p)}</td><td style="text-align:right">${money(l.q*l.p)}</td></tr>`).join("")}</tbody></table>
+   <table style="max-width:320px;margin-left:auto;margin-top:10px"><tbody><tr><td>${t("subtotal")}</td><td style="text-align:right">${money(tt.sub)}</td></tr><tr><td>${t("tax")} (${s.tax}%)</td><td style="text-align:right">${money(tt.tax)}</td></tr>
+    <tr><td><b>${t("total")}</b></td><td style="text-align:right"><b>${money(tt.tot)}</b></td></tr>${isInv?`<tr><td>${t("paid")}</td><td style="text-align:right">${money(tt.paid)}</td></tr><tr><td><b>${t("balance")}</b></td><td style="text-align:right"><b>${money(Math.max(0,tt.bal))}</b></td></tr>`:""}</tbody></table>
+   ${isInv&&(o.pays||[]).length?`<h3>${t("payments")}</h3><table><tbody>${o.pays.map(p=>`<tr><td>${fmtD(p.d)}</td><td>${({cash:t("cash"),card:t("card"),cashapp:t("cashapp"),check:t("check"),ins:t("insPay")})[p.m]||p.m}</td><td style="text-align:right">${money(+p.a)}</td></tr>`).join("")}</tbody></table>`:""}
+   ${o.sig?`<h3>${t("approval")}</h3><img src="${o.sig.img}" alt="" style="height:80px;border:1px solid #d9dfe5;border-radius:6px"><div style="font-size:13px">${t("signedBy")} ${esc(o.sig.name)} · ${fmtD(o.sig.d)}</div>`:""}
+   <div class="foot"><b>${t("terms")}:</b> ${esc(s.terms||t("termsDef"))}</div></article>`);
+}
+
+/* ---------- Citas ---------- */
+let apptPast=false;
+function vAppts(){
+  const all=[...(S.appts||[])].sort((a,b)=>(a.d+a.time).localeCompare(b.d+b.time));
+  const list=all.filter(a=>apptPast?a.d<today():a.d>=today());
+  const days=[...new Set(list.map(a=>a.d))];if(apptPast)days.reverse();
+  return`<div class="top"><div><h1>${t("appts")}</h1><p class="num">${all.filter(a=>a.d>=today()).length} ${t("upcoming").toLowerCase()}</p></div><button class="btn btn-pri" onclick="editAppt()">＋ ${t("newAppt")}</button></div>
+  <div class="seg" style="margin-bottom:16px"><button class="${apptPast?"":"on"}" onclick="apptPast=false;render()">${t("upcoming")}</button><button class="${apptPast?"on":""}" onclick="apptPast=true;render()">${t("past")}</button></div>
+  ${days.length?days.map(d=>`<div class="card" style="margin-bottom:14px"><div class="sec-h"><h2>${fmtD(d)}</h2><span class="chip num">${list.filter(a=>a.d===d).length}</span></div>
+   ${list.filter(a=>a.d===d).map(a=>`<div class="row" data-ap="${a.id}"><div class="thumb" style="font-family:var(--display);font-weight:700;color:var(--bay);background:var(--bay-soft);border:0">${esc(a.time||"—")}</div>
+    <div class="main"><div class="t1">${esc(a.name)}</div><div class="t2">${esc([a.car,a.note].filter(Boolean).join(" · "))}</div></div>${a.orderId?`<span class="chip c-ok">#${esc(a.orderId)}</span>`:""}</div>`).join("")}</div>`).join(""):`<div class="card"><div class="empty">${t("noAppts")}</div></div>`}`;
+}
+function wireAppts(){document.querySelectorAll("[data-ap]").forEach(r=>r.onclick=()=>editAppt(r.dataset.ap))}
+function editAppt(id){
+  const a=id?(S.appts||[]).find(x=>x.id===id):{id:"a"+uid(),d:today(),time:"09:00",name:"",phone:"",car:"",note:""};
+  openModal(`<div class="sec-h"><h2>${id?esc(a.name):t("newAppt")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="ap-form"><div class="form"><label>${t("date")}<input class="input" id="ap-d" type="date" value="${a.d}" required></label><label>${t("time")}<input class="input" id="ap-t" type="time" value="${esc(a.time||"")}"></label>
+    <label class="full">${t("customer")}<input class="input" id="ap-n" list="dl-custs" autocomplete="off" value="${esc(a.name)}" required></label><label>${t("phone")}<input class="input" id="ap-p" inputmode="tel" value="${esc(a.phone||"")}"></label>
+    <label>${t("vehicle")}<input class="input" id="ap-c" value="${esc(a.car||"")}" placeholder="2019 Ford F-150"></label><label class="full">${t("notesLbl")}<input class="input" id="ap-x" value="${esc(a.note||"")}"></label></div>
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><span style="display:flex;gap:8px;flex-wrap:wrap">${id?`<button type="button" class="btn btn-ghost" id="ap-del" style="color:var(--bad)">${t("delete")}</button>`:""}
+     ${id&&a.phone?`<button type="button" class="btn btn-ghost" id="ap-sms">${t("apptText")}</button>`:""}${id&&!a.orderId?`<button type="button" class="btn btn-ghost" id="ap-ord">${t("makeOrder")}</button>`:""}</span><button class="btn btn-pri">${t("save")}</button></div></form>
+   <datalist id="dl-custs">${S.customers.map(c=>`<option value="${esc(c.name)}">`).join("")}</datalist>`,()=>{
+    $("#ap-n").onchange=e=>{const c=S.customers.find(x=>x.name===e.target.value);if(c&&!$("#ap-p").value)$("#ap-p").value=c.phone||""};
+    const collect=()=>Object.assign(a,{d:$("#ap-d").value,time:$("#ap-t").value,name:$("#ap-n").value.trim(),phone:$("#ap-p").value.trim(),car:$("#ap-c").value.trim(),note:$("#ap-x").value.trim()});
+    $("#ap-form").onsubmit=e=>{e.preventDefault();collect();S.appts=S.appts||[];if(!id)S.appts.push(a);save();closeModal();toast(t("saved"));render()};
+    let arm=false;const dl=$("#ap-del");if(dl)dl.onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}trashAdd("appt",a,`${a.name} · ${a.d}`);S.appts=S.appts.filter(x=>x.id!==a.id);save();closeModal();render()};
+    const sm=$("#ap-sms");if(sm)sm.onclick=()=>{closeModal();openSms(a.phone,a.name.split(" ")[0],null,"appt")};
+    const mo=$("#ap-ord");if(mo)mo.onclick=()=>{collect();save();closeModal();const[yr,...rest]=a.car.split(" ");const isY=/^\d{4}$/.test(yr);
+      newOrder({name:a.name,phone:a.phone,year:isY?yr:"",make:isY?(rest[0]||""):(a.car.split(" ")[0]||""),model:isY?rest.slice(1).join(" "):a.car.split(" ").slice(1).join(" "),apptId:a.id})}});
+}
+
+/* ---------- Reportes ---------- */
+let repMonth=null;
+function vReports(){
+  repMonth=repMonth||today().slice(0,7);const M=repMonth;
+  const pays=S.orders.flatMap(o=>(o.pays||[]).map(p=>({...p,o})));
+  const collected=pays.filter(p=>(p.d||"").startsWith(M)).reduce((s,p)=>s+ +p.a,0);
+  const deliv=S.orders.filter(o=>(o.log?.out||"").startsWith(M));
+  const billed=deliv.reduce((s,o)=>s+totals(o).tot,0);
+  const recv=S.orders.filter(o=>(o.inDate||"").startsWith(M)).length;
+  const days=deliv.map(o=>(Date.parse(o.log.out)-Date.parse(o.log.rec||o.inDate))/DAY).filter(n=>n>=0);
+  const avg=days.length?days.reduce((a,b)=>a+b,0)/days.length:0;
+  const open=S.orders.map(o=>({o,b:Math.max(0,totals(o).bal)})).filter(x=>x.b>0.005);
+  const owedIns=open.filter(x=>x.o.payer==="ins").reduce((s,x)=>s+x.b,0),owedCust=open.filter(x=>x.o.payer!=="ins").reduce((s,x)=>s+x.b,0);
+  const months=[...Array(6)].map((_,i)=>{const d=new Date(M+"-15");d.setMonth(d.getMonth()-5+i);return d.toISOString().slice(0,7)});
+  const perM=months.map(m=>pays.filter(p=>(p.d||"").startsWith(m)).reduce((s,p)=>s+ +p.a,0));
+  const mx=Math.max(1,...perM);
+  const mt={cash:t("cash"),card:t("card"),cashapp:t("cashapp"),check:t("check"),ins:t("insPay")};
+  const byM=Object.entries(pays.filter(p=>(p.d||"").startsWith(M)).reduce((a,p)=>(a[p.m]=(a[p.m]||0)+ +p.a,a),{})).sort((a,b)=>b[1]-a[1]);
+  const byIns=Object.entries(S.orders.filter(o=>o.payer==="ins").reduce((a,o)=>{const k=o.insurer||"—";const r=a[k]||(a[k]={n:0,owed:0});r.n++;r.owed+=Math.max(0,totals(o).bal);return a},{})).sort((a,b)=>b[1].n-a[1].n);
+  const W=560,H=200,bw=56,gap=(W-bw*6)/6;
+  const ml=m=>new Date(m+"-15").toLocaleDateString(loc(),{month:"short"});
+  const chart=`<svg viewBox="0 0 ${W} ${H+28}" style="width:100%;height:auto" role="img" aria-label="${t("last6")}">
+    ${[0.5,1].map(f=>`<line x1="0" x2="${W}" y1="${H-f*(H-24)}" y2="${H-f*(H-24)}" stroke="var(--line)" stroke-dasharray="3 4"/>`).join("")}
+    <line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="var(--muted)" stroke-width="1"/>
+    ${perM.map((v,i)=>{const h=Math.max(v?3:0,v/mx*(H-24)),x=gap/2+i*(bw+gap),y=H-h,last=i===5;
+      return`<g class="rbar"><title>${ml(months[i])}: ${money(v)}</title><rect x="${x-gap/2}" y="0" width="${bw+gap}" height="${H}" fill="transparent"/>
+       <path d="M${x},${H} V${y+4} Q${x},${y} ${x+4},${y} H${x+bw-4} Q${x+bw},${y} ${x+bw},${y+4} V${H} Z" fill="var(--bay)" opacity="${last?1:.55}"/>
+       ${last||v===Math.max(...perM)&&v>0?`<text x="${x+bw/2}" y="${y-6}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">${money(v).replace(/\.\d\d$/,"")}</text>`:""}
+       <text x="${x+bw/2}" y="${H+18}" text-anchor="middle" font-size="12" fill="var(--muted)">${ml(months[i])}</text></g>`}).join("")}</svg>`;
+  const tile=(k,v,mo,c)=>`<div class="card stat"><span class="bar" style="background:${c}"></span><div class="lbl">${t(k)}</div><div class="val num" ${typeof v==="number"?`data-count="${Math.round(v*100)/100}" data-money="${mo}"`:""}>${typeof v==="number"?0:v}</div></div>`;
+  return`<div class="top"><div><h1>${t("reports")}</h1></div><label style="display:flex;gap:8px;align-items:center;font-weight:600">${t("month")}<input class="input" type="month" id="rep-m" value="${M}" style="width:auto"></label></div>
+  <div class="stats stagger">${tile("collected",collected,1,"var(--ok)")}${tile("billed",billed,1,"var(--bay)")}${tile("delivered",deliv.length,0,"var(--paint)")}${tile("received",recv,0,"var(--warn)")}</div>
+  <div class="grid2"><div class="card"><div class="sec-h"><h2>${t("last6")}</h2></div><div class="box-b">${perM.some(v=>v)?chart:`<div class="empty">${t("noData")}</div>`}
+    <details style="margin-top:8px;font-size:14px"><summary style="cursor:pointer;color:var(--muted)">Tabla</summary><table class="tbl">${months.map((m,i)=>`<tr><td>${ml(m)} ${m.slice(0,4)}</td><td class="r num">${money(perM[i])}</td></tr>`).join("")}</table></details></div></div>
+   <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+    <div class="card"><div class="sec-h"><h2>${t("owedNow")}</h2><b class="num">${money(owedIns+owedCust)}</b></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:15px">
+     <div style="display:flex;justify-content:space-between"><span>${t("owedIns")}</span><b class="num">${money(owedIns)}</b></div><div style="display:flex;justify-content:space-between"><span>${t("owedCust")}</span><b class="num">${money(owedCust)}</b></div>
+     <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>${t("avgDays")}</span><b class="num" style="color:var(--ink)">${days.length?avg.toFixed(1):"—"}</b></div></div></div>
+    <div class="card"><div class="sec-h"><h2>${t("byMethod")}</h2></div>${byM.length?`<table class="tbl">${byM.map(([k,v])=>`<tr><td>${mt[k]||k}</td><td class="r num"><b>${money(v)}</b></td></tr>`).join("")}</table>`:`<div class="empty">${t("noData")}</div>`}</div>
+    <div class="card"><div class="sec-h"><h2>${t("byInsurer")}</h2></div>${byIns.length?`<table class="tbl">${byIns.map(([k,v])=>`<tr><td>${esc(k)}</td><td class="r num">${v.n} ${t("ordersOf")}</td><td class="r num">${money(v.owed)}</td></tr>`).join("")}</table>`:`<div class="empty">${t("noData")}</div>`}</div>
+   </div></div>`;
+}
+function wireReports(){const m=$("#rep-m");if(m)m.onchange=e=>{repMonth=e.target.value||today().slice(0,7);render()}}
+
+/* ---------- Editar trabajador y material ---------- */
+function editWorker(id){
+  const u=S.users.find(x=>x.id===id);if(!u)return;
+  openModal(`<div class="sec-h"><h2>${t("editWorker")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="ew-form"><div class="form"><label class="full">${t("name")}<input class="input" id="ew-n" value="${esc(u.name)}" required></label>
+    ${u.role==="owner"?"":`<label>${t("role")}<select class="input" id="ew-r"><option value="tech" ${u.role==="tech"?"selected":""}>${t("roles").tech}</option><option value="painter" ${u.role==="painter"?"selected":""}>${t("roles").painter}</option></select></label>`}
+    <label class="${u.role==="owner"?"full":""}">${t("newPinOpt")}<input class="input num" id="ew-p" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
+    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px">${u.role!=="owner"&&u.id!==ME.id?`<button type="button" class="btn btn-ghost" id="ew-del" style="color:var(--bad)">${t("delete")}</button>`:"<span></span>"}<button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    $("#ew-form").onsubmit=async e=>{e.preventDefault();const name=$("#ew-n").value.trim(),role=$("#ew-r")?.value||u.role,pin=$("#ew-p").value.trim();
+      if(pin&&!/^\d{4}$/.test(pin)){toast(t("pin"));return}
+      if(!DEMO){const{error}=await sb.rpc("update_worker",{p_shop:SHOP.id,p_worker:u.id,p_name:name,p_role:role,p_pin:pin||null});
+        if(error){toast(/pin_taken/.test(error.message)?t("pinTaken"):t("errNet"));return}await reloadWorkers()}
+      else{if(pin&&S.users.some(x=>x.id!==u.id&&x.pin===pin)){toast(t("pinTaken"));return}Object.assign(u,{name,role,...(pin?{pin}:{})});save()}
+      if(u.id===ME.id)ME=S.users.find(x=>x.id===u.id)||ME;closeModal();toast(t("saved"));render()};
+    let arm=false;const d=$("#ew-del");if(d)d.onclick=async e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}
+      if(!DEMO){const{error}=await sb.rpc("remove_worker",{p_shop:SHOP.id,p_worker:u.id});if(error){toast(t("errNet"));return}await reloadWorkers()}else{S.users=S.users.filter(x=>x.id!==u.id);save()}
+      closeModal();render()}});
+}
+function editStock(id){
+  const s=S.paint.stock.find(x=>x.id===id);if(!s)return;
+  openModal(`<div class="sec-h"><h2>${t("editItem")}</h2><button class="del" onclick="closeModal()">×</button></div>
+   <form class="mb" id="es-form"><div class="form"><label class="full">${t("item")}<input class="input" id="es-n" value="${esc(s.n)}" required></label><label>${t("unit")}<input class="input" id="es-u" value="${esc(s.u)}"></label><label>${t("minimum")}<input class="input" id="es-m" type="number" step="any" min="0" value="${s.min}"></label></div>
+   <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px"><button type="button" class="btn btn-ghost" id="es-del" style="color:var(--bad)">${t("delete")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
+    $("#es-form").onsubmit=e=>{e.preventDefault();Object.assign(s,{n:$("#es-n").value.trim(),u:$("#es-u").value.trim(),min:+$("#es-m").value});save();closeModal();render()};
+    let arm=false;$("#es-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}trashAdd("stock",s,s.n);S.paint.stock=S.paint.stock.filter(x=>x.id!==id);save();closeModal();render()}});
+}
+function openMore(){
+  const items=NAV.filter(n=>navOk(n[0])&&!PRIMARY.includes(n[0]));
+  openModal(`<div class="sec-h"><h2>${t("more")}</h2><button class="del" onclick="closeModal()">×</button></div><div class="mb" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+   ${items.map(([id,k,ic])=>`<button class="btn btn-ghost" style="flex-direction:column;padding:16px" data-mgo="${id}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}</div>`,()=>{
+    document.querySelectorAll("[data-mgo]").forEach(b=>b.onclick=()=>{closeModal();go(b.dataset.mgo)})});
+}
 
 /* ================== Ayuda dentro de la app ================== */
 const HKEY="colorbay-help-off";
@@ -1305,6 +1621,20 @@ const HELP=[
   en:["Save a paint formula","Go to “Paint” → “Formulas” → “New formula”.","Type the code, brand and each toner with its grams.","In “Mix (g)” type how much you'll make and the grams recalculate.","“Log mix” records who mixed what and when."],act:()=>{paintTab="library";go("pintura")}},
  {who:"paint",es:["Llevar el inventario de pintura","Ve a “Pintura” → “Inventario”.","Usa − y ＋ para subir o bajar lo que hay.","Si baja del mínimo, aparece “Poco material” en el inicio."],
   en:["Track paint inventory","Go to “Paint” → “Inventory”.","Use − and ＋ to change the amount.","If it drops below the minimum, “Low stock” shows on Home."],act:()=>{paintTab="stock";go("pintura")}},
+ {who:"owner",es:["Recuperar algo que se borró","Ve a “Ajustes” → “Papelera”.","Ahí está todo lo borrado de los últimos 30 días: órdenes, fotos, clientes, notas, fórmulas, citas.","Toca “Recuperar”."],
+  en:["Restore something that was deleted","Go to “Settings” → “Trash”.","Everything deleted in the last 30 days is there: orders, photos, customers, notes, formulas, appointments.","Tap “Restore”."],act:()=>{go("ajustes");setTimeout(openTrash,150)}},
+ {who:"owner",es:["Sacar el estimado o la factura en PDF","Abre la orden y ve a “Estimado” (o a “Cobros” para la factura).","Toca “Estimado PDF” o “Factura PDF”.","Toca “Imprimir / Guardar PDF”. En el iPhone escoge “Guardar en Archivos” o compártelo.","El logo y los datos del taller se ponen en “Ajustes”."],
+  en:["Get the estimate or invoice as a PDF","Open the order and go to “Estimate” (or “Payments” for the invoice).","Tap “Estimate PDF” or “Invoice PDF”.","Tap “Print / Save PDF”. On iPhone choose “Save to Files” or share it.","Your logo and shop details go in “Settings”."],act:()=>helpOrder("estimate")},
+ {who:"all",es:["Llenar el carro con el VIN","Escribe los 17 números y letras del VIN.","Toca “Leer VIN”: se llenan solos el año, la marca y el modelo."],
+  en:["Fill in the car from the VIN","Type the 17 letters and numbers of the VIN.","Tap “Read VIN”: year, make and model fill in by themselves."],act:()=>helpOrder("vehicle")},
+ {who:"all",es:["Agendar una cita","Ve a “Citas” → “Nueva cita”.","Pon fecha, hora, cliente y carro.","Cuando llegue el carro, abre la cita y toca “Crear orden”: se llena sola."],
+  en:["Book an appointment","Go to “Appointments” → “New appointment”.","Set date, time, customer and car.","When the car arrives, open it and tap “Create order”: it fills in by itself."],act:()=>go("citas")},
+ {who:"all",es:["Mandarle un mensaje de texto al cliente","Abre la orden, en “Vehículo” toca “Mandar mensaje”.","Escoge el mensaje (listo, partes, estimado, avance) y el idioma.","Toca “Abrir mensajes”: se abre tu app de mensajes con el texto listo."],
+  en:["Text the customer","Open the order, in “Vehicle” tap “Send text”.","Choose the message (ready, parts, estimate, update) and language.","Tap “Open messages”: your messaging app opens with the text ready."],act:()=>helpOrder("vehicle")},
+ {who:"owner",es:["Ver cómo va el negocio","Ve a “Reportes”.","Escoge el mes: ves lo cobrado, lo facturado, carros entregados, días promedio y lo que te deben."],
+  en:["See how the business is doing","Go to “Reports”.","Pick the month: collected, billed, cars delivered, average days and what you're owed."],act:()=>go("reportes")},
+ {who:"owner",es:["Decidir quién ve los precios","Ve a “Ajustes” → “¿Quién ve los precios?”.","Prende o apaga para técnicos y pintores.","Apagado: los precios ni siquiera llegan a su celular."],
+  en:["Decide who sees prices","Go to “Settings” → “Who sees prices?”.","Turn it on or off for technicians and painters.","Off: prices never even reach their phone."],act:()=>go("ajustes")},
  {who:"all",es:["Cambiar el idioma","Toca “ES” o “EN” arriba (en computadora, abajo a la izquierda).","Cada celular guarda su propio idioma."],
   en:["Change the language","Tap “ES” or “EN” at the top (on a computer, bottom left).","Each phone keeps its own language."],act:()=>{S.settings.lang=S.settings.lang==="es"?"en":"es";try{localStorage.setItem("colorbay-web-lang",S.settings.lang)}catch(e){}render();if(openId)renderSheet()}},
  {who:"all",es:["Tener ColorBay como app en el celular","iPhone: en Safari toca Compartir (cuadro con flecha) → “Agregar a inicio”.","Android: en Chrome toca ⋮ → “Agregar a la pantalla principal”.","La primera vez que abras el ícono te pide entrar de nuevo."],
@@ -1352,23 +1682,55 @@ Object.assign(L.en,{quick:"Quick access",quickIos:"iPhone: in Safari tap Share (
   cloudNote:"Everything is saved in the cloud and shows up instantly on your team's phones.",pinTaken:"Another person in the shop already uses that PIN.",
   pendingShop:"Creating your shop…"});
 let sb=null,SHOP=null,CH=null,cloudErr="",loginTab="owner",recovering=false;
-const CLOUD={snap:{orders:{},doc:""},timer:null,dirty:false};
+const CLOUD={snap:{orders:{},money:{},doc:""},timer:null,dirty:false};
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
 function setSync(st){const e=$("#sync");if(!e||DEMO)return;e.className="sync "+st;e.textContent=t(st==="ok"?"syncOk":st==="err"?"syncErr":"syncSaving");e.hidden=false;
   clearTimeout(setSync.h);if(st==="ok")setSync.h=setTimeout(()=>{e.hidden=true},2500)}
-const cloudDoc=()=>({settings:{...S.settings},customers:S.customers,paint:S.paint});
+const cloudDoc=()=>({settings:{...S.settings},customers:S.customers,paint:S.paint,appts:S.appts||[]});
+/* JSON con llaves ordenadas, para comparar sin importar el orden que devuelve la base de datos */
+const stable=v=>JSON.stringify(v,(k,x)=>x&&typeof x==="object"&&!Array.isArray(x)?Object.keys(x).sort().reduce((o,kk)=>(o[kk]=x[kk],o),{}):x);
+/* Precios separados: solo se mandan y se reciben si esta persona puede verlos */
+let MONEY_ON=false;
+function splitOrder(o){
+  if(!MONEY_ON)return{pub:o,money:null};
+  const pub={...o};delete pub.est;delete pub.pays;
+  const money={est:o.est||[],pays:o.pays||[],partCost:{},sigTotal:o.sig?.total??null};
+  pub.parts=(o.parts||[]).map(p=>{if(!p.id)p.id=uid();const q={...p};money.partCost[p.id]=+p.c||0;delete q.c;return q});
+  if(o.sig){pub.sig={...o.sig};delete pub.sig.total}
+  return{pub,money};
+}
+function mergeOrder(pub,money){
+  if(!money)return pub;
+  const o={...pub,est:money.est||[],pays:money.pays||[]};
+  o.parts=(pub.parts||[]).map(p=>({...p,c:money.partCost?.[p.id]??p.c??0}));
+  if(o.sig&&money.sigTotal!=null)o.sig={...o.sig,total:money.sigTotal};
+  return o;
+}
+async function loadMoney(){
+  const{data,error}=await sb.from("order_money").select("id,doc").eq("shop_id",SHOP.id);
+  if(error){console.error("money",error);return}
+  const map={};(data||[]).forEach(r=>map[r.id]=r.doc);
+  MONEY_ON=true;CLOUD.snap.money={};
+  S.orders=S.orders.map(o=>{const m=map[o.id];if(m)CLOUD.snap.money[o.id]=stable(m);return mergeOrder(o,m)});
+}
+function dropMoney(){MONEY_ON=false;CLOUD.snap.money={};S.orders=S.orders.map(o=>{const x={...o};delete x.est;delete x.pays;x.parts=(x.parts||[]).map(p=>{const q={...p};delete q.c;return q});return x})}
 function scheduleSync(){CLOUD.dirty=true;setSync("saving");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(syncNow,700)}
 async function syncNow(){
   if(!SHOP)return;
   try{
     const now=new Date().toISOString();
-    const doc=JSON.stringify(cloudDoc());
-    if(doc!==CLOUD.snap.doc){const{error}=await sb.from("shop_data").update({doc:JSON.parse(doc),updated_at:now}).eq("shop_id",SHOP.id);if(error)throw error;CLOUD.snap.doc=doc}
-    const seen=new Set(),ups=[];
-    for(const o of S.orders){seen.add(o.id);const j=JSON.stringify(o);if(CLOUD.snap.orders[o.id]!==j)ups.push({shop_id:SHOP.id,id:o.id,doc:o,updated_at:now,_j:j})}
-    if(ups.length){const{error}=await sb.from("orders").upsert(ups.map(({_j,...r})=>r));if(error)throw error;ups.forEach(u=>CLOUD.snap.orders[u.id]=u._j)}
+    const docObj=cloudDoc(),doc=stable(docObj);
+    if(doc!==CLOUD.snap.doc){const{error}=await sb.from("shop_data").update({doc:docObj,updated_at:now}).eq("shop_id",SHOP.id);if(error)throw error;CLOUD.snap.doc=doc}
+    const writeMoney=MONEY_ON&&can("money");
+    const seen=new Set(),ups=[],mups=[];
+    for(const o of S.orders){seen.add(o.id);const{pub,money}=splitOrder(o);const j=stable(pub);
+      if(CLOUD.snap.orders[o.id]!==j)ups.push({row:{shop_id:SHOP.id,id:o.id,doc:pub,updated_at:now},j});
+      if(writeMoney&&money){const mj=stable(money);if(CLOUD.snap.money[o.id]!==mj)mups.push({row:{shop_id:SHOP.id,id:o.id,doc:money,updated_at:now},j:mj})}}
+    if(ups.length){const{error}=await sb.from("orders").upsert(ups.map(u=>u.row));if(error)throw error;ups.forEach(u=>CLOUD.snap.orders[u.row.id]=u.j)}
+    if(mups.length){const{error}=await sb.from("order_money").upsert(mups.map(u=>u.row));if(error)throw error;mups.forEach(u=>CLOUD.snap.money[u.row.id]=u.j)}
     const gone=Object.keys(CLOUD.snap.orders).filter(id=>!seen.has(id));
-    if(gone.length){const{error}=await sb.from("orders").delete().eq("shop_id",SHOP.id).in("id",gone);if(error)throw error;gone.forEach(id=>delete CLOUD.snap.orders[id])}
+    if(gone.length){const{error}=await sb.from("orders").delete().eq("shop_id",SHOP.id).in("id",gone);if(error)throw error;gone.forEach(id=>delete CLOUD.snap.orders[id]);
+      if(writeMoney){await sb.from("order_money").delete().eq("shop_id",SHOP.id).in("id",gone);gone.forEach(id=>delete CLOUD.snap.money[id])}}
     CLOUD.dirty=false;setSync("ok");flushUploads();
   }catch(e){console.error("sync",e);setSync("err");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(syncNow,5000)}
 }
@@ -1447,7 +1809,7 @@ async function enterShop(){
     <a class="btn btn-paint" href="info.html#prueba" style="text-decoration:none">${t("createShop")}</a><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`);return}
   let pref=null;try{pref=localStorage.getItem("colorbay-shop-id")}catch(e){}
   const m=mem.find(x=>x.shop_id===pref)||mem[0];
-  const{data:shop,error:e1}=await sb.from("shops").select("id,name,plan,status,trial_ends,join_code").eq("id",m.shop_id).single();
+  const{data:shop,error:e1}=await sb.from("shops").select("id,name,plan,tier,status,trial_ends,join_code").eq("id",m.shop_id).single();
   if(e1||!shop){cloudErr=t("errNet");renderCloudLogin();return}
   SHOP=shop;
   if(shopBlocked(shop)){renderBlocked(shop);return}
@@ -1458,21 +1820,29 @@ async function enterShop(){
   if(e2||e3||e4){cloudErr=t("errNet");renderCloudLogin();return}
   const doc=sd?.doc||{};const lang=S.settings.lang;
   S={settings:{shop:shop.name,rate:55,paintRate:45,tax:9.75,theme:"auto",...(doc.settings||{}),lang},users:wk||[],customers:doc.customers||[],
-     orders:(ords||[]).map(r=>r.doc),paint:{library:[],mixes:[],stock:[],...(doc.paint||{})},demo:false};
-  CLOUD.snap.doc=JSON.stringify(cloudDoc());CLOUD.snap.orders={};S.orders.forEach(o=>CLOUD.snap.orders[o.id]=JSON.stringify(o));
+     orders:(ords||[]).map(r=>r.doc),paint:{library:[],mixes:[],stock:[],...(doc.paint||{})},appts:doc.appts||[],demo:false};
+  CLOUD.snap.doc=stable(cloudDoc());CLOUD.snap.orders={};CLOUD.snap.money={};MONEY_ON=false;S.orders.forEach(o=>CLOUD.snap.orders[o.id]=stable(o));
   ME=S.users.find(u=>u.id===m.worker_id)||{id:m.worker_id,name:user.email||"?",role:m.role};
-  applyTheme();subscribe();flushUploads();render();
+  if(can("money"))await loadMoney();
+  applyTheme();subscribe();flushUploads();render();purgeTrash();
+  if(MONEY_ON&&S.orders.some(o=>stable(splitOrder(o).pub)!==CLOUD.snap.orders[o.id]))scheduleSync();
 }
 function subscribe(){
   if(CH)sb.removeChannel(CH);
   CH=sb.channel("shop-"+SHOP.id)
    .on("postgres_changes",{event:"*",schema:"public",table:"orders",filter:"shop_id=eq."+SHOP.id},p=>{
      if(p.eventType==="DELETE"){const id=p.old?.id;if(!id||!(id in CLOUD.snap.orders))return;delete CLOUD.snap.orders[id];S.orders=S.orders.filter(o=>o.id!==id);if(openId===id)closeSheet(true);softRender();return}
-     const o=p.new?.doc;if(!o)return;const j=JSON.stringify(o);if(CLOUD.snap.orders[o.id]===j)return;
-     CLOUD.snap.orders[o.id]=j;const i=S.orders.findIndex(x=>x.id===o.id);if(i>=0)S.orders[i]=o;else S.orders.push(o);softRender()})
+     const o=p.new?.doc;if(!o)return;const j=stable(o);if(CLOUD.snap.orders[o.id]===j)return;
+     CLOUD.snap.orders[o.id]=j;const i=S.orders.findIndex(x=>x.id===o.id);const cur=i>=0?splitOrder(S.orders[i]).money:null;const merged=mergeOrder(o,cur);
+     if(i>=0)S.orders[i]=merged;else S.orders.push(merged);softRender()})
+   .on("postgres_changes",{event:"*",schema:"public",table:"order_money",filter:"shop_id=eq."+SHOP.id},p=>{
+     if(!MONEY_ON||p.eventType==="DELETE")return;const r=p.new;if(!r?.doc)return;const mj=stable(r.doc);if(CLOUD.snap.money[r.id]===mj)return;
+     CLOUD.snap.money[r.id]=mj;const i=S.orders.findIndex(x=>x.id===r.id);if(i>=0){S.orders[i]=mergeOrder(splitOrder(S.orders[i]).pub,r.doc);softRender()}})
    .on("postgres_changes",{event:"UPDATE",schema:"public",table:"shop_data",filter:"shop_id=eq."+SHOP.id},p=>{
      const d=p.new?.doc;if(!d)return;const lang=S.settings.lang;const j=JSON.stringify({...d,settings:{...d.settings,lang}});
-     S.settings={...S.settings,...(d.settings||{}),lang};S.customers=d.customers||[];S.paint={...S.paint,...(d.paint||{})};CLOUD.snap.doc=JSON.stringify(cloudDoc());softRender()})
+     S.settings={...S.settings,...(d.settings||{}),lang};S.customers=d.customers||[];S.paint={...S.paint,...(d.paint||{})};S.appts=d.appts||[];CLOUD.snap.doc=stable(cloudDoc());
+     if(can("money")&&!MONEY_ON)loadMoney().then(softRender);else if(!can("money")&&MONEY_ON){dropMoney();if(openId)closeSheet(true)}
+     softRender()})
    .subscribe();
 }
 async function reloadWorkers(){const{data}=await sb.from("workers").select("id,name,role").eq("shop_id",SHOP.id);if(data)S.users=data}
@@ -1492,7 +1862,7 @@ async function bootCloud(){
 ["gesturestart","gesturechange"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 {const h=location.hash.slice(1);if(NAV.some(n=>n[0]===h))view=h}
 document.documentElement.lang=S.settings.lang;applyTheme();
-if(DEMO){render();idbOpen().then(idbAll).then(()=>{if(ME)render()})}
+if(DEMO){purgeTrash();render();idbOpen().then(idbAll).then(()=>{if(ME)render()})}
 else idbOpen().then(idbAll).then(bootCloud);
 </script>
 </body>
