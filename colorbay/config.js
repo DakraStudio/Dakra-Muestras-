@@ -4,6 +4,6 @@
 // NUNCA pongas aquí la "secret key" ni la "service_role".
 // Mientras estén vacíos, la app funciona en modo demo (todo se guarda en el celular).
 window.COLORBAY_CONFIG = {
-  url: "",
-  key: ""
+  url: "https://gjnkwxmkwuqrsbocigdw.supabase.co",
+  key: "sb_publishable_SRY_mGOQSFon0_V9Htlkcg_fedkdDlD"
 };
