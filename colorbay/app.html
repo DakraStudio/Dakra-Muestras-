@@ -354,6 +354,22 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .fcard{padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:transform .15s}
 .fcard:hover{transform:translateY(-2px)}
+.pc-layout{display:grid;grid-template-columns:minmax(260px,340px) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:860px){.pc-layout{grid-template-columns:minmax(0,1fr)}}
+.pc-res{overflow:hidden;max-height:70vh;overflow-y:auto;padding:0}
+@media (max-width:860px){.pc-res{max-height:340px}}
+.pc-head{position:sticky;top:0;z-index:1;background:var(--surface);border-bottom:1px solid var(--line);padding:9px 14px;font-size:12px;font-weight:600;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.pc-link{border:0;background:none;color:var(--bay);font:inherit;cursor:pointer;padding:0}
+.pc-item{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 14px;cursor:pointer;font:inherit}
+.pc-item:hover,.pc-item[aria-current="true"]{background:var(--surface-2)}
+.pc-item[aria-current="true"]{box-shadow:inset 4px 0 0 var(--paint)}
+.pc-item b{font-size:15px}
+.pc-sw{width:38px;height:28px;border-radius:50%;border:1px solid var(--line)}
+.pc-nm{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.form.pc-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.form.pc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+#pc-vin::placeholder,#pc-q::placeholder{text-transform:none;font-weight:400;font-size:15px}
+.pc-note{background:var(--bay-soft);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;margin-bottom:14px}
 .fcard .code{font-family:var(--display);font-size:22px;font-weight:700;line-height:1}
 .stock{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
 .stock:last-child{border-bottom:0}
@@ -504,7 +520,7 @@ const L={
   noPays:"Todavía no hay pagos.",paintBrand:"Marca de pintura",toner:"Tóner",grams:"Gramos",mixFor:"Preparar (g)",addToner:"Agregar tóner",
   formulaHint:"La fórmula de este carro. Escribe cuánto vas a preparar y se recalcula sola.",
   scaled:"A pesar",fromLib:"Usar de la biblioteca",toLib:"Guardar en biblioteca",logMix:"Registrar mezcla",
-  library:"Fórmulas",mixes:"Mezclas",stock:"Inventario",newFormula:"Nueva fórmula",noFormulas:"No hay fórmulas guardadas.",
+  codes:"Códigos",library:"Fórmulas",mixes:"Mezclas",stock:"Inventario",newFormula:"Nueva fórmula",noFormulas:"No hay fórmulas guardadas.",
   mixLog:"Registro de mezclas",gramsMonth:"Gramos mezclados este mes",low:"Poco material",unit:"Unidad",minimum:"Mínimo",addItem:"Agregar material",item:"Material",
   ordersOf:"órdenes",spent:"Pagado",newCust:"Nuevo cliente",
   shop:"Nombre del taller",rate:"Mano de obra ($/hora)",paintRate:"Pintura ($/hora)",taxRate:"Impuesto (%)",theme:"Tema",light:"Claro",dark:"Oscuro",auto:"Automático",
@@ -545,7 +561,7 @@ const L={
   noPays:"No payments yet.",paintBrand:"Paint brand",toner:"Toner",grams:"Grams",mixFor:"Mix (g)",addToner:"Add toner",
   formulaHint:"This car's formula. Type how much you will mix and it recalculates.",
   scaled:"To weigh",fromLib:"Use from library",toLib:"Save to library",logMix:"Log mix",
-  library:"Formulas",mixes:"Mixes",stock:"Inventory",newFormula:"New formula",noFormulas:"No saved formulas.",
+  codes:"Paint codes",library:"Formulas",mixes:"Mixes",stock:"Inventory",newFormula:"New formula",noFormulas:"No saved formulas.",
   mixLog:"Mix log",gramsMonth:"Grams mixed this month",low:"Low stock",unit:"Unit",minimum:"Minimum",addItem:"Add material",item:"Material",
   ordersOf:"orders",spent:"Paid",newCust:"New customer",
   shop:"Shop name",rate:"Labor ($/hour)",paintRate:"Paint ($/hour)",taxRate:"Tax (%)",theme:"Theme",light:"Light",dark:"Dark",auto:"Auto",
@@ -767,7 +783,7 @@ const NAV=[
  ["ajustes","settings",'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>']];
 const navOk=id=>({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings"),reportes:can("reports")}[id]??true);
 const PRIMARY=["inicio","ordenes","tablero","citas"];
-let view="inicio",filter="all",q="",paintTab="library";
+let view="inicio",filter="all",q="",paintTab="codes";
 function navHtml(mobile){const list=NAV.filter(n=>navOk(n[0])&&(!mobile||PRIMARY.includes(n[0])));const extra=mobile&&NAV.some(n=>navOk(n[0])&&!PRIMARY.includes(n[0]));return list.map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")+(extra?`<button class="nav-btn ${PRIMARY.includes(view)?"":"on"}" onclick="openMore()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>${t("more")}</button>`:"")}
 function navHtmlOld(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
@@ -891,6 +907,7 @@ function swatchColor(c){c=(c||"").toLowerCase();
 function vPaint(){
   const P=S.paint,mon=today().slice(0,7),gm=P.mixes.filter(m=>m.d.startsWith(mon)).reduce((s,m)=>s+ +m.g,0);
   let body="";
+  if(paintTab==="codes")body=vPaintCodes();
   if(paintTab==="library")body=`<div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
    <div class="fgrid stagger" id="flist">${fCards(P.library)}</div>`;
   if(paintTab==="mixes")body=`<div class="stats" style="grid-template-columns:1fr 1fr"><div class="card stat"><span class="bar" style="background:var(--paint)"></span><div class="lbl">${t("gramsMonth")}</div><div class="val num" data-count="${gm}">0</div></div>
@@ -900,11 +917,12 @@ function vPaint(){
   if(paintTab==="stock")body=`<div class="card"><div class="sec-h"><h2>${t("stock")}</h2><button class="btn btn-ghost btn-sm" id="st-add">＋ ${t("addItem")}</button></div>
    ${P.stock.map(s=>`<div class="stock"><div data-es="${s.id}" style="cursor:pointer"><b>${esc(s.n)}</b> <span style="color:var(--muted);font-size:12px">✎</span> ${s.q<s.min?`<span class="chip c-warn">${t("low")}</span>`:""}<div style="font-size:13px;color:var(--muted)">${t("minimum")}: ${s.min} ${esc(s.u)}</div></div>
     <div class="qty"><button data-sq="${s.id}" data-d="-1" aria-label="-">−</button><b class="num">${s.q} <small style="font-weight:500;color:var(--muted)">${esc(s.u)}</small></b><button data-sq="${s.id}" data-d="1" aria-label="+">＋</button></div></div>`).join("")}</div>`;
-  return`<div class="top"><div><h1>${t("paint")}</h1><p>${S.settings.lang==="es"?"Fórmulas, mezclas y material del cuarto de pintura.":"Formulas, mixes and paint-room materials."}</p></div></div>
-  <div class="seg" style="margin-bottom:16px">${["library","mixes","stock"].map(k=>`<button class="${paintTab===k?"on":""}" onclick="paintTab='${k}';render()">${t(k)}</button>`).join("")}</div>${body}`;
+  return`<div class="top"><div><h1>${t("paint")}</h1><p>${S.settings.lang==="es"?"Códigos de pintura, fórmulas, mezclas y material del cuarto de pintura.":"Paint codes, formulas, mixes and paint-room materials."}</p></div></div>
+  <div class="seg" style="margin-bottom:16px">${["codes","library","mixes","stock"].map(k=>`<button class="${paintTab===k?"on":""}" onclick="paintTab='${k}';render()">${t(k)}</button>`).join("")}</div>${body}`;
 }
 function fCards(list){return list.length?list.map(f=>`<div class="card fcard" data-fc="${f.id}"><div class="swatch" style="background:${swatchColor(f.name)}"></div><div style="min-width:0"><div class="code">${esc(f.code)}</div><div style="font-weight:600">${esc(f.name)}</div><div style="font-size:13px;color:var(--muted)">${esc(f.brand)} · ${esc(f.make)} · ${f.tn.length} ${t("toner").toLowerCase()}</div></div></div>`).join(""):`<div class="empty">${t("noFormulas")}</div>`}
 function wirePaint(){
+  if(paintTab==="codes"&&$("#pc-res"))wirePaintCodes();
   const fq=$("#fq");if(fq)fq.oninput=()=>{const v=fq.value.toLowerCase();$("#flist").innerHTML=fCards(S.paint.library.filter(f=>[f.code,f.name,f.brand,f.make].join(" ").toLowerCase().includes(v)));wireFCards()};
   wireFCards();
   document.querySelectorAll("[data-es]").forEach(d=>d.onclick=()=>editStock(d.dataset.es));
@@ -914,8 +932,136 @@ function wirePaint(){
    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{$("#st-form").onsubmit=e=>{e.preventDefault();S.paint.stock.push({id:"s"+uid(),n:$("#st-n").value,u:$("#st-u").value,q:0,min:+$("#st-m").value});save();closeModal();render()}});
 }
 function wireFCards(){document.querySelectorAll("[data-fc]").forEach(c=>c.onclick=()=>editFormula(c.dataset.fc))}
-function editFormula(id,fromOrder){
-  const f=id?S.paint.library.find(x=>x.id===id):{id:"f"+uid(),code:"",name:"",brand:"",make:"",tn:[{n:"",g:0}]};
+/* ---- Códigos de pintura (base de datos de Taller de Color) ---- */
+const PC={db:null,loading:null,make:"",year:0,model:"",q:"",vin:"",vinMsg:"",showAll:false,cur:null,list:[]};
+const pcEs=()=>S.settings.lang==="es";
+const pcT=(en,es)=>pcEs()?es:en;
+const pcNorm=s=>String(s||"").toUpperCase().replace(/[\s\-_.\/()]/g,"");
+const pcFold=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const PC_POP=["Toyota","Chevrolet","Ford","Honda","Nissan","GMC","Ram","Dodge","Jeep","Hyundai","Kia","Volkswagen"];
+const PC_FIN={S:["Solid","Sólido"],M:["Metallic","Metálico"],P:["Pearl","Perlado"],T:["Tri-coat","Tricapa"]};
+const pcFin=f=>(PC_FIN[f]||PC_FIN.S)[pcEs()?1:0];
+const PC_WHERE={
+ Toyota:["Driver's door jamb. Look for <b>C/TR</b>: the code comes first (e.g. <b>040</b>).","Marco de la puerta del conductor. Busca <b>C/TR</b>: el código es lo primero (ej. <b>040</b>)."],
+ Honda:["Driver's door jamb. Codes like <b>NH-731P</b> or <b>R-513</b>.","Marco de la puerta del conductor. Código tipo <b>NH-731P</b> o <b>R-513</b>."],
+ Ford:["Driver's door jamb label, next to <b>EXT PNT</b>: 2 characters (e.g. <b>YZ</b>).","Etiqueta del marco de la puerta del conductor, junto a <b>EXT PNT</b>: 2 caracteres (ej. <b>YZ</b>)."],
+ Chevrolet:["<b>Service Parts Identification</b> label in the glove box or on the door jamb. Look for <b>BC/CC U8555</b> or <b>WA8555</b>; the 3-character code (<b>GBA</b>) works too. <b>U</b> is the body color; <b>L</b> is the lower color on two-tones.","Etiqueta <b>Service Parts Identification</b> en la guantera o en el marco de la puerta. Busca <b>BC/CC U8555</b> o <b>WA8555</b>; también sirve el código de 3 caracteres (<b>GBA</b>). <b>U</b> es la carrocería; <b>L</b> es la parte baja en carros de dos tonos."],
+ Nissan:["Driver's door jamb, next to <b>COLOR</b> (e.g. <b>KH3</b>).","Marco de la puerta del conductor, junto a <b>COLOR</b> (ej. <b>KH3</b>)."],
+ Volkswagen:["Label in the trunk, by the spare tire, or in the service book: 4 characters starting with <b>L</b> (e.g. <b>LB9A</b>).","Etiqueta en la cajuela, junto a la llanta de refacción o en el libro de servicio: 4 caracteres que empiezan con <b>L</b> (ej. <b>LB9A</b>)."],
+ BMW:["Driver's door jamb or under the hood: 3 characters (e.g. <b>475</b>).","Marco de la puerta del conductor o bajo el cofre: 3 caracteres (ej. <b>475</b>)."],
+ "Mercedes-Benz":["Driver's door jamb or under the hood: 3 digits (e.g. <b>197</b>).","Marco de la puerta del conductor o bajo el cofre: 3 dígitos (ej. <b>197</b>)."],
+ Tesla:["Usually not on a label: check the vehicle or order details (e.g. <b>PPSW</b>).","Normalmente no viene en etiqueta: revisa los datos del vehículo o del pedido (ej. <b>PPSW</b>)."],
+ Ram:["Driver's door jamb: 3 characters starting with <b>P</b> (e.g. <b>PW7</b>).","Marco de la puerta del conductor: 3 caracteres que empiezan con <b>P</b> (ej. <b>PW7</b>)."],
+ Subaru:["Label under the hood, on the strut tower or firewall (e.g. <b>K1X</b>).","Etiqueta bajo el cofre, en la torre de suspensión o la pared de fuego (ej. <b>K1X</b>)."],
+ Mazda:["Driver's door jamb (e.g. <b>46V</b>).","Marco de la puerta del conductor (ej. <b>46V</b>)."],
+ Kia:["Driver's door jamb, next to <b>PAINT</b> or <b>EXT</b> (e.g. <b>UD</b>, <b>NKA</b>).","Marco de la puerta del conductor, junto a <b>PAINT</b> o <b>EXT</b> (ej. <b>UD</b>, <b>NKA</b>)."],
+ RAL:["RAL chart: 4 digits (e.g. <b>9005</b>).","Carta RAL: 4 dígitos (ej. <b>9005</b>)."]};
+const PC_WG={GMC:"Chevrolet",Buick:"Chevrolet",Cadillac:"Chevrolet",Pontiac:"Chevrolet",Oldsmobile:"Chevrolet",Saturn:"Chevrolet",Hummer:"Chevrolet",Geo:"Chevrolet",Dodge:"Ram",Jeep:"Ram",Chrysler:"Ram",Plymouth:"Ram",Eagle:"Ram",Hyundai:"Kia",Genesis:"Kia",Lexus:"Toyota",Scion:"Toyota",Acura:"Honda",Infiniti:"Nissan",Lincoln:"Ford",Mercury:"Ford"};
+const PC_WMI={'Chevrolet':'1G1 1GC 1GN 1GB 2G1 2GC 2GN 3G1 3GC 3GN KL1 KL7 KL8 1GA','GMC':'1GT 3GT 1GK 2GK 2GT 1GD','Buick':'1G4 2G4 5GA KL4 LRB','Cadillac':'1G6 1GY 1GE','Pontiac':'1G2 2G2 5Y2 6G2','Saturn':'1G8 5GZ','Hummer':'5GR 5GT 137','Oldsmobile':'1G3','Ford':'1FA 1FB 1FC 1FD 1FM 1FT 2FA 2FM 2FT 3FA 3FM 3FT MAJ NM0 1ZV','Lincoln':'1LN 2LM 5LM 3LN','Mercury':'1ME 2ME 4M2 1MR','Honda':'1HG 2HG 3HG 5FN 5J6 5KB JHM 7FA SHH','Acura':'19U 19X JH4 5J8','Toyota':'4T1 4T3 4T4 5TD 5TF 5TE 5YF 2T1 2T3 3TM 3TY 7MU JTD JTE JTK JTL JTM JTN','Lexus':'JTH JTJ 2T2 58A','Nissan':'1N4 1N6 3N1 3N6 3N8 5N1 5BZ JN1 JN8','Infiniti':'JNK JNR 5N3 JNX','Volkswagen':'WVW WVG WV1 WV2 1VW 3VW 3VV','Audi':'WAU WA1 WUA TRU','Porsche':'WP0 WP1','BMW':'WBA WBS WBX WBY 5UX 5UJ 5YM','MINI':'WMW','Mercedes-Benz':'WDD WDC WDB WD3 W1K W1N W1V 4JG 55S','Tesla':'5YJ 7SA 7G2 LRW XP7','Ram':'1C6 3C6 3C7','Dodge':'1B3 2B3 1D7 3D7 2D4 1C3 2C3 3C4','Jeep':'1J4 1J8 1C4 ZAC','Chrysler':'2C4 2A4 1A8','Subaru':'JF1 JF2 4S3 4S4','Mazda':'JM1 JM3 3MZ 3MV 4F2','Kia':'KNA KND KNM 5XX 5XY 3KP','Hyundai':'KMH KM8 5NP 5NM 3KM','Genesis':'KMT','Mitsubishi':'JA3 JA4 4A3 4A4 ML3','Volvo':'YV1 YV4 7JR 7JD','Land Rover':'SAL','Jaguar':'SAJ','Suzuki':'JS2 JS3 2S3','Isuzu':'JAL 4S2 JAA','Fiat':'3C3 ZFA','Alfa Romeo':'ZAR'};
+const PC_WMAP={};Object.entries(PC_WMI).forEach(([m,s])=>s.split(" ").forEach(w=>PC_WMAP[w]=m));
+const PC_ES={blanco:"white",negro:"black",rojo:"red",plata:"silver",plateado:"silver",gris:"gray grey",azul:"blue",perla:"pearl",verde:"green",amarillo:"yellow",naranja:"orange",cafe:"brown",marron:"brown",vino:"red",guinda:"red",metalico:"metallic",dorado:"gold",beige:"beige",morado:"purple"};
+function pcLoad(){if(PC.db)return Promise.resolve(PC.db);if(PC.loading)return PC.loading;
+  PC.loading=fetch("paint-codes.json?v=1").then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{const all=[];
+    Object.entries(d.makes).forEach(([mk,arr])=>{const MN=(d.models&&d.models[mk])||[];arr.forEach(([code,names,fin,hex,years,alias,mm,ex])=>{const nm=String(names).split(" | ");
+      all.push({make:mk,code,name:nm[0],other:nm.slice(1),fin,hex,years,alias:alias?alias.split(" "):[],keys:[code,...(alias?alias.split(" "):[])].map(pcNorm),hay:pcFold(names+" "+mk),exact:!!ex,
+        mods:mm?mm.split(";").map(x=>{const i=x.indexOf(":");return [MN[+x.slice(0,i)],x.slice(i+1)]}).filter(x=>x[0]):[]})})});
+    PC.db={all,models:d.models||{},makes:Object.keys(d.makes).sort((a,b)=>a.localeCompare(b))};return PC.db}).catch(e=>{PC.loading=null;throw e});
+  return PC.loading}
+const pcYearsHas=(ys,y)=>!ys||String(ys).split(",").some(r=>{const [a,b]=r.split("-").map(Number);return y>=a&&y<=(b||a)});
+const pcYears=ys=>ys?String(ys).replace(/,/g,", ").replace(/-/g,"–"):"";
+function pcHex(h){h=String(h||"").replace("#","");return /^[0-9a-f]{6}$/i.test(h)?h:"9a9da0"}
+function pcShade(h,k){h=pcHex(h);return "#"+[0,2,4].map(i=>{let v=parseInt(h.substr(i,2),16);v=k>0?v+(255-v)*k:v*(1+k);return Math.round(Math.max(0,Math.min(255,v))).toString(16).padStart(2,"0")}).join("")}
+function pcBg(hex,fin){const h="#"+pcHex(hex);if(fin==="S")return h;const k=fin==="M"?.32:.22;return`linear-gradient(135deg,${pcShade(h,k)} 0%,${h} 45%,${pcShade(h,-k)} 100%)`}
+function pcDecodeVin(v){v=String(v||"").toUpperCase().replace(/[^A-Z0-9]/g,"");if(!v)return {msg:""};
+  if(v.length!==17)return {msg:pcT(`The VIN has ${v.length} characters; it needs 17.`,`El VIN tiene ${v.length} caracteres; deben ser 17.`)};
+  if(/[IOQ]/.test(v))return {msg:pcT("A VIN never uses I, O or Q. Check whether it is a 1 or a 0.","Un VIN nunca lleva I, O ni Q. Revisa si es 1 o 0.")};
+  const Y="ABCDEFGHJKLMNPRSTVWXY123456789",i=Y.indexOf(v[9]),now=new Date().getFullYear()+1;let year=0;if(i>=0){year=1980+i;if(year+30<=now)year+=30}
+  const make=PC_WMAP[v.slice(0,3)];
+  if(!make)return {msg:pcT(`We don't recognize the make for <b>${esc(v.slice(0,3))}</b>. Pick it above.`,`No reconocemos la marca de <b>${esc(v.slice(0,3))}</b>. Elígela arriba.`)};
+  return {make,year,msg:pcT(`VIN: <b>${esc(make)}</b>${year?" "+year:""}.`,`VIN: <b>${esc(make)}</b>${year?" "+year:""}.`)}}
+const pcClean=raw=>{let r=String(raw||"").trim();const ct=r.match(/C\s*\/\s*TR\s*:?\s*([A-Z0-9-]+)/i);if(ct)r=ct[1];else if(/^BC\s*\/\s*CC/i.test(r))r=r.replace(/^BC\s*\/\s*CC/i,"");else if(r.includes("/"))r=r.split("/")[0];return pcNorm(r).replace(/^(EXTPNT|PAINT|COLOR|PNT)/,"")};
+function pcHint(q){if(/^(WA|U|L)[0-9A-Z]{4}$/.test(q)||/^\d{2}U$/.test(q))return "Chevrolet";if(/^NH\d{3}[MP]?$/.test(q))return "Honda";if(/^L[A-Z0-9]\d[A-Z0-9]$/.test(q))return "Volkswagen";return ""}
+function pcScore(c,q,qr){if(!q)return 1;if(c.keys.includes(q))return 100;if(c.keys.some(x=>x.startsWith(q)))return 60;if(q.length>=3&&c.keys.some(x=>x.includes(q)))return 40;
+  const w=pcFold(qr).split(/\s+/).filter(x=>x.length>2);if(w.length&&w.every(x=>c.hay.includes(x)||(PC_ES[x]&&PC_ES[x].split(" ").some(y=>c.hay.includes(y)))))return 20;return 0}
+function pcSearch(){const db=PC.db;if(!db)return {list:[],exact:[],multi:false};
+  const q=pcClean(PC.q),qr=PC.q.trim(),scoped=PC.make&&!PC.showAll;
+  let pool=db.all;if(scoped)pool=pool.filter(c=>c.make===PC.make);
+  if(PC.year)pool=pool.filter(c=>pcYearsHas(c.years,PC.year));
+  if(PC.model&&scoped)pool=pool.filter(c=>c.mods.some(([m,ys])=>m===PC.model&&(!PC.year||pcYearsHas(ys,PC.year))));
+  let list;if(q){list=pool.map(c=>[pcScore(c,q,qr),c]).filter(x=>x[0]>0).sort((a,b)=>b[0]-a[0]||(b[1].exact-a[1].exact));list=list.map(x=>x[1])}
+  else list=scoped?pool.slice().sort((a,b)=>String(b.years).slice(-4).localeCompare(String(a.years).slice(-4))||a.code.localeCompare(b.code)):[];
+  const exact=q?list.filter(c=>c.keys.includes(q)):[],exMakes=[...new Set(exact.map(c=>c.make))];
+  const multi=exMakes.length>1&&(!PC.make||PC.showAll);
+  return {list,exact,exMakes,multi,q,qr,hint:!PC.make&&q&&!exact.length?pcHint(q):""}}
+function vPaintCodes(){
+  return`<div class="card" style="padding:16px;margin-bottom:14px">
+   <div class="form pc-grid">
+    <label>${t("make")}<select class="input" id="pc-make"></select></label>
+    <label>${t("year")}<select class="input" id="pc-year"></select></label>
+    <label>${t("model")}<select class="input" id="pc-model"></select></label>
+    <label>VIN<input class="input" id="pc-vin" maxlength="17" autocomplete="off" spellcheck="false" style="text-transform:uppercase" placeholder="${pcT("VIN (optional)","VIN (opcional)")}" value="${esc(PC.vin)}"></label></div>
+   <div id="pc-pop" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div>
+   <div id="pc-vinmsg" style="font-size:13px;color:var(--muted);min-height:18px;margin-top:6px"></div>
+   <label style="display:block;margin-top:6px;font-weight:600;font-size:13px">${pcT("Label code","Código de la etiqueta")}
+    <div style="display:flex;gap:8px;margin-top:4px"><input class="input" id="pc-q" autocomplete="off" spellcheck="false" style="font-size:22px;font-weight:700;text-transform:uppercase;flex:1;min-width:0" placeholder="${pcT("e.g. YZ, GAZ, U8555, NH-731P, 040","Ej. YZ, GAZ, U8555, NH-731P, 040")}" value="${esc(PC.q)}"><button type="button" class="btn btn-ghost" id="pc-clear">${pcT("Clear","Borrar")}</button></div></label>
+   <div id="pc-where" style="font-size:13px;color:var(--muted);margin-top:8px"></div></div>
+  <div id="pc-ambig"></div>
+  <div class="pc-layout"><div class="card pc-res" id="pc-res"><div class="empty">${pcT("Loading paint codes…","Cargando códigos de pintura…")}</div></div><div id="pc-det"></div></div>`}
+function pcControls(){const db=PC.db;if(!db)return;
+  const mk=$("#pc-make");mk.innerHTML=`<option value="">${pcT("All makes","Todas las marcas")} (${db.makes.length})</option>`+db.makes.map(m=>`<option${m===PC.make?" selected":""}>${esc(m)}</option>`).join("");
+  const now=new Date().getFullYear()+1;let yo=`<option value="0">${pcT("Any year","Cualquier año")}</option>`;for(let y=now;y>=1982;y--)yo+=`<option value="${y}"${y===PC.year?" selected":""}>${y}</option>`;$("#pc-year").innerHTML=yo;
+  const ml=PC.make&&db.models[PC.make]?db.models[PC.make].slice().sort(natSort):[];if(!ml.includes(PC.model))PC.model="";
+  const md=$("#pc-model");md.innerHTML=`<option value="">${ml.length?pcT("Any model","Cualquier modelo"):pcT("Pick a make first","Elige la marca primero")}</option>`+ml.map(m=>`<option${m===PC.model?" selected":""}>${esc(m)}</option>`).join("");md.disabled=!ml.length;
+  $("#pc-pop").innerHTML=PC_POP.filter(m=>db.makes.includes(m)).map(m=>`<button type="button" class="chip" data-pcm="${esc(m)}" style="cursor:pointer;font-size:13px;padding:5px 11px;${m===PC.make?"background:var(--ink);color:var(--surface);border-color:var(--ink)":""}">${esc(m)}</button>`).join("");
+  const w=PC.make&&(PC_WHERE[PC.make]||PC_WHERE[PC_WG[PC.make]]);
+  $("#pc-where").innerHTML=PC.make?`<b style="color:var(--ink)">${pcT("Where's the label?","¿Dónde está la etiqueta?")}</b> ${w?w[pcEs()?1:0]:pcT("Usually on the driver's door jamb.","Normalmente en el marco de la puerta del conductor.")}`:pcT("Pick the make so you don't get the same code from another brand.","Elige la marca para que no te salga un código igual de otra marca.");
+  $("#pc-vinmsg").innerHTML=PC.vinMsg;
+  document.querySelectorAll("[data-pcm]").forEach(b=>b.onclick=()=>{PC.make=PC.make===b.dataset.pcm?"":b.dataset.pcm;PC.model="";PC.showAll=false;pcControls();pcResults(true)})}
+function pcResults(auto){const r=pcSearch(),el=$("#pc-res");if(!el)return;PC.list=r.list;
+  $("#pc-ambig").innerHTML=r.multi?`<div class="pc-note" style="margin-bottom:14px"><b>${esc(pcT(`${r.qr.toUpperCase()} exists in ${r.exMakes.length} makes. Which car is it?`,`${r.qr.toUpperCase()} existe en ${r.exMakes.length} marcas. ¿De qué carro es?`))}</b><div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">${r.exMakes.map(m=>`<button type="button" class="chip" style="cursor:pointer;font-size:13px;padding:5px 11px" data-pcpick="${esc(m)}">${esc(m)}</button>`).join("")}</div></div>`
+   :r.hint?`<div class="pc-note" style="margin-bottom:14px">${esc(pcT(`That looks like a ${r.hint} code. Pick the make above.`,`Parece código de ${r.hint}. Elige la marca arriba.`))}</div>`:"";
+  const scope=[PC.make&&!PC.showAll?PC.make:"",PC.model,PC.year||""].filter(Boolean).join(" ");
+  let head=`<span>${r.list.length.toLocaleString()} ${r.list.length===1?pcT("code","código"):pcT("codes","códigos")}${scope?" · "+esc(scope):""}</span>`;if(PC.make&&PC.showAll)head+=`<button type="button" class="pc-link" id="pc-only">${pcT("Only","Solo")} ${esc(PC.make)}</button>`;
+  if(!r.q&&!(PC.make&&!PC.showAll)){el.innerHTML=`<div class="pc-head"><span>${PC.db.all.length.toLocaleString()} ${pcT(`paint codes from ${PC.db.makes.length} makes`,`códigos de pintura de ${PC.db.makes.length} marcas`)}</span></div><div class="empty">${pcT("Pick a make, paste the VIN or type the code from the label.","Elige la marca, pega el VIN o escribe el código de la etiqueta.")}</div>`;wirePcRes(r);if(!r.list.length)$("#pc-det").innerHTML="";return}
+  el.innerHTML=`<div class="pc-head">${head}</div>`+(r.list.length?r.list.slice(0,300).map((c,i)=>`<button type="button" class="pc-item" data-pci="${i}" aria-current="${c===PC.cur}"><span class="pc-sw" style="background:${pcBg(c.hex,c.fin)}"></span><span style="min-width:0"><b>${esc(c.code)}</b><span class="pc-nm">${esc(c.make)} · ${esc(c.name)}${c.years?" · "+esc(pcYears(c.years).split(", ").slice(-1)[0]):""}</span></span><span class="chip">${pcFin(c.fin)}</span></button>`).join("")+(r.list.length>300?`<div class="empty" style="font-size:13px">${pcT(`${r.list.length-300} more. Add the year or model to narrow it down.`,`${r.list.length-300} más. Agrega el año o el modelo para acortar la lista.`)}</div>`:"")
+   :`<div class="empty">${PC.make&&!PC.showAll?pcT(`No code “${esc(r.qr)}” for ${esc(PC.make)}${PC.year?" "+PC.year:""}.`,`No hay código “${esc(r.qr)}” para ${esc(PC.make)}${PC.year?" "+PC.year:""}.`)+`<div style="margin-top:10px"><button type="button" class="btn btn-ghost btn-sm" id="pc-all">${pcT("Search all makes","Buscar en todas las marcas")}</button></div>`:pcT("Nothing found. Check the code on the label.","No se encontró. Revisa el código en la etiqueta.")}</div>`);
+  wirePcRes(r);
+  if(auto){if(!r.multi&&r.exact.length===1)pcSelect(r.exact[0]);else if(r.list.length===1&&r.q)pcSelect(r.list[0]);else if(PC.cur&&!r.list.includes(PC.cur)){PC.cur=null;$("#pc-det").innerHTML=""}}}
+function wirePcRes(r){document.querySelectorAll("[data-pci]").forEach(b=>b.onclick=()=>{pcSelect(PC.list[+b.dataset.pci]);if(window.matchMedia("(max-width:860px)").matches)$("#pc-det").scrollIntoView({behavior:"smooth",block:"start"})});
+  document.querySelectorAll("[data-pcpick]").forEach(b=>b.onclick=()=>{PC.make=b.dataset.pcpick;PC.showAll=false;pcControls();pcResults(true)});
+  const a=$("#pc-all");if(a)a.onclick=()=>{PC.showAll=true;pcResults(true)};const o=$("#pc-only");if(o)o.onclick=()=>{PC.showAll=false;pcResults(true)}}
+function pcSelect(c){PC.cur=c;document.querySelectorAll("[data-pci]").forEach(b=>b.setAttribute("aria-current",String(PC.list[+b.dataset.pci]===c)));
+  const saved=S.paint.library.filter(f=>pcNorm(f.code)===pcNorm(c.code)&&(!f.make||f.make.toLowerCase()===c.make.toLowerCase()));
+  const mods=c.mods.slice().sort((a,b)=>natSort(a[0],b[0]));
+  $("#pc-det").innerHTML=`<div class="card" style="overflow:hidden"><div style="height:120px;background:${pcBg(c.hex,c.fin)};border-bottom:1px solid var(--line)"></div>
+   <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+    <div><div style="font-family:var(--display);font-size:clamp(30px,6vw,44px);font-weight:700;line-height:1;word-break:break-all">${esc(c.code)}</div>
+     <div style="font-weight:700;font-size:18px;margin-top:6px">${esc(c.name)}</div>${c.other.length?`<div style="font-size:13px;color:var(--muted)">${pcT("Also called","También llamado")}: ${esc(c.other.join(" · "))}</div>`:""}</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="chip">${esc(c.make)}</span><span class="chip">${pcFin(c.fin)}</span>${c.years?`<span class="chip">${esc(pcYears(c.years))}</span>`:""}${c.alias.length?`<span class="chip">${pcT("Other codes","Otros códigos")}: ${esc(c.alias.join(" "))}</span>`:""}</div>
+    ${mods.length?`<details><summary style="cursor:pointer;font-weight:600;color:var(--bay)">${pcT(`Models (${mods.length})`,`Modelos (${mods.length})`)}</summary><div style="display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font-size:13px;color:var(--muted)">${mods.map(([m,ys])=>`<span><b style="color:var(--ink)">${esc(m)}</b> ${esc(pcYears(ys))}</span>`).join("")}</div></details>`:""}
+    <div style="font-size:12px;color:var(--muted)">${c.exact?pcT("On-screen color is close to the real one, but always check with a spray-out card.","El color en pantalla se acerca al real, pero verifica siempre con carta de prueba."):pcT("On-screen color is only estimated from the name. Check with a spray-out card.","El color en pantalla es solo un estimado por el nombre. Verifica con carta de prueba.")}</div>
+    ${saved.length?`<div class="pc-note">${pcT("Your shop already has a formula for this code.","Tu taller ya tiene fórmula para este código.")} <button type="button" class="btn btn-ghost btn-sm" data-fc="${saved[0].id}">${pcT("Open formula","Abrir fórmula")}</button></div>`:""}
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-paint" id="pc-save">＋ ${pcT("Save as shop formula","Guardar como fórmula del taller")}</button><button type="button" class="btn btn-ghost" id="pc-copy">${pcT("Copy code","Copiar código")}</button></div>
+   </div></div>`;
+  wireFCards();
+  $("#pc-save").onclick=()=>editFormula(null,null,{code:c.code,name:c.name,make:c.make});
+  $("#pc-copy").onclick=()=>{const done=()=>toast(pcT("Copied","Copiado"));try{navigator.clipboard.writeText(c.code).then(done,done)}catch(e){done()}}}
+function wirePaintCodes(){
+  pcLoad().then(()=>{if(!$("#pc-res"))return;pcControls();pcResults(true);if(PC.cur&&PC.list.includes(PC.cur))pcSelect(PC.cur)}).catch(()=>{const el=$("#pc-res");if(el)el.innerHTML=`<div class="empty">${pcT("Couldn't load the paint codes. Check your connection and try again.","No se pudieron cargar los códigos. Revisa tu conexión e intenta de nuevo.")}</div>`});
+  const qi=$("#pc-q");qi.oninput=()=>{PC.q=qi.value;pcResults(true)};qi.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();if(PC.list[0])pcSelect(PC.list[0])}};
+  $("#pc-clear").onclick=()=>{PC.q="";qi.value="";PC.cur=null;$("#pc-det").innerHTML="";pcResults(false);qi.focus()};
+  $("#pc-make").onchange=e=>{PC.make=e.target.value;PC.model="";PC.showAll=false;pcControls();pcResults(true)};
+  $("#pc-year").onchange=e=>{PC.year=+e.target.value;pcResults(true)};
+  $("#pc-model").onchange=e=>{PC.model=e.target.value;pcResults(true)};
+  const vi=$("#pc-vin");vi.oninput=()=>{PC.vin=vi.value;const r=pcDecodeVin(vi.value);PC.vinMsg=r.msg;if(r.make){PC.make=r.make;PC.model="";PC.showAll=false;if(r.year)PC.year=r.year;pcControls();pcResults(true)}else $("#pc-vinmsg").innerHTML=r.msg};
+}
+function lookupPaintCode(o){PC.make="";PC.model="";PC.showAll=false;PC.cur=null;PC.q=o.paintCode||"";PC.vin=o.vin||"";PC.vinMsg="";PC.year=+o.year||0;
+  pcLoad().then(db=>{const m=db.makes.find(k=>k.toLowerCase()===String(o.make||"").trim().toLowerCase());PC.make=m||"";if(!m&&PC.vin){const r=pcDecodeVin(PC.vin);if(r.make)PC.make=r.make}
+    const mm=PC.make&&db.models[PC.make]?db.models[PC.make].find(k=>k.toLowerCase()===String(o.model||"").trim().toLowerCase()):"";PC.model=mm||"";
+    if(openId)closeSheet(true);paintTab="codes";go("pintura")}).catch(()=>{paintTab="codes";go("pintura")})}
+
+function editFormula(id,fromOrder,pre){
+  const f=id?S.paint.library.find(x=>x.id===id):{id:"f"+uid(),code:"",name:"",brand:"",make:"",tn:[{n:"",g:0}],...(pre||{})};
   const draft=JSON.parse(JSON.stringify(f));let mix=draft.tn.reduce((s,x)=>s+ +x.g,0);
   const draw=()=>{const sum=draft.tn.reduce((s,x)=>s+(+x.g||0),0),k=sum?(mix||sum)/sum:0;
     $("#fe-rows").innerHTML=draft.tn.map((x,i)=>`<tr><td><input data-fi="${i}" data-k="n" value="${esc(x.n)}" placeholder="${t("toner")}"></td><td class="r" style="width:90px"><input class="num" style="text-align:right" type="number" step="any" data-fi="${i}" data-k="g" value="${x.g}"></td><td class="r num" style="width:80px"><b>${(x.g*k).toFixed(1)}</b></td><td><button type="button" class="del" data-fd="${i}">×</button></td></tr>`).join("");
@@ -1167,7 +1313,7 @@ function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn
    <div style="flex:1;min-width:0"><div style="font-family:var(--display);font-size:22px;font-weight:700">${esc(o.paintCode||"—")} · ${esc(o.color||"")}</div><div style="color:var(--muted);font-size:13px">${t("formulaHint")}</div></div></div>
    <div class="box-b" style="border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
     ${lib.length?`<button class="btn btn-ghost btn-sm" id="f-fromlib">↓ ${t("fromLib")} (${esc(lib[0].brand)})</button>`:""}
-    <button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
+    <button class="btn btn-ghost btn-sm" id="f-look">🔍 ${S.settings.lang==="es"?"Buscar código":"Look up code"}</button><button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
   <div class="box"><div class="box-b"><div class="form">
    <label>${t("paintBrand")}<input class="input" id="f-brand" list="dl-brands" autocomplete="off" value="${esc(f.brand)}"></label>
    <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" step="any" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
@@ -1236,6 +1382,7 @@ function wireSheet(o){
   sb.querySelectorAll("[data-dtn]").forEach(b=>b.onclick=()=>{o.formula.tn.splice(+b.dataset.dtn,1);save();renderSheet()});
   const at=$("#add-tn");if(at)at.onclick=()=>{o.formula.tn.push({n:"",g:0});save();renderSheet()};
   const fl=$("#f-fromlib");if(fl)fl.onclick=()=>{const L0=S.paint.library.find(x=>x.code.toUpperCase()===o.paintCode.toUpperCase());o.formula={brand:L0.brand,code:L0.code,tn:JSON.parse(JSON.stringify(L0.tn))};save();toast(t("saved"));renderSheet()};
+  const flk=$("#f-look");if(flk)flk.onclick=()=>lookupPaintCode(o);
   const ft=$("#f-tolib");if(ft)ft.onclick=()=>{const code=(o.paintCode||"").toUpperCase();if(!code){toast(t("paintCode")+"?");return}
     const ex=S.paint.library.find(x=>x.code.toUpperCase()===code);const rec={id:ex?.id||"f"+uid(),code,name:o.color||"",brand:o.formula.brand||"",make:o.make,tn:JSON.parse(JSON.stringify(o.formula.tn))};
     if(ex)Object.assign(ex,rec);else S.paint.library.push(rec);save();toast(t("saved"))};
@@ -1825,6 +1972,8 @@ const HELP=[
   en:["How my workers log in","They open dakrastudio.com/colorbay/app.html on their phone.","They tap “Worker”.","They type the shop code (it's in “Settings”) and their PIN."],act:()=>go("ajustes")},
  {who:"owner",es:["Ver lo que ve mi cliente","Abre la orden.","Toca “Vista cliente” arriba.","Ahí ves el avance, la fecha de entrega, las últimas fotos y el saldo."],
   en:["See what my customer sees","Open the order.","Tap “Customer view” at the top.","It shows progress, delivery date, latest photos and balance."],act:()=>{helpOrder("vehicle");if(openId)openCustView(openId)}},
+ {who:"paint",es:["Buscar un código de pintura","Ve a “Pintura” → “Códigos”.","Elige la marca o pega el VIN (así no te sale el mismo código de otra marca).","Escribe el código como viene en la etiqueta: BC/CC U8555, WA8555, C/TR 040…","Toca el resultado para ver nombre, acabado, años y modelos. Con “Guardar como fórmula del taller” lo pasas a tus fórmulas."],
+  en:["Look up a paint code","Go to “Paint” → “Paint codes”.","Pick the make or paste the VIN (so you don't get the same code from another brand).","Type the code as printed on the label: BC/CC U8555, WA8555, C/TR 040…","Tap the result to see name, finish, years and models. “Save as shop formula” adds it to your formulas."],act:()=>{paintTab="codes";go("pintura")}},
  {who:"paint",es:["Guardar una fórmula de pintura","Ve a “Pintura” → “Fórmulas” → “Nueva fórmula”.","Escribe el código, la marca y cada tóner con sus gramos.","En “Preparar (g)” escribe cuánto vas a hacer y los gramos se recalculan.","“Registrar mezcla” anota quién mezcló qué y cuándo."],
   en:["Save a paint formula","Go to “Paint” → “Formulas” → “New formula”.","Type the code, brand and each toner with its grams.","In “Mix (g)” type how much you'll make and the grams recalculate.","“Log mix” records who mixed what and when."],act:()=>{paintTab="library";go("pintura")}},
  {who:"paint",es:["Llevar el inventario de pintura","Ve a “Pintura” → “Inventario”.","Usa − y ＋ para subir o bajar lo que hay.","Si baja del mínimo, aparece “Poco material” en el inicio."],
