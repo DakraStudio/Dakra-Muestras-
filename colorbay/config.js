@@ -10,13 +10,15 @@ window.COLORBAY_CONFIG = {
   // Cobro con Stripe (apagado). Para encenderlo, pega aquí los "Payment Links" de Stripe (https://buy.stripe.com/...).
   // Vacío = no aparece ningún botón de pago. Pasos completos en supabase/LEEME.md → "Encender el cobro con Stripe".
   stripe: {
-    founder: "",   // Taller a precio de fundador · $29/mes
-    solo:    "",   // Solo · $35/mes
-    shop:    "",   // Taller · $69/mes
-    plus:    "",   // Plus · $99/mes
-    solo_y:  "",   // Solo anual · $350/año (opcional)
-    shop_y:  "",   // Taller anual · $690/año (opcional)
-    plus_y:  "",   // Plus anual · $990/año (opcional)
+    founder: "",   // Taller a precio de fundador · $39/mes
+    painter: "",   // Pintor (solo Color Lab) · $15/mes
+    solo:    "",   // Solo · $39/mes
+    shop:    "",   // Taller · $79/mes
+    plus:    "",   // Plus · $109/mes
+    painter_y: "", // Pintor anual · $150/año (opcional)
+    solo_y:  "",   // Solo anual · $390/año (opcional)
+    shop_y:  "",   // Taller anual · $790/año (opcional)
+    plus_y:  "",   // Plus anual · $1,090/año (opcional)
     portal:  ""    // Enlace del portal de clientes de Stripe (para ver o cancelar la suscripción)
   }
 };

@@ -481,7 +481,7 @@ input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width
 input[type=date]::-webkit-date-and-time-value{text-align:left}
 .form>*{min-width:0}
 </style>
-<script src="config.js?v=20261112c"></script>
+<script src="config.js?v=20261113a"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -786,10 +786,12 @@ const NAV=[
  ["clientes","customers",'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.5 5.2"/>'],
  ["reportes","reports",'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'],
  ["ajustes","settings",'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>']];
-const navOk=id=>({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings"),reportes:can("reports")}[id]??true);
+const PAINTER=()=>typeof SHOP!=="undefined"&&!!SHOP&&SHOP.tier==="painter";
+const navOk=id=>PAINTER()?["pintura","ajustes"].includes(id)&&(id!=="ajustes"||can("settings")):({pintura:can("paint"),clientes:can("customers"),ajustes:can("settings"),reportes:can("reports")}[id]??true);
 const PRIMARY=["inicio","ordenes","tablero","citas"];
+const primaryList=()=>PAINTER()?["pintura","ajustes"]:PRIMARY;
 let view="inicio",filter="all",q="",paintTab="codes";
-function navHtml(mobile){const list=NAV.filter(n=>navOk(n[0])&&(!mobile||PRIMARY.includes(n[0])));const extra=mobile&&NAV.some(n=>navOk(n[0])&&!PRIMARY.includes(n[0]));return list.map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")+(extra?`<button class="nav-btn ${PRIMARY.includes(view)?"":"on"}" onclick="openMore()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>${t("more")}</button>`:"")}
+function navHtml(mobile){const list=NAV.filter(n=>navOk(n[0])&&(!mobile||primaryList().includes(n[0])));const extra=mobile&&NAV.some(n=>navOk(n[0])&&!primaryList().includes(n[0]));return list.map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")+(extra?`<button class="nav-btn ${PRIMARY.includes(view)?"":"on"}" onclick="openMore()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>${t("more")}</button>`:"")}
 function navHtmlOld(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
 document.addEventListener("click",e=>{
@@ -807,7 +809,7 @@ function render(){
   setTimeout(()=>syncHelpBtn(),0);
   if(TERMS_GATE){TERMS_GATE.draw();return}
   if(!ME){DEMO?renderLogin():renderCloudLogin();return}
-  if(!navOk(view))view="inicio";
+  if(!navOk(view))view=PAINTER()?"pintura":"inicio";
   $("#root").innerHTML=`<div class="app">
    <aside class="side"><div class="brand">${brandHtml}</div><nav>${navHtml()}</nav>
     <div class="side-foot"><div class="me">${ava(ME)}<div><b>${esc(ME.name)}</b><small>${t("roles")[ME.role]}</small></div></div>
@@ -912,8 +914,8 @@ function swatchColor(c){c=(c||"").toLowerCase();
 function vPaint(){
   const P=S.paint,mon=today().slice(0,7),gm=P.mixes.filter(m=>m.d.startsWith(mon)).reduce((s,m)=>s+ +m.g,0);
   let body="";
-  if(paintTab==="codes")body=vPaintCodes();
-  if(paintTab==="library")body=`<button class="card lab-cta" onclick="openLab({})" type="button"><span class="lab-ic" aria-hidden="true"></span><span style="flex:1;text-align:left"><b>${t("labT")}</b><small>${t("labP")}</small></span><span style="font-size:22px;color:var(--bay)">→</span></button>
+  if(paintTab==="codes")body=`${PAINTER()?obCard():""}`+vPaintCodes();
+  if(paintTab==="library")body=`${PAINTER()?obCard():""}<button class="card lab-cta" onclick="openLab({})" type="button"><span class="lab-ic" aria-hidden="true"></span><span style="flex:1;text-align:left"><b>${t("labT")}</b><small>${t("labP")}</small></span><span style="font-size:22px;color:var(--bay)">→</span></button>
    <div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
    <div class="fgrid stagger" id="flist">${fCards(P.library)}</div>`;
   if(paintTab==="mixes")body=`<div class="stats" style="grid-template-columns:1fr 1fr"><div class="card stat"><span class="bar" style="background:var(--paint)"></span><div class="lbl">${t("gramsMonth")}</div><div class="val num" data-count="${gm}">0</div></div>
@@ -1543,7 +1545,7 @@ Object.assign(L.es,{appts:"Citas",reports:"Reportes",more:"Más",toTrash:"Se fue
  shopInfo:"Datos del taller (salen en estimados y facturas)",address:"Dirección",logo:"Logo",changeLogo:"Subir logo",termsDef:"Gracias por su confianza. El estimado puede cambiar si se encuentran daños ocultos al desarmar.",
  decodeVin:"Leer VIN",vinBad:"El VIN debe tener 17 letras y números.",vinFail:"No se pudo leer ese VIN.",vinOk:"Datos del VIN cargados",
  pricesWho:"¿Quién ve los precios?",techPrices:"Los técnicos ven precios",painterPrices:"Los pintores ven precios",pricesNote:"Si está apagado, los precios ni siquiera llegan a su celular.",
- tierLbl:"Nivel",tiers:{solo:"Solo",shop:"Taller",plus:"Plus"},limitReached:"Tu plan no permite más personas. Escríbenos para subir de plan.",
+ tierLbl:"Nivel",tiers:{painter:"Pintor (Color Lab)",solo:"Solo",shop:"Taller",plus:"Plus"},limitReached:"Tu plan no permite más personas. Escríbenos para subir de plan.",
  plusTitle:"Funciones Plus",plusSms:"Mensajes de texto automáticos al cliente",plusAi:"Asistente con inteligencia artificial: traducir mensajes, dictar el estimado, resumir reportes",soon:"Próximamente",inPlus:"Incluido en tu plan",
  newAppt:"Nueva cita",time:"Hora",noAppts:"No hay citas en estos días.",todayAppts:"Citas de hoy",makeOrder:"Crear orden",apptText:"Recordar por mensaje",past:"Pasadas",upcoming:"Próximas",
  month:"Mes",collected:"Cobrado",billed:"Facturado (entregados)",delivered:"Carros entregados",received:"Carros recibidos",avgDays:"Días promedio en el taller",owedNow:"Por cobrar hoy",owedIns:"Lo deben aseguradoras",owedCust:"Lo deben clientes",
@@ -1556,7 +1558,7 @@ Object.assign(L.en,{appts:"Appointments",reports:"Reports",more:"More",toTrash:"
  shopInfo:"Shop details (shown on estimates and invoices)",address:"Address",logo:"Logo",changeLogo:"Upload logo",termsDef:"Thank you for your business. The estimate may change if hidden damage is found during teardown.",
  decodeVin:"Read VIN",vinBad:"The VIN must have 17 letters and numbers.",vinFail:"Could not read that VIN.",vinOk:"VIN details loaded",
  pricesWho:"Who sees prices?",techPrices:"Technicians see prices",painterPrices:"Painters see prices",pricesNote:"When off, prices never even reach their phone.",
- tierLbl:"Tier",tiers:{solo:"Solo",shop:"Shop",plus:"Plus"},limitReached:"Your plan doesn't allow more people. Text us to upgrade.",
+ tierLbl:"Tier",tiers:{painter:"Painter (Color Lab)",solo:"Solo",shop:"Shop",plus:"Plus"},limitReached:"Your plan doesn't allow more people. Text us to upgrade.",
  plusTitle:"Plus features",plusSms:"Automatic text messages to customers",plusAi:"AI assistant: translate messages, dictate estimates, summarize reports",soon:"Coming soon",inPlus:"Included in your plan",
  newAppt:"New appointment",time:"Time",noAppts:"No appointments these days.",todayAppts:"Today's appointments",makeOrder:"Create order",apptText:"Text reminder",past:"Past",upcoming:"Upcoming",
  month:"Month",collected:"Collected",billed:"Billed (delivered)",delivered:"Cars delivered",received:"Cars received",avgDays:"Average days in shop",owedNow:"Owed today",owedIns:"Owed by insurers",owedCust:"Owed by customers",
@@ -1833,14 +1835,14 @@ new MutationObserver(()=>{clearTimeout(enhanceCombos.t);enhanceCombos.t=setTimeo
    Se enciende solo cuando pegas los Payment Links en config.js → stripe. Mientras estén vacíos, no aparece ningún botón de pago.
    El webhook (supabase/functions/stripe-webhook) activa el plan automáticamente con el id del taller (client_reference_id). */
 const STRIPE=(window.COLORBAY_CONFIG||{}).stripe||{};let USER_EMAIL="";
-const stripeOn=()=>["solo","shop","plus","founder"].some(k=>/^https:\/\//.test(STRIPE[k]||""));
+const stripeOn=()=>["painter","solo","shop","plus","founder"].some(k=>/^https:\/\//.test(STRIPE[k]||""));
 function payUrl(k){const u=STRIPE[k];if(!u||!SHOP)return"";const q=new URLSearchParams({client_reference_id:SHOP.id});if(USER_EMAIL)q.set("prefilled_email",USER_EMAIL);return u+(u.includes("?")?"&":"?")+q}
 function portalUrl(){const u=STRIPE.portal||"";return u&&USER_EMAIL?u+(u.includes("?")?"&":"?")+"prefilled_email="+encodeURIComponent(USER_EMAIL):u}
 function payBtns(dark){
-  const P=[["founder",t("payFounder"),"$29"],["solo","Solo","$35"],["shop",t("tiers").shop,"$69"],["plus","Plus","$99"]].filter(([k])=>/^https:\/\//.test(STRIPE[k]||""));
+  const P=[["founder",t("payFounder"),"$39"],["painter",t("tiers").painter,"$15"],["solo","Solo","$39"],["shop",t("tiers").shop,"$79"],["plus","Plus","$109"]].filter(([k])=>/^https:\/\//.test(STRIPE[k]||""));
   const sty=dark?"color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)":"";
   return`<div style="display:flex;flex-direction:column;gap:8px">${P.map(([k,n,p],i)=>`<a class="btn ${i===0?"btn-paint":"btn-ghost"} pay-btn" data-pay="${k}" href="${esc(payUrl(k))}" target="_blank" rel="noopener" style="text-decoration:none;justify-content:space-between;${i?sty:""}"><span>${esc(n)}</span><b>${p}${t("perMo")}</b></a>`).join("")}
-   ${["solo_y","shop_y","plus_y"].some(k=>STRIPE[k])?`<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:14px">${t("yearly")}: ${[["solo_y","Solo"],["shop_y",t("tiers").shop],["plus_y","Plus"]].filter(([k])=>STRIPE[k]).map(([k,n])=>`<a href="${esc(payUrl(k))}" target="_blank" rel="noopener">${esc(n)}</a>`).join(" · ")}</div>`:""}
+   ${["painter_y","solo_y","shop_y","plus_y"].some(k=>STRIPE[k])?`<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:14px">${t("yearly")}: ${[["painter_y",t("tiers").painter],["solo_y","Solo"],["shop_y",t("tiers").shop],["plus_y","Plus"]].filter(([k])=>STRIPE[k]).map(([k,n])=>`<a href="${esc(payUrl(k))}" target="_blank" rel="noopener">${esc(n)}</a>`).join(" · ")}</div>`:""}
    <small style="opacity:.75">🔒 ${t("payNote")}</small></div>`}
 /* Al volver de pagar (Stripe → app.html?paid=1): esperar a que el webhook active el plan */
 async function paidReturn(){if(!/[?&]paid=1/.test(location.search)||!sb||!SHOP)return;history.replaceState(null,"",location.pathname);toast(t("payThanks"));
@@ -1908,7 +1910,7 @@ function labPull(){const o={};LAB_KEYS.forEach(k=>{try{const v=localStorage.getI
 function openLab(p){
   if(!can("paint"))return;
   const lab=S.settings.lab||{};LAB_KEYS.forEach(k=>{try{if(lab[k]!==undefined)localStorage.setItem("tdc."+k,JSON.stringify(lab[k]))}catch(e){}});
-  const q=new URLSearchParams({embed:"1",lang:S.settings.lang||"en"});["make","year","vin","code","order"].forEach(k=>{if(p[k])q.set(k,p[k])});
+  const q=new URLSearchParams({embed:"1",lang:S.settings.lang||"en"});["make","year","vin","code","order","tab"].forEach(k=>{if(p[k])q.set(k,p[k])});
   closeLab(true);const d=document.createElement("div");d.id="labwrap";d.innerHTML=`<iframe src="color.html?${q}" title="Color Lab" allow="clipboard-write"></iframe>`;
   document.body.appendChild(d);document.body.classList.add("lock");
 }
@@ -1933,6 +1935,7 @@ Object.assign(L.en,{labT:"Color Lab: look up any paint code",labP:"22,698 codes 
 function obSteps(){
   const s=S.settings,ob=s.ob||{},solo=(typeof SHOP!=="undefined"&&SHOP&&SHOP.tier==="solo");
   const standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+  if(PAINTER())return[{k:"toners",done:!!((s.lab||{}).toners2&&Object.keys(((s.lab||{}).toners2||{}).codes||{}).length)||!!ob.toners,ok:1},{k:"formula",done:S.paint.library.length>0},{k:"install",done:!!ob.install||standalone,ok:1}];
   return[
     {k:"shop",done:!!(s.shop&&s.phone&&s.address)},
     {k:"rates",done:!!ob.rates,ok:1},
@@ -1965,19 +1968,23 @@ function obGo(k){
   else if(k==="photos"){if(!last)return newOrder();openOrder(last.id);setTimeout(()=>{const tb=document.querySelector(`#sheet .tab[onclick*="'inspection'"]`);tb&&tb.click()},150)}
   else if(k==="pdf"){if(!last)return newOrder();openDoc(last.id,"estimate")}
   else if(k==="install")toSet("#quick-card");
+  else if(k==="toners")openLab({tab:"tintes"});
+  else if(k==="formula")openLab({});
 }
 Object.assign(L.es,{obT:"Primeros pasos",obP:"Termina estos pasos y tu taller queda listo para trabajar. Se palomean solos.",obDoneT:"¡Tu taller está listo!",obDoneP:"Completaste todos los pasos. Ya puedes trabajar con ColorBay todos los días.",
   obMark:"Ya lo hice",obOpt:"opcional",obHide:"Ocultar por ahora",obHideDone:"Quitar esta tarjeta",
   ob:{shop:["Completa los datos de tu taller","Nombre, dirección y teléfono: salen en tus estimados y facturas."],rates:["Revisa tus precios","Mano de obra, pintura e impuesto. Cámbialos si no son los tuyos."],
     logo:["Sube tu logo","Se ve en tus estimados y facturas en PDF."],team:["Agrega a tu equipo","Técnicos y pintores, cada uno con su PIN."],
     order:["Crea tu primera orden","Cliente y carro en menos de un minuto."],photos:["Toma las fotos de entrada","Las fotos de todos los ángulos te protegen si hay reclamos."],
-    pdf:["Abre tu primer estimado en PDF","Para mandarlo o imprimirlo para tu cliente."],install:["Ponla en la pantalla de inicio","Ábrela como una app, con un toque."]}});
+    pdf:["Abre tu primer estimado en PDF","Para mandarlo o imprimirlo para tu cliente."],install:["Ponla en la pantalla de inicio","Ábrela como una app, con un toque."],
+    toners:["Pon tus tintes","Escoge tu marca (PPG, Axalta…) y escribe tus códigos y precios: las fórmulas salen con tus tintes y su costo."],formula:["Guarda tu primera fórmula","Busca un código en Color Lab y guárdalo en tu biblioteca."]}});
 Object.assign(L.en,{obT:"Getting started",obP:"Finish these steps and your shop is ready to work. They check themselves off.",obDoneT:"Your shop is ready!",obDoneP:"You finished every step. You're set to run your shop with ColorBay every day.",
   obMark:"I did it",obOpt:"optional",obHide:"Hide for now",obHideDone:"Remove this card",
   ob:{shop:["Complete your shop details","Name, address and phone: they show on your estimates and invoices."],rates:["Check your rates","Labor, paint and tax. Change them if they aren't yours."],
     logo:["Upload your logo","It shows on your PDF estimates and invoices."],team:["Add your team","Technicians and painters, each with their own PIN."],
     order:["Create your first order","Customer and car in under a minute."],photos:["Take the check-in photos","Photos from every angle protect you if there's a claim."],
-    pdf:["Open your first PDF estimate","To send or print it for your customer."],install:["Add it to your home screen","Open it like an app, in one tap."]}});
+    pdf:["Open your first PDF estimate","To send or print it for your customer."],install:["Add it to your home screen","Open it like an app, in one tap."],
+    toners:["Set up your toners","Pick your brand (PPG, Axalta…) and enter your codes and prices: formulas come out with your toners and their cost."],formula:["Save your first formula","Look up a code in Color Lab and save it to your library."]}});
 
 /* ================== Ayuda dentro de la app ================== */
 const HKEY="colorbay-help-off";
@@ -2197,6 +2204,7 @@ async function enterShop(){
     renderShell(`<h1 style="font-size:32px">${t("pendingShop")}</h1>`);
     const r=await sb.rpc("create_shop",{p_name:pending.shop,p_owner:pending.name,p_pin:pending.pin,p_phone:pending.phone||null});
     if(!r.error&&pending.ref)try{await sb.rpc("set_referral",{p_shop:r.data,p_code:pending.ref})}catch(e){}
+    if(!r.error&&pending.tier==="painter")try{await sb.rpc("set_my_tier",{p_shop:r.data,p_tier:"painter"})}catch(e){}
     if(!r.error){try{localStorage.removeItem("colorbay-pending-shop")}catch(e){}({data:mem}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id))}
   }
   if(!mem?.length){renderShell(`<h1 style="font-size:32px">${t("noShop")}</h1><div class="shopname">${esc(user.email||"")}</div>

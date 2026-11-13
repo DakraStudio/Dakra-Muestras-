@@ -90,7 +90,8 @@ td.y{color:var(--ok);font-weight:700}td.n{color:var(--muted)}
 .toggle{display:inline-flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px;margin-bottom:22px}
 .toggle button{border:0;background:none;border-radius:999px;padding:8px 16px;font-weight:600;cursor:pointer;color:var(--muted);font-size:15px}
 .toggle button.on{background:var(--ink);color:var(--surface)}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
+@media (max-width:1180px){.plans{grid-template-columns:repeat(2,1fr)}}
 .plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px;position:relative;transition:transform .2s}
 .plan:hover{transform:translateY(-3px)}
 .plan.best{border:2px solid var(--paint);box-shadow:0 18px 40px rgba(232,84,28,.15)}
@@ -119,6 +120,11 @@ input::placeholder{color:rgba(255,255,255,.45)}
 .err{color:#ffb39a;font-size:14px;min-height:1em}
 .keypts{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.45}
 .keypts ul{margin:6px 0 0;padding-left:18px}.keypts li{margin:4px 0}
+.pickplan{display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;opacity:.95}
+.pickplan .pp{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;text-transform:none;letter-spacing:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:10px 12px;cursor:pointer}
+.pickplan .pp input{grid-row:span 2;width:20px;height:20px;accent-color:var(--paint);margin:0}
+.pickplan .pp b{font-size:16px}.pickplan .pp small{font-size:13px;font-weight:500;opacity:.8}
+.pickplan .pp:has(input:checked){border-color:var(--paint);background:rgba(232,84,28,.15)}
 label.agree{flex-direction:row;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-size:15px;font-weight:500;line-height:1.4;cursor:pointer}
 label.agree input{width:22px;height:22px;flex:none;margin:0;padding:0;accent-color:var(--paint)}
 label.agree a{color:#fff;text-decoration:underline}
@@ -135,7 +141,7 @@ footer b{color:#fff}
 <script>/* Código de promotor: si alguien llega con ?ref=CODIGO se guarda 60 días para el registro */
 (function(){try{const r=(new URLSearchParams(location.search).get("ref")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
  if(r.length>=3)localStorage.setItem("colorbay-ref",JSON.stringify({c:r,t:Date.now()}))}catch(e){}})();</script>
-<script src="config.js?v=20261112c"></script>
+<script src="config.js?v=20261113a"></script>
 </head>
 <body>
 <header class="nav"><div class="wrap">
@@ -189,7 +195,7 @@ footer b{color:#fff}
 
 <section id="comparar"><span class="tape" data-en="Compare">Comparar</span><h2 data-en="Notebook, big systems or ColorBay">Libreta, sistemas grandes o ColorBay</h2>
  <div class="tbl-wrap"><table><thead><tr><th></th><th data-en="Notebook">Libreta</th><th data-en="Big systems">Sistemas grandes</th><th class="us">ColorBay Shop</th></tr></thead><tbody>
-  <tr><td data-en="Price per month">Precio al mes</td><td>$0</td><td data-en="$99 to $199 or more">$99 a $199 o más</td><td><b data-en="$35 to $99">$35 a $99</b></td></tr>
+  <tr><td data-en="Price per month">Precio al mes</td><td>$0</td><td data-en="$99 to $199 or more">$99 a $199 o más</td><td><b data-en="$15 to $109">$15 a $109</b></td></tr>
   <tr><td data-en="In Spanish">En español</td><td class="y">✓</td><td class="n" data-en="Rarely">Casi nunca</td><td class="y">✓</td></tr>
   <tr><td data-en="Photos with date and time">Fotos con fecha y hora</td><td class="n">—</td><td class="y">✓</td><td class="y">✓</td></tr>
   <tr><td data-en="Paint formulas">Fórmulas de pintura</td><td class="n" data-en="On paper">En papel</td><td class="n" data-en="Separate system">Sistema aparte</td><td class="y">✓</td></tr>
@@ -201,14 +207,16 @@ footer b{color:#fff}
 <section id="precios"><span class="tape" data-en="Pricing">Precios</span><h2 data-en="Simple plans, no contract">Planes simples, sin contrato</h2>
  <div class="toggle" role="group"><button class="on" data-bill="m" data-en="Monthly">Mensual</button><button data-bill="y" data-en="Yearly · 2 months free">Anual · 2 meses gratis</button></div>
  <div class="plans">
-  <div class="plan"><h3 data-en="Solo">Solo</h3><p class="who" data-en="Painter or body tech working alone">Pintor u hojalatero que trabaja solo</p><div class="amt" data-m="35">$35<small data-en=" /month"> /mes</small></div>
-   <ul><li data-en="1 user">1 usuario</li><li data-en="Orders, photos and inspection report">Órdenes, fotos y reporte de inspección</li><li data-en="Estimates, PDF invoices and payments">Estimados, facturas PDF y cobros</li><li data-en="Appointments, reports and VIN reader">Citas, reportes y lector de VIN</li><li data-en="Paint formulas and inventory">Fórmulas e inventario de pintura</li><li data-en="30-day trash bin">Papelera de 30 días</li></ul><a class="btn btn-ghost" href="#prueba" data-en="Start free">Empezar gratis</a></div>
-  <div class="plan best"><span class="tape badge" data-en="Most popular">El más pedido</span><h3 data-en="Shop">Taller</h3><p class="who" data-en="Shops with 2 to 5 people">Talleres de 2 a 5 personas</p><div class="amt" data-m="69">$69<small data-en=" /month"> /mes</small></div>
-   <ul><li data-en="Up to 5 people with PIN">Hasta 5 personas con PIN</li><li data-en="Everything in Solo">Todo lo de Solo</li><li data-en="You choose who sees prices">Tú decides quién ve los precios</li><li data-en="Mix log by painter">Registro de mezclas por pintor</li><li data-en="Customer progress page">Página de avance para el cliente</li></ul><a class="btn btn-paint" href="#prueba" data-en="Start free">Empezar gratis</a></div>
-  <div class="plan"><h3 data-en="Shop Plus">Taller Plus</h3><p class="who" data-en="Busy shops">Talleres con mucho trabajo</p><div class="amt" data-m="99">$99<small data-en=" /month"> /mes</small></div>
-   <ul><li data-en="Unlimited people">Personas ilimitadas</li><li data-en="Everything in Shop">Todo lo de Taller</li><li data-en="Automatic texts to customers (coming soon)">Mensajes automáticos al cliente (próximamente)</li><li data-en="AI assistant: translate, dictate, summarize (coming soon)">Asistente con IA: traducir, dictar, resumir (próximamente)</li></ul><a class="btn btn-ghost" href="#prueba" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan"><h3 data-en="Painter">Pintor</h3><p class="who" data-en="Painters who mix their own paint">Pintores que preparan su propia pintura</p><div class="amt" data-m="15">$15<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="Color Lab only, 1 user">Solo Color Lab, 1 usuario</li><li data-en="22,698 paint codes from 60 makes, by label or VIN">22,698 códigos de pintura de 60 marcas, por etiqueta o VIN</li><li data-en="Starting formula in grams for your scale">Fórmula de arranque en gramos para tu báscula</li><li data-en="Shade variations with the grams to add">Variaciones con los gramos a agregar</li><li data-en="Your toner brand, codes and cost per mix">Tu marca de tintes, sus códigos y el costo de cada mezcla</li><li data-en="Formulas and paint inventory saved in the cloud">Fórmulas e inventario de pintura guardados en la nube</li><li data-en="Paint Coach: 25 common painting questions">Asesor de pintura: 25 preguntas frecuentes</li></ul><a class="btn btn-ghost" href="#prueba" data-plan="painter" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan"><h3 data-en="Solo">Solo</h3><p class="who" data-en="Painter or body tech working alone">Pintor u hojalatero que trabaja solo</p><div class="amt" data-m="39">$39<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="1 user">1 usuario</li><li data-en="Orders, photos and inspection report">Órdenes, fotos y reporte de inspección</li><li data-en="Estimates, PDF invoices and payments">Estimados, facturas PDF y cobros</li><li data-en="Appointments, reports and VIN reader">Citas, reportes y lector de VIN</li><li data-en="Color Lab included, linked to each order">Color Lab incluido, ligado a cada orden</li><li data-en="30-day trash bin">Papelera de 30 días</li></ul><a class="btn btn-ghost" href="#prueba" data-plan="shop" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan best"><span class="tape badge" data-en="Most popular">El más pedido</span><h3 data-en="Shop">Taller</h3><p class="who" data-en="Shops with 2 to 5 people">Talleres de 2 a 5 personas</p><div class="amt" data-m="79">$79<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="Up to 5 people with PIN">Hasta 5 personas con PIN</li><li data-en="Everything in Solo">Todo lo de Solo</li><li data-en="Color Lab for your painters">Color Lab para tus pintores</li><li data-en="You choose who sees prices">Tú decides quién ve los precios</li><li data-en="Mix log by painter">Registro de mezclas por pintor</li></ul><a class="btn btn-paint" href="#prueba" data-plan="shop" data-en="Start free">Empezar gratis</a></div>
+  <div class="plan"><h3 data-en="Shop Plus">Taller Plus</h3><p class="who" data-en="Busy shops">Talleres con mucho trabajo</p><div class="amt" data-m="109">$109<small data-en=" /month"> /mes</small></div>
+   <ul><li data-en="Unlimited people">Personas ilimitadas</li><li data-en="Everything in Shop">Todo lo de Taller</li><li data-en="Automatic texts to customers (coming soon)">Mensajes automáticos al cliente (próximamente)</li><li data-en="AI assistant and AI Paint Coach (coming soon)">Asistente con IA y asesor de pintura con IA (próximamente)</li></ul><a class="btn btn-ghost" href="#prueba" data-plan="shop" data-en="Start free">Empezar gratis</a></div>
  </div>
- <p class="note" data-en="Founders: the first 5 shops get 60 days free and then the Shop plan at $29/month for life.">Fundadores: los primeros 5 talleres tienen 60 días gratis y después el plan Taller a $29/mes de por vida.</p></section>
+ <p class="note" data-en="All plans: 60 days free, no card, cancel anytime. Founders: the first 5 shops get the Shop plan at $39/month for life.">Todos los planes: 60 días gratis, sin tarjeta, cancelas cuando quieras. Fundadores: los primeros 5 talleres tienen el plan Taller a $39/mes de por vida.</p></section>
 
 <section id="preguntas"><span class="tape" data-en="Questions">Preguntas</span><h2 data-en="What shops ask us">Lo que nos preguntan</h2>
  <details><summary data-en="Do I need to install anything?">¿Tengo que instalar algo?</summary><p data-en="No. It opens in the browser on any phone or computer. On the phone you can add it to the home screen like an app.">No. Se abre en el navegador de cualquier celular o computadora. En el celular puedes ponerla en la pantalla de inicio como una app.</p></details>
@@ -224,6 +232,9 @@ footer b{color:#fff}
   <p id="local-note" style="margin-top:14px;font-size:14px;opacity:.7" data-en="This trial version saves on this device. It replaces the sample shop on this browser.">Esta versión de prueba guarda en este aparato. Reemplaza al taller de ejemplo en este navegador.</p>
   <p style="margin-top:18px"><a href="app.html?demo=1" style="color:#fff" data-en="Rather see the sample shop first →">Prefiero ver primero el taller de ejemplo →</a></p></div>
  <form id="tf" novalidate>
+  <div class="pickplan" role="radiogroup"><span data-en="What do you need?">¿Qué necesitas?</span>
+   <label class="pp"><input type="radio" name="t-tier" value="shop" checked><b data-en="Run my shop">Manejar mi taller</b><small data-en="Orders, photos, estimates, invoices + Color Lab">Órdenes, fotos, estimados, facturas + Color Lab</small></label>
+   <label class="pp"><input type="radio" name="t-tier" value="painter"><b data-en="Only paint formulas">Solo fórmulas de pintura</b><small data-en="Color Lab for painters · $15/mo after the trial">Color Lab para pintores · $15/mes después de la prueba</small></label></div>
   <label><span data-en="Shop name">Nombre del taller</span><input id="t-shop" autocomplete="organization" placeholder="Taller Hernández"></label>
   <label><span data-en="Your name">Tu nombre</span><input id="t-name" autocomplete="name"></label>
   <div id="cloud-fields" class="row2" hidden><label><span data-en="Email">Correo</span><input id="t-email" type="email" autocomplete="email"></label>
@@ -251,6 +262,9 @@ document.querySelectorAll("[data-en]").forEach(e=>e.dataset.es=e.innerHTML);
 function setLang(l){lang=l;document.documentElement.lang=l;document.title=l==="en"?"ColorBay Shop · Features & Pricing":"ColorBay Shop · Funciones y precios";document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
   document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=l==="en"?"ES":"EN";b.setAttribute("aria-label",l==="en"?"Español":"English")});try{localStorage.setItem(LK,l)}catch(e){}bill(billing)}
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(document.documentElement.lang==="en"?"es":"en"));
+/* el botón de cada plan escoge la opción en el registro */
+document.querySelectorAll("[data-plan]").forEach(b=>b.addEventListener("click",()=>{const r=document.querySelector('[name="t-tier"][value="'+b.dataset.plan+'"]');if(r)r.checked=true}));
+if(/[?&]plan=painter/.test(location.search)){const r=document.querySelector('[name="t-tier"][value="painter"]');if(r)r.checked=true}
 /* precios mensual / anual */
 let billing="m";
 function bill(m){billing=m;document.querySelectorAll("[data-bill]").forEach(b=>b.classList.toggle("on",b.dataset.bill===m));
@@ -278,7 +292,7 @@ async function cloudSignup(f,err,btn){
   try{if(!window.supabase)try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
     const sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{storageKey:"colorbay-app-auth",persistSession:true}});
     const ref=document.getElementById("t-ref").value.toUpperCase().replace(/[^A-Z0-9]/g,"");
-    try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone,ref}))}catch(e){}
+    try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone,ref,tier:(document.querySelector('[name="t-tier"]:checked')||{}).value||"shop"}))}catch(e){}
     const{data,error}=await sb.auth.signUp({email:f.email,password:f.pass,options:{data:{name:f.name},emailRedirectTo:location.href.replace(/info\.html.*$/,"app.html")}});
     if(error){btn.disabled=false;msg(/registered|exists/i.test(error.message)?"Ese correo ya tiene cuenta. Entra desde la app.":"No se pudo crear la cuenta: "+error.message,/registered|exists/i.test(error.message)?"That email already has an account. Log in from the app.":"Could not create the account: "+error.message);return}
     if(!data.session){btn.disabled=false;msg("Revisa tu correo y confirma tu cuenta. Después entra a la app con tu correo y contraseña.","Check your email to confirm your account. Then log in to the app with your email and password.");return}
@@ -287,6 +301,7 @@ async function cloudSignup(f,err,btn){
     try{localStorage.removeItem("colorbay-pending-shop");localStorage.setItem("colorbay-shop-id",r.data)}catch(e){}
     try{await sb.rpc("accept_terms",{p_version:TERMS_V,p_shop:r.data,p_agent:navigator.userAgent})}catch(e){}
     if(ref)try{await sb.rpc("set_referral",{p_shop:r.data,p_code:ref})}catch(e){}
+    const tier=(document.querySelector('[name="t-tier"]:checked')||{}).value||"shop";if(tier==="painter")try{await sb.rpc("set_my_tier",{p_shop:r.data,p_tier:"painter"})}catch(e){}
     location.href="app.html";
   }catch(e){btn.disabled=false;msg("No hay conexión. Intenta de nuevo.","No connection. Try again.")}
 }

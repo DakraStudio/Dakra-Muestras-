@@ -27,6 +27,9 @@ create table if not exists public.shops(
 alter table public.shops add column if not exists tier text not null default 'shop';
 do $$ begin alter table public.shops add constraint shops_tier_chk check (tier in ('solo','shop','plus'));
 exception when duplicate_object then null; end $$;
+-- Plan "Painter": solo Color Lab (fórmulas y códigos de pintura) para pintores
+alter table public.shops drop constraint if exists shops_tier_chk;
+alter table public.shops add constraint shops_tier_chk check (tier in ('painter','solo','shop','plus'));
 -- Términos aceptados por el dueño y datos de cobro con Stripe (se llenan solos)
 alter table public.shops add column if not exists terms_version   text;
 alter table public.shops add column if not exists terms_at        timestamptz;
@@ -235,7 +238,7 @@ begin
   if p_pin !~ '^[0-9]{4}$' then raise exception 'bad_pin'; end if;
   if exists(select 1 from workers where shop_id = p_shop and pin_hash = crypt(p_pin, pin_hash)) then raise exception 'pin_taken'; end if;
   -- Límite de personas por nivel: Solo = solo el dueño, Taller = 5, Plus = sin límite.
-  if (select tier from shops where id = p_shop) = 'solo' then raise exception 'limit_reached'; end if;
+  if (select tier from shops where id = p_shop) in ('solo','painter') then raise exception 'limit_reached'; end if;
   if (select tier from shops where id = p_shop) = 'shop' and (select count(*) from workers where shop_id = p_shop) >= 5 then raise exception 'limit_reached'; end if;
   insert into workers(shop_id, name, role, pin_hash) values (p_shop, p_name, p_role, crypt(p_pin, gen_salt('bf'))) returning id into w;
   return w;
@@ -652,6 +655,17 @@ begin
   return pid;
 end $$;
 grant execute on function public.admin_pay_promoter(uuid, bigint[], text, text) to authenticated;
+
+-- Al registrarse, el dueño escoge si quiere el software del taller o solo Color Lab (plan Painter)
+create or replace function public.set_my_tier(p_shop uuid, p_tier text) returns text
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.my_role(p_shop) is distinct from 'owner' then raise exception 'not_owner'; end if;
+  if p_tier not in ('painter','shop') then return 'invalid'; end if;
+  update shops set tier = p_tier where id = p_shop and plan = 'trial';
+  return 'ok';
+end $$;
+grant execute on function public.set_my_tier(uuid, text) to authenticated;
 
 -- Panel: marcar un taller como revisado
 create or replace function public.admin_seen(p_shop uuid) returns void

@@ -1522,5 +1522,6 @@ window.addEventListener('scroll',onScroll,{passive:true});
 const showStats=()=>{const el=$('#dbstats');if(el)el.textContent=DBINFO?t('db.stats',DBINFO.codes,DBINFO.makes):''};
 const dbP=loadDB().then(showStats);
 applyLang();riseReady=true;observeRise();route();demoNext();
+{const tb=CBQ.get('tab');if(tb){const b=document.querySelector('.tab[data-v="'+tb+'"]');if(b)setTimeout(()=>b.click(),50)}}
 })();
 </script>

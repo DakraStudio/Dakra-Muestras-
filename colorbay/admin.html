@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="config.js?v=20261112c"></script>
+<script src="config.js?v=20261113a"></script>
 <style>
 /* Panel solo para Dakra Studio: lista de talleres con plan, estado y acciones */
 :root{--navy:#0c2347;--bay:#1456b8;--paint:#e8541c;--tape:#e9d9a8;--ok:#1f8a4c;--bad:#c2352b;--warn:#b7791f;
@@ -119,16 +119,16 @@ const CFG=window.COLORBAY_CONFIG||{};let ENDING=null,OPEN_SHOP=null,PAYING=null,
 const METHODS=["Zelle","Efectivo","Cash App","PayPal","Cheque","Venmo","Otro"];
 const feeOf=x=>x.source==="stripe"?(x.fee!=null?+x.fee:Math.round((x.amount*0.036+0.30)*100)/100):0;  /* tarjeta: real o aprox (2.9%+30¢ +0.7% Billing) */
 let sb=null,SHOPS=[],q="",fil="all",TAB="pend",PROMOS=[],COMMS=[],PAYS=[],PROMO_ERR="",EDIT=null;
-const PRICE={solo:35,shop:69,plus:99};
+const PRICE={painter:15,solo:39,shop:79,plus:109};
 const AGREEMENT_V="2026-11-13";   /* misma versión que promotor.html */
 const portalLink=p=>location.href.replace(/admin\.html.*$/,"")+"promotor.html?t="+p.accept_token;
 const needsAccept=p=>p.mode!=="credit"&&!p.ended_at&&p.accepted_version!==AGREEMENT_V;
 const payableOf=p=>COMMS.filter(c=>c.promoter_id===p.id&&c.status==="owed"&&c.kind!=="credit"&&(c.kind==="clawback"||Date.now()-Date.parse(c.created_at)>=30*864e5));
-const priceOf=s=>s.plan==="founder"?29:(PRICE[s.tier]||69);
+const priceOf=s=>s.plan==="founder"?39:(PRICE[s.tier]||79);
 const money=n=>"$"+Number(n||0).toFixed(2);
 const PLAN={trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"};
 const PC={trial:"#b7791f",paid:"#1f8a4c",founder:"#1456b8",courtesy:"#8e6bd8"};
-const TIER={solo:"Solo · 1 persona",shop:"Taller · hasta 5",plus:"Plus · sin límite"};
+const TIER={painter:"Pintor · solo Color Lab ($15)",solo:"Solo · 1 persona ($39)",shop:"Taller · hasta 5 ($79)",plus:"Plus · sin límite ($109)"};
 function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove("on"),2200)}
 const fmt=d=>d?new Date(d).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}):"—";
 const daysLeft=d=>Math.ceil((new Date(d)-new Date())/864e5);

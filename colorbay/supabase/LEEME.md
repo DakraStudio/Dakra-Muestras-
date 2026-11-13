@@ -39,7 +39,8 @@ Todo ya está programado; solo está apagado. Mientras `config.js → stripe` es
 
 1. **Crea tu cuenta en stripe.com** (gratis; cobran ~2.9% + 30¢ por pago). Empieza en *modo de prueba* (Test mode).
 2. **Crea los productos** (Productos → Agregar producto), cada uno con precio *recurrente mensual*:
-   Fundador $29 · Solo $35 · Taller $69 · Plus $99. Si quieres, agrega también precios anuales ($350, $690, $990).
+   Fundador $39 · Pintor $15 · Solo $39 · Taller $79 · Plus $109. Si quieres, agrega también precios anuales
+   ($150, $390, $790, $1,090: 2 meses gratis).
    Copia el **ID de cada precio** (empieza con `price_...`).
 3. **Crea un Payment Link por cada precio** (Payment Links → Nuevo). En "Después del pago" escoge
    *Redirigir a tu sitio* y pon: `https://dakrastudio.com/colorbay/app.html?paid=1`
@@ -51,7 +52,7 @@ Todo ya está programado; solo está apagado. Mientras `config.js → stripe` es
    Luego en la función, en *Details*, **apaga "Enforce JWT verification"** (Stripe no manda esa llave).
 6. **Guarda los secretos** (Edge Functions → Secrets):
    - `STRIPE_SECRET_KEY` = tu llave secreta de Stripe (`sk_test_...` para pruebas)
-   - `PRICE_TIERS` = `{"price_FUNDADOR":"founder","price_SOLO":"solo","price_TALLER":"shop","price_PLUS":"plus"}`
+   - `PRICE_TIERS` = `{"price_FUNDADOR":"founder","price_PINTOR":"painter","price_SOLO":"solo","price_TALLER":"shop","price_PLUS":"plus"}`
      (cambia cada `price_...` por los tuyos; los anuales también, con el mismo nivel)
 7. **Crea el webhook en Stripe** (Desarrolladores → Webhooks → Agregar destino):
    URL: `https://gjnkwxmkwuqrsbocigdw.supabase.co/functions/v1/stripe-webhook`
