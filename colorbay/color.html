@@ -627,7 +627,7 @@ const S={
  'more':[n=>`${n.toLocaleString('en-US')} more. Pick a make or year, or type part of the code.`,n=>`${n.toLocaleString('es-MX')} más. Elige marca o año, o escribe parte del código.`],
  'f.model':['Model','Modelo'],'f.anymodel':['Any model','Cualquier modelo'],'f.nomodel':['Model (pick a make)','Modelo (elige marca)'],
  'd.models':[n=>`Used on ${n} model${n===1?'':'s'}`,n=>`Se usó en ${n} modelo${n===1?'':'s'}`],
- 'd.years':['Years:','Años:'],'d.estpill':['Estimated color · check with a card','Color estimado · verifica con carta'],'d.names':['Also called:','También se llama:'],
+ 'd.years':['Years:','Años:'],'d.src':['Code, name and years: AutomotiveTouchup.com','Código, nombre y años: AutomotiveTouchup.com'],'d.estpill':['Estimated color · check with a card','Color estimado · verifica con carta'],'d.names':['Also called:','También se llama:'],
  'd.est':['On-screen color estimated from the name. Tap to set it closer to the car.','Color en pantalla estimado por el nombre. Toca para acercarlo al del carro.'],
  'd.fixq':['Color not right? Adjust it:','¿No se parece? Ajústalo:'],'d.fixed':['Color saved for this code','Color guardado para este código'],
  'db.stats':[(n,m)=>`${n.toLocaleString('en-US')} paint codes from ${m} makes, 1990–2026.`,(n,m)=>`${n.toLocaleString('es-MX')} códigos de pintura de ${m} marcas, 1990–2026.`],
@@ -1048,6 +1048,7 @@ Detail.prototype.render=function(){
           ${col.otros&&col.otros.length?`<div class="small muted" style="margin-top:2px">${t('d.names')} ${esc(col.otros.join(' · '))}</div>`:''}
           ${col.mods&&col.mods.length?`<details class="mods"><summary>${t('d.models',col.mods.length)}</summary><div>${col.mods.map(([m,ys])=>`<span><b>${esc(m)}</b> ${esc(yearsLabel(ys))}</span>`).join('')}</div></details>`:''}
           <div class="meta"><span class="fin">${fin}</span>${col.est?`<span class="pill warn">${t('d.estpill')}</span>`:`<span class="pill ${qc}">ΔE ${f.dE.toFixed(1)} · ${qt}</span>`}<span class="pill n">${f.imported?t('d.imp'):t('d.calc')}</span></div>
+          ${col.src==='db'?`<div class="small muted" style="margin-top:6px;font-size:11px;opacity:.7">${t('d.src')}</div>`:''}
         </div>
       </div>
       <div class="proof">
