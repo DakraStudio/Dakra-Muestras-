@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,21 +44,21 @@ h1 em{font-style:normal;color:var(--cyan)}
 <body>
 <main class="wrap">
   <div class="brand"><span>&lt;D/&gt;</span>Dakra Studio</div>
-  <h1>Gracias por <em>recomendarnos</em> 🙌</h1>
-  <p class="lead">Aquí tienes una imagen y un texto listos. Compártelos en tu Facebook, Instagram, WhatsApp o en grupos donde haya dueños de negocio.</p>
+  <h1 id="h1">Thanks for <em>recommending us</em> 🙌</h1>
+  <p class="lead" id="lead">Here is a ready-to-share image and text. Post them on your Facebook, Instagram, WhatsApp or in groups where business owners hang out.</p>
   <ol class="steps">
-    <li><span>Elige el idioma.</span></li>
-    <li><span>Toca <b>Compartir</b> (o guarda la imagen y copia el texto).</span></li>
-    <li><span>Publícalo donde quieras. ¡Listo!</span></li>
+    <li><span id="s1">Pick the language.</span></li>
+    <li><span id="s2">Tap <b>Share</b> (or save the image and copy the text).</span></li>
+    <li><span id="s3">Post it anywhere. Done!</span></li>
   </ol>
 
   <div class="tabs" role="group" aria-label="Idioma">
-    <button type="button" data-l="es" aria-pressed="true">Español</button>
-    <button type="button" data-l="en" aria-pressed="false">English</button>
+    <button type="button" data-l="en" aria-pressed="true">English</button>
+    <button type="button" data-l="es" aria-pressed="false">Español</button>
   </div>
 
   <section class="card" aria-live="polite">
-    <img id="img" src="recomienda-es.png" alt="Imagen para recomendar a Dakra Studio" width="1080" height="1080">
+    <img id="img" src="recomienda-en.png" alt="Image to recommend Dakra Studio" width="1080" height="1080">
     <div class="text" id="txt"></div>
     <div class="row">
       <button class="btn b1" type="button" id="share">📤 Compartir</button>
@@ -84,10 +84,11 @@ const T={
       txt:"Own a business but don't have a website yet? 👀\n\nI recommend Dakra Studio: they'll make you a FREE preview of your website, in English and Spanish, with a chat that answers your customers for you. Try it on your phone and only pay if you like it.\n\n📲 Text them at (931) 292-2496 and tell them I sent you.\n🌐 "+SITE,
       ui:{share:"📤 Share",copy:"📋 Copy text",dl:"⬇️ Save image",copied:"Text copied. Paste it in your post.",sel:"Text selected: copy it.",shared:"Thanks for sharing!",noshare:"Your phone can't share directly: save the image and copy the text."}}
 };
-let L="es";
+let L="en";
+const HEAD={en:{h1:"Thanks for <em>recommending us</em> 🙌",lead:"Here is a ready-to-share image and text. Post them on your Facebook, Instagram, WhatsApp or in groups where business owners hang out.",s1:"Pick the language.",s2:"Tap <b>Share</b> (or save the image and copy the text).",s3:"Post it anywhere. Done!"},es:{h1:"Gracias por <em>recomendarnos</em> 🙌",lead:"Aquí tienes una imagen y un texto listos. Compártelos en tu Facebook, Instagram, WhatsApp o en grupos donde haya dueños de negocio.",s1:"Elige el idioma.",s2:"Toca <b>Compartir</b> (o guarda la imagen y copia el texto).",s3:"Publícalo donde quieras. ¡Listo!"}};
 const $=s=>document.querySelector(s);
 function render(){
-  const t=T[L];$("#img").src=t.img;$("#img").alt=L==="es"?"Imagen para recomendar a Dakra Studio":"Image to recommend Dakra Studio";
+  const t=T[L];document.documentElement.lang=L;["h1","lead","s1","s2","s3"].forEach(k=>$("#"+k).innerHTML=HEAD[L][k]);$("#img").src=t.img;$("#img").alt=L==="es"?"Imagen para recomendar a Dakra Studio":"Image to recommend Dakra Studio";
   $("#txt").textContent=t.txt;$("#share").textContent=t.ui.share;$("#copy").textContent=t.ui.copy;$("#dl").textContent=t.ui.dl;
   $("#dl").href=t.img;$("#dl").setAttribute("download",t.file);
   $("#wa").href="https://wa.me/?text="+encodeURIComponent(t.txt);
