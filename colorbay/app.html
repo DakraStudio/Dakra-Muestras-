@@ -191,6 +191,11 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
 .stat{padding:16px;position:relative;overflow:hidden}
+#labwrap{position:fixed;inset:0;z-index:300;background:var(--bg);animation:rise .2s ease both}
+#labwrap iframe{width:100%;height:100%;border:0;display:block}
+.lab-cta{display:flex;align-items:center;gap:14px;width:100%;padding:16px;margin-bottom:14px;cursor:pointer;border:1px solid var(--line);font:inherit;color:inherit;touch-action:manipulation}
+.lab-cta b{display:block;font-size:17px}.lab-cta small{display:block;color:var(--muted);font-size:14px;margin-top:2px;line-height:1.35}
+.lab-ic{flex:none;width:46px;height:46px;border-radius:14px;background:conic-gradient(#e8541c,#f2b33d,#4caf50,#1456b8,#8e44ad,#e8541c)}
 .ob-row{cursor:pointer;align-items:center}.ob-row .t1,.ob-row .t2{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}.ob-row.done{cursor:default;opacity:.6}.ob-row.done .t1{text-decoration:line-through}
 .ob-check{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
 .ob-row.done .ob-check{background:var(--ok);border-color:var(--ok);animation:pop .3s ease}
@@ -908,7 +913,8 @@ function vPaint(){
   const P=S.paint,mon=today().slice(0,7),gm=P.mixes.filter(m=>m.d.startsWith(mon)).reduce((s,m)=>s+ +m.g,0);
   let body="";
   if(paintTab==="codes")body=vPaintCodes();
-  if(paintTab==="library")body=`<div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
+  if(paintTab==="library")body=`<button class="card lab-cta" onclick="openLab({})" type="button"><span class="lab-ic" aria-hidden="true"></span><span style="flex:1;text-align:left"><b>${t("labT")}</b><small>${t("labP")}</small></span><span style="font-size:22px;color:var(--bay)">→</span></button>
+   <div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
    <div class="fgrid stagger" id="flist">${fCards(P.library)}</div>`;
   if(paintTab==="mixes")body=`<div class="stats" style="grid-template-columns:1fr 1fr"><div class="card stat"><span class="bar" style="background:var(--paint)"></span><div class="lbl">${t("gramsMonth")}</div><div class="val num" data-count="${gm}">0</div></div>
     <div class="card stat"><span class="bar" style="background:var(--bay)"></span><div class="lbl">${t("mixes")}</div><div class="val num" data-count="${P.mixes.length}">0</div></div></div>
@@ -1313,7 +1319,7 @@ function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn
    <div style="flex:1;min-width:0"><div style="font-family:var(--display);font-size:22px;font-weight:700">${esc(o.paintCode||"—")} · ${esc(o.color||"")}</div><div style="color:var(--muted);font-size:13px">${t("formulaHint")}</div></div></div>
    <div class="box-b" style="border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap">
     ${lib.length?`<button class="btn btn-ghost btn-sm" id="f-fromlib">↓ ${t("fromLib")} (${esc(lib[0].brand)})</button>`:""}
-    <button class="btn btn-ghost btn-sm" id="f-look">🔍 ${S.settings.lang==="es"?"Buscar código":"Look up code"}</button><button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
+    <button class="btn btn-pri btn-sm" id="f-lab">🎨 ${t("labFind")}</button><button class="btn btn-ghost btn-sm" id="f-look">🔍 ${S.settings.lang==="es"?"Buscar código":"Look up code"}</button><button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
   <div class="box"><div class="box-b"><div class="form">
    <label>${t("paintBrand")}<input class="input" id="f-brand" list="dl-brands" autocomplete="off" value="${esc(f.brand)}"></label>
    <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" step="any" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
@@ -1376,6 +1382,7 @@ function wireSheet(o){
   const pa=$("#pay-add");if(pa)pa.onclick=()=>{const a=+$("#pay-a").value;if(!(a>0))return;(o.pays=o.pays||[]).push({a,m:$("#pay-m").value,d:today()});save();toast(t("saved"));renderSheet()};
   sb.querySelectorAll("[data-dpay]").forEach(b=>b.onclick=()=>{o.pays.splice(+b.dataset.dpay,1);save();renderSheet()});
   /* fórmula */
+  const flab=$("#f-lab");if(flab)flab.onclick=()=>openLab({make:o.make,year:o.year,vin:o.vin,code:o.paintCode,order:o.id});
   const fb=$("#f-brand");if(fb)fb.onchange=()=>{o.formula.brand=fb.value;save()};
   const fm=$("#f-mix");if(fm)fm.onchange=()=>{o.formula.mix=+fm.value;save();renderSheet()};
   sb.querySelectorAll("[data-tn]").forEach(i=>i.addEventListener("change",()=>{o.formula.tn[+i.dataset.tn][i.dataset.k]=i.dataset.k==="g"?+i.value:i.value;save();renderSheet()}));
@@ -1893,6 +1900,34 @@ function termsGate(shopId){return new Promise(resolve=>{
       TERMS_AT=new Date().toISOString();TERMS_GATE=null;resolve()}}};
   TERMS_GATE.draw();
 })}
+
+/* ================== Color Lab (el software de pintura, dentro de ColorBay) ==================
+   Se abre encima de la app. Sus datos (tintes, fórmulas guardadas, colores corregidos) viajan con el taller en la nube. */
+const LAB_KEYS=["toners2","saved","hexfix","imported"];
+function labPull(){const o={};LAB_KEYS.forEach(k=>{try{const v=localStorage.getItem("tdc."+k);if(v&&v.length<400000)o[k]=JSON.parse(v)}catch(e){}});return o}
+function openLab(p){
+  if(!can("paint"))return;
+  const lab=S.settings.lab||{};LAB_KEYS.forEach(k=>{try{if(lab[k]!==undefined)localStorage.setItem("tdc."+k,JSON.stringify(lab[k]))}catch(e){}});
+  const q=new URLSearchParams({embed:"1",lang:S.settings.lang||"en"});["make","year","vin","code","order"].forEach(k=>{if(p[k])q.set(k,p[k])});
+  closeLab(true);const d=document.createElement("div");d.id="labwrap";d.innerHTML=`<iframe src="color.html?${q}" title="Color Lab" allow="clipboard-write"></iframe>`;
+  document.body.appendChild(d);document.body.classList.add("lock");
+}
+function closeLab(silent){const d=$("#labwrap");if(!d)return;S.settings.lab=labPull();save();d.remove();document.body.classList.remove("lock");if(!silent)render()}
+window.addEventListener("message",e=>{
+  if(e.origin!==location.origin&&location.protocol!=="file:")return;
+  const m=e.data||{};if(m.type==="colorbay-close"){closeLab();return}
+  if(m.type!=="colorbay-formula"||!can("paint"))return;
+  const f=m.data||{},tn=(f.tn||[]).filter(x=>x&&x.n).map(x=>({n:String(x.n).slice(0,40),g:+x.g||0}));if(!tn.length)return;
+  const lib={id:"f"+uid(),code:String(f.code||"").slice(0,30),name:String(f.name||"").slice(0,80),brand:String(f.brand||"").slice(0,40),make:String(f.make||"").slice(0,40),tn};
+  const ex=S.paint.library.find(x=>x.code===lib.code&&x.brand===lib.brand&&x.name===lib.name);if(ex)ex.tn=tn;else S.paint.library.push(lib);
+  const o=f.order&&S.orders.find(x=>x.id===f.order);
+  if(o){o.formula={...(o.formula||{}),brand:lib.brand,tn:tn.map(x=>({...x})),mix:+f.mix||undefined};if(!o.paintCode&&lib.code)o.paintCode=lib.code}
+  save();closeLab();toast(o?t("labSentOrder"):t("labSentLib"));if(o&&openId===o.id)renderSheet();
+});
+Object.assign(L.es,{labT:"Color Lab: busca cualquier código de pintura",labP:"22,698 códigos de 60 marcas. Te da la fórmula de arranque en gramos para la báscula, con tus tintes y su costo.",labFind:"Buscar en Color Lab",
+  labSentOrder:"Fórmula puesta en la orden y guardada en tu biblioteca",labSentLib:"Fórmula guardada en tu biblioteca"});
+Object.assign(L.en,{labT:"Color Lab: look up any paint code",labP:"22,698 codes from 60 makes. Get a starting formula in grams for your scale, with your toners and their cost.",labFind:"Find in Color Lab",
+  labSentOrder:"Formula added to the order and saved to your library",labSentLib:"Formula saved to your library"});
 
 /* ================== Primeros pasos (guía que se palomea sola) ================== */
 function obSteps(){
