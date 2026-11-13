@@ -197,7 +197,7 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 .tabs::-webkit-scrollbar{display:none}
 .tab{border:0;background:none;color:rgba(255,255,255,.7);padding:10px 12px;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
 .tab.on{color:#fff;border-bottom-color:#fff}
-.sheet-b{flex:1;overflow-y:auto;padding:16px 18px 40px}
+.sheet-b{flex:1;overflow-y:auto;padding:16px 18px 40px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .sheet-f{background:var(--bay);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
 .sheet-f .big{font-family:var(--display);font-size:24px}
 .pane{animation:rise .3s ease both}
@@ -293,13 +293,13 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 
 /* Modales y capas */
 .modal{position:fixed;inset:0;display:grid;place-items:center;z-index:40;padding:16px;pointer-events:none}
-.modal .mcard{width:min(560px,100%);max-height:90vh;overflow:auto;transform:scale(.95);opacity:0;transition:transform .2s,opacity .2s;pointer-events:none}
+.modal .mcard{width:min(560px,100%);max-height:90vh;max-height:90dvh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;transform:scale(.95);opacity:0;transition:transform .2s,opacity .2s;pointer-events:none}
 .modal.on .mcard{transform:none;opacity:1;pointer-events:auto}
 .modal .mcard .sec-h{position:sticky;top:0;background:var(--surface);z-index:1}
 .mb{padding:16px}
 .mscrim{position:fixed;inset:0;background:rgba(10,18,28,.5);z-index:39;opacity:0;pointer-events:none;transition:opacity .2s}
 .mscrim.on{opacity:1;pointer-events:auto}
-.over{position:fixed;inset:0;z-index:35;background:var(--bg);overflow-y:auto;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.over{position:fixed;inset:0;z-index:35;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .over.on{transform:none}
 .over-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:var(--navy);color:#fff}
 .over-bar b{font-family:var(--display);font-size:20px}
@@ -378,6 +378,13 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
   .users{grid-template-columns:repeat(2,1fr)}
 }
 
+/* Mientras hay una ventana abierta, la pantalla de atrás no se mueve */
+body.lock main{overflow:hidden}
+@media (max-width:600px){
+  .modal{place-items:end center;padding:0}
+  .modal .mcard{width:100%;max-height:94dvh;border-radius:18px 18px 0 0;transform:translateY(100%);padding-bottom:env(safe-area-inset-bottom)}
+  .modal.on .mcard{transform:none}
+}
 /* iPhone: las fechas no deben salirse del cuadro */
 input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;min-height:44px;text-align:left}
 input[type=date]::-webkit-date-and-time-value{text-align:left}
@@ -812,7 +819,7 @@ function wirePaint(){
   wireFCards();
   document.querySelectorAll("[data-sq]").forEach(b=>b.onclick=()=>{const s=S.paint.stock.find(x=>x.id===b.dataset.sq);s.q=Math.max(0,s.q+ +b.dataset.d);save();render()});
   const sa=$("#st-add");if(sa)sa.onclick=()=>openModal(`<div class="sec-h"><h2>${t("addItem")}</h2><button class="del" onclick="closeModal()">×</button></div>
-   <form class="mb" id="st-form"><div class="form"><label class="full">${t("item")}<input class="input" id="st-n" required></label><label>${t("unit")}<input class="input" id="st-u" value="gal"></label><label>${t("minimum")}<input class="input" id="st-m" type="number" value="1"></label></div>
+   <form class="mb" id="st-form"><div class="form"><label class="full">${t("item")}<input class="input" id="st-n" required></label><label>${t("unit")}<input class="input" id="st-u" value="gal"></label><label>${t("minimum")}<input class="input" id="st-m" type="number" step="any" min="0" value="1"></label></div>
    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{$("#st-form").onsubmit=e=>{e.preventDefault();S.paint.stock.push({id:"s"+uid(),n:$("#st-n").value,u:$("#st-u").value,q:0,min:+$("#st-m").value});save();closeModal();render()}});
 }
 function wireFCards(){document.querySelectorAll("[data-fc]").forEach(c=>c.onclick=()=>editFormula(c.dataset.fc))}
@@ -820,13 +827,13 @@ function editFormula(id,fromOrder){
   const f=id?S.paint.library.find(x=>x.id===id):{id:"f"+uid(),code:"",name:"",brand:"",make:"",tn:[{n:"",g:0}]};
   const draft=JSON.parse(JSON.stringify(f));let mix=draft.tn.reduce((s,x)=>s+ +x.g,0);
   const draw=()=>{const sum=draft.tn.reduce((s,x)=>s+(+x.g||0),0),k=sum?(mix||sum)/sum:0;
-    $("#fe-rows").innerHTML=draft.tn.map((x,i)=>`<tr><td><input data-fi="${i}" data-k="n" value="${esc(x.n)}" placeholder="${t("toner")}"></td><td class="r" style="width:90px"><input class="num" style="text-align:right" type="number" step="0.1" data-fi="${i}" data-k="g" value="${x.g}"></td><td class="r num" style="width:80px"><b>${(x.g*k).toFixed(1)}</b></td><td><button type="button" class="del" data-fd="${i}">×</button></td></tr>`).join("");
+    $("#fe-rows").innerHTML=draft.tn.map((x,i)=>`<tr><td><input data-fi="${i}" data-k="n" value="${esc(x.n)}" placeholder="${t("toner")}"></td><td class="r" style="width:90px"><input class="num" style="text-align:right" type="number" step="any" data-fi="${i}" data-k="g" value="${x.g}"></td><td class="r num" style="width:80px"><b>${(x.g*k).toFixed(1)}</b></td><td><button type="button" class="del" data-fd="${i}">×</button></td></tr>`).join("");
     document.querySelectorAll("[data-fi]").forEach(inp=>inp.onchange=()=>{draft.tn[+inp.dataset.fi][inp.dataset.k]=inp.dataset.k==="g"?+inp.value:inp.value;draw()});
     document.querySelectorAll("[data-fd]").forEach(b=>b.onclick=()=>{draft.tn.splice(+b.dataset.fd,1);draw()});};
   openModal(`<div class="sec-h"><h2>${id?esc(f.code):t("newFormula")}</h2><button class="del" onclick="closeModal()">×</button></div>
    <form class="mb" id="fe"><div class="form"><label>${t("paintCode")}<input class="input" id="fe-code" value="${esc(f.code)}" required></label><label>${t("color")}<input class="input" id="fe-name" value="${esc(f.name)}"></label>
    <label>${t("paintBrand")}<input class="input" id="fe-brand" value="${esc(f.brand)}"></label><label>${t("make")}<input class="input" id="fe-make" value="${esc(f.make)}"></label>
-   <label class="full">${t("mixFor")}<input class="input num" id="fe-mix" type="number" value="${Math.round(mix*10)/10}"></label></div>
+   <label class="full">${t("mixFor")}<input class="input num" id="fe-mix" type="number" step="any" min="0" value="${Math.round(mix*10)/10}"></label></div>
    <table class="tbl" style="margin-top:12px"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody id="fe-rows"></tbody></table>
    <button type="button" class="btn btn-ghost btn-sm" id="fe-addt" style="margin-top:8px">＋ ${t("addToner")}</button>
    <div style="display:flex;justify-content:space-between;gap:8px;margin-top:16px;flex-wrap:wrap"><button type="button" class="btn btn-paint" id="fe-log">${t("logMix")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
@@ -896,8 +903,9 @@ function applyTheme(){const th=S.settings.theme;if(th==="light"||th==="dark")doc
 
 /* ================== Panel de orden ================== */
 let openId=null,tab="vehicle",curPart=null,stage="before";
-function openOrder(id){openId=id;tab="vehicle";curPart=null;renderSheet();$("#sheet").classList.add("on");$("#scrim").classList.add("on")}
-function closeSheet(silent){openId=null;$("#sheet").classList.remove("on");$("#scrim").classList.remove("on");if(!silent)render()}
+function lockBg(){document.body.classList.toggle("lock",["#sheet","#modal","#over","#lb"].some(s=>$(s)?.classList.contains("on")))}
+function openOrder(id){openId=id;tab="vehicle";curPart=null;renderSheet();$("#sheet").classList.add("on");$("#scrim").classList.add("on");lockBg()}
+function closeSheet(silent){openId=null;$("#sheet").classList.remove("on");$("#scrim").classList.remove("on");lockBg();if(!silent)render()}
 $("#scrim").onclick=()=>closeSheet();
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if($("#lb").classList.contains("on"))closeLb();else if($("#modal").classList.contains("on"))closeModal();else if($("#over").classList.contains("on"))closeOver();else if(openId)closeSheet()});
 const tabsFor=()=>["vehicle","inspection",...(can("money")?["estimate"]:[]),"parts","phases","notes",...(can("money")?["payments"]:[]),...(can("paint")?["formula"]:[])];
@@ -1031,7 +1039,7 @@ function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn
     <button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
   <div class="box"><div class="box-b"><div class="form">
    <label>${t("paintBrand")}<input class="input" id="f-brand" value="${esc(f.brand)}"></label>
-   <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
+   <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" step="any" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
   <div class="box"><div class="box-h">${t("formula")}<span class="num">${Math.round(sum*10)/10} g</span></div>
    <table class="tbl"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody>
    ${f.tn.map((x,i)=>`<tr><td><input data-tn="${i}" data-k="n" value="${esc(x.n)}"><div class="gbar" style="width:${sum?Math.max(2,x.g/sum*100):0}%"></div></td>
@@ -1118,17 +1126,17 @@ function openLb(o,ref){lbRef={o,ref};
   $("#lb").innerHTML=`<img src="${src}" alt=""><div style="color:#fff;font-size:14px;text-align:center">${isGen?ANGN[S.settings.lang][ref.gen]:`${PN[S.settings.lang][ref.part]} · ${t(p.st)} · ${fmtTS(p.ts)} ${t("takenBy")} ${esc(user(p.by)?.name||"")}`}</div>
    <div class="lbbar">${isGen?"":`<input id="lb-note" placeholder="${t("note")}" value="${esc(p.note||"")}">`}
    <button class="btn btn-ghost" id="lb-del" style="color:var(--bad)">${S.settings.lang==="es"?"Borrar foto":"Delete photo"}</button><button class="btn btn-pri" id="lb-close">${t("close")}</button></div>`;
-  $("#lb").classList.add("on");
+  $("#lb").classList.add("on");lockBg();
   let arm=false;$("#lb-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}
     if(isGen){removePhoto(o.photosGen[ref.gen]);delete o.photosGen[ref.gen]}else{removePhoto(p.id);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
   $("#lb-close").onclick=closeLb;
 }
-function closeLb(){if(lbRef&&!lbRef.ref.gen){const n=$("#lb-note");if(n){lbRef.o.insp[lbRef.ref.part].ph[lbRef.ref.i].note=n.value;save()}}$("#lb").classList.remove("on");lbRef=null;if(openId)renderSheet()}
+function closeLb(){if(lbRef&&!lbRef.ref.gen){const n=$("#lb-note");if(n){lbRef.o.insp[lbRef.ref.part].ph[lbRef.ref.i].note=n.value;save()}}$("#lb").classList.remove("on");lockBg();lbRef=null;if(openId)renderSheet()}
 $("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closeLb()});
 
 /* ---- Reporte y vista del cliente ---- */
-function openOver(html){$("#over").innerHTML=html;$("#over").classList.add("on");$("#over").scrollTop=0}
-function closeOver(){$("#over").classList.remove("on")}
+function openOver(html){$("#over").innerHTML=html;$("#over").classList.add("on");$("#over").scrollTop=0;lockBg()}
+function closeOver(){$("#over").classList.remove("on");lockBg()}
 function partDiagramStatic(o){return`<svg viewBox="0 0 260 466" style="width:200px;height:auto;flex:none">${Object.entries(PARTS).map(([k,[x,y,w,h,r]])=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${["#f1f3f5","#f4d58a","#f39a5b","#d9483c"][o.insp?.[k]?.sev||0]}" stroke="#8a96a3" stroke-width="1.2"/>`).join("")}</svg>`}
 function openReport(id){
   const o=S.orders.find(x=>x.id===id),c=cust(o.cust),pn=PN[S.settings.lang],an=ANGN[S.settings.lang],tt=totals(o);
@@ -1171,8 +1179,8 @@ function openCustView(id){
 }
 
 /* ---- Modales ---- */
-function openModal(html,after){$("#modal-card").innerHTML=html;$("#modal").classList.add("on");$("#mscrim").classList.add("on");if(after)after();setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
-function closeModal(){$("#modal").classList.remove("on");$("#mscrim").classList.remove("on")}
+function openModal(html,after){$("#modal-card").innerHTML=html;$("#modal-card").scrollTop=0;$("#modal").classList.add("on");$("#mscrim").classList.add("on");lockBg();if(after)after();if(matchMedia("(pointer:fine)").matches)setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
+function closeModal(){$("#modal").classList.remove("on");$("#mscrim").classList.remove("on");lockBg()}
 $("#mscrim").onclick=closeModal;
 function newOrder(){
   openModal(`<div class="sec-h"><h2>${t("newOrder")}</h2><button class="del" onclick="closeModal()" aria-label="${t("cancel")}">×</button></div>
@@ -1362,7 +1370,6 @@ async function bootCloud(){
 
 /* ================== Arranque ================== */
 ["gesturestart","gesturechange"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
-document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
 {const h=location.hash.slice(1);if(NAV.some(n=>n[0]===h))view=h}
 document.documentElement.lang=S.settings.lang;applyTheme();
 if(DEMO){render();idbOpen().then(idbAll).then(()=>{if(ME)render()})}
