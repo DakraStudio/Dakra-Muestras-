@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>ColorBay Shop · App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +33,10 @@
 
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
+/* Sin zoom por doble toque ni pellizco: el taller se usa con manos sucias */
+html,body{touch-action:pan-x pan-y;-webkit-text-size-adjust:100%}
+button,a,[role=button],.part,.zone,.kcard,.ph,.row,.user,.pad button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.pad button,.user,.tab,.nav-btn,.pill-btn,.btn{-webkit-user-select:none;user-select:none}
 #root{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -339,6 +343,7 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
   .mobile-top{display:flex}
   .insp{grid-template-columns:1fr}
 }
+@media (max-width:900px){input,select,textarea{font-size:16px!important}}
 @media (max-width:520px){
   .form{grid-template-columns:1fr}
   .photos,.photos.four{grid-template-columns:repeat(2,1fr)}
@@ -1151,6 +1156,8 @@ function newCustomer(){
 }
 
 /* ================== Arranque ================== */
+["gesturestart","gesturechange"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
+document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
 {const h=location.hash.slice(1);if(NAV.some(n=>n[0]===h))view=h}
 document.documentElement.lang=S.settings.lang;applyTheme();
 render();
