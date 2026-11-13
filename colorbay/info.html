@@ -3,7 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ColorBay Shop · Funciones y precios</title>
+<title>ColorBay Shop · Features & Pricing</title>
+<meta name="description" content="Everything ColorBay Shop does for body and paint shops, simple monthly pricing, and a 60-day free trial with no card.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ColorBay Shop">
+<meta property="og:title" content="ColorBay Shop · Features & Pricing">
+<meta property="og:description" content="Everything ColorBay Shop does for body and paint shops, simple monthly pricing, and a 60-day free trial with no card.">
+<meta property="og:url" content="https://dakrastudio.com/colorbay/info.html">
+<meta property="og:image" content="https://dakrastudio.com/colorbay/media/og-en.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ColorBay Shop · Features & Pricing">
+<meta name="twitter:description" content="Everything ColorBay Shop does for body and paint shops, simple monthly pricing, and a 60-day free trial with no card.">
+<meta name="twitter:image" content="https://dakrastudio.com/colorbay/media/og-en.jpg">
+
 <link rel="apple-touch-icon" href="icons/app-apple.png">
 <link rel="icon" type="image/png" href="icons/app-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -232,7 +248,7 @@ footer b{color:#fff}
 <script>
 const LK="colorbay-web-lang";let lang="es";
 document.querySelectorAll("[data-en]").forEach(e=>e.dataset.es=e.innerHTML);
-function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
+function setLang(l){lang=l;document.documentElement.lang=l;document.title=l==="en"?"ColorBay Shop · Features & Pricing":"ColorBay Shop · Funciones y precios";document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
   document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=l==="en"?"ES":"EN";b.setAttribute("aria-label",l==="en"?"Español":"English")});try{localStorage.setItem(LK,l)}catch(e){}bill(billing)}
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(document.documentElement.lang==="en"?"es":"en"));
 /* precios mensual / anual */
@@ -242,7 +258,7 @@ function bill(m){billing=m;document.querySelectorAll("[data-bill]").forEach(b=>b
     const n=m==="m"?v:Math.round(v*10/12*100)/100;a.firstChild.nodeValue="$"+(Number.isInteger(n)?n:n.toFixed(2));
     small.innerHTML=m==="m"?(lang==="en"?" /month":" /mes"):(lang==="en"?" /mo, billed $"+v*10+"/yr":" /mes, $"+v*10+" al año")})}
 document.querySelectorAll("[data-bill]").forEach(b=>b.onclick=()=>bill(b.dataset.bill));
-let l0="en";try{l0=localStorage.getItem(LK)||"en"}catch(e){}
+let l0="en";try{const qp=new URLSearchParams(location.search).get("lang");l0=(qp==="es"||qp==="en")?qp:(localStorage.getItem(LK)||"en")}catch(e){}
 try{setLang(l0)}finally{document.documentElement.style.visibility=""}
 /* índice activo */
 const secs=[...document.querySelectorAll("section[id]")];

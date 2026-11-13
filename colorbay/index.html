@@ -3,7 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ColorBay Shop</title>
+<title>ColorBay Shop · Run your body shop from your phone</title>
+<meta name="description" content="Repair orders, damage photos, estimates and invoices from your phone. Built for small body shops and solo painters. Try it free for 60 days, no card.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ColorBay Shop">
+<meta property="og:title" content="ColorBay Shop · Run your body shop from your phone">
+<meta property="og:description" content="Repair orders, damage photos, estimates and invoices from your phone. Built for small body shops and solo painters. Try it free for 60 days, no card.">
+<meta property="og:url" content="https://dakrastudio.com/colorbay/">
+<meta property="og:image" content="https://dakrastudio.com/colorbay/media/og-en.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="es_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ColorBay Shop · Run your body shop from your phone">
+<meta name="twitter:description" content="Repair orders, damage photos, estimates and invoices from your phone. Built for small body shops and solo painters. Try it free for 60 days, no card.">
+<meta name="twitter:image" content="https://dakrastudio.com/colorbay/media/og-en.jpg">
+
 <link rel="apple-touch-icon" href="icons/app-apple.png">
 <link rel="icon" type="image/png" href="icons/app-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,6 +110,11 @@ section{padding:96px 0}
 .prob .after{font-family:var(--display);font-size:30px;font-weight:700;line-height:1}
 .prob p{margin:0;color:var(--muted)}
 
+.vid .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.vid p{color:var(--muted);font-size:18px;margin-top:12px}
+.vframe{justify-self:center;width:min(340px,100%);border-radius:36px;background:#050d1a;padding:10px;box-shadow:0 30px 70px rgba(12,35,71,.35)}
+.vframe video{display:block;width:100%;aspect-ratio:9/16;border-radius:28px;background:#0c2347}
+@media (max-width:860px){.vid .wrap{grid-template-columns:1fr;gap:28px}}
 .insp{background:var(--surface);border-block:1px solid var(--line)}
 .insp .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
 .insp h2{font-size:clamp(40px,5vw,64px);text-transform:uppercase;font-weight:800;margin:16px 0 18px}
@@ -214,6 +235,14 @@ footer b{color:#fff}
   </div>
 </div></section>
 
+<section class="vid" id="video"><div class="wrap">
+  <div><span class="tape" data-en="See it in 60 seconds">Míralo en 60 segundos</span>
+   <h2 data-en="A real shop day, start to finish">Un día real de taller, de principio a fin</h2>
+   <p data-en="New order, damage photos, estimate, PDF invoice and the board that shows every car's stage, recorded straight from the app on a phone.">Orden nueva, fotos de daños, estimado, factura en PDF y el tablero con la fase de cada carro, grabado directo de la app en un celular.</p>
+   <p style="margin-top:18px"><a class="btn btn-paint" href="app.html?demo=1" data-en="Try the live demo">Prueba la demo en vivo</a></p></div>
+  <div class="vframe"><video id="demo-vid" controls playsinline preload="none" poster="media/poster-en.jpg" src="media/ColorBay-demo-en.mp4"></video></div>
+</div></section>
+
 <section class="insp"><div class="wrap">
   <div><span class="tape" data-en="Photo inspection">Inspección con fotos</span>
    <h2 data-en="Mark the part. Take the photo. Done.">Marca la parte. Toma la foto. Listo.</h2>
@@ -278,10 +307,11 @@ footer b{color:#fff}
 <script>
 const LK="colorbay-web-lang";
 document.querySelectorAll("[data-en]").forEach(e=>e.dataset.es=e.innerHTML);
-function setLang(l){document.documentElement.lang=l;document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
+function setLang(l){const v=document.getElementById("demo-vid");if(v&&!v.dataset.lang||v&&v.dataset.lang!==l){const playing=v&&!v.paused;if(v){v.dataset.lang=l;v.poster="media/poster-"+l+".jpg";v.src="media/ColorBay-demo-"+l+".mp4";if(playing)v.play().catch(()=>{})}}
+  document.documentElement.lang=l;document.querySelectorAll("[data-en]").forEach(e=>e.innerHTML=l==="en"?e.dataset.en:e.dataset.es);
   document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=l==="en"?"ES":"EN";b.setAttribute("aria-label",l==="en"?"Español":"English")});try{localStorage.setItem(LK,l)}catch(e){}}
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>setLang(document.documentElement.lang==="en"?"es":"en"));
-let l0="en";try{l0=localStorage.getItem(LK)||"en"}catch(e){}
+let l0="en";try{const qp=new URLSearchParams(location.search).get("lang");l0=(qp==="es"||qp==="en")?qp:(localStorage.getItem(LK)||"en")}catch(e){}
 try{setLang(l0)}finally{document.documentElement.style.visibility=""}
 </script>
 </body>
