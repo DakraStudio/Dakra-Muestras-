@@ -61,10 +61,23 @@ a{color:var(--bay)}
 .seg.dark{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
 .seg.dark button{color:rgba(255,255,255,.7);flex:1}
 .seg.dark button.on{background:#fff;color:var(--navy)}
-.sync{position:fixed;right:14px;bottom:14px;z-index:15;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--muted)}
+.sync{position:fixed;left:14px;bottom:14px;z-index:15;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--muted)}
 .sync.ok{color:var(--ok)}.sync.err{color:var(--bad)}
 @media (max-width:900px){.sync{bottom:78px}}
 .codebox{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.25em;color:var(--bay)}
+/* ---- Ayuda ---- */
+.helpbtn{position:fixed;right:16px;bottom:16px;z-index:16;width:52px;height:52px;border-radius:50%;border:0;background:var(--paint);color:#fff;font-family:var(--display);font-size:28px;font-weight:700;box-shadow:0 8px 24px rgba(232,84,28,.4);cursor:pointer;transition:transform .15s}
+.helpbtn:active{transform:scale(.92)}
+.helpbtn[hidden]{display:none}
+@media (max-width:900px){.helpbtn{bottom:80px;width:48px;height:48px}}
+.htopic{border-bottom:1px solid var(--line)}
+.htopic:last-child{border-bottom:0}
+.htopic summary{list-style:none;cursor:pointer;padding:13px 2px;font-weight:600;display:flex;justify-content:space-between;gap:10px}
+.htopic summary::-webkit-details-marker{display:none}
+.htopic summary::after{content:"+";color:var(--paint);font-family:var(--display);font-size:22px;line-height:1}
+.htopic[open] summary::after{content:"−"}
+.htopic ol{margin:0 0 10px;padding-left:20px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:4px}
+.htopic .go{margin:0 0 14px}
 /* ---- Login ---- */
 .login{min-height:100%;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(1200px 600px at 80% -10%,#1d4f9c 0,transparent 60%),var(--navy);color:#fff}
 .login-card{width:min(440px,100%);display:flex;flex-direction:column;gap:18px;animation:rise .5s ease both}
@@ -402,6 +415,7 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 <div class="lb" id="lb"></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="sync" id="sync" hidden></div>
+<button class="helpbtn" id="helpBtn" hidden aria-label="Ayuda / Help">?</button>
 <input type="file" id="file" accept="image/*" capture="environment" hidden>
 <input type="file" id="filem" accept="image/*" multiple hidden>
 <datalist id="dl-makes"></datalist><datalist id="dl-models"></datalist><datalist id="dl-colors"></datalist><datalist id="dl-ins"></datalist><datalist id="dl-brands"></datalist><datalist id="dl-parts"></datalist><datalist id="dl-ops"></datalist><datalist id="dl-years"></datalist>
@@ -702,6 +716,7 @@ const langBtns=()=>`<span style="display:flex;gap:6px"><button class="pill-btn $
 const brandHtml=`<div class="brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 13l2-5a2 2 0 0 1 2-1.3h10A2 2 0 0 1 19 8l2 5v4h-2"/><path d="M5 17H3v-4h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg></div><div class="brand-name">ColorBay<small>Shop</small></div>`;
 
 function render(){
+  setTimeout(()=>syncHelpBtn(),0);
   if(!ME){DEMO?renderLogin():renderCloudLogin();return}
   if(!navOk(view))view="inicio";
   $("#root").innerHTML=`<div class="app">
@@ -872,6 +887,7 @@ function vSet(){const s=S.settings;
   <div class="card"><div class="sec-h"><h2>${t("team")}</h2><button class="btn btn-ghost btn-sm" id="u-add">＋ ${t("addUser")}</button></div>
    ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id&&u.role!=="owner"?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
   <div style="display:flex;flex-direction:column;gap:18px;min-width:0;align-self:start">
+  <div class="card"><div class="sec-h"><h2>${t("helpBtnSet")}</h2></div><div class="box-b"><button class="btn btn-ghost" id="s-help">${helpOff?t("helpShow"):t("helpHide")}</button></div></div>
   <div class="card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
    <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
   <div class="card"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
@@ -881,6 +897,7 @@ function vSet(){const s=S.settings;
 }
 function wireSet(){
   $("#s-theme").value=S.settings.theme||"auto";
+  $("#s-help").onclick=()=>{helpOff=!helpOff;try{localStorage.setItem(HKEY,helpOff?"1":"0")}catch(e){}render()};
   const bind=(id,k,num)=>$(id).addEventListener("change",e=>{S.settings[k]=num?+e.target.value:e.target.value;save();toast(t("saved"));if(k==="theme")applyTheme()});
   bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
   $("#s-copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(S));toast(t("copied"))}catch(e){toast(t("noCopy"))}};
@@ -1254,6 +1271,62 @@ function refreshLists(make){
 }
 document.addEventListener("input",e=>{const el=e.target;if(el.matches('#no-mk,[data-f="make"]'))fillModels(el.value)});
 document.addEventListener("focusin",e=>{const el=e.target;if(el.matches('#no-md,[data-f="model"]')){const mk=el.matches("#no-md")?$("#no-mk")?.value:S.orders.find(x=>x.id===openId)?.make;fillModels(mk)}});
+
+
+/* ================== Ayuda dentro de la app ================== */
+const HKEY="colorbay-help-off";
+let helpOff=false;try{helpOff=localStorage.getItem(HKEY)==="1"}catch(e){}
+Object.assign(L.es,{help:"Ayuda",helpSearch:"¿Qué quieres hacer?",takeMe:"Llévame ahí",helpHide:"Ocultar el botón de ayuda",helpShow:"Mostrar el botón de ayuda",helpBtnSet:"Botón de ayuda",helpNone:"No encontré nada. Mándanos mensaje de texto:",helpContact:"¿Algo no funciona? Mándanos mensaje de texto:"});
+Object.assign(L.en,{help:"Help",helpSearch:"What do you want to do?",takeMe:"Take me there",helpHide:"Hide the help button",helpShow:"Show the help button",helpBtnSet:"Help button",helpNone:"Nothing found. Text us:",helpContact:"Something not working? Text us:"});
+function helpOrder(tabName){const o=openId?S.orders.find(x=>x.id===openId):[...S.orders].filter(x=>PH[x.phase]!=="out").sort((a,b)=>b.id.localeCompare(a.id))[0];
+  if(!o){go("ordenes");return}if(openId!==o.id)openOrder(o.id);tab=tabName;renderSheet()}
+const HELP=[
+ {who:"all",es:["Crear una orden nueva","Toca “＋ Nueva orden” arriba a la derecha.","Escoge un cliente o escribe uno nuevo.","Escribe marca y modelo (puedes escogerlos de la lista) y toca “Crear orden”.","Se abre la orden en Fotos para tomar las fotos de entrada."],
+  en:["Create a new order","Tap “＋ New order” at the top right.","Pick a customer or type a new one.","Type make and model (or pick them from the list) and tap “Create order”.","The order opens on Photos so you can take check-in photos."],act:()=>newOrder()},
+ {who:"all",es:["Tomar las fotos de entrada","Abre la orden y ve a la pestaña “Fotos”.","Toca cada cuadro (frente, lados, esquinas) y toma la foto.","La barra verde se llena hasta 8 de 8.","Cada foto lleva fecha, hora y número de orden."],
+  en:["Take check-in photos","Open the order and go to the “Photos” tab.","Tap each box (front, sides, corners) and take the photo.","The green bar fills up to 8 of 8.","Every photo has the date, time and order number."],act:()=>helpOrder("inspection")},
+ {who:"all",es:["Marcar el daño de una parte y tomarle fotos","En “Fotos”, toca la parte en el dibujo del carro.","Escoge el daño: leve, medio o fuerte.","Escoge “Antes”, “Durante” o “Después” y toca “Agregar foto”.","Toca una foto para escribirle una nota o borrarla."],
+  en:["Mark damage on a part and photograph it","In “Photos”, tap the part on the car drawing.","Choose the damage: light, medium or heavy.","Choose “Before”, “During” or “After” and tap “Add photo”.","Tap a photo to add a note or delete it."],act:()=>helpOrder("inspection")},
+ {who:"all",es:["Sacar el reporte para el cliente o la aseguranza","Abre la orden.","Toca “Reporte” arriba.","Sale todo: fotos por parte, daño, historial y firma.","“Copiar resumen” copia el texto para mandarlo."],
+  en:["Get the report for the customer or insurer","Open the order.","Tap “Report” at the top.","It shows everything: photos by part, damage, history and signature.","“Copy summary” copies the text so you can send it."],act:()=>{helpOrder("vehicle");if(openId)openReport(openId)}},
+ {who:"all",es:["Avanzar un carro de fase","En “Tablero”, arrastra el carro a otra columna o toca la flecha →.","También puedes hacerlo en la orden, pestaña “Fases”, botón “Avanzar”."],
+  en:["Move a car to the next phase","On “Board”, drag the car to another column or tap the → arrow.","You can also do it in the order, “Phases” tab, “Move” button."],act:()=>go("tablero")},
+ {who:"owner",es:["Que el cliente firme el estimado","Abre la orden y ve a “Estimado”.","Abajo, el cliente firma con el dedo.","Toca “Guardar firma”. Queda con fecha y total."],
+  en:["Have the customer sign the estimate","Open the order and go to “Estimate”.","At the bottom, the customer signs with a finger.","Tap “Save signature”. It keeps the date and total."],act:()=>helpOrder("estimate")},
+ {who:"owner",es:["Registrar un anticipo o un pago","Abre la orden y ve a “Cobros”.","Escribe la cantidad y el método (efectivo, tarjeta, Cash App, aseguranza).","Toca “Registrar pago”. El saldo se actualiza solo."],
+  en:["Record a deposit or payment","Open the order and go to “Payments”.","Type the amount and method (cash, card, Cash App, insurance).","Tap “Record payment”. The balance updates by itself."],act:()=>helpOrder("payments")},
+ {who:"owner",es:["Agregar un trabajador","Ve a “Ajustes” → “Equipo” → “Agregar trabajador”.","Escribe su nombre, su puesto (técnico o pintor) y un PIN de 4 números.","Los técnicos y pintores no ven precios ni cobros."],
+  en:["Add a worker","Go to “Settings” → “Team” → “Add worker”.","Type their name, role (technician or painter) and a 4-digit PIN.","Technicians and painters don't see prices or payments."],act:()=>go("ajustes")},
+ {who:"owner",es:["Cómo entran mis trabajadores","Abren dakrastudio.com/colorbay/app.html en su celular.","Tocan “Trabajador”.","Escriben el código del taller (está en “Ajustes”) y su PIN."],
+  en:["How my workers log in","They open dakrastudio.com/colorbay/app.html on their phone.","They tap “Worker”.","They type the shop code (it's in “Settings”) and their PIN."],act:()=>go("ajustes")},
+ {who:"owner",es:["Ver lo que ve mi cliente","Abre la orden.","Toca “Vista cliente” arriba.","Ahí ves el avance, la fecha de entrega, las últimas fotos y el saldo."],
+  en:["See what my customer sees","Open the order.","Tap “Customer view” at the top.","It shows progress, delivery date, latest photos and balance."],act:()=>{helpOrder("vehicle");if(openId)openCustView(openId)}},
+ {who:"paint",es:["Guardar una fórmula de pintura","Ve a “Pintura” → “Fórmulas” → “Nueva fórmula”.","Escribe el código, la marca y cada tóner con sus gramos.","En “Preparar (g)” escribe cuánto vas a hacer y los gramos se recalculan.","“Registrar mezcla” anota quién mezcló qué y cuándo."],
+  en:["Save a paint formula","Go to “Paint” → “Formulas” → “New formula”.","Type the code, brand and each toner with its grams.","In “Mix (g)” type how much you'll make and the grams recalculate.","“Log mix” records who mixed what and when."],act:()=>{paintTab="library";go("pintura")}},
+ {who:"paint",es:["Llevar el inventario de pintura","Ve a “Pintura” → “Inventario”.","Usa − y ＋ para subir o bajar lo que hay.","Si baja del mínimo, aparece “Poco material” en el inicio."],
+  en:["Track paint inventory","Go to “Paint” → “Inventory”.","Use − and ＋ to change the amount.","If it drops below the minimum, “Low stock” shows on Home."],act:()=>{paintTab="stock";go("pintura")}},
+ {who:"all",es:["Cambiar el idioma","Toca “ES” o “EN” arriba (en computadora, abajo a la izquierda).","Cada celular guarda su propio idioma."],
+  en:["Change the language","Tap “ES” or “EN” at the top (on a computer, bottom left).","Each phone keeps its own language."],act:()=>{S.settings.lang=S.settings.lang==="es"?"en":"es";try{localStorage.setItem("colorbay-web-lang",S.settings.lang)}catch(e){}render();if(openId)renderSheet()}},
+ {who:"all",es:["Tener ColorBay como app en el celular","iPhone: en Safari toca Compartir (cuadro con flecha) → “Agregar a inicio”.","Android: en Chrome toca ⋮ → “Agregar a la pantalla principal”.","La primera vez que abras el ícono te pide entrar de nuevo."],
+  en:["Have ColorBay as an app on your phone","iPhone: in Safari tap Share (square with arrow) → “Add to Home Screen”.","Android: in Chrome tap ⋮ → “Add to Home screen”.","The first time you open the icon it asks you to log in again."]},
+ {who:"all",es:["¿Qué significa “Guardado” o “Sin conexión”?","“Guardado” en verde: ya está en la nube y lo ven los demás.","“Sin conexión” en rojo: no hay internet; la app sigue intentando sola.","No cierres la app hasta que vuelva a decir “Guardado”."],
+  en:["What do “Saved” and “Offline” mean?","Green “Saved”: it's in the cloud and others can see it.","Red “Offline”: no internet; the app keeps retrying by itself.","Don't close the app until it says “Saved” again."]}
+];
+function helpVisible(h){return h.who==="all"||(h.who==="owner"&&ME?.role==="owner")||(h.who==="paint"&&can("paint"))}
+function openHelp(){
+  const lang=S.settings.lang==="es"?"es":"en";
+  const list=HELP.filter(helpVisible);
+  const draw=q=>{const w=q.trim().toLowerCase();const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");const ww=norm(w);const items=list.filter(h=>!ww||norm(h.es.concat(h.en).join(" ")).includes(ww));
+    $("#help-list").innerHTML=items.map(h=>{const i=HELP.indexOf(h);const[title,...steps]=h[lang];
+      return`<details class="htopic"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>${h.act?`<button class="btn btn-pri btn-sm go" data-hgo="${i}">${t("takeMe")} →</button>`:""}</details>`}).join("")||`<p style="color:var(--muted)">${t("helpNone")} <b>+1 (931) 292-2496</b></p>`;
+    document.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{closeModal();setTimeout(()=>HELP[+b.dataset.hgo].act(),80)});
+    if(w&&items.length===1)$("#help-list details").open=true};
+  openModal(`<div class="sec-h"><h2>${t("help")}</h2><button class="del" onclick="closeModal()" aria-label="${t("close")}">×</button></div>
+   <div class="mb"><input class="input" id="help-q" placeholder="${t("helpSearch")}" autocomplete="off" style="margin-bottom:6px"><div id="help-list"></div>
+   <p style="font-size:13px;color:var(--muted);margin:14px 0 0">${t("helpContact")} <b>+1 (931) 292-2496</b></p></div>`,()=>{draw("");$("#help-q").oninput=e=>draw(e.target.value)});
+}
+function syncHelpBtn(){const b=$("#helpBtn");if(!b)return;b.hidden=!ME||helpOff;b.title=t("help")}
+$("#helpBtn").onclick=openHelp;
 
 /* ================== Nube (Supabase) ================== */
 Object.assign(L.es,{quick:"Acceso rápido",quickIos:"iPhone: en Safari toca el botón Compartir (cuadro con flecha) → “Agregar a inicio”.",quickAnd:"Android: en Chrome toca ⋮ → “Agregar a la pantalla principal” o “Instalar app”.",quickNote:"Queda un ícono de ColorBay como app. La primera vez pide entrar de nuevo.",ownerTab:"Dueño",workerTab:"Trabajador",password:"Contraseña",logIn:"Entrar",shopCode:"Código del taller",yourPin:"Tu PIN",
