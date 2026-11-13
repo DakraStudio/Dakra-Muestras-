@@ -404,6 +404,7 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 <div class="sync" id="sync" hidden></div>
 <input type="file" id="file" accept="image/*" capture="environment" hidden>
 <input type="file" id="filem" accept="image/*" multiple hidden>
+<datalist id="dl-makes"></datalist><datalist id="dl-models"></datalist><datalist id="dl-colors"></datalist><datalist id="dl-ins"></datalist><datalist id="dl-brands"></datalist><datalist id="dl-parts"></datalist><datalist id="dl-ops"></datalist><datalist id="dl-years"></datalist>
 
 <script>
 /* ================== Idioma ================== */
@@ -832,7 +833,7 @@ function editFormula(id,fromOrder){
     document.querySelectorAll("[data-fd]").forEach(b=>b.onclick=()=>{draft.tn.splice(+b.dataset.fd,1);draw()});};
   openModal(`<div class="sec-h"><h2>${id?esc(f.code):t("newFormula")}</h2><button class="del" onclick="closeModal()">×</button></div>
    <form class="mb" id="fe"><div class="form"><label>${t("paintCode")}<input class="input" id="fe-code" value="${esc(f.code)}" required></label><label>${t("color")}<input class="input" id="fe-name" value="${esc(f.name)}"></label>
-   <label>${t("paintBrand")}<input class="input" id="fe-brand" value="${esc(f.brand)}"></label><label>${t("make")}<input class="input" id="fe-make" value="${esc(f.make)}"></label>
+   <label>${t("paintBrand")}<input class="input" id="fe-brand" list="dl-brands" autocomplete="off" value="${esc(f.brand)}"></label><label>${t("make")}<input class="input" id="fe-make" list="dl-makes" autocomplete="off" value="${esc(f.make)}"></label>
    <label class="full">${t("mixFor")}<input class="input num" id="fe-mix" type="number" step="any" min="0" value="${Math.round(mix*10)/10}"></label></div>
    <table class="tbl" style="margin-top:12px"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody id="fe-rows"></tbody></table>
    <button type="button" class="btn btn-ghost btn-sm" id="fe-addt" style="margin-top:8px">＋ ${t("addToner")}</button>
@@ -920,14 +921,15 @@ function renderSheet(){
    <div class="tabs" role="tablist">${tabsFor().map(k=>`<button class="tab ${tab===k?"on":""}" role="tab" onclick="tab='${k}';renderSheet()">${t(k)}</button>`).join("")}</div></div>
    <div class="sheet-b" id="sheet-b"><div class="pane">${({vehicle:pVeh,inspection:pInsp,estimate:pEst,parts:pParts,phases:pPhases,notes:pNotes,payments:pPays,formula:pForm})[tab](o)}</div></div>
    ${can("money")?`<div class="sheet-f"><span>${t("balance")}: <span class="big num">${money(tt.bal)}</span></span><span class="num" style="opacity:.85">${t("total")} ${money(tt.tot)}</span></div>`:""}`;
-  wireSheet(o);
+  wireSheet(o);refreshLists(o.make);
   const act=$("#sheet .tab.on");if(act)act.scrollIntoView({block:"nearest",inline:"center"});
 }
 function phaseChipLight(o){return`<span class="chip" style="background:rgba(255,255,255,.18);color:#fff;border-color:transparent"><span class="dot"></span>${t("ph")[PH[o.phase]]}</span>`}
 
 /* Vehículo */
 const ZONES={front:[120,22],hood:[120,92],lf:[50,58],rf:[190,58],lfd:[40,150],rfd:[200,150],lrd:[40,205],rrd:[200,205],roof:[120,180],lq:[50,262],rq:[190,262],lr:[60,318],rr:[180,318],rear:[120,345]};
-const fld=(k,v,type="text",full)=>`<label class="${full?"full":""}">${t(k)}<input class="input" data-f="${k}" type="${type}" value="${esc(v??"")}"></label>`;
+const DL={make:"dl-makes",model:"dl-models",color:"dl-colors",insurer:"dl-ins",year:"dl-years"};
+const fld=(k,v,type="text",full)=>`<label class="${full?"full":""}">${t(k)}<input class="input" data-f="${k}" type="${DL[k]&&type==="number"?"text":type}" ${DL[k]?`list="${DL[k]}" autocomplete="off"`:""} ${k==="year"?'inputmode="numeric"':""} value="${esc(v??"")}"></label>`;
 function pVeh(o){const zn=ZN[S.settings.lang];
   return`<div class="box"><div class="box-h">${t("impact")}</div><div class="box-b impact">
    <svg viewBox="0 0 240 368" role="group" aria-label="${t("impact")}">
@@ -984,7 +986,7 @@ function pInsp(o){
 function pEst(o){const tt=totals(o),types=["labor","part","paint","other"],tn={labor:t("labor"),part:t("partT"),paint:t("paintT"),other:t("other")};
   return`<div class="box"><div class="box-h">${t("estimate")}<button class="btn btn-pri btn-sm" id="add-line">＋ ${t("addLine")}</button></div>
   <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${t("desc")}</th><th class="hide-s">${t("type")}</th><th class="r">${t("qty")}</th><th class="r hide-s">${t("price")}</th><th class="r">${t("amount")}</th><th></th></tr></thead><tbody>
-  ${o.est.map((l,i)=>`<tr><td><input data-l="${i}" data-k="d" value="${esc(l.d)}" aria-label="${t("desc")}"></td>
+  ${o.est.map((l,i)=>`<tr><td><input data-l="${i}" data-k="d" list="dl-ops" autocomplete="off" value="${esc(l.d)}" aria-label="${t("desc")}"></td>
    <td class="hide-s"><select class="input" style="padding:4px 6px" data-l="${i}" data-k="t">${types.map(x=>`<option value="${x}" ${l.t===x?"selected":""}>${tn[x]}</option>`).join("")}</select></td>
    <td class="r" style="width:76px"><input class="num" style="text-align:right" type="number" step="0.1" data-l="${i}" data-k="q" value="${l.q}"></td>
    <td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" step="0.01" data-l="${i}" data-k="p" value="${l.p}"></td>
@@ -1003,7 +1005,7 @@ function pParts(o){const sc=["","c-bay","c-warn","c-ok"],got=o.parts.filter(p=>p
   return`<div class="box"><div class="box-h">${t("parts")} <span class="num">${got}/${o.parts.length}</span></div>
   <div style="padding:10px 14px 0"><div class="meter"><span style="width:${o.parts.length?got/o.parts.length*100:0}%"></span></div></div>
   <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>${t("part")}</th>${can("money")?`<th class="r hide-s">${t("cost")}</th>`:""}<th class="r">${t("status")}</th><th></th></tr></thead><tbody>
-  ${o.parts.map((p,i)=>`<tr><td><input data-p="${i}" data-k="n" value="${esc(p.n)}"></td>${can("money")?`<td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" data-p="${i}" data-k="c" value="${p.c}"></td>`:""}
+  ${o.parts.map((p,i)=>`<tr><td><input data-p="${i}" data-k="n" list="dl-parts" autocomplete="off" value="${esc(p.n)}"></td>${can("money")?`<td class="r hide-s" style="width:100px"><input class="num" style="text-align:right" type="number" data-p="${i}" data-k="c" value="${p.c}"></td>`:""}
    <td class="r"><button class="status chip ${sc[p.s]}" data-ps="${i}">${t("st")[p.s]}</button></td><td><button class="del" data-dp="${i}">×</button></td></tr>`).join("")||`<tr><td colspan="4" class="empty">—</td></tr>`}
   </tbody></table></div><div class="box-b"><button class="btn btn-ghost btn-sm" id="add-part">＋ ${t("addPart")}</button></div></div>`;
 }
@@ -1038,7 +1040,7 @@ function pForm(o){const f=o.formula||(o.formula={brand:"",tn:[]});const sum=f.tn
     ${lib.length?`<button class="btn btn-ghost btn-sm" id="f-fromlib">↓ ${t("fromLib")} (${esc(lib[0].brand)})</button>`:""}
     <button class="btn btn-ghost btn-sm" id="f-tolib">↑ ${t("toLib")}</button><button class="btn btn-paint btn-sm" id="f-log">${t("logMix")}</button></div></div>
   <div class="box"><div class="box-b"><div class="form">
-   <label>${t("paintBrand")}<input class="input" id="f-brand" value="${esc(f.brand)}"></label>
+   <label>${t("paintBrand")}<input class="input" id="f-brand" list="dl-brands" autocomplete="off" value="${esc(f.brand)}"></label>
    <label>${t("mixFor")}<input class="input num" id="f-mix" type="number" step="any" value="${f.mix||Math.round(sum*10)/10||""}"></label></div></div></div>
   <div class="box"><div class="box-h">${t("formula")}<span class="num">${Math.round(sum*10)/10} g</span></div>
    <table class="tbl"><thead><tr><th>${t("toner")}</th><th class="r">${t("grams")}</th><th class="r">${t("scaled")}</th><th></th></tr></thead><tbody>
@@ -1179,7 +1181,7 @@ function openCustView(id){
 }
 
 /* ---- Modales ---- */
-function openModal(html,after){$("#modal-card").innerHTML=html;$("#modal-card").scrollTop=0;$("#modal").classList.add("on");$("#mscrim").classList.add("on");lockBg();if(after)after();if(matchMedia("(pointer:fine)").matches)setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
+function openModal(html,after){refreshLists();$("#modal-card").innerHTML=html;$("#modal-card").scrollTop=0;$("#modal").classList.add("on");$("#mscrim").classList.add("on");lockBg();if(after)after();if(matchMedia("(pointer:fine)").matches)setTimeout(()=>$("#modal-card input,#modal-card select")?.focus(),60)}
 function closeModal(){$("#modal").classList.remove("on");$("#mscrim").classList.remove("on");lockBg()}
 $("#mscrim").onclick=closeModal;
 function newOrder(){
@@ -1187,8 +1189,8 @@ function newOrder(){
   <form class="mb" id="no-form"><div class="form">
    <label class="full">${t("existingCust")}<select class="input" id="no-c"><option value="">—</option>${S.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></label>
    <label>${t("orNew")}: ${t("name")}<input class="input" id="no-cn"></label><label>${t("phone")}<input class="input" id="no-cp" inputmode="tel"></label>
-   <label>${t("year")}<input class="input num" id="no-y" type="number" value="${new Date().getFullYear()-4}"></label><label>${t("make")}<input class="input" id="no-mk" required></label>
-   <label>${t("model")}<input class="input" id="no-md" required></label><label>${t("color")}<input class="input" id="no-col"></label>
+   <label>${t("year")}<input class="input num" id="no-y" inputmode="numeric" list="dl-years" autocomplete="off" value="${new Date().getFullYear()-4}"></label><label>${t("make")}<input class="input" id="no-mk" list="dl-makes" autocomplete="off" required></label>
+   <label>${t("model")}<input class="input" id="no-md" list="dl-models" autocomplete="off" required></label><label>${t("color")}<input class="input" id="no-col" list="dl-colors" autocomplete="off"></label>
    <label class="full">${t("vin")}<input class="input num" id="no-vin" maxlength="17" style="text-transform:uppercase"></label>
    <label>${t("payer")}<select class="input" id="no-pay"><option value="cust">${t("payerCust")}</option><option value="ins">${t("payerIns")}</option></select></label>
    <label>${t("promised")}<input class="input" id="no-pr" type="date" value="${addD(7)}"></label>
@@ -1207,6 +1209,51 @@ function newCustomer(){
   <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" class="btn btn-ghost" onclick="closeModal()">${t("cancel")}</button><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
   $("#nc-form").onsubmit=e=>{e.preventDefault();S.customers.push({id:"c"+uid(),name:$("#nc-n").value.trim(),phone:$("#nc-p").value.trim(),email:$("#nc-e").value.trim()});save();closeModal();toast(t("saved"));render()}});
 }
+
+
+/* ================== Listas para escribir o escoger ================== */
+const MAKES={"Acura":["ILX","Integra","MDX","RDX","TLX"],"Audi":["A3","A4","A6","Q3","Q5","Q7"],"BMW":["3 Series","5 Series","X1","X3","X5"],
+ "Buick":["Enclave","Encore","Envision","LaCrosse"],"Cadillac":["CT4","CT5","Escalade","XT4","XT5","XT6"],
+ "Chevrolet":["Blazer","Camaro","Colorado","Equinox","Express","Malibu","Silverado 1500","Silverado 2500 HD","Suburban","Tahoe","Trailblazer","Traverse","Trax"],
+ "Chrysler":["200","300","Pacifica","Town & Country"],"Dodge":["Challenger","Charger","Durango","Grand Caravan","Journey","Ram 1500"],
+ "Ford":["Bronco","Bronco Sport","Edge","Escape","Expedition","Explorer","F-150","F-250","F-350","Focus","Fusion","Maverick","Mustang","Ranger","Transit"],
+ "GMC":["Acadia","Canyon","Sierra 1500","Sierra 2500 HD","Terrain","Yukon"],"Honda":["Accord","Civic","CR-V","HR-V","Odyssey","Passport","Pilot","Ridgeline"],
+ "Hyundai":["Elantra","Kona","Palisade","Santa Fe","Sonata","Tucson"],"Infiniti":["Q50","QX50","QX60","QX80"],
+ "Jeep":["Cherokee","Compass","Gladiator","Grand Cherokee","Renegade","Wrangler"],"Kia":["Forte","K5","Optima","Seltos","Sorento","Soul","Sportage","Telluride"],
+ "Lexus":["ES","GX","IS","NX","RX"],"Lincoln":["Aviator","Corsair","MKZ","Nautilus","Navigator"],"Mazda":["CX-30","CX-5","CX-50","CX-9","Mazda3","Mazda6"],
+ "Mercedes-Benz":["C-Class","E-Class","GLC","GLE","Sprinter"],"Mitsubishi":["Eclipse Cross","Mirage","Outlander"],
+ "Nissan":["Altima","Frontier","Kicks","Maxima","Murano","Pathfinder","Rogue","Sentra","Titan","Versa"],"Ram":["1500","2500","3500","ProMaster"],
+ "Subaru":["Ascent","Crosstrek","Forester","Impreza","Legacy","Outback"],"Tesla":["Model 3","Model S","Model X","Model Y"],
+ "Toyota":["4Runner","Camry","Corolla","Highlander","Prius","RAV4","Sequoia","Sienna","Tacoma","Tundra"],"Volkswagen":["Atlas","Golf","Jetta","Passat","Taos","Tiguan"],
+ "Volvo":["S60","XC40","XC60","XC90"]};
+const COLORS={en:["White","Black","Silver","Gray","Red","Blue","Dark Blue","Green","Brown","Beige","Gold","Orange","Yellow","Pearl White","Burgundy"],
+ es:["Blanco","Negro","Plata","Gris","Rojo","Azul","Azul marino","Verde","Café","Beige","Dorado","Naranja","Amarillo","Blanco perla","Vino"]};
+const INSURERS=["State Farm","Progressive","GEICO","Allstate","USAA","Liberty Mutual","Farmers","Nationwide","Travelers","American Family","Erie","Tennessee Farmers","Auto-Owners","Safeco","The General","Root"];
+const PAINT_BRANDS=["PPG","Axalta","BASF","Sherwin-Williams","Spies Hecker","Glasurit","Standox","Nason","Matrix","Valspar"];
+const PARTS_L={en:["Front bumper cover","Rear bumper cover","Bumper reinforcement","Grille","Hood","Headlamp","Tail lamp","Fog lamp","Fender","Front door","Rear door","Quarter panel","Mirror","Windshield","Radiator support","Bracket","Clips","Molding","Wheel","Tire"],
+ es:["Cubierta de defensa delantera","Cubierta de defensa trasera","Refuerzo de defensa","Parrilla","Cofre","Faro","Calavera","Faro de niebla","Salpicadera","Puerta delantera","Puerta trasera","Costado","Espejo","Parabrisas","Soporte de radiador","Soporte","Grapas","Moldura","Rin","Llanta"]};
+const OPS_L={en:["Repair","Replace","Refinish","Blend","R&I (remove and install)","Clear coat","Paint materials","Body labor","Frame labor","Mechanical labor","Diagnostic scan","Car wash","Corrosion protection"],
+ es:["Reparar","Reemplazar","Pintar","Difuminar","Desmontar y montar","Barniz","Materiales de pintura","Mano de obra hojalatería","Mano de obra chasis","Mano de obra mecánica","Escaneo de diagnóstico","Lavado","Anticorrosivo"]};
+const uniq=arr=>[...new Set(arr.filter(Boolean).map(s=>String(s).trim()).filter(Boolean))];
+const opts=arr=>arr.map(v=>`<option value="${esc(v)}">`).join("");
+function fillModels(make){
+  const m=Object.keys(MAKES).find(k=>k.toLowerCase()===String(make||"").trim().toLowerCase());
+  const mine=S.orders.filter(o=>String(o.make||"").toLowerCase()===String(make||"").trim().toLowerCase()).map(o=>o.model);
+  const el=$("#dl-models");if(el)el.innerHTML=opts(uniq([...(m?MAKES[m]:[]),...mine]).sort());
+}
+function refreshLists(make){
+  const lang=S.settings.lang==="es"?"es":"en";const set=(id,arr)=>{const el=$(id);if(el)el.innerHTML=opts(arr)};
+  set("#dl-makes",uniq([...Object.keys(MAKES),...S.orders.map(o=>o.make)]).sort());
+  set("#dl-colors",uniq([...COLORS[lang],...S.orders.map(o=>o.color)]));
+  set("#dl-ins",uniq([...INSURERS,...S.orders.map(o=>o.insurer)]));
+  set("#dl-brands",uniq([...PAINT_BRANDS,...S.paint.library.map(f=>f.brand)]));
+  set("#dl-parts",uniq([...PARTS_L[lang],...S.orders.flatMap(o=>o.parts.map(p=>p.n))]));
+  set("#dl-ops",uniq([...OPS_L[lang],...S.orders.flatMap(o=>o.est.map(l=>l.d))]));
+  set("#dl-years",Array.from({length:30},(_,i)=>String(new Date().getFullYear()+1-i)));
+  fillModels(make);
+}
+document.addEventListener("input",e=>{const el=e.target;if(el.matches('#no-mk,[data-f="make"]'))fillModels(el.value)});
+document.addEventListener("focusin",e=>{const el=e.target;if(el.matches('#no-md,[data-f="model"]')){const mk=el.matches("#no-md")?$("#no-mk")?.value:S.orders.find(x=>x.id===openId)?.make;fillModels(mk)}});
 
 /* ================== Nube (Supabase) ================== */
 Object.assign(L.es,{quick:"Acceso rápido",quickIos:"iPhone: en Safari toca el botón Compartir (cuadro con flecha) → “Agregar a inicio”.",quickAnd:"Android: en Chrome toca ⋮ → “Agregar a la pantalla principal” o “Instalar app”.",quickNote:"Queda un ícono de ColorBay como app. La primera vez pide entrar de nuevo.",ownerTab:"Dueño",workerTab:"Trabajador",password:"Contraseña",logIn:"Entrar",shopCode:"Código del taller",yourPin:"Tu PIN",
