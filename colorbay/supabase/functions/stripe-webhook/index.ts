@@ -7,6 +7,7 @@
 //   PRICE_TIERS            {"price_xxx":"solo","price_yyy":"shop","price_zzz":"plus","price_fff":"founder"}
 // SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY ya los pone Supabase automáticamente.
 //
+// Cada pago queda registrado en la tabla payments, y eso calcula solo la comisión del promotor (si lo hay).
 // Importante: esta función nunca borra datos. Si alguien cancela o no paga, solo deja de estar al corriente
 // (paid_until) y la app se pausa 7 días después de esa fecha. Al volver a pagar, se reactiva sola.
 
@@ -91,7 +92,18 @@ Deno.serve(async (req) => {
         // deno-lint-ignore no-explicit-any
         const inv = event.data.object as any;
         const subId = inv.subscription ?? inv.parent?.subscription_details?.subscription;
-        if (subId) await applySub(await stripe.subscriptions.retrieve(typeof subId === "string" ? subId : subId.id));
+        if (!subId) break;
+        const sid = typeof subId === "string" ? subId : subId.id;
+        await applySub(await stripe.subscriptions.retrieve(sid));
+        // Registrar el pago: con esto se calculan solas las comisiones de los promotores
+        const { data: shop } = await db.from("shops").select("id").eq("stripe_sub", sid).maybeSingle();
+        if (!shop) throw new Error("taller aún no ligado a la suscripción"); // Stripe reintenta en unos minutos
+        if ((inv.amount_paid ?? 0) > 0) {
+          const { error } = await db.from("payments").upsert(
+            { shop_id: shop.id, amount: inv.amount_paid / 100, paid_at: new Date((inv.status_transitions?.paid_at ?? inv.created) * 1000).toISOString(), source: "stripe", ext_id: inv.id },
+            { onConflict: "ext_id", ignoreDuplicates: true });
+          if (error) throw new Error("db: " + error.message);
+        }
         break;
       }
     }

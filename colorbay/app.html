@@ -936,6 +936,8 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
    <p style="margin:0;font-size:13px;color:var(--muted)">${t("pricesNote")}</p></div></div>
   ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span style="display:flex;gap:6px"><span class="chip">${t("tiers")[tier]}</span><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></span></div>
    ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}
+   ${ME.role==="owner"&&SHOP.plan==="trial"&&!SHOP.ref_code?`<div class="box-b"><label>${t("refQ")}<span style="display:flex;gap:8px;margin-top:6px"><input id="ref-in" maxlength="20" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="PEDRO10" style="text-transform:uppercase"><button class="btn btn-ghost" id="ref-go" type="button">${t("refBtn")}</button></span></label></div>`:""}
+   ${SHOP.ref_code?`<div class="box-b" style="color:var(--muted);font-size:14px">${t("refUsed")} <b>${esc(SHOP.ref_code)}</b></div>`:""}
    ${SHOP.paid_until?`<div class="box-b">${t("paidUntil")} ${new Date(SHOP.paid_until).toLocaleDateString(loc())}</div>`:""}
    ${ME.role==="owner"&&stripeOn()&&(SHOP.plan==="trial"||SHOP.stripe_sub)?`<div class="box-b" style="display:flex;flex-direction:column;gap:10px">${SHOP.plan==="trial"?payBtns(false):""}
      ${SHOP.stripe_sub&&STRIPE.portal?`<a class="btn btn-ghost" href="${esc(portalUrl())}" target="_blank" rel="noopener" style="text-decoration:none">${t("manageBill")} ↗</a>`:""}</div>`:""}</div>
@@ -965,6 +967,7 @@ function wireSet(){
   const bind=(id,k,num)=>$(id).addEventListener("change",e=>{S.settings[k]=num?+e.target.value:e.target.value;save();toast(t("saved"));if(k==="theme")applyTheme()});
   bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
   bind("#s-addr","address");bind("#s-phone","phone");bind("#s-email","email");bind("#s-terms","terms");
+  if($("#ref-go"))$("#ref-go").onclick=applyRef;
   [["#s-tp","techPrices"],["#s-pp","painterPrices"]].forEach(([id,k])=>$(id).onchange=e=>{S.settings[k]=e.target.checked;save();toast(t("saved"))});
   $("#s-trash").onclick=openTrash;
   document.querySelectorAll("[data-ew]").forEach(r=>r.onclick=()=>editWorker(r.dataset.ew));
@@ -1650,6 +1653,12 @@ function payBtns(dark){
 async function paidReturn(){if(!/[?&]paid=1/.test(location.search)||!sb||!SHOP)return;history.replaceState(null,"",location.pathname);toast(t("payThanks"));
   for(let i=0;i<6;i++){await new Promise(r=>setTimeout(r,4000));const{data}=await sb.from("shops").select("*").eq("id",SHOP.id).single();
     if(data&&data.plan==="paid"){SHOP=data;toast(t("payActive"));render();return}}}
+async function applyRef(){const c=($("#ref-in")?.value||"").toUpperCase().replace(/[^A-Z0-9]/g,"");if(c.length<3){toast(t("refBad"));return}
+  $("#ref-go").disabled=true;const{data,error}=await sb.rpc("set_referral",{p_shop:SHOP.id,p_code:c});
+  if(error||data==="invalid"){toast(t("refBad"));$("#ref-go").disabled=false;return}
+  const{data:s}=await sb.from("shops").select("*").eq("id",SHOP.id).single();if(s)SHOP=s;toast(t("refOk"));render()}
+Object.assign(L.es,{refQ:"¿Te recomendó alguien? Escribe su código y ganas días gratis extra",refBtn:"Aplicar",refOk:"Código aplicado ✓ Ya tienes tus días extra",refBad:"Ese código no existe. Revísalo.",refUsed:"Te recomendó:"});
+Object.assign(L.en,{refQ:"Did someone refer you? Enter their code to get extra free days",refBtn:"Apply",refOk:"Code applied ✓ Your extra days are added",refBad:"That code doesn't exist. Please check it.",refUsed:"Referred by:"});
 Object.assign(L.es,{payFounder:"Fundador (Taller)",perMo:"/mes",yearly:"Pago anual (2 meses gratis)",payNote:"Pago seguro con Stripe. Tu plan se activa solo en unos segundos. Cancelas cuando quieras.",
   manageBill:"Ver o cancelar mi suscripción",paidUntil:"Pagado hasta el",payThanks:"¡Gracias! Activando tu plan…",payActive:"Tu plan ya está activo ✓",
   payDueT:"Tu pago está pendiente",payKeep:"Escoge un plan para seguir usando ColorBay:",dataSafe:"Tus datos están guardados y seguros; no se borra nada.",orText:"¿Dudas? Mándanos mensaje de texto:"});
@@ -1901,6 +1910,7 @@ async function enterShop(){
   if(!mem?.length&&pending&&!user.is_anonymous){
     renderShell(`<h1 style="font-size:32px">${t("pendingShop")}</h1>`);
     const r=await sb.rpc("create_shop",{p_name:pending.shop,p_owner:pending.name,p_pin:pending.pin,p_phone:pending.phone||null});
+    if(!r.error&&pending.ref)try{await sb.rpc("set_referral",{p_shop:r.data,p_code:pending.ref})}catch(e){}
     if(!r.error){try{localStorage.removeItem("colorbay-pending-shop")}catch(e){}({data:mem}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id))}
   }
   if(!mem?.length){renderShell(`<h1 style="font-size:32px">${t("noShop")}</h1><div class="shopname">${esc(user.email||"")}</div>

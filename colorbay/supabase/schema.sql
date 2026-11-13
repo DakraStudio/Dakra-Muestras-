@@ -33,6 +33,9 @@ alter table public.shops add column if not exists terms_at        timestamptz;
 alter table public.shops add column if not exists stripe_customer text;
 alter table public.shops add column if not exists stripe_sub      text;
 alter table public.shops add column if not exists paid_until      timestamptz;
+-- Código del promotor que recomendó al taller
+alter table public.shops add column if not exists ref_code        text;
+alter table public.shops add column if not exists ref_at          timestamptz;
 
 create table if not exists public.workers(
   id         uuid primary key default gen_random_uuid(),
@@ -267,14 +270,14 @@ drop function if exists public.admin_update_shop(uuid, text, text, timestamptz, 
 create or replace function public.admin_shops()
 returns table(id uuid, name text, owner_email text, phone text, plan text, tier text, status text, trial_ends timestamptz,
               join_code text, notes text, created_at timestamptz, orders bigint, workers bigint, last_activity timestamptz,
-              terms_version text, terms_at timestamptz, paid_until timestamptz, stripe_sub text)
+              terms_version text, terms_at timestamptz, paid_until timestamptz, stripe_sub text, ref_code text)
 language sql stable security definer set search_path = public as $$
   select s.id, s.name, s.owner_email, s.phone, s.plan, s.tier, s.status, s.trial_ends, s.join_code, s.notes, s.created_at,
          (select count(*) from orders o where o.shop_id = s.id),
          (select count(*) from workers w where w.shop_id = s.id),
          greatest((select max(o.updated_at) from orders o where o.shop_id = s.id),
                   (select d.updated_at from shop_data d where d.shop_id = s.id)),
-         s.terms_version, s.terms_at, s.paid_until, s.stripe_sub
+         s.terms_version, s.terms_at, s.paid_until, s.stripe_sub, s.ref_code
   from shops s where public.is_admin() order by s.created_at desc
 $$;
 
@@ -344,6 +347,112 @@ begin
   if r = 'owner' then update shops set terms_version = left(p_version, 40), terms_at = now() where id = p_shop; end if;
 end $$;
 grant execute on function public.accept_terms(text, uuid, text) to authenticated;
+
+-- ---------- Promotores (afiliados), pagos y comisiones ----------
+-- Cada promotor tiene un código. El taller lo escribe al registrarse (o llega con su enlace).
+-- Cada pago que registra un taller (a mano en el panel o solo con Stripe) calcula la comisión automáticamente.
+create table if not exists public.promoters(
+  id             uuid primary key default gen_random_uuid(),
+  code           text not null unique check (code ~ '^[A-Z0-9]{3,20}$'),
+  name           text not null,
+  phone          text,
+  email          text,
+  payout         text,                       -- cómo se le paga: Zelle, Cash App, PayPal…
+  mode           text not null default 'flat' check (mode in ('flat','recurring')),
+  amount         numeric(10,2) not null default 50,  -- flat: dólares por taller · recurring: porcentaje de cada pago
+  after_payments int not null default 2,     -- flat: se gana cuando el taller lleva este número de pagos
+  months         int not null default 12,    -- recurring: cuántos pagos cuentan
+  bonus_days     int not null default 30,    -- días extra de prueba para el taller que usa el código
+  active         boolean not null default true,
+  notes          text,
+  created_at     timestamptz not null default now()
+);
+create table if not exists public.payments(
+  id       bigserial primary key,
+  shop_id  uuid not null references public.shops(id) on delete cascade,
+  amount   numeric(10,2) not null check (amount >= 0),
+  paid_at  timestamptz not null default now(),
+  source   text not null default 'manual',   -- manual o stripe
+  ext_id   text unique,                      -- id de la factura de Stripe (evita contarla dos veces)
+  note     text
+);
+create table if not exists public.commissions(
+  id          bigserial primary key,
+  promoter_id uuid not null references public.promoters(id) on delete cascade,
+  shop_id     uuid not null references public.shops(id) on delete cascade,
+  payment_id  bigint references public.payments(id) on delete set null,
+  kind        text not null,                 -- flat (pago único) o month (porcentaje de un pago)
+  amount      numeric(10,2) not null,
+  status      text not null default 'owed' check (status in ('owed','paid')),
+  created_at  timestamptz not null default now(),
+  paid_at     timestamptz,
+  note        text
+);
+create index if not exists payments_shop_idx on public.payments(shop_id);
+create index if not exists commissions_promoter_idx on public.commissions(promoter_id, status);
+alter table public.promoters   enable row level security;
+alter table public.payments    enable row level security;
+alter table public.commissions enable row level security;
+revoke all on public.promoters, public.payments, public.commissions from anon, authenticated;
+grant select, insert, update on public.promoters, public.payments, public.commissions to authenticated;
+grant usage, select on sequence public.payments_id_seq, public.commissions_id_seq to authenticated;
+drop policy if exists promoters_admin on public.promoters;
+create policy promoters_admin on public.promoters for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists payments_admin on public.payments;
+create policy payments_admin on public.payments for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists commissions_admin on public.commissions;
+create policy commissions_admin on public.commissions for all to authenticated using (public.is_admin()) with check (public.is_admin());
+
+-- Calcula la comisión sola cada vez que entra un pago
+create or replace function public.payment_commission() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare pr promoters; n int;
+begin
+  if new.amount <= 0 then return new; end if;
+  select p.* into pr from shops s join promoters p on p.code = s.ref_code where s.id = new.shop_id;
+  if not found then return new; end if;
+  select count(*) into n from payments where shop_id = new.shop_id and amount > 0;
+  if pr.mode = 'flat' then
+    if n >= pr.after_payments and not exists(select 1 from commissions where promoter_id = pr.id and shop_id = new.shop_id) then
+      insert into commissions(promoter_id, shop_id, payment_id, kind, amount) values (pr.id, new.shop_id, new.id, 'flat', pr.amount);
+    end if;
+  elsif n <= pr.months then
+    insert into commissions(promoter_id, shop_id, payment_id, kind, amount)
+    values (pr.id, new.shop_id, new.id, 'month', round(new.amount * pr.amount / 100, 2));
+  end if;
+  return new;
+end $$;
+drop trigger if exists payments_commission on public.payments;
+create trigger payments_commission after insert on public.payments for each row execute function public.payment_commission();
+
+-- El dueño escribe el código del promotor (una sola vez). Si está en prueba, gana los días extra.
+create or replace function public.set_referral(p_shop uuid, p_code text) returns text
+language plpgsql security definer set search_path = public as $$
+declare c text := upper(regexp_replace(coalesce(p_code, ''), '[^A-Za-z0-9]', '', 'g')); pr promoters; s shops;
+begin
+  if public.my_role(p_shop) is distinct from 'owner' then raise exception 'not_owner'; end if;
+  select * into s from shops where id = p_shop;
+  if s.ref_code is not null then return 'already'; end if;
+  select * into pr from promoters where code = c and active;
+  if not found then return 'invalid'; end if;
+  update shops set ref_code = c, ref_at = now(),
+         trial_ends = case when plan = 'trial' and pr.bonus_days > 0
+                           then greatest(trial_ends, now()) + make_interval(days => pr.bonus_days) else trial_ends end
+   where id = p_shop;
+  return 'ok';
+end $$;
+grant execute on function public.set_referral(uuid, text) to authenticated;
+
+-- Para el panel: poner o quitar a mano quién recomendó a un taller (sin días extra)
+create or replace function public.admin_set_ref(p_shop uuid, p_code text) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'not_admin'; end if;
+  update shops set ref_code = nullif(upper(regexp_replace(coalesce(p_code, ''), '[^A-Za-z0-9]', '', 'g')), ''),
+                   ref_at = case when coalesce(p_code, '') = '' then null else coalesce(ref_at, now()) end
+   where id = p_shop;
+end $$;
+grant execute on function public.admin_set_ref(uuid, text) to authenticated;
 
 -- ---------- Fotos ----------
 insert into storage.buckets(id, name, public) values ('photos', 'photos', false) on conflict (id) do nothing;

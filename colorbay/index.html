@@ -160,6 +160,9 @@ footer b{color:#fff}
 }
 </style>
 <script>try{document.documentElement.style.visibility="hidden"}catch(e){}</script>
+<script>/* Código de promotor: si alguien llega con ?ref=CODIGO se guarda 60 días para el registro */
+(function(){try{const r=(new URLSearchParams(location.search).get("ref")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+ if(r.length>=3)localStorage.setItem("colorbay-ref",JSON.stringify({c:r,t:Date.now()}))}catch(e){}})();</script>
 </head>
 <body>
 <header class="nav"><div class="wrap">

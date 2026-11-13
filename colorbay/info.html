@@ -113,6 +113,9 @@ footer b{color:#fff}
 @media (max-width:520px){.row2{grid-template-columns:1fr}.links{gap:10px}}
 </style>
 <script>try{document.documentElement.style.visibility="hidden"}catch(e){}</script>
+<script>/* Código de promotor: si alguien llega con ?ref=CODIGO se guarda 60 días para el registro */
+(function(){try{const r=(new URLSearchParams(location.search).get("ref")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,20);
+ if(r.length>=3)localStorage.setItem("colorbay-ref",JSON.stringify({c:r,t:Date.now()}))}catch(e){}})();</script>
 <script src="config.js?v=20261112c"></script>
 </head>
 <body>
@@ -208,6 +211,7 @@ footer b{color:#fff}
    <label><span data-en="Password (6+ characters)">Contraseña (6 o más)</span><input id="t-pass" type="password" autocomplete="new-password" minlength="6"></label></div>
   <div class="row2"><label><span data-en="Phone">Teléfono</span><input id="t-phone" inputmode="tel" autocomplete="tel"></label>
    <label><span data-en="4-digit PIN">PIN de 4 números</span><input id="t-pin" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
+  <label id="ref-field" hidden><span data-en="Promo code (optional) · extra free days">Código de promotor (opcional) · días gratis extra</span><input id="t-ref" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="PEDRO10" maxlength="20"></label>
   <label class="agree"><input type="checkbox" id="t-agree"><span data-en='I have read and agree to the <a href="legal.html?lang=en#terms" target="_blank" rel="noopener">Terms of Service</a> and the <a href="legal.html?lang=en#privacy" target="_blank" rel="noopener">Privacy Policy</a>.'>Leí y acepto los <a href="legal.html?lang=es#terminos" target="_blank" rel="noopener">Términos de servicio</a> y el <a href="legal.html?lang=es#privacidad" target="_blank" rel="noopener">Aviso de privacidad</a>.</span></label>
   <div class="err" id="t-err" role="alert"></div>
   <button class="btn btn-paint" data-en="Create my shop">Crear mi taller</button>
@@ -238,7 +242,9 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)documen
 secs.forEach(s=>io.observe(s));
 /* crear taller de prueba */
 const CFG=window.COLORBAY_CONFIG||{},CLOUD=!!(CFG.url&&CFG.key),TERMS_V="2026-11-12";
-if(CLOUD){document.getElementById("cloud-fields").hidden=false;document.getElementById("local-note").hidden=true}
+if(CLOUD){document.getElementById("cloud-fields").hidden=false;document.getElementById("local-note").hidden=true;document.getElementById("ref-field").hidden=false}
+const refNow=()=>{try{const x=JSON.parse(localStorage.getItem("colorbay-ref")||"null");return x&&Date.now()-x.t<60*864e5?x.c:""}catch(e){return""}};
+document.getElementById("t-ref").value=refNow();
 function loadScript(src){return new Promise((r,j)=>{const x=document.createElement("script");x.src=src;x.onload=r;x.onerror=j;document.head.appendChild(x)})}
 async function cloudSignup(f,err,btn){
   const msg=(es,en)=>{err.textContent=lang==="en"?en:es};
@@ -247,7 +253,8 @@ async function cloudSignup(f,err,btn){
   btn.disabled=true;msg("Creando tu taller…","Creating your shop…");
   try{if(!window.supabase)try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
     const sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{storageKey:"colorbay-app-auth",persistSession:true}});
-    try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone}))}catch(e){}
+    const ref=document.getElementById("t-ref").value.toUpperCase().replace(/[^A-Z0-9]/g,"");
+    try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone,ref}))}catch(e){}
     const{data,error}=await sb.auth.signUp({email:f.email,password:f.pass,options:{data:{name:f.name},emailRedirectTo:location.href.replace(/info\.html.*$/,"app.html")}});
     if(error){btn.disabled=false;msg(/registered|exists/i.test(error.message)?"Ese correo ya tiene cuenta. Entra desde la app.":"No se pudo crear la cuenta: "+error.message,/registered|exists/i.test(error.message)?"That email already has an account. Log in from the app.":"Could not create the account: "+error.message);return}
     if(!data.session){btn.disabled=false;msg("Revisa tu correo y confirma tu cuenta. Después entra a la app con tu correo y contraseña.","Check your email to confirm your account. Then log in to the app with your email and password.");return}
@@ -255,6 +262,7 @@ async function cloudSignup(f,err,btn){
     if(r.error){btn.disabled=false;msg("Error: "+r.error.message,"Error: "+r.error.message);return}
     try{localStorage.removeItem("colorbay-pending-shop");localStorage.setItem("colorbay-shop-id",r.data)}catch(e){}
     try{await sb.rpc("accept_terms",{p_version:TERMS_V,p_shop:r.data,p_agent:navigator.userAgent})}catch(e){}
+    if(ref)try{await sb.rpc("set_referral",{p_shop:r.data,p_code:ref})}catch(e){}
     location.href="app.html";
   }catch(e){btn.disabled=false;msg("No hay conexión. Intenta de nuevo.","No connection. Try again.")}
 }

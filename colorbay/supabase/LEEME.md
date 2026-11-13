@@ -73,3 +73,16 @@ más 7 días de gracia; después se pausa, **sin borrar nada**, y se reactiva en
 - Si algún día cambias los términos: edita `legal.html`, cambia la fecha de versión ahí, en `app.html` (`TERMS_V`) e
   `info.html` (`TERMS_V`). La próxima vez que cada persona entre, se le piden de nuevo automáticamente.
 - Los clientes de cada taller ven el enlace de privacidad al pie de cada estimado y factura en PDF.
+
+## Promotores (afiliados) y comisiones
+
+1. En el panel admin, pestaña **Promotores** → **+ Nuevo promotor**: nombre, cómo le pagas (Zelle, Cash App…) y el tipo:
+   - **Pago fijo por taller**: por ejemplo $50 cuando el taller lleva 2 pagos.
+   - **Porcentaje de cada pago**: por ejemplo 25% de cada mensualidad durante 12 meses.
+   También decides cuántos **días gratis extra** gana el taller que use su código (por defecto 30).
+2. Copia su **enlace** (`info.html?ref=CODIGO`) y mándaselo. Si un taller entra con ese enlace, el código se llena solo
+   al registrarse. También lo pueden escribir a mano, o después en Ajustes → Plan (una sola vez).
+3. Cada pago queda registrado: con Stripe se anota solo; si te pagan por Zelle o en efectivo, en la pestaña Talleres
+   toca **Registrar pago recibido**. Con cada pago, la comisión se calcula sola.
+4. En Promotores ves cuánto le debes a cada uno. Cuando le pagues, toca **Ya le pagué**. Con **Copiar su resumen**
+   le mandas por mensaje cuántos talleres lleva y cuánto ha ganado.
