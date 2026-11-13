@@ -58,6 +58,31 @@ async function applySub(sub: Stripe.Subscription, shopId?: string | null) {
   if (error) throw new Error("db: " + error.message);
 }
 
+// Meses gratis pendientes de talleres que pagan con Stripe: se ponen como saldo a favor en Stripe,
+// así su siguiente cobro sale gratis (o más barato) sin que tengas que hacer nada.
+async function applyStripeCredits() {
+  const { data: owed } = await db.from("commissions").select("id, promoter_id").eq("kind", "credit").eq("status", "owed");
+  for (const c of owed ?? []) {
+    const { data: pr } = await db.from("promoters").select("shop_id").eq("id", c.promoter_id).maybeSingle();
+    if (!pr?.shop_id) continue;
+    const { data: rs } = await db.from("shops").select("id, stripe_customer, stripe_sub, plan").eq("id", pr.shop_id).maybeSingle();
+    if (!rs?.stripe_customer || !rs.stripe_sub) continue;
+    const sub = await stripe.subscriptions.retrieve(rs.stripe_sub);
+    const price = sub.items?.data?.[0]?.price?.unit_amount ?? 0;
+    if (!price) continue;
+    // Marcar primero (evita darlo dos veces si Stripe reintenta), luego aplicar el saldo
+    const { data: upd } = await db.from("commissions").update({ status: "paid", paid_at: new Date().toISOString(), note: "Saldo a favor en Stripe: siguiente mes gratis" })
+      .eq("id", c.id).eq("status", "owed").select("id");
+    if (!upd?.length) continue;
+    try {
+      await stripe.customers.createBalanceTransaction(rs.stripe_customer, { amount: -price, currency: sub.currency ?? "usd", description: "ColorBay: 1 mes gratis por recomendar a otro taller" },
+        { idempotencyKey: "colorbay-credit-" + c.id });
+    } catch (e) {
+      await db.from("commissions").update({ status: "owed", paid_at: null, note: "Stripe no aceptó el saldo: " + (e as Error).message }).eq("id", c.id);
+    }
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("ok");
   const sig = req.headers.get("stripe-signature");
@@ -104,6 +129,7 @@ Deno.serve(async (req) => {
             { onConflict: "ext_id", ignoreDuplicates: true });
           if (error) throw new Error("db: " + error.message);
         }
+        await applyStripeCredits();
         break;
       }
     }

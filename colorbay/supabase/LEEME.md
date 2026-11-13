@@ -86,3 +86,16 @@ más 7 días de gracia; después se pausa, **sin borrar nada**, y se reactiva en
    toca **Registrar pago recibido**. Con cada pago, la comisión se calcula sola.
 4. En Promotores ves cuánto le debes a cada uno. Cuando le pagues, toca **Ya le pagué**. Con **Copiar su resumen**
    le mandas por mensaje cuántos talleres lleva y cuánto ha ganado.
+
+## Pendientes: todo en un solo lugar
+
+El panel admin abre en **Pendientes**. Ahí aparece solo, sin que tengas que acordarte:
+- 💵 A qué promotor le debes y cuánto (botón **Ya le pagué**).
+- 🎁 Meses gratis por aplicar. Si el taller está en prueba se suman 30 días solos; si paga con Stripe, Stripe le pone
+  saldo a favor solo; si paga a mano, te avisa para que no le cobres ese mes.
+- 🧾 Talleres que pagan a mano y ya les toca pagar (botón **Ya me pagó**, que registra el pago y calcula comisiones).
+- ⚠️ Pagos atrasados en Stripe, ⏳ pruebas por vencer, ⌛ pruebas vencidas y 🆕 talleres nuevos, cada uno con un botón
+  de **Mandar mensaje** que abre tus mensajes de texto con el mensaje en inglés ya escrito.
+
+Cada taller cliente tiene en Ajustes su propio enlace para recomendar: gana 1 mes gratis por cada taller que se quede
+pagando, y aparece solo en Promotores como "Taller cliente".

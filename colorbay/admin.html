@@ -25,6 +25,7 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
 h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
 .bar{background:var(--navy);color:#fff}
@@ -73,6 +74,14 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 .payrow{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
 .payrow input{width:110px}
 .stats.s4{grid-template-columns:repeat(4,1fr)}
+.todo{display:flex;gap:14px;align-items:center;padding:14px 16px;margin-bottom:10px;border-left:5px solid var(--c,var(--line))}
+.todo .ic{font-size:26px;flex:none;width:34px;text-align:center}
+.todo .tx{flex:1;min-width:0}.todo .tx b{display:block;font-size:17px}.todo .tx span{font-size:14px;color:var(--muted)}
+.todo .ac{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.todo .ac a{text-decoration:none}
+.done{padding:30px 16px;text-align:center;color:var(--muted)}
+.done b{display:block;font-family:var(--display);font-size:30px;color:var(--ok);margin-bottom:4px}
+@media (max-width:760px){.todo{flex-wrap:wrap}.todo .ac{width:100%;justify-content:stretch}.todo .ac>*{flex:1;text-align:center}}
 @media (max-width:760px){.stats.s4{grid-template-columns:repeat(2,1fr)}}
 .form>*{min-width:0}
 </style>
@@ -84,8 +93,9 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const CFG=window.COLORBAY_CONFIG||{};let sb=null,SHOPS=[],q="",fil="all",TAB="shops",PROMOS=[],COMMS=[],PAYS=[],PROMO_ERR="",EDIT=null;
+const CFG=window.COLORBAY_CONFIG||{};let sb=null,SHOPS=[],q="",fil="all",TAB="pend",PROMOS=[],COMMS=[],PAYS=[],PROMO_ERR="",EDIT=null;
 const PRICE={solo:35,shop:69,plus:99};
+const priceOf=s=>s.plan==="founder"?29:(PRICE[s.tier]||69);
 const money=n=>"$"+Number(n||0).toFixed(2);
 const PLAN={trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"};
 const PC={trial:"#b7791f",paid:"#1f8a4c",founder:"#1456b8",courtesy:"#8e6bd8"};
@@ -123,8 +133,9 @@ async function load(){
   PROMOS=p.data||[];COMMS=c.data||[];PAYS=y.data||[];render();
 }
 function render(){
-  const tabs=`<div class="tabs"><button class="${TAB==="shops"?"on":""}" data-tab="shops">Talleres</button><button class="${TAB==="promo"?"on":""}" data-tab="promo">Promotores${COMMS.some(c=>c.status==="owed")?` · <span style="color:var(--paint)">${money(COMMS.filter(c=>c.status==="owed").reduce((a,c)=>a+ +c.amount,0))}</span>`:""}</button></div>`;
-  if(TAB==="promo")renderPromos(tabs);else renderShops(tabs);
+  const nP=PROMO_ERR?0:pendings().length;
+  const tabs=`<div class="tabs"><button class="${TAB==="pend"?"on":""}" data-tab="pend">Pendientes${nP?` <span class="chip" style="background:var(--paint);color:#fff;border:0">${nP}</span>`:" ✓"}</button><button class="${TAB==="shops"?"on":""}" data-tab="shops">Talleres</button><button class="${TAB==="promo"?"on":""}" data-tab="promo">Promotores${COMMS.some(c=>c.status==="owed"&&c.kind!=="credit")?` · <span style="color:var(--paint)">${money(COMMS.filter(c=>c.status==="owed"&&c.kind!=="credit").reduce((a,c)=>a+ +c.amount,0))}</span>`:""}</button></div>`;
+  if(TAB==="promo")renderPromos(tabs);else if(TAB==="pend")renderPend(tabs);else renderShops(tabs);
   document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;EDIT=null;render()});
 }
 function renderShops(tabs){
@@ -155,7 +166,7 @@ function renderShops(tabs){
       <label class="full">Notas privadas<input data-k="notes" value="${esc(s.notes||"")}" placeholder="Ej. compañero, gratis de por vida"></label>
       <label class="full">Lo recomendó<select data-k="ref"><option value="">— Nadie —</option>${PROMOS.map(p=>`<option value="${esc(p.code)}" ${s.ref_code===p.code?"selected":""}>${esc(p.name)} · ${esc(p.code)}</option>`).join("")}${s.ref_code&&!PROMOS.some(p=>p.code===s.ref_code)?`<option selected value="${esc(s.ref_code)}">${esc(s.ref_code)}</option>`:""}</select></label>
       ${PROMO_ERR?"":(()=>{const ps=PAYS.filter(x=>x.shop_id===s.id);return`<div class="full" style="font-size:14px;color:var(--muted)">Pagos recibidos: <b style="color:var(--ink)">${ps.length} · ${money(ps.reduce((a,x)=>a+ +x.amount,0))}</b>${ps.length?` · último ${fmt(ps[ps.length-1].paid_at)}`:""}
-        <div class="payrow"><input type="number" inputmode="decimal" step="any" min="0" data-amt value="${PRICE[s.tier]||69}" aria-label="Cantidad"><button class="btn btn-ghost btn-sm" data-addpay>Registrar pago recibido</button></div></div>`})()}
+        <div class="payrow"><input type="number" inputmode="decimal" step="any" min="0" data-amt value="${priceOf(s)}" aria-label="Cantidad"><button class="btn btn-ghost btn-sm" data-addpay>Registrar pago recibido</button></div></div>`})()}
       <div class="acts"><button class="btn btn-ghost btn-sm" data-exp>Descargar sus datos</button><button class="btn btn-pri btn-sm" data-save>Guardar</button></div></div></div>`}).join("")||`<p style="color:var(--muted)">No hay talleres con ese filtro.</p>`}`;
   $("#q").oninput=e=>{q=e.target.value;const p=e.target.selectionStart;render();$("#q").focus();$("#q").setSelectionRange(p,p)};
   $("#fil").onchange=e=>{fil=e.target.value;render()};
@@ -172,13 +183,59 @@ function renderShops(tabs){
     if(error){toast("Error: "+error.message);return}const s=SHOPS.find(x=>x.id===id);
     const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download=`colorbay-${(s.name||"taller").replace(/\W+/g,"-")}.json`;a.click();toast("Datos descargados")});
 }
+/* ================== Pendientes: todo lo que hay que hacer, en un solo lugar ================== */
+const shopName=id=>SHOPS.find(s=>s.id===id)?.name||"Taller";
+const lastPay=id=>{const ps=PAYS.filter(x=>x.shop_id===id);return ps.length?ps[ps.length-1]:null};
+const MSG={
+  welcome:s=>`Hi! This is Dakra Studio from ColorBay Shop. Thanks for signing up ${s.name}! If you need any help setting up your shop or your team, just text me here.`,
+  ending:s=>`Hi! Quick reminder from ColorBay Shop: ${s.name}'s free trial ends in ${daysLeft(s.trial_ends)} day${daysLeft(s.trial_ends)==1?"":"s"}. To keep everything running, open the app and go to Settings → Plan. Your data stays safe either way. Any questions, just reply here.`,
+  expired:s=>`Hi! ${s.name}'s ColorBay Shop trial has ended. Your data is saved and nothing was deleted. If you'd like to keep using it, reply here and I'll help you get set up.`,
+  late:s=>`Hi! Your ColorBay Shop payment didn't go through. You still have a few days before the account pauses. You can update your card in the app: Settings → Plan → View or cancel my subscription. Your data is safe.`,
+  charge:s=>`Hi! Your ColorBay Shop monthly payment of ${money(priceOf(s))} is due. Thank you for your business!`
+};
+function smsBtn(s,k){if(!s.phone)return"";const ph=s.phone.replace(/[^\d+]/g,"");const sep=/iPhone|iPad|iPod|Mac/.test(navigator.userAgent)?"&":"?";
+  return`<a class="btn btn-ghost btn-sm" href="sms:${esc(ph)}${sep}body=${encodeURIComponent(MSG[k](s))}">💬 Mandar mensaje</a>`}
+function pendings(){
+  const L=[],now=Date.now();
+  PROMOS.forEach(p=>{const ow=COMMS.filter(c=>c.promoter_id===p.id&&c.status==="owed"&&c.kind!=="credit");if(!ow.length)return;const t=ow.reduce((a,c)=>a+ +c.amount,0);
+    L.push({pri:1,c:"var(--paint)",ic:"💵",t:`Págale ${money(t)} a ${p.name}`,s:`${ow.length} comisión${ow.length==1?"":"es"} · ${p.payout?"Pagarle por: "+p.payout:"No anotaste cómo pagarle"}`,a:`<button class="btn btn-pri btn-sm" data-paypromo="${p.id}">Ya le pagué</button>`})});
+  COMMS.filter(c=>c.kind==="credit"&&c.status==="owed").forEach(c=>{const p=PROMOS.find(x=>x.id===c.promoter_id),rs=SHOPS.find(s=>s.id===p?.shop_id);
+    L.push({pri:1,c:"var(--bay)",ic:"🎁",t:`Mes gratis para ${rs?.name||p?.name||"un taller"}`,s:rs?.stripe_customer?`Recomendó a ${shopName(c.shop_id)}. Stripe lo aplica solo en su siguiente cobro.`:`Recomendó a ${shopName(c.shop_id)}. No le cobres su siguiente mes.`,
+      a:rs?.stripe_customer?"":`<button class="btn btn-pri btn-sm" data-credit="${c.id}">Listo, no se lo cobré</button>`})});
+  SHOPS.filter(s=>s.status==="active"&&(s.plan==="paid"||s.plan==="founder")&&!s.stripe_sub).forEach(s=>{const lp=lastPay(s.id),since=lp?Date.parse(lp.paid_at):Date.parse(s.created_at);
+    if(now-since>31*864e5)L.push({pri:1,c:"var(--warn)",ic:"🧾",t:`Cóbrale a ${s.name}: ${money(priceOf(s))}`,s:lp?`Último pago: ${fmt(lp.paid_at)} (paga a mano)`:"Todavía no tiene pagos registrados (paga a mano)",
+      a:`${smsBtn(s,"charge")}<button class="btn btn-pri btn-sm" data-gotpay="${s.id}">Ya me pagó ${money(priceOf(s))}</button>`})});
+  SHOPS.filter(s=>(s.plan==="paid"||s.plan==="founder")&&s.paid_until&&Date.parse(s.paid_until)<now).forEach(s=>{const d=7-Math.floor((now-Date.parse(s.paid_until))/864e5);
+    L.push({pri:1,c:"var(--bad)",ic:"⚠️",t:`Pago atrasado: ${s.name}`,s:d>0?`Stripe no pudo cobrar. Se pausa en ${d} día${d==1?"":"s"} si no paga.`:"Ya se pausó por falta de pago (sus datos siguen guardados).",a:smsBtn(s,"late")})});
+  SHOPS.filter(s=>!s.admin_seen_at).forEach(s=>L.push({pri:2,c:"var(--ok)",ic:"🆕",t:`Taller nuevo: ${s.name}`,s:[s.owner_email,s.phone,s.ref_code?"lo recomendó "+s.ref_code:"llegó solo","alta "+fmt(s.created_at)].filter(Boolean).join(" · "),
+    a:`${smsBtn(s,"welcome")}<button class="btn btn-pri btn-sm" data-seen="${s.id}">Visto</button>`}));
+  SHOPS.filter(s=>s.plan==="trial"&&s.status==="active").forEach(s=>{const d=daysLeft(s.trial_ends);
+    if(d>0&&d<=7)L.push({pri:3,c:"var(--warn)",ic:"⏳",t:`A ${s.name} se le acaba la prueba en ${d} día${d==1?"":"s"}`,s:"Buen momento para escribirle y ayudarle a quedarse.",a:smsBtn(s,"ending")});
+    else if(d<=0&&d>-15)L.push({pri:3,c:"var(--bad)",ic:"⌛",t:`Se le venció la prueba a ${s.name}`,s:`Venció el ${fmt(s.trial_ends)}. Sus datos siguen guardados.`,a:smsBtn(s,"expired")})});
+  return L.sort((x,y)=>x.pri-y.pri);
+}
+function renderPend(tabs){
+  const L=PROMO_ERR?[]:pendings();
+  $("#main").innerHTML=`${tabs}<div style="margin:18px 0 12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="font-size:30px">${L.length?`Tienes ${L.length} pendiente${L.length==1?"":"s"}`:"Todo al día"}</h2><button class="btn btn-ghost btn-sm" onclick="load()">Actualizar</button></div>
+   ${PROMO_ERR?`<div class="card" style="padding:16px;color:var(--bad)">${PROMO_ERR}</div>`:L.length?L.map(x=>`<div class="card todo" style="--c:${x.c}"><div class="ic">${x.ic}</div><div class="tx"><b>${esc(x.t)}</b><span>${esc(x.s)}</span></div><div class="ac">${x.a}</div></div>`).join("")
+   :`<div class="card done"><b>✓ Todo al día</b>No hay nada pendiente. Aquí te aparece solo cuando entre un taller nuevo, haya que pagarle a un promotor, aplicar un mes gratis, cobrar o avisar que se acaba una prueba.</div>`}`;
+  const go=async(p)=>{const r=await p;if(r.error){toast("Error: "+r.error.message);return false}return true};
+  document.querySelectorAll("[data-seen]").forEach(b=>b.onclick=async()=>{b.disabled=true;if(await go(sb.rpc("admin_seen",{p_shop:b.dataset.seen}))){toast("Listo");load()}});
+  document.querySelectorAll("[data-paypromo]").forEach(b=>b.onclick=async()=>{b.disabled=true;const ids=COMMS.filter(c=>c.promoter_id===b.dataset.paypromo&&c.status==="owed"&&c.kind!=="credit").map(c=>c.id);
+    if(await go(sb.from("commissions").update({status:"paid",paid_at:new Date().toISOString()}).in("id",ids))){toast("Marcado como pagado");load()}});
+  document.querySelectorAll("[data-credit]").forEach(b=>b.onclick=async()=>{b.disabled=true;if(await go(sb.rpc("admin_apply_credit",{p_id:+b.dataset.credit}))){toast("Mes gratis aplicado");load()}});
+  document.querySelectorAll("[data-gotpay]").forEach(b=>b.onclick=async()=>{b.disabled=true;const s=SHOPS.find(x=>x.id===b.dataset.gotpay);
+    if(await go(sb.from("payments").insert({shop_id:s.id,amount:priceOf(s),source:"manual"}))){toast("Pago registrado");load()}});
+}
+
 /* ================== Promotores ================== */
 const refLink=c=>location.href.replace(/admin\.html.*$/,"")+"info.html?ref="+encodeURIComponent(c)+"#prueba";
-const ruleTxt=p=>p.mode==="flat"?`${money(p.amount)} por cada taller cuando lleva ${p.after_payments} pago${p.after_payments==1?"":"s"}`:`${+p.amount}% de cada pago durante ${p.months} meses`;
+const ruleTxt=p=>p.mode==="credit"?`1 mes gratis por cada taller que lleve ${p.after_payments} pago${p.after_payments==1?"":"s"}`:p.mode==="flat"?`${money(p.amount)} por cada taller cuando lleva ${p.after_payments} pago${p.after_payments==1?"":"s"}`:`${+p.amount}% de cada pago durante ${p.months} meses`;
 function copy(txt){(navigator.clipboard?.writeText(txt)||Promise.reject()).then(()=>toast("Copiado")).catch(()=>{const t=document.createElement("textarea");t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand("copy");toast("Copiado")}catch(e){}t.remove()})}
 function promoStats(p){const shops=SHOPS.filter(s=>s.ref_code===p.code),cs=COMMS.filter(c=>c.promoter_id===p.id);
-  return{shops,paying:shops.filter(s=>s.plan==="paid"||s.plan==="founder"),owed:cs.filter(c=>c.status==="owed"),paid:cs.filter(c=>c.status==="paid"),
-    owedT:cs.filter(c=>c.status==="owed").reduce((a,c)=>a+ +c.amount,0),paidT:cs.filter(c=>c.status==="paid").reduce((a,c)=>a+ +c.amount,0)}}
+  const cm=cs.filter(c=>c.kind!=="credit");
+  return{shops,paying:shops.filter(s=>s.plan==="paid"||s.plan==="founder"),owed:cm.filter(c=>c.status==="owed"),paid:cm.filter(c=>c.status==="paid"),months:cs.filter(c=>c.kind==="credit").length,
+    owedT:cm.filter(c=>c.status==="owed").reduce((a,c)=>a+ +c.amount,0),paidT:cm.filter(c=>c.status==="paid").reduce((a,c)=>a+ +c.amount,0)}}
 function summaryMsg(p){const st=promoStats(p);
   return`Hola ${p.name.split(" ")[0]}, este es tu resumen de ColorBay:\n• Talleres que se registraron con tu código: ${st.shops.length}\n• Talleres pagando: ${st.paying.length}\n• Por pagarte: ${money(st.owedT)}\n• Ya pagado: ${money(st.paidT)}\nTu enlace: ${refLink(p.code)}\nTu código: ${p.code}\n¡Gracias!`}
 function promoForm(p){p=p||{mode:"flat",amount:50,after_payments:2,months:12,bonus_days:30,active:true};
@@ -188,9 +245,10 @@ function promoForm(p){p=p||{mode:"flat",amount:50,after_payments:2,months:12,bon
    <label>Teléfono<input name="phone" inputmode="tel" value="${esc(p.phone||"")}"></label>
    <label>Correo<input name="email" type="email" value="${esc(p.email||"")}"></label>
    <label class="full">Cómo le pagas<input name="payout" value="${esc(p.payout||"")}" placeholder="Zelle 931-555-0000 · Cash App $pedro"></label>
-   <label>Tipo de pago<select name="mode"><option value="flat" ${p.mode==="flat"?"selected":""}>Pago fijo por taller</option><option value="recurring" ${p.mode==="recurring"?"selected":""}>Porcentaje de cada pago</option></select></label>
-   <label><span id="amtL">${p.mode==="flat"?"Cuánto le pagas por taller ($)":"Porcentaje de cada pago (%)"}</span><input name="amount" type="number" step="any" min="0" value="${p.amount}"></label>
-   <label id="apL" ${p.mode==="flat"?"":"hidden"}>Se gana cuando el taller lleva (pagos)<input name="after_payments" type="number" min="1" value="${p.after_payments}"></label>
+   <label>Tipo de pago<select name="mode"><option value="flat" ${p.mode==="flat"?"selected":""}>Pago fijo por taller</option><option value="recurring" ${p.mode==="recurring"?"selected":""}>Porcentaje de cada pago</option><option value="credit" ${p.mode==="credit"?"selected":""}>Mes gratis (taller cliente)</option></select></label>
+   <label id="shL" ${p.mode==="credit"?"":"hidden"}>¿Qué taller cliente es?<select name="shop_id"><option value="">— Escoge —</option>${SHOPS.map(s=>`<option value="${s.id}" ${p.shop_id===s.id?"selected":""}>${esc(s.name)}</option>`).join("")}</select></label>
+   <label id="amL" ${p.mode==="credit"?"hidden":""}><span id="amtL">${p.mode==="flat"?"Cuánto le pagas por taller ($)":"Porcentaje de cada pago (%)"}</span><input name="amount" type="number" step="any" min="0" value="${p.amount}"></label>
+   <label id="apL" ${p.mode!=="recurring"?"":"hidden"}>Se gana cuando el taller lleva (pagos)<input name="after_payments" type="number" min="1" value="${p.after_payments}"></label>
    <label id="moL" ${p.mode==="recurring"?"":"hidden"}>Durante cuántos pagos<input name="months" type="number" min="1" value="${p.months}"></label>
    <label>Días gratis extra para el taller<input name="bonus_days" type="number" min="0" value="${p.bonus_days}"></label>
    <label>Estado<select name="active"><option value="1" ${p.active?"selected":""}>Activo</option><option value="0" ${p.active?"":"selected"}>Pausado (su código ya no sirve para registros nuevos)</option></select></label>
@@ -198,8 +256,7 @@ function promoForm(p){p=p||{mode:"flat",amount:50,after_payments:2,months:12,bon
    <div class="err full" id="pf-err"></div>
    <div class="acts"><button type="button" class="btn btn-ghost" id="pf-x">Cancelar</button><button class="btn btn-pri">Guardar promotor</button></div></div></form>`}
 function renderPromos(tabs){
-  const owedT=COMMS.filter(c=>c.status==="owed").reduce((a,c)=>a+ +c.amount,0),paidT=COMMS.filter(c=>c.status==="paid").reduce((a,c)=>a+ +c.amount,0);
-  const shopName=id=>SHOPS.find(s=>s.id===id)?.name||"Taller";
+  const owedT=COMMS.filter(c=>c.status==="owed"&&c.kind!=="credit").reduce((a,c)=>a+ +c.amount,0),paidT=COMMS.filter(c=>c.status==="paid"&&c.kind!=="credit").reduce((a,c)=>a+ +c.amount,0);
   $("#main").innerHTML=`${tabs}${PROMO_ERR?`<div class="card" style="padding:16px;margin-top:18px;color:var(--bad)">${PROMO_ERR}</div>`:`
    <div class="stats s4">
     <div class="card stat"><b>${PROMOS.filter(p=>p.active).length}</b><span>Promotores activos</span></div>
@@ -208,9 +265,9 @@ function renderPromos(tabs){
     <div class="card stat"><b style="color:var(--ok)">${money(paidT)}</b><span>Ya pagado</span></div></div>
    ${EDIT!==null?promoForm(EDIT==="new"?null:PROMOS.find(p=>p.id===EDIT)):`<div class="toolbar"><button class="btn btn-paint" id="np">+ Nuevo promotor</button><button class="btn btn-ghost" onclick="load()">Actualizar</button></div>`}
    ${PROMOS.map(p=>{const st=promoStats(p);return`<div class="card promo" data-p="${p.id}" style="--c:${p.active?"var(--paint)":"var(--line)"}">
-     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h3>${esc(p.name)} <span class="chip">${esc(p.code)}</span>${p.active?"":` <span class="chip" style="color:var(--bad)">Pausado</span>`}</h3>
+     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><div><h3>${esc(p.name)} <span class="chip">${esc(p.code)}</span>${p.shop_id?` <span class="chip" style="color:var(--bay)">Taller cliente</span>`:""}${p.active?"":` <span class="chip" style="color:var(--bad)">Pausado</span>`}</h3>
       <div class="meta"><span>${ruleTxt(p)}</span>${p.bonus_days>0?`<span>El taller gana ${p.bonus_days} días extra</span>`:""}${p.phone?`<span>${esc(p.phone)}</span>`:""}${p.payout?`<span>Pagarle: <b>${esc(p.payout)}</b></span>`:""}</div></div>
-      <div style="text-align:right"><div class="money" style="color:${st.owedT?"var(--paint)":"var(--muted)"}">${money(st.owedT)}</div><div style="font-size:13px;color:var(--muted)">por pagar · ${money(st.paidT)} pagado</div></div></div>
+      <div style="text-align:right">${p.mode==="credit"?`<div class="money" style="color:var(--bay)">${st.months}</div><div style="font-size:13px;color:var(--muted)">mes${st.months==1?"":"es"} gratis ganado${st.months==1?"":"s"}</div>`:`<div class="money" style="color:${st.owedT?"var(--paint)":"var(--muted)"}">${money(st.owedT)}</div><div style="font-size:13px;color:var(--muted)">por pagar · ${money(st.paidT)} pagado</div>`}</div></div>
      <div class="linkbox"><input readonly value="${esc(refLink(p.code))}" aria-label="Enlace"><button class="btn btn-ghost btn-sm" data-cp="${esc(refLink(p.code))}">Copiar enlace</button><button class="btn btn-ghost btn-sm" data-sum>Copiar su resumen</button><button class="btn btn-ghost btn-sm" data-ed>Editar</button></div>
      <div class="meta" style="margin-top:10px"><span>Talleres: <b>${st.shops.length}</b></span><span>Pagando: <b>${st.paying.length}</b></span>${st.shops.length?`<span>${st.shops.map(s=>esc(s.name)).join(", ")}</span>`:""}</div>
      ${st.owed.length?`<div class="rows">${st.owed.map(c=>`<div><span>${esc(shopName(c.shop_id))} · ${c.kind==="flat"?"pago por taller":"comisión del mes"} · ${fmt(c.created_at)}</span><span style="display:flex;gap:8px;align-items:center"><b>${money(c.amount)}</b><button class="btn btn-pri btn-sm" data-paid="${c.id}">Ya le pagué</button></span></div>`).join("")}
@@ -225,13 +282,14 @@ function renderPromos(tabs){
   document.querySelectorAll("[data-paid]").forEach(b=>b.onclick=()=>{b.disabled=true;markPaid([+b.dataset.paid])});
   document.querySelectorAll("[data-paidall]").forEach(b=>b.onclick=()=>{b.disabled=true;const id=b.closest("[data-p]").dataset.p;markPaid(COMMS.filter(c=>c.promoter_id===id&&c.status==="owed").map(c=>c.id))});
   const f=$("#pf");if(!f)return;
-  const sync=()=>{const m=f.mode.value;$("#amtL").textContent=m==="flat"?"Cuánto le pagas por taller ($)":"Porcentaje de cada pago (%)";$("#apL").hidden=m!=="flat";$("#moL").hidden=m!=="recurring"};
+  const sync=()=>{const m=f.mode.value;$("#amtL").textContent=m==="flat"?"Cuánto le pagas por taller ($)":"Porcentaje de cada pago (%)";$("#apL").hidden=m==="recurring";$("#moL").hidden=m!=="recurring";$("#amL").hidden=m==="credit";$("#shL").hidden=m!=="credit"};
   f.mode.onchange=()=>{if(f.mode.value==="recurring"&&+f.amount.value===50)f.amount.value=25;if(f.mode.value==="flat"&&+f.amount.value===25)f.amount.value=50;sync()};
   f.name.oninput=()=>{if(!f.code.readOnly&&!f.code.dataset.touched)f.code.value=(f.name.value.split(" ")[0]||"").normalize("NFD").replace(/[^A-Za-z0-9]/g,"").toUpperCase().slice(0,12)+(f.name.value.trim()?String(new Date().getFullYear()).slice(2):"")};
   f.code.oninput=()=>{f.code.dataset.touched=1;f.code.value=f.code.value.toUpperCase().replace(/[^A-Z0-9]/g,"")};
   $("#pf-x").onclick=()=>{EDIT=null;render()};
   f.onsubmit=async e=>{e.preventDefault();const err=$("#pf-err");const row={name:f.name.value.trim(),code:f.code.value.trim().toUpperCase(),phone:f.phone.value.trim()||null,email:f.email.value.trim()||null,payout:f.payout.value.trim()||null,
-      mode:f.mode.value,amount:+f.amount.value||0,after_payments:Math.max(1,+f.after_payments.value||1),months:Math.max(1,+f.months.value||1),bonus_days:Math.max(0,+f.bonus_days.value||0),active:f.active.value==="1",notes:f.notes.value.trim()||null};
+      mode:f.mode.value,amount:+f.amount.value||0,after_payments:Math.max(1,+f.after_payments.value||1),months:Math.max(1,+f.months.value||1),bonus_days:Math.max(0,+f.bonus_days.value||0),active:f.active.value==="1",notes:f.notes.value.trim()||null,shop_id:f.mode.value==="credit"?(f.shop_id.value||null):null};
+    if(row.mode==="credit"){row.amount=1;if(!row.shop_id){err.textContent="Escoge qué taller cliente es.";return}}
     if(!row.name){err.textContent="Escribe el nombre.";return}if(!/^[A-Z0-9]{3,20}$/.test(row.code)){err.textContent="El código debe tener de 3 a 20 letras o números, sin espacios.";return}
     const r=EDIT==="new"?await sb.from("promoters").insert(row):await sb.from("promoters").update(row).eq("id",EDIT);
     if(r.error){err.textContent=/duplicate|unique/i.test(r.error.message)?"Ese código ya lo tiene otro promotor.":"Error: "+r.error.message;return}
