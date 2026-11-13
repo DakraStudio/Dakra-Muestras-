@@ -28,6 +28,6 @@ Nunca compartas la **secret key** ni la **service_role**.
 2. La página te muestra una línea de SQL: pégala en **SQL Editor** → **Run** → vuelve y toca **Ya lo hice**.
 
 ## Cosas a saber
-- Plan gratis de Supabase: 500 MB de base de datos y 1 GB de fotos. Se pausa si nadie lo usa en 7 días (con un taller usándolo diario no pasa).
+- Plan gratis de Supabase: 500 MB de base de datos y 1 GB de fotos. Supabase pausa los proyectos gratis sin uso por 7 días, pero el robot `.github/workflows/colorbay-keepalive.yml` lo despierta cada 3 días, así que no se pausa ni en vacaciones.
 - Cortesía = gratis de por vida. Suspendido = no puede entrar, pero sus datos se quedan guardados.
 - "Descargar sus datos" baja órdenes y clientes; las fotos quedan en Supabase → Storage → photos → carpeta del taller.

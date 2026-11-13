@@ -216,6 +216,20 @@ language sql stable security definer set search_path = public as $$
   end
 $$;
 
+
+-- ---------- Mantener despierta la base de datos ----------
+-- Supabase pausa los proyectos gratis sin actividad por 7 días (no borra nada).
+-- Un robot de GitHub llama a esta función cada 3 días para que nunca se pause,
+-- aunque los talleres se tomen vacaciones.
+create table if not exists public.heartbeat(id int primary key default 1, at timestamptz not null default now());
+alter table public.heartbeat enable row level security;
+revoke all on public.heartbeat from anon, authenticated;
+create or replace function public.keep_alive() returns timestamptz
+language sql security definer set search_path = public as $$
+  insert into heartbeat(id, at) values (1, now()) on conflict (id) do update set at = now() returning at
+$$;
+grant execute on function public.keep_alive() to anon, authenticated;
+
 -- ---------- Fotos ----------
 insert into storage.buckets(id, name, public) values ('photos', 'photos', false) on conflict (id) do nothing;
 
