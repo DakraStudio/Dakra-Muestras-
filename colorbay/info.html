@@ -108,6 +108,7 @@ footer b{color:#fff}
 @media (max-width:520px){.row2{grid-template-columns:1fr}.links{gap:10px}}
 </style>
 <script>try{document.documentElement.style.visibility="hidden"}catch(e){}</script>
+<script src="config.js"></script>
 </head>
 <body>
 <header class="nav"><div class="wrap">
@@ -193,11 +194,13 @@ footer b{color:#fff}
 <section id="prueba" style="margin-bottom:0"><div class="trial">
  <div><span class="tape" data-en="Free trial">Prueba gratis</span><h2 data-en="Create your shop now">Crea tu taller ahora</h2>
   <p data-en="Fill this in and you'll go straight into your empty shop as the owner. Add your workers from Settings.">Llena esto y entras directo a tu taller vacío como dueño. A tus trabajadores los agregas desde Ajustes.</p>
-  <p style="margin-top:14px;font-size:14px;opacity:.7" data-en="This trial version saves on this device. It replaces the sample shop on this browser.">Esta versión de prueba guarda en este aparato. Reemplaza al taller de ejemplo en este navegador.</p>
-  <p style="margin-top:18px"><a href="app.html" style="color:#fff" data-en="Rather see the sample shop first →">Prefiero ver primero el taller de ejemplo →</a></p></div>
+  <p id="local-note" style="margin-top:14px;font-size:14px;opacity:.7" data-en="This trial version saves on this device. It replaces the sample shop on this browser.">Esta versión de prueba guarda en este aparato. Reemplaza al taller de ejemplo en este navegador.</p>
+  <p style="margin-top:18px"><a href="app.html?demo=1" style="color:#fff" data-en="Rather see the sample shop first →">Prefiero ver primero el taller de ejemplo →</a></p></div>
  <form id="tf" novalidate>
   <label><span data-en="Shop name">Nombre del taller</span><input id="t-shop" autocomplete="organization" placeholder="Taller Hernández"></label>
   <label><span data-en="Your name">Tu nombre</span><input id="t-name" autocomplete="name"></label>
+  <div id="cloud-fields" class="row2" hidden><label><span data-en="Email">Correo</span><input id="t-email" type="email" autocomplete="email"></label>
+   <label><span data-en="Password (6+ characters)">Contraseña (6 o más)</span><input id="t-pass" type="password" autocomplete="new-password" minlength="6"></label></div>
   <div class="row2"><label><span data-en="Phone">Teléfono</span><input id="t-phone" inputmode="tel" autocomplete="tel"></label>
    <label><span data-en="4-digit PIN">PIN de 4 números</span><input id="t-pin" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
   <div class="err" id="t-err" role="alert"></div>
@@ -228,11 +231,32 @@ const secs=[...document.querySelectorAll("section[id]")];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
 secs.forEach(s=>io.observe(s));
 /* crear taller de prueba */
+const CFG=window.COLORBAY_CONFIG||{},CLOUD=!!(CFG.url&&CFG.key);
+if(CLOUD){document.getElementById("cloud-fields").hidden=false;document.getElementById("local-note").hidden=true}
+function loadScript(src){return new Promise((r,j)=>{const x=document.createElement("script");x.src=src;x.onload=r;x.onerror=j;document.head.appendChild(x)})}
+async function cloudSignup(f,err,btn){
+  const msg=(es,en)=>{err.textContent=lang==="en"?en:es};
+  if(!/^\S+@\S+\.\S+$/.test(f.email)){msg("Escribe un correo válido.","Enter a valid email.");return}
+  if(f.pass.length<6){msg("La contraseña debe tener 6 o más letras.","The password needs 6 or more characters.");return}
+  btn.disabled=true;msg("Creando tu taller…","Creating your shop…");
+  try{if(!window.supabase)try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
+    const sb=window.supabase.createClient(CFG.url,CFG.key);
+    try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone}))}catch(e){}
+    const{data,error}=await sb.auth.signUp({email:f.email,password:f.pass,options:{data:{name:f.name},emailRedirectTo:location.href.replace(/info\.html.*$/,"app.html")}});
+    if(error){btn.disabled=false;msg(/registered|exists/i.test(error.message)?"Ese correo ya tiene cuenta. Entra desde la app.":"No se pudo crear la cuenta: "+error.message,/registered|exists/i.test(error.message)?"That email already has an account. Log in from the app.":"Could not create the account: "+error.message);return}
+    if(!data.session){btn.disabled=false;msg("Revisa tu correo y confirma tu cuenta. Después entra a la app con tu correo y contraseña.","Check your email to confirm your account. Then log in to the app with your email and password.");return}
+    const r=await sb.rpc("create_shop",{p_name:f.shop,p_owner:f.name,p_pin:f.pin,p_phone:f.phone||null});
+    if(r.error){btn.disabled=false;msg("Error: "+r.error.message,"Error: "+r.error.message);return}
+    try{localStorage.removeItem("colorbay-pending-shop");localStorage.setItem("colorbay-shop-id",r.data)}catch(e){}
+    location.href="app.html";
+  }catch(e){btn.disabled=false;msg("No hay conexión. Intenta de nuevo.","No connection. Try again.")}
+}
 document.getElementById("tf").addEventListener("submit",e=>{e.preventDefault();
   const v=id=>document.getElementById(id).value.trim(),err=document.getElementById("t-err");
   const shop=v("t-shop"),name=v("t-name"),pin=v("t-pin");
   if(!shop||!name){err.textContent=lang==="en"?"Write the shop name and your name.":"Escribe el nombre del taller y tu nombre.";return}
   if(!/^\d{4}$/.test(pin)){err.textContent=lang==="en"?"The PIN must be 4 digits.":"El PIN debe tener 4 números.";return}
+  if(CLOUD){cloudSignup({shop,name,pin,phone:v("t-phone"),email:v("t-email"),pass:document.getElementById("t-pass").value},err,e.target.querySelector("button"));return}
   const EN=lang==="en";const stock=[{id:"s1",n:EN?"2K clearcoat":"Barniz (clear) 2K",u:"gal",q:0,min:0},{id:"s2",n:EN?"2K primer":"Primer 2K",u:"gal",q:0,min:0},{id:"s3",n:EN?"Reducer":"Reductor",u:"gal",q:0,min:0},{id:"s4",n:EN?"Hardener":"Endurecedor",u:"qt",q:0,min:0},{id:"s5",n:EN?"400 grit sandpaper":"Lija 400",u:EN?"box":"caja",q:0,min:0},{id:"s6",n:EN?"Masking tape":"Cinta de enmascarar",u:EN?"roll":"rollo",q:0,min:0}];
   const S={settings:{shop,rate:55,paintRate:45,tax:9.75,lang,theme:"auto",phone:v("t-phone")},users:[{id:"u1",name,role:"owner",pin}],customers:[],orders:[],paint:{library:[],mixes:[],stock},demo:false};
   try{localStorage.setItem("colorbay-shop-v2",JSON.stringify(S));sessionStorage.setItem("colorbay-session","u1")}catch(x){err.textContent=lang==="en"?"This browser blocked saving. Try another browser.":"Este navegador no dejó guardar. Prueba con otro navegador.";return}

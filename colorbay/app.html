@@ -45,6 +45,18 @@ a{color:var(--bay)}
 .num{font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--bay);outline-offset:2px}
 
+/* ---- Nube ---- */
+.cform{display:flex;flex-direction:column;gap:10px}
+.cin{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:13px 14px;font-size:16px;width:100%}
+.cin::placeholder{color:rgba(255,255,255,.5)}
+.cerr{color:#ffb39a;font-size:14px;min-height:1.2em}
+.seg.dark{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.seg.dark button{color:rgba(255,255,255,.7);flex:1}
+.seg.dark button.on{background:#fff;color:var(--navy)}
+.sync{position:fixed;right:14px;bottom:14px;z-index:15;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);color:var(--muted)}
+.sync.ok{color:var(--ok)}.sync.err{color:var(--bad)}
+@media (max-width:900px){.sync{bottom:78px}}
+.codebox{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.25em;color:var(--bay)}
 /* ---- Login ---- */
 .login{min-height:100%;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(1200px 600px at 80% -10%,#1d4f9c 0,transparent 60%),var(--navy);color:#fff}
 .login-card{width:min(440px,100%);display:flex;flex-direction:column;gap:18px;animation:rise .5s ease both}
@@ -358,6 +370,7 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
   .users{grid-template-columns:repeat(2,1fr)}
 }
 </style>
+<script src="config.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -368,6 +381,7 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 <div class="modal" id="modal"><div class="card mcard" id="modal-card"></div></div>
 <div class="lb" id="lb"></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="sync" id="sync" hidden></div>
 <input type="file" id="file" accept="image/*" capture="environment" hidden>
 <input type="file" id="filem" accept="image/*" multiple hidden>
 
@@ -538,13 +552,15 @@ function demo(lang){
 }
 const DEMO_EN={"Taller Ramírez": "Ramirez Auto Body", "Taller El Primo (flota)": "Primo's Garage (fleet)", "Mutual del Sur (ejemplo)": "Southern Mutual (sample)", "Carretera Seguros (ejemplo)": "Highway Insurance (sample)", "Blanco": "White", "Rojo": "Red", "Gris": "Gray", "Azul": "Blue", "Negro": "Black", "Cubierta rota del lado derecho": "Cover cracked on the right side", "Faro estrellado": "Headlamp cracked", "Reparar defensa delantera": "Repair front bumper", "Cubierta de defensa": "Bumper cover", "Faro derecho": "Right headlamp", "Pintar defensa y salpicadera der.": "Paint bumper and right fender", "Materiales de pintura": "Paint materials", "Reparar costado izq.": "Repair left quarter panel", "Calavera izq.": "Left tail lamp", "Pintar costado": "Paint quarter panel", "Repintar cofre": "Refinish hood", "Materiales": "Materials", "Desmontar y montar cofre": "R&I hood", "Revisión y estimado": "Inspection and estimate", "Reparar puerta izq.": "Repair left door", "Pintar puerta": "Paint door", "Defensa trasera": "Rear bumper", "Pintar defensa": "Paint bumper", "Instalar": "Install", "Rejilla XLT": "XLT grille", "Soporte der.": "Right bracket", "Moldura de caja": "Bed molding", "Le avisamos que las partes ya llegaron.": "Told the customer the parts arrived.", "Se mandó suplemento con fotos del soporte.": "Sent supplement with bracket photos.", "Revisar sensor de estacionamiento al armar.": "Check parking sensor at reassembly.", "Cliente pasa hoy en la tarde.": "Customer picks up this afternoon.", "Negro fino": "Fine black", "Amarillo óxido": "Oxide yellow", "Aluminio fino": "Fine aluminum", "Rojo brillante": "Bright red", "Plata fino": "Fine silver", "Azul oscuro": "Dark blue", "Barniz (clear) 2K": "2K clearcoat", "Primer 2K gris": "2K gray primer", "Reductor medio": "Medium reducer", "Endurecedor": "Hardener", "Lija 400": "400 grit sandpaper", "Cinta de enmascarar 3/4": "3/4 masking tape", "caja": "box", "rollo": "roll"};
 function trDemo(x){if(typeof x==="string")return DEMO_EN[x]??x;if(Array.isArray(x))return x.map(trDemo);if(x&&typeof x==="object"){const o={};for(const k in x)o[k]=(k==="id"||k==="pin")?x[k]:trDemo(x[k]);return o}return x}
-let S;
-try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+const CFG=window.COLORBAY_CONFIG||{};
+const DEMO=!(CFG.url&&CFG.key)||new URLSearchParams(location.search).has("demo");
 let WEBLANG="en";try{WEBLANG=localStorage.getItem("colorbay-web-lang")||"en"}catch(e){}
-if(!S||!S.orders||!S.users)S=demo(WEBLANG);
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast("⚠ No se pudo guardar");return false}}
+const emptyState=lang=>({settings:{shop:"",rate:55,paintRate:45,tax:9.75,lang,theme:"auto"},users:[],customers:[],orders:[],paint:{library:[],mixes:[],stock:[]},demo:false});
+let S=null;
+if(DEMO){try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}if(!S||!S.orders||!S.users)S=demo(WEBLANG)}else S=emptyState(WEBLANG);
+function save(){if(!DEMO){if(SHOP)scheduleSync();return true}try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast("⚠ No se pudo guardar");return false}}
 let ME=null;
-try{const sid=sessionStorage.getItem(SKEY);ME=S.users.find(u=>u.id===sid)||null}catch(e){}
+if(DEMO)try{const sid=sessionStorage.getItem(SKEY);ME=S.users.find(u=>u.id===sid)||null}catch(e){}
 
 /* ---- Fotos en IndexedDB (con respaldo en memoria) ---- */
 const PHOTOS={};let db=null;
@@ -579,7 +595,7 @@ function stamp(g,w,h,ro,date){
   g.fillStyle="rgba(0,0,0,.6)";g.fillRect(w-tw-24,h-Math.round(w/18),tw+24,Math.round(w/18));
   g.fillStyle="#fff";g.fillText(txt,w-tw-12,h-Math.round(w/60));
 }
-const photo=id=>{if(!id)return null;if(!PHOTOS[id]&&id.startsWith("demo-"))PHOTOS[id]=fakePhoto(id);return PHOTOS[id]||null};
+const photo=id=>{if(!id)return null;if(!PHOTOS[id]&&id.startsWith("demo-"))PHOTOS[id]=fakePhoto(id);if(!PHOTOS[id])ensurePhoto(id);return PHOTOS[id]||null};
 
 /* ================== Utilidades ================== */
 const t=k=>L[S.settings.lang][k]??k;
@@ -639,7 +655,9 @@ function pinKey(k){
     else{const r=$("#pinrow");r.classList.add("shake");toast(t("wrongPin"));setTimeout(()=>{pinBuf="";r.classList.remove("shake");r.querySelectorAll("i").forEach(d=>d.classList.remove("f"))},450)}}
 }
 document.addEventListener("keydown",e=>{if(!ME&&/^[0-9]$/.test(e.key))pinKey(e.key);if(!ME&&e.key==="Backspace")pinKey("⌫")});
-function logout(){ME=null;pickUser=null;try{sessionStorage.removeItem(SKEY)}catch(e){}closeSheet(true);closeOver();render()}
+function logout(){closeSheet(true);closeOver();
+  if(!DEMO){if(CH)sb.removeChannel(CH);CH=null;sb.auth.signOut().finally(()=>{ME=null;SHOP=null;S=emptyState(S.settings.lang);cloudErr="";render()});return}
+  ME=null;pickUser=null;try{sessionStorage.removeItem(SKEY)}catch(e){}render()}
 
 /* ================== Navegación ================== */
 const NAV=[
@@ -655,7 +673,7 @@ function navHtml(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button c
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
 document.addEventListener("click",e=>{
   const g=e.target.closest("[data-go]");if(g){go(g.dataset.go);return}
-  const lg=e.target.closest("[data-lang]");if(lg){S.settings.lang=lg.dataset.lang;document.documentElement.lang=S.settings.lang;save();render();if(openId)renderSheet();return}
+  const lg=e.target.closest("[data-lang]");if(lg){S.settings.lang=lg.dataset.lang;try{localStorage.setItem("colorbay-web-lang",lg.dataset.lang)}catch(x){}document.documentElement.lang=S.settings.lang;save();render();if(openId)renderSheet();return}
   const o=e.target.closest("[data-open]");if(o){openOrder(o.dataset.open)}
 });
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(ME&&NAV.some(n=>n[0]===h)&&navOk(h)&&h!==view){view=h;render()}});
@@ -663,7 +681,7 @@ const langBtns=()=>`<span style="display:flex;gap:6px"><button class="pill-btn $
 const brandHtml=`<div class="brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M3 13l2-5a2 2 0 0 1 2-1.3h10A2 2 0 0 1 19 8l2 5v4h-2"/><path d="M5 17H3v-4h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg></div><div class="brand-name">ColorBay<small>Shop</small></div>`;
 
 function render(){
-  if(!ME){renderLogin();return}
+  if(!ME){DEMO?renderLogin():renderCloudLogin();return}
   if(!navOk(view))view="inicio";
   $("#root").innerHTML=`<div class="app">
    <aside class="side"><div class="brand">${brandHtml}</div><nav>${navHtml()}</nav>
@@ -825,27 +843,38 @@ function vSet(){const s=S.settings;
    <label>${t("paintRate")}<input class="input num" id="s-prate" type="number" step="0.5" value="${s.paintRate}"></label>
    <label>${t("taxRate")}<input class="input num" id="s-tax" type="number" step="0.01" value="${s.tax}"></label>
    <label>${t("theme")}<select class="input" id="s-theme"><option value="auto">${t("auto")}</option><option value="light">${t("light")}</option><option value="dark">${t("dark")}</option></select></label></div></div></div>
+  ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></div>
+   ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}</div>
+  <div class="card"><div class="sec-h"><h2>${t("joinCode")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px">
+   <div class="codebox">${esc(SHOP.join_code)}</div><p style="margin:0;color:var(--muted);font-size:14px">${t("joinHow")}</p>
+   <p style="margin:0;font-size:14px"><b>dakrastudio.com/colorbay/app.html</b></p></div></div>`:""}
   <div class="card"><div class="sec-h"><h2>${t("team")}</h2><button class="btn btn-ghost btn-sm" id="u-add">＋ ${t("addUser")}</button></div>
-   ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
+   ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id&&u.role!=="owner"?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
   <div class="card" style="align-self:start"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
-   <p style="margin:0;color:var(--muted)">${t("dataNote")}</p>
+   <p style="margin:0;color:var(--muted)">${DEMO?t("dataNote"):t("cloudNote")}</p>
    <button class="btn btn-ghost" id="s-copy">${t("copyData")}</button>
-   <button class="btn btn-ghost" id="s-reset" style="color:var(--bad)">${t("resetDemo")}</button></div></div></div>`;
+   ${DEMO?`<button class="btn btn-ghost" id="s-reset" style="color:var(--bad)">${t("resetDemo")}</button>`:""}</div></div></div>`;
 }
 function wireSet(){
   $("#s-theme").value=S.settings.theme||"auto";
   const bind=(id,k,num)=>$(id).addEventListener("change",e=>{S.settings[k]=num?+e.target.value:e.target.value;save();toast(t("saved"));if(k==="theme")applyTheme()});
   bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
   $("#s-copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(S));toast(t("copied"))}catch(e){toast(t("noCopy"))}};
-  $("#s-reset").onclick=e=>{if(!resetArm){resetArm=true;e.target.textContent=t("sure");setTimeout(()=>{resetArm=false},3000);return}
+  if($("#s-reset"))$("#s-reset").onclick=e=>{if(!resetArm){resetArm=true;e.target.textContent=t("sure");setTimeout(()=>{resetArm=false},3000);return}
     S=demo(S.settings.lang);save();resetArm=false;ME=S.users[0];try{sessionStorage.setItem(SKEY,ME.id)}catch(x){}applyTheme();render()};
-  document.querySelectorAll("[data-du]").forEach(b=>b.onclick=()=>{S.users=S.users.filter(u=>u.id!==b.dataset.du);save();render()});
+  document.querySelectorAll("[data-du]").forEach(b=>b.onclick=async()=>{
+    if(!DEMO){const{error}=await sb.rpc("remove_worker",{p_shop:SHOP.id,p_worker:b.dataset.du});if(error){toast(t("errNet"));return}await reloadWorkers();render();return}
+    S.users=S.users.filter(u=>u.id!==b.dataset.du);save();render()});
   $("#u-add").onclick=()=>openModal(`<div class="sec-h"><h2>${t("addUser")}</h2><button class="del" onclick="closeModal()">×</button></div>
    <form class="mb" id="u-form"><div class="form"><label class="full">${t("name")}<input class="input" id="u-n" required></label>
-   <label>${t("role")}<select class="input" id="u-r">${Object.entries(t("roles")).map(([k,v])=>`<option value="${k}" ${k==="tech"?"selected":""}>${v}</option>`).join("")}</select></label>
+   <label>${t("role")}<select class="input" id="u-r">${Object.entries(t("roles")).filter(([k])=>DEMO||k!=="owner").map(([k,v])=>`<option value="${k}" ${k==="tech"?"selected":""}>${v}</option>`).join("")}</select></label>
    <label>${t("pin")}<input class="input num" id="u-p" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required></label></div>
    <div style="display:flex;justify-content:flex-end;margin-top:16px"><button class="btn btn-pri">${t("save")}</button></div></form>`,()=>{
-    $("#u-form").onsubmit=e=>{e.preventDefault();S.users.push({id:"u"+uid(),name:$("#u-n").value.trim(),role:$("#u-r").value,pin:$("#u-p").value});save();closeModal();toast(t("saved"));render()}});
+    $("#u-form").onsubmit=async e=>{e.preventDefault();
+      if(!DEMO){const pin=$("#u-p").value;if(!/^\d{4}$/.test(pin)){toast(t("pin"));return}
+        const{error}=await sb.rpc("add_worker",{p_shop:SHOP.id,p_name:$("#u-n").value.trim(),p_role:$("#u-r").value,p_pin:pin});
+        if(error){toast(/pin_taken/.test(error.message)?t("pinTaken"):t("errNet"));return}await reloadWorkers();closeModal();toast(t("saved"));render();return}
+      S.users.push({id:"u"+uid(),name:$("#u-n").value.trim(),role:$("#u-r").value,pin:$("#u-p").value});save();closeModal();toast(t("saved"));render()}});
 }
 function applyTheme(){const th=S.settings.theme;if(th==="light"||th==="dark")document.documentElement.dataset.theme=th;else delete document.documentElement.dataset.theme}
 
@@ -1016,13 +1045,13 @@ function wireSheet(o){
   /* inspección */
   const act=(el,fn)=>{el.addEventListener("click",fn);el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}})};
   sb.querySelectorAll("[data-gen]").forEach(p=>act(p,()=>{const k=p.dataset.gen;if(o.photosGen?.[k]){openLb(o,{gen:k});return}
-    pickPhoto(false,arr=>{if(!arr[0])return;const id="p"+uid();idbPut(id,arr[0]);o.photosGen=o.photosGen||{};o.photosGen[k]=id;save();toast(t("saved"));renderSheet();sb.querySelector(`[data-gen="${k}"]`)?.classList.add("pop")})}));
+    pickPhoto(false,arr=>{if(!arr[0])return;const id="p"+uid();storePhoto(id,arr[0]);o.photosGen=o.photosGen||{};o.photosGen[k]=id;save();toast(t("saved"));renderSheet();sb.querySelector(`[data-gen="${k}"]`)?.classList.add("pop")})}));
   sb.querySelectorAll("[data-part]").forEach(p=>act(p,()=>{curPart=p.dataset.part;stage=(o.insp[curPart]?.ph||[]).some(x=>x.st==="before")&&o.phase>=3?(o.phase>=6?"after":"during"):"before";renderSheet();
     if(innerWidth<900)setTimeout(()=>sb.querySelector(".insp>div:last-child")?.scrollIntoView({behavior:"smooth",block:"start"}),60)}));
   sb.querySelectorAll("[data-sev]").forEach(b=>b.onclick=()=>{o.insp[curPart]=o.insp[curPart]||{sev:0,ph:[]};o.insp[curPart].sev=+b.dataset.sev;save();renderSheet()});
   sb.querySelectorAll("[data-stage]").forEach(b=>b.onclick=()=>{stage=b.dataset.stage;renderSheet()});
   sb.querySelectorAll("[data-addph]").forEach(p=>act(p,()=>pickPhoto(true,arr=>{const part=o.insp[curPart]=o.insp[curPart]||{sev:0,ph:[]};
-    arr.forEach(d=>{const id="p"+uid();idbPut(id,d);part.ph.push({id,st:stage,ts:new Date().toISOString(),by:ME.id,note:""})});
+    arr.forEach(d=>{const id="p"+uid();storePhoto(id,d);part.ph.push({id,st:stage,ts:new Date().toISOString(),by:ME.id,note:""})});
     if(!part.sev&&stage==="before")part.sev=1;save();toast(`${arr.length} ${arr.length===1?(S.settings.lang==="es"?"foto":"photo"):t("photosOf")} · ${t(stage)}`);renderSheet()})));
   sb.querySelectorAll("[data-pv]").forEach(p=>p.onclick=()=>openLb(o,{part:curPart,i:+p.dataset.pv}));
   /* estimado */
@@ -1075,7 +1104,7 @@ function openLb(o,ref){lbRef={o,ref};
    <button class="btn btn-ghost" id="lb-del" style="color:var(--bad)">${S.settings.lang==="es"?"Borrar foto":"Delete photo"}</button><button class="btn btn-pri" id="lb-close">${t("close")}</button></div>`;
   $("#lb").classList.add("on");
   let arm=false;$("#lb-del").onclick=e=>{if(!arm){arm=true;e.target.textContent=t("sure");return}
-    if(isGen){idbDel(o.photosGen[ref.gen]);delete o.photosGen[ref.gen]}else{idbDel(p.id);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
+    if(isGen){removePhoto(o.photosGen[ref.gen]);delete o.photosGen[ref.gen]}else{removePhoto(p.id);o.insp[ref.part].ph.splice(ref.i,1)}save();closeLb();renderSheet()};
   $("#lb-close").onclick=closeLb;
 }
 function closeLb(){if(lbRef&&!lbRef.ref.gen){const n=$("#lb-note");if(n){lbRef.o.insp[lbRef.ref.part].ph[lbRef.ref.i].note=n.value;save()}}$("#lb").classList.remove("on");lbRef=null;if(openId)renderSheet()}
@@ -1155,13 +1184,172 @@ function newCustomer(){
   $("#nc-form").onsubmit=e=>{e.preventDefault();S.customers.push({id:"c"+uid(),name:$("#nc-n").value.trim(),phone:$("#nc-p").value.trim(),email:$("#nc-e").value.trim()});save();closeModal();toast(t("saved"));render()}});
 }
 
+/* ================== Nube (Supabase) ================== */
+Object.assign(L.es,{ownerTab:"Dueño",workerTab:"Trabajador",password:"Contraseña",logIn:"Entrar",shopCode:"Código del taller",yourPin:"Tu PIN",
+  createShop:"¿Todavía no tienes taller? Crea uno gratis",forgot:"Olvidé mi contraseña",resetSent:"Te mandamos un correo para cambiar la contraseña.",
+  newPass:"Nueva contraseña",setPass:"Guardar contraseña",seeDemo:"Ver la demo",loading:"Cargando tu taller…",
+  errLogin:"Correo o contraseña incorrectos.",errCode:"Ese código de taller no existe.",errPin:"PIN incorrecto.",errMany:"Demasiados intentos. Espera 15 minutos.",
+  errClosed:"Este taller no está activo.",errNet:"No hay conexión. Revisa tu internet.",errAnon:"El acceso de trabajadores no está activado todavía.",noShop:"Esta cuenta no tiene taller todavía.",
+  pausedT:"Este taller está pausado",trialT:"Terminó tu prueba gratis",pausedP:"Para seguir usando ColorBay, mándanos un mensaje de texto:",
+  syncOk:"Guardado",syncSaving:"Guardando…",syncErr:"Sin conexión · reintentando",
+  joinCode:"Código para tus trabajadores",joinHow:"Cada trabajador abre esta página, toca “Trabajador” y escribe este código y su PIN.",
+  plan:"Plan",plans:{trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"},daysLeft:"días restantes",
+  cloudNote:"Todo se guarda en la nube y se ve al momento en los celulares de tu equipo.",pinTaken:"Ese PIN ya lo usa otra persona del taller.",
+  pendingShop:"Creando tu taller…"});
+Object.assign(L.en,{ownerTab:"Owner",workerTab:"Worker",password:"Password",logIn:"Log in",shopCode:"Shop code",yourPin:"Your PIN",
+  createShop:"No shop yet? Create one free",forgot:"Forgot my password",resetSent:"We sent you an email to reset your password.",
+  newPass:"New password",setPass:"Save password",seeDemo:"See the demo",loading:"Loading your shop…",
+  errLogin:"Wrong email or password.",errCode:"That shop code doesn't exist.",errPin:"Wrong PIN.",errMany:"Too many tries. Wait 15 minutes.",
+  errClosed:"This shop is not active.",errNet:"No connection. Check your internet.",errAnon:"Worker access isn't turned on yet.",noShop:"This account has no shop yet.",
+  pausedT:"This shop is paused",trialT:"Your free trial ended",pausedP:"To keep using ColorBay, text us:",
+  syncOk:"Saved",syncSaving:"Saving…",syncErr:"Offline · retrying",
+  joinCode:"Code for your workers",joinHow:"Each worker opens this page, taps “Worker” and types this code and their PIN.",
+  plan:"Plan",plans:{trial:"Free trial",paid:"Paid",founder:"Founder",courtesy:"Courtesy"},daysLeft:"days left",
+  cloudNote:"Everything is saved in the cloud and shows up instantly on your team's phones.",pinTaken:"Another person in the shop already uses that PIN.",
+  pendingShop:"Creating your shop…"});
+let sb=null,SHOP=null,CH=null,cloudErr="",loginTab="owner",recovering=false;
+const CLOUD={snap:{orders:{},doc:""},timer:null,dirty:false};
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+function setSync(st){const e=$("#sync");if(!e||DEMO)return;e.className="sync "+st;e.textContent=t(st==="ok"?"syncOk":st==="err"?"syncErr":"syncSaving");e.hidden=false;
+  clearTimeout(setSync.h);if(st==="ok")setSync.h=setTimeout(()=>{e.hidden=true},2500)}
+const cloudDoc=()=>({settings:{...S.settings},customers:S.customers,paint:S.paint});
+function scheduleSync(){CLOUD.dirty=true;setSync("saving");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(syncNow,700)}
+async function syncNow(){
+  if(!SHOP)return;
+  try{
+    const now=new Date().toISOString();
+    const doc=JSON.stringify(cloudDoc());
+    if(doc!==CLOUD.snap.doc){const{error}=await sb.from("shop_data").update({doc:JSON.parse(doc),updated_at:now}).eq("shop_id",SHOP.id);if(error)throw error;CLOUD.snap.doc=doc}
+    const seen=new Set(),ups=[];
+    for(const o of S.orders){seen.add(o.id);const j=JSON.stringify(o);if(CLOUD.snap.orders[o.id]!==j)ups.push({shop_id:SHOP.id,id:o.id,doc:o,updated_at:now,_j:j})}
+    if(ups.length){const{error}=await sb.from("orders").upsert(ups.map(({_j,...r})=>r));if(error)throw error;ups.forEach(u=>CLOUD.snap.orders[u.id]=u._j)}
+    const gone=Object.keys(CLOUD.snap.orders).filter(id=>!seen.has(id));
+    if(gone.length){const{error}=await sb.from("orders").delete().eq("shop_id",SHOP.id).in("id",gone);if(error)throw error;gone.forEach(id=>delete CLOUD.snap.orders[id])}
+    CLOUD.dirty=false;setSync("ok");flushUploads();
+  }catch(e){console.error("sync",e);setSync("err");clearTimeout(CLOUD.timer);CLOUD.timer=setTimeout(syncNow,5000)}
+}
+window.addEventListener("beforeunload",e=>{if(!DEMO&&CLOUD.dirty){e.preventDefault();e.returnValue=""}});
+/* fotos en la nube */
+const UPKEY="colorbay-pending-uploads",dlBusy=new Set();
+let pendingUp=new Set();try{pendingUp=new Set(JSON.parse(localStorage.getItem(UPKEY)||"[]"))}catch(e){}
+const savePending=()=>{try{localStorage.setItem(UPKEY,JSON.stringify([...pendingUp]))}catch(e){}};
+function storePhoto(id,d){idbPut(id,d);if(!DEMO){pendingUp.add(id);savePending();flushUploads()}}
+function removePhoto(id){idbDel(id);if(!DEMO&&SHOP){pendingUp.delete(id);savePending();sb.storage.from("photos").remove([`${SHOP.id}/${id}.jpg`]).catch(()=>{})}}
+let upBusy=false;
+async function flushUploads(){
+  if(DEMO||!SHOP||upBusy||!pendingUp.size)return;upBusy=true;
+  for(const id of [...pendingUp]){const d=PHOTOS[id];if(!d){pendingUp.delete(id);continue}
+    try{const blob=await (await fetch(d)).blob();const{error}=await sb.storage.from("photos").upload(`${SHOP.id}/${id}.jpg`,blob,{contentType:"image/jpeg",upsert:true});
+      if(error)throw error;pendingUp.delete(id);savePending()}catch(e){console.error("upload",e);break}}
+  upBusy=false;
+}
+const blobToUrl=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)});
+function ensurePhoto(id){
+  if(DEMO||!SHOP||!id||PHOTOS[id]||dlBusy.has(id)||id.startsWith("demo-"))return;dlBusy.add(id);
+  sb.storage.from("photos").download(`${SHOP.id}/${id}.jpg`).then(async({data,error})=>{if(error||!data)return;idbPut(id,await blobToUrl(data));softRender()}).catch(()=>{});
+}
+let softT=null,softPending=false;
+function softRender(){clearTimeout(softT);softT=setTimeout(()=>{
+  const a=document.activeElement;if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)||$("#modal").classList.contains("on")||$("#lb").classList.contains("on")){softPending=true;return}
+  softPending=false;if(!ME)return;const sc=$("#sheet-b")?.scrollTop;render();if(openId){renderSheet();const b=$("#sheet-b");if(b&&sc)b.scrollTop=sc}},350)}
+document.addEventListener("focusout",()=>{if(softPending)setTimeout(softRender,50)});
+/* entrar y cargar */
+function shopBlocked(s){return s.status!=="active"||(s.plan==="trial"&&new Date(s.trial_ends)<new Date())}
+function renderShell(inner){$("#root").innerHTML=`<div class="login"><div class="login-card"><div><span class="tape">ColorBay Shop</span></div>${inner}
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px"><a href="index.html">${t("backWeb")}</a>${langBtns()}</div></div></div>`}
+function renderCloudLogin(){
+  if(recovering){renderShell(`<h1>${t("newPass")}</h1><form id="rp" class="cform"><input class="cin" id="rp-p" type="password" minlength="6" autocomplete="new-password" placeholder="${t("newPass")}" required>
+    <div class="cerr">${esc(cloudErr)}</div><button class="btn btn-paint">${t("setPass")}</button></form>`);
+    $("#rp").onsubmit=async e=>{e.preventDefault();const{error}=await sb.auth.updateUser({password:$("#rp-p").value});if(error){cloudErr=error.message;renderCloudLogin();return}recovering=false;cloudErr="";enterShop()};return}
+  renderShell(`<h1>${t("logIn")}</h1>
+   <div class="seg dark">${["owner","worker"].map(k=>`<button class="${loginTab===k?"on":""}" data-lt="${k}">${t(k==="owner"?"ownerTab":"workerTab")}</button>`).join("")}</div>
+   ${loginTab==="owner"?`<form id="lf" class="cform"><input class="cin" id="lf-e" type="email" autocomplete="email" placeholder="${t("email")}" required>
+     <input class="cin" id="lf-p" type="password" autocomplete="current-password" placeholder="${t("password")}" required>
+     <div class="cerr">${esc(cloudErr)}</div><button class="btn btn-paint">${t("logIn")}</button></form>
+     <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px"><a href="info.html#prueba">${t("createShop")}</a><a href="#" id="lf-f">${t("forgot")}</a></div>`
+   :`<form id="wf" class="cform"><input class="cin" id="wf-c" autocomplete="off" autocapitalize="characters" maxlength="6" placeholder="${t("shopCode")}" style="text-transform:uppercase;letter-spacing:.2em" required>
+     <input class="cin" id="wf-p" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="${t("yourPin")}" style="letter-spacing:.4em" required>
+     <div class="cerr">${esc(cloudErr)}</div><button class="btn btn-paint">${t("logIn")}</button></form>`}
+   <div class="hint"><a href="app.html?demo=1">${t("seeDemo")} →</a></div>`);
+  document.querySelectorAll("[data-lt]").forEach(b=>b.onclick=()=>{loginTab=b.dataset.lt;cloudErr="";renderCloudLogin()});
+  const lf=$("#lf");if(lf)lf.onsubmit=async e=>{e.preventDefault();cloudErr="";
+    const{error}=await sb.auth.signInWithPassword({email:$("#lf-e").value.trim(),password:$("#lf-p").value});
+    if(error){cloudErr=/fetch|network/i.test(error.message)?t("errNet"):t("errLogin");renderCloudLogin();return}enterShop()};
+  const ff=$("#lf-f");if(ff)ff.onclick=async e=>{e.preventDefault();const em=$("#lf-e").value.trim();if(!em){$("#lf-e").focus();return}
+    await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});toast(t("resetSent"))};
+  const wf=$("#wf");if(wf)wf.onsubmit=async e=>{e.preventDefault();cloudErr="";
+    let{data:{session}}=await sb.auth.getSession();
+    if(!session){const r=await sb.auth.signInAnonymously();if(r.error){cloudErr=/disabled/i.test(r.error.message)?t("errAnon"):t("errNet");renderCloudLogin();return}}
+    const{data,error}=await sb.rpc("join_shop",{p_code:$("#wf-c").value,p_pin:$("#wf-p").value});
+    const er=error?"net":data?.error;
+    if(er){cloudErr=t({bad_code:"errCode",bad_pin:"errPin",too_many_attempts:"errMany",shop_closed:"errClosed"}[er]||"errNet");renderCloudLogin();return}
+    try{localStorage.setItem("colorbay-shop-id",data.shop_id)}catch(x){}enterShop()};
+}
+function renderBlocked(s){renderShell(`<h1>${s.status!=="active"?t("pausedT"):t("trialT")}</h1><div class="shopname">${esc(s.name)}</div>
+  <p style="opacity:.85;margin:0">${t("pausedP")}</p><div style="font-family:var(--display);font-size:30px;font-weight:700">+1 (931) 292-2496</div>
+  <div style="opacity:.75">dakrastudio@gmail.com</div><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`)}
+async function enterShop(){
+  renderShell(`<h1 style="font-size:32px">${t("loading")}</h1>`);
+  const{data:{user}}=await sb.auth.getUser();if(!user){renderCloudLogin();return}
+  let{data:mem,error}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id);
+  if(error){cloudErr=t("errNet");renderCloudLogin();return}
+  let pending=null;try{pending=JSON.parse(localStorage.getItem("colorbay-pending-shop")||"null")}catch(e){}
+  if(!mem?.length&&pending&&!user.is_anonymous){
+    renderShell(`<h1 style="font-size:32px">${t("pendingShop")}</h1>`);
+    const r=await sb.rpc("create_shop",{p_name:pending.shop,p_owner:pending.name,p_pin:pending.pin,p_phone:pending.phone||null});
+    if(!r.error){try{localStorage.removeItem("colorbay-pending-shop")}catch(e){}({data:mem}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id))}
+  }
+  if(!mem?.length){await sb.auth.signOut();cloudErr=t("noShop");renderCloudLogin();return}
+  let pref=null;try{pref=localStorage.getItem("colorbay-shop-id")}catch(e){}
+  const m=mem.find(x=>x.shop_id===pref)||mem[0];
+  const{data:shop,error:e1}=await sb.from("shops").select("id,name,plan,status,trial_ends,join_code").eq("id",m.shop_id).single();
+  if(e1||!shop){cloudErr=t("errNet");renderCloudLogin();return}
+  SHOP=shop;
+  if(shopBlocked(shop)){renderBlocked(shop);return}
+  const[{data:sd,error:e2},{data:ords,error:e3},{data:wk,error:e4}]=await Promise.all([
+    sb.from("shop_data").select("doc").eq("shop_id",shop.id).maybeSingle(),
+    sb.from("orders").select("id,doc").eq("shop_id",shop.id),
+    sb.from("workers").select("id,name,role").eq("shop_id",shop.id)]);
+  if(e2||e3||e4){cloudErr=t("errNet");renderCloudLogin();return}
+  const doc=sd?.doc||{};const lang=S.settings.lang;
+  S={settings:{shop:shop.name,rate:55,paintRate:45,tax:9.75,theme:"auto",...(doc.settings||{}),lang},users:wk||[],customers:doc.customers||[],
+     orders:(ords||[]).map(r=>r.doc),paint:{library:[],mixes:[],stock:[],...(doc.paint||{})},demo:false};
+  CLOUD.snap.doc=JSON.stringify(cloudDoc());CLOUD.snap.orders={};S.orders.forEach(o=>CLOUD.snap.orders[o.id]=JSON.stringify(o));
+  ME=S.users.find(u=>u.id===m.worker_id)||{id:m.worker_id,name:user.email||"?",role:m.role};
+  applyTheme();subscribe();flushUploads();render();
+}
+function subscribe(){
+  if(CH)sb.removeChannel(CH);
+  CH=sb.channel("shop-"+SHOP.id)
+   .on("postgres_changes",{event:"*",schema:"public",table:"orders",filter:"shop_id=eq."+SHOP.id},p=>{
+     if(p.eventType==="DELETE"){const id=p.old?.id;if(!id||!(id in CLOUD.snap.orders))return;delete CLOUD.snap.orders[id];S.orders=S.orders.filter(o=>o.id!==id);if(openId===id)closeSheet(true);softRender();return}
+     const o=p.new?.doc;if(!o)return;const j=JSON.stringify(o);if(CLOUD.snap.orders[o.id]===j)return;
+     CLOUD.snap.orders[o.id]=j;const i=S.orders.findIndex(x=>x.id===o.id);if(i>=0)S.orders[i]=o;else S.orders.push(o);softRender()})
+   .on("postgres_changes",{event:"UPDATE",schema:"public",table:"shop_data",filter:"shop_id=eq."+SHOP.id},p=>{
+     const d=p.new?.doc;if(!d)return;const lang=S.settings.lang;const j=JSON.stringify({...d,settings:{...d.settings,lang}});
+     S.settings={...S.settings,...(d.settings||{}),lang};S.customers=d.customers||[];S.paint={...S.paint,...(d.paint||{})};CLOUD.snap.doc=JSON.stringify(cloudDoc());softRender()})
+   .subscribe();
+}
+async function reloadWorkers(){const{data}=await sb.from("workers").select("id,name,role").eq("shop_id",SHOP.id);if(data)S.users=data}
+async function bootCloud(){
+  renderShell(`<h1 style="font-size:32px">${t("loading")}</h1>`);
+  try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}
+  catch(e){try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}catch(x){cloudErr=t("errNet");renderShell(`<h1>${t("errNet")}</h1>`);return}}
+  sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){recovering=true;ME=null;renderCloudLogin()}});
+  const{data:{session}}=await sb.auth.getSession();
+  if(recovering)return;
+  if(!session){renderCloudLogin();return}
+  enterShop();
+}
+
 /* ================== Arranque ================== */
 ["gesturestart","gesturechange"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
 {const h=location.hash.slice(1);if(NAV.some(n=>n[0]===h))view=h}
 document.documentElement.lang=S.settings.lang;applyTheme();
-render();
-idbOpen().then(idbAll).then(()=>{if(ME)render()});
+if(DEMO){render();idbOpen().then(idbAll).then(()=>{if(ME)render()})}
+else idbOpen().then(idbAll).then(bootCloud);
 </script>
 </body>
 </html>

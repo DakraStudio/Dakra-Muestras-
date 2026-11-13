@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ColorBay · Administrador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+/* Panel solo para Dakra Studio: lista de talleres con plan, estado y acciones */
+:root{--navy:#0c2347;--bay:#1456b8;--paint:#e8541c;--tape:#e9d9a8;--ok:#1f8a4c;--bad:#c2352b;--warn:#b7791f;
+  --bg:#eef0f1;--surface:#fff;--surface-2:#f5f7f9;--ink:#16202a;--muted:#5d6b78;--line:#d9dfe5;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;--body:"Barlow",system-ui,-apple-system,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1419;--surface:#171e26;--surface-2:#1d2630;--ink:#e8edf2;--muted:#93a1ae;--line:#2a3542;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1}
+.bar{background:var(--navy);color:#fff}
+.bar .w{display:flex;justify-content:space-between;align-items:center;gap:12px;height:60px}
+.w{width:min(1100px,100% - 32px);margin-inline:auto}
+.tape{display:inline-block;background:var(--tape);color:#3d3420;font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:13px;padding:4px 12px;transform:rotate(-2deg)}
+.btn{border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn-pri{background:var(--bay);color:#fff}.btn-paint{background:var(--paint);color:#fff}
+.btn-ghost{background:var(--surface-2);border:1px solid var(--line);color:var(--ink)}
+.btn-sm{padding:6px 10px;font-size:14px;border-radius:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.login{max-width:400px;margin:60px auto;padding:24px;display:flex;flex-direction:column;gap:12px}
+input,select,textarea{font:inherit;color:inherit;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;width:100%;font-size:16px}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.err{color:var(--bad);font-size:14px;min-height:1.2em}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
+.stat{padding:14px}.stat b{display:block;font-family:var(--display);font-size:34px}.stat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar input{max-width:280px}
+.shop{padding:16px;margin-bottom:12px;display:grid;grid-template-columns:1.2fr 1fr;gap:16px;border-left:5px solid var(--c,var(--line))}
+.shop h3{font-size:26px}
+.meta{font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px}
+.chip{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form .full{grid-column:1/-1}
+.acts{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1;justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--surface);padding:10px 18px;border-radius:999px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+code{background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:8px;display:block;font-size:13px;white-space:pre-wrap;word-break:break-all}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.shop{grid-template-columns:1fr}.form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="w"><b style="font-family:var(--display);font-size:22px">ColorBay · Administrador</b><span id="who" style="font-size:14px;opacity:.85"></span></div></header>
+<main class="w" id="main"></main>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const CFG=window.COLORBAY_CONFIG||{};let sb=null,SHOPS=[],q="",fil="all";
+const PLAN={trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"};
+const PC={trial:"#b7791f",paid:"#1f8a4c",founder:"#1456b8",courtesy:"#8e6bd8"};
+function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove("on"),2200)}
+const fmt=d=>d?new Date(d).toLocaleDateString("es-MX",{day:"numeric",month:"short",year:"numeric"}):"—";
+const daysLeft=d=>Math.ceil((new Date(d)-new Date())/864e5);
+function loadScript(src){return new Promise((r,j)=>{const s=document.createElement("script");s.src=src;s.onload=r;s.onerror=j;document.head.appendChild(s)})}
+
+function loginView(msg=""){
+  $("#who").textContent="";
+  $("#main").innerHTML=`<form class="card login" id="lf"><span class="tape">Solo Dakra Studio</span><h1 style="font-size:34px">Entrar</h1>
+   <label>Correo<input id="e" type="email" autocomplete="email" required></label><label>Contraseña<input id="p" type="password" autocomplete="current-password" minlength="6" required></label>
+   <div class="err">${esc(msg)}</div><button class="btn btn-pri">Entrar</button>
+   <button type="button" class="btn btn-ghost" id="su">Crear mi cuenta de administrador</button></form>`;
+  $("#lf").onsubmit=async e=>{e.preventDefault();const{error}=await sb.auth.signInWithPassword({email:$("#e").value.trim(),password:$("#p").value});if(error)return loginView("Correo o contraseña incorrectos.");load()};
+  $("#su").onclick=async()=>{const em=$("#e").value.trim(),pw=$("#p").value;if(!em||pw.length<6)return loginView("Escribe tu correo y una contraseña de al menos 6 letras.");
+    const{data,error}=await sb.auth.signUp({email:em,password:pw});if(error)return loginView(error.message);
+    if(!data.session)return loginView("Cuenta creada. Si Supabase pide confirmar el correo, confírmalo y luego entra.");load()};
+}
+function notAdmin(email){
+  $("#main").innerHTML=`<div class="card login"><h1 style="font-size:30px">Falta un paso</h1><p>La cuenta <b>${esc(email)}</b> todavía no es administradora. En Supabase abre <b>SQL Editor</b>, pega esto y toca <b>Run</b>:</p>
+   <code>insert into public.platform_admins(user_id) select id from auth.users where email = '${esc(email)}';</code>
+   <button class="btn btn-pri" onclick="load()">Ya lo hice, recargar</button><button class="btn btn-ghost" onclick="logout()">Salir</button></div>`;
+}
+async function logout(){await sb.auth.signOut();loginView()}
+async function load(){
+  const{data:{user}}=await sb.auth.getUser();if(!user)return loginView();
+  $("#who").innerHTML=`${esc(user.email)} · <a href="#" style="color:#fff" onclick="logout();return false">Salir</a>`;
+  const{data:isA}=await sb.rpc("is_admin");if(!isA)return notAdmin(user.email);
+  const{data,error}=await sb.rpc("admin_shops");if(error){$("#main").innerHTML=`<p class="err">Error: ${esc(error.message)}</p>`;return}
+  SHOPS=data||[];render();
+}
+function render(){
+  const n=k=>SHOPS.filter(k).length;
+  const open=s=>s.status==="active"&&(s.plan!=="trial"||daysLeft(s.trial_ends)>0);
+  const list=SHOPS.filter(s=>(fil==="all"||s.plan===fil||(fil==="suspended"&&!open(s)))&&[s.name,s.owner_email,s.phone,s.join_code].join(" ").toLowerCase().includes(q.toLowerCase()));
+  $("#main").innerHTML=`<div class="stats">
+    <div class="card stat"><b>${SHOPS.length}</b><span>Talleres</span></div>
+    <div class="card stat"><b style="color:var(--ok)">${n(s=>s.plan==="paid"||s.plan==="founder")}</b><span>Pagando</span></div>
+    <div class="card stat"><b style="color:var(--warn)">${n(s=>s.plan==="trial"&&open(s))}</b><span>En prueba</span></div>
+    <div class="card stat"><b style="color:#8e6bd8">${n(s=>s.plan==="courtesy")}</b><span>Cortesía</span></div>
+    <div class="card stat"><b style="color:var(--bad)">${n(s=>!open(s))}</b><span>Pausados o vencidos</span></div></div>
+   <div class="toolbar"><input id="q" placeholder="Buscar taller, correo o código" value="${esc(q)}">
+    <select id="fil" style="width:auto">${[["all","Todos"],["trial","Prueba"],["paid","Pagando"],["founder","Fundador"],["courtesy","Cortesía"],["suspended","Pausados o vencidos"]].map(([k,v])=>`<option value="${k}" ${fil===k?"selected":""}>${v}</option>`).join("")}</select>
+    <button class="btn btn-ghost" onclick="load()">Actualizar</button></div>
+   ${list.map(s=>{const o=open(s);return`<div class="card shop" style="--c:${o?PC[s.plan]:"var(--bad)"}" data-id="${s.id}">
+     <div><h3>${esc(s.name)}</h3><div class="meta"><span>${esc(s.owner_email||"")}</span>${s.phone?`<span>${esc(s.phone)}</span>`:""}<span>Código <b>${esc(s.join_code)}</b></span></div>
+      <div class="meta"><span class="chip" style="color:${PC[s.plan]}">${PLAN[s.plan]}</span><span class="chip" style="color:${o?"var(--ok)":"var(--bad)"}">${o?"Activo":s.status==="suspended"?"Suspendido":"Prueba vencida"}</span>
+       ${s.plan==="trial"?`<span>${daysLeft(s.trial_ends)>0?daysLeft(s.trial_ends)+" días de prueba":"venció el "+fmt(s.trial_ends)}</span>`:""}</div>
+      <div class="meta"><span>${s.orders} órdenes</span><span>${s.workers} personas</span><span>Último uso: ${fmt(s.last_activity)}</span><span>Alta: ${fmt(s.created_at)}</span></div></div>
+     <div class="form">
+      <label>Plan<select data-k="plan">${Object.entries(PLAN).map(([k,v])=>`<option value="${k}" ${s.plan===k?"selected":""}>${v}</option>`).join("")}</select></label>
+      <label>Estado<select data-k="status"><option value="active" ${s.status==="active"?"selected":""}>Activo</option><option value="suspended" ${s.status==="suspended"?"selected":""}>Suspendido</option></select></label>
+      <label class="full">Fin de la prueba<input type="date" data-k="trial_ends" value="${(s.trial_ends||"").slice(0,10)}"></label>
+      <label class="full">Notas privadas<input data-k="notes" value="${esc(s.notes||"")}" placeholder="Ej. compañero, gratis de por vida"></label>
+      <div class="acts"><button class="btn btn-ghost btn-sm" data-exp>Descargar sus datos</button><button class="btn btn-pri btn-sm" data-save>Guardar</button></div></div></div>`}).join("")||`<p style="color:var(--muted)">No hay talleres con ese filtro.</p>`}`;
+  $("#q").oninput=e=>{q=e.target.value;const p=e.target.selectionStart;render();$("#q").focus();$("#q").setSelectionRange(p,p)};
+  $("#fil").onchange=e=>{fil=e.target.value;render()};
+  document.querySelectorAll("[data-save]").forEach(b=>b.onclick=async()=>{const c=b.closest(".shop"),v=k=>c.querySelector(`[data-k="${k}"]`).value;
+    const te=v("trial_ends");const{error}=await sb.rpc("admin_update_shop",{p_shop:c.dataset.id,p_plan:v("plan"),p_status:v("status"),p_trial_ends:te?new Date(te+"T23:59:00").toISOString():null,p_notes:v("notes")});
+    if(error){toast("Error: "+error.message);return}toast("Guardado");load()});
+  document.querySelectorAll("[data-exp]").forEach(b=>b.onclick=async()=>{const id=b.closest(".shop").dataset.id;const{data,error}=await sb.rpc("admin_export",{p_shop:id});
+    if(error){toast("Error: "+error.message);return}const s=SHOPS.find(x=>x.id===id);
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download=`colorbay-${(s.name||"taller").replace(/\W+/g,"-")}.json`;a.click();toast("Datos descargados")});
+}
+(async()=>{
+  if(!CFG.url||!CFG.key){$("#main").innerHTML=`<div class="card login"><h1 style="font-size:30px">Falta conectar la nube</h1><p>Primero hay que poner la dirección y la llave de Supabase en <b>config.js</b>.</p></div>`;return}
+  try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
+  sb=window.supabase.createClient(CFG.url,CFG.key);load();
+})();
+</script>
+</body>
+</html>
