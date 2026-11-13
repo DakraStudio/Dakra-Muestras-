@@ -210,7 +210,7 @@ footer b{color:#fff}
   <label><span data-en="Your name">Tu nombre</span><input id="t-name" autocomplete="name"></label>
   <div id="cloud-fields" class="row2" hidden><label><span data-en="Email">Correo</span><input id="t-email" type="email" autocomplete="email"></label>
    <label><span data-en="Password (6+ characters)">Contraseña (6 o más)</span><input id="t-pass" type="password" autocomplete="new-password" minlength="6"></label></div>
-  <div class="row2"><label><span data-en="Phone">Teléfono</span><input id="t-phone" inputmode="tel" autocomplete="tel"></label>
+  <div class="row2"><label><span data-en="Mobile phone">Celular</span><input id="t-phone" inputmode="tel" autocomplete="tel"></label>
    <label><span data-en="4-digit PIN">PIN de 4 números</span><input id="t-pin" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
   <label id="ref-field" hidden><span data-en="Promo code (optional) · extra free days">Código de promotor (opcional) · días gratis extra</span><input id="t-ref" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="PEDRO10" maxlength="20"></label>
   <label class="agree"><input type="checkbox" id="t-agree"><span data-en='I have read and agree to the <a href="legal.html?lang=en#terms" target="_blank" rel="noopener">Terms of Service</a> and the <a href="legal.html?lang=en#privacy" target="_blank" rel="noopener">Privacy Policy</a>.'>Leí y acepto los <a href="legal.html?lang=es#terminos" target="_blank" rel="noopener">Términos de servicio</a> y el <a href="legal.html?lang=es#privacidad" target="_blank" rel="noopener">Aviso de privacidad</a>.</span></label>
@@ -272,6 +272,7 @@ document.getElementById("tf").addEventListener("submit",e=>{e.preventDefault();
   const shop=v("t-shop"),name=v("t-name"),pin=v("t-pin");
   if(!shop||!name){err.textContent=lang==="en"?"Write the shop name and your name.":"Escribe el nombre del taller y tu nombre.";return}
   if(!/^\d{4}$/.test(pin)){err.textContent=lang==="en"?"The PIN must be 4 digits.":"El PIN debe tener 4 números.";return}
+  if(CLOUD&&v("t-phone").replace(/\D/g,"").length<10){err.textContent=lang==="en"?"Add a phone number (10 digits) so we can help you if you need it.":"Pon un teléfono (10 números) para poder ayudarte si lo necesitas.";return}
   if(!document.getElementById("t-agree").checked){err.textContent=lang==="en"?"Please accept the Terms and Privacy Policy to continue.":"Para seguir, acepta los Términos y el Aviso de privacidad.";return}
   try{localStorage.setItem("colorbay-terms-local",TERMS_V)}catch(e){}
   if(CLOUD){cloudSignup({shop,name,pin,phone:v("t-phone"),email:v("t-email"),pass:document.getElementById("t-pass").value},err,e.target.querySelector("button"));return}

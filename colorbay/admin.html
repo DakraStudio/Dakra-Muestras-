@@ -193,8 +193,10 @@ const MSG={
   late:s=>`Hi! Your ColorBay Shop payment didn't go through. You still have a few days before the account pauses. You can update your card in the app: Settings → Plan → View or cancel my subscription. Your data is safe.`,
   charge:s=>`Hi! Your ColorBay Shop monthly payment of ${money(priceOf(s))} is due. Thank you for your business!`
 };
-function smsBtn(s,k){if(!s.phone)return"";const ph=s.phone.replace(/[^\d+]/g,"");const sep=/iPhone|iPad|iPod|Mac/.test(navigator.userAgent)?"&":"?";
-  return`<a class="btn btn-ghost btn-sm" href="sms:${esc(ph)}${sep}body=${encodeURIComponent(MSG[k](s))}">💬 Mandar mensaje</a>`}
+const SUBJ={welcome:"Welcome to ColorBay Shop",ending:"Your ColorBay Shop trial ends soon",expired:"Your ColorBay Shop trial ended",late:"ColorBay Shop payment issue",charge:"ColorBay Shop monthly payment"};
+function mailBtn(s,k){if(!s.owner_email)return"";return`<a class="btn btn-ghost btn-sm" href="mailto:${esc(s.owner_email)}?subject=${encodeURIComponent(SUBJ[k])}&body=${encodeURIComponent(MSG[k](s).replace(/ just (text|reply) (me )?here\.?/," just reply to this email.")+"\n\nDakra Studio · ColorBay Shop\nText: +1 (931) 292-2496")}">✉️ Mandar correo</a>`}
+function smsBtn(s,k){if(!s.phone)return mailBtn(s,k);const ph=s.phone.replace(/[^\d+]/g,"");const sep=/iPhone|iPad|iPod|Mac/.test(navigator.userAgent)?"&":"?";
+  return`<a class="btn btn-ghost btn-sm" href="sms:${esc(ph)}${sep}body=${encodeURIComponent(MSG[k](s))}">💬 Mandar mensaje</a>${mailBtn(s,k)}`}
 function pendings(){
   const L=[],now=Date.now();
   PROMOS.forEach(p=>{const ow=COMMS.filter(c=>c.promoter_id===p.id&&c.status==="owed"&&c.kind!=="credit");if(!ow.length)return;const t=ow.reduce((a,c)=>a+ +c.amount,0);
