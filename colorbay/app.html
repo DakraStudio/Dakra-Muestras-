@@ -1315,7 +1315,8 @@ async function enterShop(){
     const r=await sb.rpc("create_shop",{p_name:pending.shop,p_owner:pending.name,p_pin:pending.pin,p_phone:pending.phone||null});
     if(!r.error){try{localStorage.removeItem("colorbay-pending-shop")}catch(e){}({data:mem}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id))}
   }
-  if(!mem?.length){await sb.auth.signOut();cloudErr=t("noShop");renderCloudLogin();return}
+  if(!mem?.length){renderShell(`<h1 style="font-size:32px">${t("noShop")}</h1><div class="shopname">${esc(user.email||"")}</div>
+    <a class="btn btn-paint" href="info.html#prueba" style="text-decoration:none">${t("createShop")}</a><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`);return}
   let pref=null;try{pref=localStorage.getItem("colorbay-shop-id")}catch(e){}
   const m=mem.find(x=>x.shop_id===pref)||mem[0];
   const{data:shop,error:e1}=await sb.from("shops").select("id,name,plan,status,trial_ends,join_code").eq("id",m.shop_id).single();
@@ -1351,7 +1352,7 @@ async function bootCloud(){
   renderShell(`<h1 style="font-size:32px">${t("loading")}</h1>`);
   try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}
   catch(e){try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}catch(x){cloudErr=t("errNet");renderShell(`<h1>${t("errNet")}</h1>`);return}}
-  sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{storageKey:"colorbay-app-auth",persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){recovering=true;ME=null;renderCloudLogin()}});
   const{data:{session}}=await sb.auth.getSession();
   if(recovering)return;

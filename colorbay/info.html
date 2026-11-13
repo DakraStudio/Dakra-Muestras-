@@ -242,7 +242,7 @@ async function cloudSignup(f,err,btn){
   if(f.pass.length<6){msg("La contraseña debe tener 6 o más letras.","The password needs 6 or more characters.");return}
   btn.disabled=true;msg("Creando tu taller…","Creating your shop…");
   try{if(!window.supabase)try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
-    const sb=window.supabase.createClient(CFG.url,CFG.key);
+    const sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{storageKey:"colorbay-app-auth",persistSession:true}});
     try{localStorage.setItem("colorbay-pending-shop",JSON.stringify({shop:f.shop,name:f.name,pin:f.pin,phone:f.phone}))}catch(e){}
     const{data,error}=await sb.auth.signUp({email:f.email,password:f.pass,options:{data:{name:f.name},emailRedirectTo:location.href.replace(/info\.html.*$/,"app.html")}});
     if(error){btn.disabled=false;msg(/registered|exists/i.test(error.message)?"Ese correo ya tiene cuenta. Entra desde la app.":"No se pudo crear la cuenta: "+error.message,/registered|exists/i.test(error.message)?"That email already has an account. Log in from the app.":"Could not create the account: "+error.message);return}

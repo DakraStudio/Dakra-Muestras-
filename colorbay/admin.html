@@ -137,7 +137,7 @@ function render(){
 (async()=>{
   if(!CFG.url||!CFG.key){$("#main").innerHTML=`<div class="card login"><h1 style="font-size:30px">Falta conectar la nube</h1><p>Primero hay que poner la dirección y la llave de Supabase en <b>config.js</b>.</p></div>`;return}
   try{await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.js")}catch(e){await loadScript("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js")}
-  sb=window.supabase.createClient(CFG.url,CFG.key);load();
+  sb=window.supabase.createClient(CFG.url,CFG.key,{auth:{storageKey:"colorbay-admin-auth",persistSession:true,autoRefreshToken:true}});load();
 })();
 </script>
 </body>
