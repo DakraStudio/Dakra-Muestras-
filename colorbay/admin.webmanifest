@@ -1,0 +1,2 @@
+{"name":"ColorBay Admin","short_name":"CB Admin","start_url":"admin.html","scope":"./admin.html","display":"standalone","background_color":"#0c2347","theme_color":"#0c2347",
+ "icons":[{"src":"icons/admin-192.png","sizes":"192x192","type":"image/png"},{"src":"icons/admin-512.png","sizes":"512x512","type":"image/png"}]}

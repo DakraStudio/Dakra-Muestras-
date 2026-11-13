@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>ColorBay · Administrador</title>
+<link rel="manifest" href="admin.webmanifest">
+<link rel="apple-touch-icon" href="icons/admin-apple.png">
+<link rel="icon" type="image/png" href="icons/admin-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CB Admin">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0c2347">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -47,6 +55,11 @@ label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;
 .toast.on{opacity:1;transform:translate(-50%,0)}
 code{background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:8px;display:block;font-size:13px;white-space:pre-wrap;word-break:break-all}
 @media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.shop{grid-template-columns:1fr}.form{grid-template-columns:1fr}}
+
+/* iPhone: las fechas no deben salirse del cuadro */
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;min-height:44px;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
+.form>*{min-width:0}
 </style>
 </head>
 <body>

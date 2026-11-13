@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>ColorBay Shop · App</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/app-apple.png">
+<link rel="icon" type="image/png" href="icons/app-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ColorBay">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1456b8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
@@ -369,6 +377,11 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
   .thumb{width:44px;height:36px}
   .users{grid-template-columns:repeat(2,1fr)}
 }
+
+/* iPhone: las fechas no deben salirse del cuadro */
+input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;min-height:44px;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
+.form>*{min-width:0}
 </style>
 <script src="config.js?v=20261112b"></script>
 </head>
@@ -850,10 +863,13 @@ function vSet(){const s=S.settings;
    <p style="margin:0;font-size:14px"><b>dakrastudio.com/colorbay/app.html</b></p></div></div>`:""}
   <div class="card"><div class="sec-h"><h2>${t("team")}</h2><button class="btn btn-ghost btn-sm" id="u-add">＋ ${t("addUser")}</button></div>
    ${S.users.map(u=>`<div class="row" style="cursor:default">${ava(u)}<div class="main"><div class="t1">${esc(u.name)}</div><div class="t2">${t("roles")[u.role]} · PIN ••••</div></div>${u.id!==ME.id&&u.role!=="owner"?`<button class="del" data-du="${u.id}" aria-label="x">×</button>`:""}</div>`).join("")}</div></div>
-  <div class="card" style="align-self:start"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
+  <div style="display:flex;flex-direction:column;gap:18px;min-width:0;align-self:start">
+  <div class="card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+   <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
+  <div class="card"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
    <p style="margin:0;color:var(--muted)">${DEMO?t("dataNote"):t("cloudNote")}</p>
    <button class="btn btn-ghost" id="s-copy">${t("copyData")}</button>
-   ${DEMO?`<button class="btn btn-ghost" id="s-reset" style="color:var(--bad)">${t("resetDemo")}</button>`:""}</div></div></div>`;
+   ${DEMO?`<button class="btn btn-ghost" id="s-reset" style="color:var(--bad)">${t("resetDemo")}</button>`:""}</div></div></div></div>`;
 }
 function wireSet(){
   $("#s-theme").value=S.settings.theme||"auto";
@@ -1185,7 +1201,7 @@ function newCustomer(){
 }
 
 /* ================== Nube (Supabase) ================== */
-Object.assign(L.es,{ownerTab:"Dueño",workerTab:"Trabajador",password:"Contraseña",logIn:"Entrar",shopCode:"Código del taller",yourPin:"Tu PIN",
+Object.assign(L.es,{quick:"Acceso rápido",quickIos:"iPhone: en Safari toca el botón Compartir (cuadro con flecha) → “Agregar a inicio”.",quickAnd:"Android: en Chrome toca ⋮ → “Agregar a la pantalla principal” o “Instalar app”.",quickNote:"Queda un ícono de ColorBay como app. La primera vez pide entrar de nuevo.",ownerTab:"Dueño",workerTab:"Trabajador",password:"Contraseña",logIn:"Entrar",shopCode:"Código del taller",yourPin:"Tu PIN",
   createShop:"¿Todavía no tienes taller? Crea uno gratis",forgot:"Olvidé mi contraseña",resetSent:"Te mandamos un correo para cambiar la contraseña.",
   newPass:"Nueva contraseña",setPass:"Guardar contraseña",seeDemo:"Ver la demo",loading:"Cargando tu taller…",
   errLogin:"Correo o contraseña incorrectos.",errCode:"Ese código de taller no existe.",errPin:"PIN incorrecto.",errMany:"Demasiados intentos. Espera 15 minutos.",
@@ -1196,7 +1212,7 @@ Object.assign(L.es,{ownerTab:"Dueño",workerTab:"Trabajador",password:"Contrase�
   plan:"Plan",plans:{trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"},daysLeft:"días restantes",
   cloudNote:"Todo se guarda en la nube y se ve al momento en los celulares de tu equipo.",pinTaken:"Ese PIN ya lo usa otra persona del taller.",
   pendingShop:"Creando tu taller…"});
-Object.assign(L.en,{ownerTab:"Owner",workerTab:"Worker",password:"Password",logIn:"Log in",shopCode:"Shop code",yourPin:"Your PIN",
+Object.assign(L.en,{quick:"Quick access",quickIos:"iPhone: in Safari tap Share (square with arrow) → “Add to Home Screen”.",quickAnd:"Android: in Chrome tap ⋮ → “Add to Home screen” or “Install app”.",quickNote:"A ColorBay icon appears like an app. The first time it asks you to log in again.",ownerTab:"Owner",workerTab:"Worker",password:"Password",logIn:"Log in",shopCode:"Shop code",yourPin:"Your PIN",
   createShop:"No shop yet? Create one free",forgot:"Forgot my password",resetSent:"We sent you an email to reset your password.",
   newPass:"New password",setPass:"Save password",seeDemo:"See the demo",loading:"Loading your shop…",
   errLogin:"Wrong email or password.",errCode:"That shop code doesn't exist.",errPin:"Wrong PIN.",errMany:"Too many tries. Wait 15 minutes.",

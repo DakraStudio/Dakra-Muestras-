@@ -1,0 +1,2 @@
+{"name":"ColorBay Shop","short_name":"ColorBay","start_url":"app.html","scope":"./","display":"standalone","background_color":"#0c2347","theme_color":"#1456b8",
+ "icons":[{"src":"icons/app-192.png","sizes":"192x192","type":"image/png"},{"src":"icons/app-512.png","sizes":"512x512","type":"image/png"}]}
