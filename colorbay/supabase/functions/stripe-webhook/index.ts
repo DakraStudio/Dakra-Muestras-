@@ -83,6 +83,26 @@ async function applyStripeCredits() {
   }
 }
 
+// Reembolso total o contracargo (el taller reclamó al banco): el pago deja de contar y la comisión del promotor
+// se anula, o si ya se le pagó, se descuenta de la siguiente. Los reembolsos parciales se revisan a mano en el panel.
+async function refundByCharge(ch: Stripe.Charge, force = false) {
+  // deno-lint-ignore no-explicit-any
+  const c = ch as any;
+  if (!force && (c.amount_refunded ?? 0) < (c.amount ?? 1)) return;
+  let inv = c.invoice ?? null;
+  if (!inv) {
+    try {
+      // deno-lint-ignore no-explicit-any
+      const ips = await (stripe as any).invoicePayments.list({ payment: { type: "charge", charge: c.id }, limit: 1 });
+      inv = ips?.data?.[0]?.invoice ?? null;
+    } catch { inv = null; }
+  }
+  if (!inv) return;
+  const id = typeof inv === "string" ? inv : inv.id;
+  const { data: pay } = await db.from("payments").select("id").eq("ext_id", id).maybeSingle();
+  if (pay) { const { error } = await db.rpc("refund_payment", { p_id: pay.id }); if (error) throw new Error("db: " + error.message); }
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") return new Response("ok");
   const sig = req.headers.get("stripe-signature");
@@ -111,6 +131,16 @@ Deno.serve(async (req) => {
       case "customer.subscription.deleted": {
         const sub = event.data.object as Stripe.Subscription;
         await applySub(sub, (sub.metadata?.shop_id as string) || null);
+        break;
+      }
+      case "charge.refunded": {
+        await refundByCharge(event.data.object as Stripe.Charge);
+        break;
+      }
+      case "charge.dispute.created": {
+        const d = event.data.object as Stripe.Dispute;
+        const chId = typeof d.charge === "string" ? d.charge : d.charge?.id;
+        if (chId) await refundByCharge(await stripe.charges.retrieve(chId), true);
         break;
       }
       case "invoice.paid": {

@@ -395,6 +395,22 @@ alter table public.promoters add column if not exists shop_id uuid references pu
 alter table public.promoters drop constraint if exists promoters_mode_check;
 alter table public.promoters add constraint promoters_mode_check check (mode in ('flat','recurring','credit'));
 create unique index if not exists promoters_shop_uq on public.promoters(shop_id) where shop_id is not null;
+-- Acuerdo del promotor: enlace privado para aceptarlo y ver sus números; W-9; fin de la relación
+alter table public.promoters add column if not exists accept_token     uuid not null default gen_random_uuid();
+alter table public.promoters add column if not exists accepted_at      timestamptz;
+alter table public.promoters add column if not exists accepted_name    text;
+alter table public.promoters add column if not exists accepted_email   text;
+alter table public.promoters add column if not exists accepted_version text;
+alter table public.promoters add column if not exists accepted_agent   text;
+alter table public.promoters add column if not exists w9_received      boolean not null default false;
+alter table public.promoters add column if not exists ended_at         timestamptz;
+alter table public.promoters add column if not exists end_type         text check (end_type in ('sin_causa','con_causa'));
+alter table public.promoters add column if not exists end_reason       text;
+create unique index if not exists promoters_token_uq on public.promoters(accept_token);
+-- Comisiones anuladas (reembolsos) y descuentos por reembolso
+alter table public.commissions drop constraint if exists commissions_status_check;
+alter table public.commissions add constraint commissions_status_check check (status in ('owed','paid','void'));
+alter table public.payments add column if not exists refunded_at timestamptz;
 create index if not exists payments_shop_idx on public.payments(shop_id);
 create index if not exists commissions_promoter_idx on public.commissions(promoter_id, status);
 alter table public.promoters   enable row level security;
@@ -443,10 +459,14 @@ declare pr promoters; n int; cid bigint;
 begin
   if new.amount <= 0 then return new; end if;
   select p.* into pr from shops s join promoters p on p.code = s.ref_code where s.id = new.shop_id;
-  if not found then return new; end if;
-  select count(*) into n from payments where shop_id = new.shop_id and amount > 0;
+  if not found or pr.end_type = 'con_causa' then return new; end if;
+  select count(*) into n from payments where shop_id = new.shop_id and amount > 0 and refunded_at is null;
   if pr.mode in ('flat','credit') then
-    if n >= pr.after_payments and not exists(select 1 from commissions where promoter_id = pr.id and shop_id = new.shop_id) then
+    if n >= pr.after_payments and (
+         (pr.mode = 'flat' and coalesce((select sum(amount) from commissions where promoter_id = pr.id and shop_id = new.shop_id
+                                          and kind in ('flat','clawback') and status <> 'void'), 0) <= 0)
+      or (pr.mode = 'credit' and not exists(select 1 from commissions where promoter_id = pr.id and shop_id = new.shop_id
+                                          and kind = 'credit' and status <> 'void'))) then
       insert into commissions(promoter_id, shop_id, payment_id, kind, amount)
       values (pr.id, new.shop_id, new.id, case when pr.mode = 'credit' then 'credit' else 'flat' end, case when pr.mode = 'credit' then 1 else pr.amount end)
       returning id into cid;
@@ -469,8 +489,9 @@ begin
   if public.my_role(p_shop) is distinct from 'owner' then raise exception 'not_owner'; end if;
   select * into s from shops where id = p_shop;
   if s.ref_code is not null then return 'already'; end if;
-  select * into pr from promoters where code = c and active;
-  if not found or pr.shop_id = p_shop then return 'invalid'; end if;
+  if s.created_at < now() - interval '30 days' then return 'late'; end if;
+  select * into pr from promoters where code = c and active and ended_at is null;
+  if not found or pr.shop_id = p_shop or (pr.mode <> 'credit' and pr.accepted_at is null) then return 'invalid'; end if;
   update shops set ref_code = c, ref_at = now(),
          trial_ends = case when plan = 'trial' and pr.bonus_days > 0
                            then greatest(trial_ends, now()) + make_interval(days => pr.bonus_days) else trial_ends end
@@ -518,6 +539,72 @@ begin
   return r;
 end $$;
 grant execute on function public.admin_apply_credit(bigint, text) to authenticated;
+
+-- Reembolso: el pago deja de contar; su comisión se anula, o si ya se pagó, se descuenta de la siguiente
+create or replace function public.refund_payment(p_id bigint) returns void
+language plpgsql security definer set search_path = public as $$
+declare c commissions;
+begin
+  update payments set refunded_at = coalesce(refunded_at, now()) where id = p_id;
+  for c in select * from commissions where payment_id = p_id and kind <> 'clawback' loop
+    if c.status = 'owed' then
+      update commissions set status = 'void', note = 'Anulada: el pago se reembolsó' where id = c.id;
+    elsif c.status = 'paid' and c.kind <> 'credit' and not exists(select 1 from commissions where payment_id = p_id and kind = 'clawback' and promoter_id = c.promoter_id) then
+      insert into commissions(promoter_id, shop_id, payment_id, kind, amount, note)
+      values (c.promoter_id, c.shop_id, p_id, 'clawback', -c.amount, 'Descuento: el taller recibió reembolso');
+    end if;
+  end loop;
+end $$;
+revoke all on function public.refund_payment(bigint) from public, anon, authenticated;
+grant execute on function public.refund_payment(bigint) to service_role;
+create or replace function public.admin_refund_payment(p_id bigint) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'not_admin'; end if;
+  perform public.refund_payment(p_id);
+end $$;
+grant execute on function public.admin_refund_payment(bigint) to authenticated;
+
+-- Portal del promotor (con su enlace privado): ver su acuerdo, aceptarlo y ver sus números.
+-- Solo ve el nombre y el estado de los talleres que él trajo; nunca datos del taller.
+create or replace function public.promoter_portal(p_token uuid) returns jsonb
+language plpgsql stable security definer set search_path = public as $$
+declare pr promoters;
+begin
+  select * into pr from promoters where accept_token = p_token;
+  if not found then return null; end if;
+  return jsonb_build_object(
+    'name', pr.name, 'code', pr.code, 'mode', pr.mode, 'amount', pr.amount, 'after_payments', pr.after_payments,
+    'months', pr.months, 'bonus_days', pr.bonus_days, 'active', pr.active and pr.ended_at is null, 'payout', pr.payout,
+    'accepted_at', pr.accepted_at, 'accepted_name', pr.accepted_name, 'accepted_version', pr.accepted_version,
+    'ended_at', pr.ended_at, 'end_type', pr.end_type,
+    'shops', coalesce((select jsonb_agg(jsonb_build_object('name', s.name, 'since', s.ref_at,
+        'status', case when s.status <> 'active' then 'paused' when s.plan in ('paid','founder') then 'paying' when s.plan = 'trial' then 'trial' else 'other' end) order by s.ref_at)
+      from shops s where s.ref_code = pr.code), '[]'::jsonb),
+    'owed', coalesce((select sum(amount) from commissions where promoter_id = pr.id and status = 'owed' and kind <> 'credit'), 0),
+    'payable', coalesce((select sum(amount) from commissions where promoter_id = pr.id and status = 'owed' and kind <> 'credit'
+                          and (kind = 'clawback' or created_at <= now() - interval '30 days')), 0),
+    'paid', coalesce((select sum(amount) from commissions where promoter_id = pr.id and status = 'paid' and kind <> 'credit'), 0),
+    'payouts', coalesce((select jsonb_agg(jsonb_build_object('date', d, 'amount', t) order by d desc)
+      from (select paid_at::date d, sum(amount) t from commissions where promoter_id = pr.id and status = 'paid' and kind <> 'credit' group by 1) x), '[]'::jsonb));
+end $$;
+grant execute on function public.promoter_portal(uuid) to anon, authenticated;
+
+create or replace function public.promoter_accept(p_token uuid, p_name text, p_email text, p_payout text, p_version text, p_agent text default null)
+returns text language plpgsql security definer set search_path = public as $$
+declare pr promoters;
+begin
+  select * into pr from promoters where accept_token = p_token;
+  if not found then return 'invalid'; end if;
+  if length(trim(coalesce(p_name, ''))) < 3 then return 'name'; end if;
+  update promoters set accepted_at = now(), accepted_name = left(trim(p_name), 120), accepted_email = left(nullif(trim(coalesce(p_email, '')), ''), 160),
+         accepted_version = left(p_version, 40), accepted_agent = left(p_agent, 300),
+         payout = coalesce(nullif(left(trim(coalesce(p_payout, '')), 160), ''), payout),
+         email = coalesce(email, left(nullif(trim(coalesce(p_email, '')), ''), 160))
+   where id = pr.id;
+  return 'ok';
+end $$;
+grant execute on function public.promoter_accept(uuid, text, text, text, text, text) to anon, authenticated;
 
 -- Panel: marcar un taller como revisado
 create or replace function public.admin_seen(p_shop uuid) returns void

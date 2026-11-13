@@ -56,7 +56,7 @@ Todo ya está programado; solo está apagado. Mientras `config.js → stripe` es
 7. **Crea el webhook en Stripe** (Desarrolladores → Webhooks → Agregar destino):
    URL: `https://gjnkwxmkwuqrsbocigdw.supabase.co/functions/v1/stripe-webhook`
    Eventos: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`,
-   `customer.subscription.deleted`, `invoice.paid`. Copia el *Signing secret* (`whsec_...`) y guárdalo en Supabase
+   `customer.subscription.deleted`, `invoice.paid`, `charge.refunded`, `charge.dispute.created`. Copia el *Signing secret* (`whsec_...`) y guárdalo en Supabase
    como `STRIPE_WEBHOOK_SECRET`.
 8. **Prueba** con la tarjeta de prueba `4242 4242 4242 4242` (cualquier fecha futura y CVC). En el panel admin el taller
    debe pasar solo a "Pagado" y mostrar "Stripe: pagado hasta…". Cuando todo funcione, repite los pasos en modo real (Live).
@@ -99,3 +99,17 @@ El panel admin abre en **Pendientes**. Ahí aparece solo, sin que tengas que aco
 
 Cada taller cliente tiene en Ajustes su propio enlace para recomendar: gana 1 mes gratis por cada taller que se quede
 pagando, y aparece solo en Promotores como "Taller cliente".
+
+## Promotores: acuerdo firmado, pagos y cómo terminar
+
+- Cada promotor tiene **su página** (`promotor.html?t=...`). En la pestaña Promotores toca **Copiar su página** y mándasela.
+  Ahí lee y **firma su acuerdo** (queda guardado: nombre, fecha y versión). Su código no funciona hasta que firme.
+  Después, en esa misma página ve su enlace para compartir, sus talleres, lo pendiente y lo que ya le pagaste.
+- **Pagos a promotores:** el día 15 de cada mes, por las comisiones con 30 días o más, si suman $25 o más. Pendientes te avisa.
+  Antes del primer pago pídele su **W-9** y márcalo en su tarjeta. En enero, Pendientes te avisa a quién mandarle el
+  **1099-NEC** (si le pagaste $2,000 o más en el año).
+- **Reembolsos:** con Stripe se ajustan solos. Si reembolsas un pago hecho a mano, en Talleres → Ver pagos → **Reembolsado**.
+- **Cambiar la regla de un promotor:** después de firmar ya no se puede editar. Avísale con 30 días, crea un promotor
+  nuevo (otro código, firma otra vez) y pausa el viejo. Los talleres viejos siguen con la regla vieja.
+- **Terminar la relación:** en su tarjeta, **Terminar relación** → sin causa o con causa → **Copiar aviso** y mándaselo.
+- Todos los escenarios posibles y cómo resolverlos están en el documento "Manual de escenarios".

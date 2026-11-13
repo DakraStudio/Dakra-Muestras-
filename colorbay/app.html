@@ -936,7 +936,7 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
    <p style="margin:0;font-size:13px;color:var(--muted)">${t("pricesNote")}</p></div></div>
   ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span style="display:flex;gap:6px"><span class="chip">${t("tiers")[tier]}</span><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></span></div>
    ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}
-   ${ME.role==="owner"&&SHOP.plan==="trial"&&!SHOP.ref_code?`<div class="box-b"><label>${t("refQ")}<span style="display:flex;gap:8px;margin-top:6px"><input id="ref-in" maxlength="20" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="PEDRO10" style="text-transform:uppercase"><button class="btn btn-ghost" id="ref-go" type="button">${t("refBtn")}</button></span></label></div>`:""}
+   ${ME.role==="owner"&&SHOP.plan==="trial"&&!SHOP.ref_code&&(!SHOP.created_at||Date.now()-Date.parse(SHOP.created_at)<30*DAY)?`<div class="box-b"><label>${t("refQ")}<span style="display:flex;gap:8px;margin-top:6px"><input id="ref-in" maxlength="20" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="PEDRO10" style="text-transform:uppercase"><button class="btn btn-ghost" id="ref-go" type="button">${t("refBtn")}</button></span></label></div>`:""}
    ${SHOP.ref_code?`<div class="box-b" style="color:var(--muted);font-size:14px">${t("refUsed")} <b>${esc(SHOP.ref_code)}</b></div>`:""}
    ${SHOP.paid_until?`<div class="box-b">${t("paidUntil")} ${new Date(SHOP.paid_until).toLocaleDateString(loc())}</div>`:""}
    ${ME.role==="owner"&&stripeOn()&&(SHOP.plan==="trial"||SHOP.stripe_sub)?`<div class="box-b" style="display:flex;flex-direction:column;gap:10px">${SHOP.plan==="trial"?payBtns(false):""}
@@ -1671,10 +1671,11 @@ Object.assign(L.en,{referT:"Refer a shop, get free months",referP:"For every sho
   referMsg:"I use ColorBay Shop at my shop for orders, photos, estimates and invoices from my phone. With my link you get 30 extra free days:",copied:"Copied"});
 async function applyRef(){const c=($("#ref-in")?.value||"").toUpperCase().replace(/[^A-Z0-9]/g,"");if(c.length<3){toast(t("refBad"));return}
   $("#ref-go").disabled=true;const{data,error}=await sb.rpc("set_referral",{p_shop:SHOP.id,p_code:c});
+  if(data==="late"){toast(t("refLate"));return}
   if(error||data==="invalid"){toast(t("refBad"));$("#ref-go").disabled=false;return}
   const{data:s}=await sb.from("shops").select("*").eq("id",SHOP.id).single();if(s)SHOP=s;toast(t("refOk"));render()}
-Object.assign(L.es,{refQ:"¿Te recomendó alguien? Escribe su código y ganas días gratis extra",refBtn:"Aplicar",refOk:"Código aplicado ✓ Ya tienes tus días extra",refBad:"Ese código no existe. Revísalo.",refUsed:"Te recomendó:"});
-Object.assign(L.en,{refQ:"Did someone refer you? Enter their code to get extra free days",refBtn:"Apply",refOk:"Code applied ✓ Your extra days are added",refBad:"That code doesn't exist. Please check it.",refUsed:"Referred by:"});
+Object.assign(L.es,{refQ:"¿Te recomendó alguien? Escribe su código y ganas días gratis extra",refBtn:"Aplicar",refOk:"Código aplicado ✓ Ya tienes tus días extra",refBad:"Ese código no existe. Revísalo.",refLate:"El código solo se puede poner en los primeros 30 días.",refUsed:"Te recomendó:"});
+Object.assign(L.en,{refQ:"Did someone refer you? Enter their code to get extra free days",refBtn:"Apply",refOk:"Code applied ✓ Your extra days are added",refBad:"That code doesn't exist. Please check it.",refLate:"A code can only be added in your first 30 days.",refUsed:"Referred by:"});
 Object.assign(L.es,{payFounder:"Fundador (Taller)",perMo:"/mes",yearly:"Pago anual (2 meses gratis)",payNote:"Pago seguro con Stripe. Tu plan se activa solo en unos segundos. Cancelas cuando quieras.",
   manageBill:"Ver o cancelar mi suscripción",paidUntil:"Pagado hasta el",payThanks:"¡Gracias! Activando tu plan…",payActive:"Tu plan ya está activo ✓",
   payDueT:"Tu pago está pendiente",payKeep:"Escoge un plan para seguir usando ColorBay:",dataSafe:"Tus datos están guardados y seguros; no se borra nada.",orText:"¿Dudas? Mándanos mensaje de texto:"});
@@ -1684,7 +1685,7 @@ Object.assign(L.en,{payFounder:"Founder (Shop)",perMo:"/mo",yearly:"Yearly (2 mo
 
 /* ================== Términos y privacidad ==================
    Si cambias TERMS_V (y legal.html), todos — dueños y trabajadores — lo vuelven a aceptar al entrar. Queda guardado en la nube. */
-const TERMS_V="2026-11-12";let TERMS_GATE=null;
+const TERMS_V="2026-11-13";let TERMS_GATE=null;
 const legalUrl=h=>`legal.html?lang=${S.settings.lang==="es"?"es":"en"}${h?"#"+(S.settings.lang==="es"?{terms:"terminos",privacy:"privacidad"}[h]:h):""}`;
 Object.assign(L.es,{legal:"Términos y privacidad",legalTerms:"Términos de servicio",legalPrivacy:"Aviso de privacidad",termsTitle:"Antes de entrar",
   termsBody:"Actualizamos los Términos de servicio y el Aviso de privacidad de ColorBay. En corto: tus datos son tuyos, no los vendemos, no los borramos por nuestra cuenta y puedes descargarlos cuando quieras.",

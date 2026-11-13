@@ -242,7 +242,7 @@ const secs=[...document.querySelectorAll("section[id]")];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
 secs.forEach(s=>io.observe(s));
 /* crear taller de prueba */
-const CFG=window.COLORBAY_CONFIG||{},CLOUD=!!(CFG.url&&CFG.key),TERMS_V="2026-11-12";
+const CFG=window.COLORBAY_CONFIG||{},CLOUD=!!(CFG.url&&CFG.key),TERMS_V="2026-11-13";
 if(CLOUD){document.getElementById("cloud-fields").hidden=false;document.getElementById("local-note").hidden=true;document.getElementById("ref-field").hidden=false}
 const refNow=()=>{try{const x=JSON.parse(localStorage.getItem("colorbay-ref")||"null");return x&&Date.now()-x.t<60*864e5?x.c:""}catch(e){return""}};
 document.getElementById("t-ref").value=refNow();
