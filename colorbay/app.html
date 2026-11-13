@@ -70,9 +70,9 @@ a{color:var(--bay)}
 .combo>input{padding-right:42px!important;width:100%}
 .combo-btn{position:absolute;right:4px;top:4px;height:calc(100% - 8px);min-height:30px;width:34px;border:0;border-radius:8px;background:var(--surface-2);color:var(--muted);font-size:14px;cursor:pointer;display:grid;place-items:center;touch-action:manipulation}
 .tbl .combo-btn{width:28px;right:2px;top:2px;height:calc(100% - 4px)}
-.combo-pop{display:none;margin-top:6px;max-height:232px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink)}
+.combo-pop{display:none;margin-top:6px;max-height:232px;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:var(--shadow);text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink)}
 .combo.open .combo-pop{display:block;animation:rise .15s ease both}
-.combo-pop button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:12px 14px;font-size:16px;cursor:pointer;touch-action:manipulation;color:var(--ink)}
+.combo-pop button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:12px 14px;font-size:16px;cursor:pointer;touch-action:pan-y;color:var(--ink)}
 .combo-pop button:last-child{border-bottom:0}
 .combo-pop button:active,.combo-pop button:hover{background:var(--bay-soft)}
 .combo-pop .hint{padding:10px 14px;font-size:13px;color:var(--muted)}
@@ -1610,7 +1610,8 @@ function comboOpen(wrap,all){
   document.querySelectorAll(".combo.open").forEach(w=>{if(w!==wrap)w.classList.remove("open")});
   if(!items.length){wrap.classList.remove("open");return}
   pop.innerHTML=items.map(v=>`<button type="button" data-v="${esc(v)}">${esc(v)}</button>`).join("");
-  wrap.classList.add("open");
+  const wasOpen=wrap.classList.contains("open");wrap.classList.add("open");
+  if(!wasOpen){pop.scrollTop=0;requestAnimationFrame(()=>{const r=pop.getBoundingClientRect(),vh=(window.visualViewport?.height||innerHeight);if(r.bottom>vh-8||r.top<0)pop.scrollIntoView({block:"nearest",behavior:"smooth"})})}
 }
 function comboPick(wrap,v){const inp=wrap.querySelector("input");inp.value=v;wrap.classList.remove("open");
   inp.dispatchEvent(new Event("input",{bubbles:true}));inp.dispatchEvent(new Event("change",{bubbles:true}))}
@@ -1623,11 +1624,14 @@ function enhanceCombos(root){
     btn.addEventListener("pointerdown",e=>e.preventDefault());
     btn.addEventListener("click",()=>{if(wrap.classList.contains("open"))wrap.classList.remove("open");else{if(inp.dataset.list==="dl-models")fillModels(inp.id==="no-md"?$("#no-mk")?.value:S.orders.find(x=>x.id===openId)?.make);comboOpen(wrap,true)}});
     inp.addEventListener("input",e=>{if(e.isTrusted)comboOpen(wrap,false)});
-    inp.addEventListener("blur",()=>setTimeout(()=>wrap.classList.remove("open"),180));
-    pop.addEventListener("pointerdown",e=>{const b=e.target.closest("[data-v]");if(!b)return;e.preventDefault();comboPick(wrap,b.dataset.v)});
+    /* Deslizar mueve la lista; solo un toque sin moverse escoge (click no se dispara si hubo scroll) */
+    pop.addEventListener("pointerdown",e=>{if(e.pointerType==="mouse")e.preventDefault()});
     pop.addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(b)comboPick(wrap,b.dataset.v)});
+    inp.addEventListener("keydown",e=>{if(e.key==="Escape"||e.key==="Tab")wrap.classList.remove("open")});
   });
 }
+/* Cerrar la lista solo al tocar fuera de ella (no al quitar el teclado ni al deslizar) */
+document.addEventListener("pointerdown",e=>{document.querySelectorAll(".combo.open").forEach(w=>{if(!w.contains(e.target))w.classList.remove("open")})},true);
 new MutationObserver(()=>{clearTimeout(enhanceCombos.t);enhanceCombos.t=setTimeout(()=>enhanceCombos(),0)}).observe(document.body,{childList:true,subtree:true});
 
 /* ================== Ayuda dentro de la app ================== */
