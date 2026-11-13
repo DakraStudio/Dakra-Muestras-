@@ -58,6 +58,10 @@ a{color:var(--bay)}
 .cin{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:13px 14px;font-size:16px;width:100%}
 .cin::placeholder{color:rgba(255,255,255,.5)}
 .cerr{color:#ffb39a;font-size:14px;min-height:1.2em}
+.legal-link{color:#fff;text-decoration:none;border:1.5px solid rgba(255,255,255,.35);border-radius:12px;padding:11px 14px;font-weight:600;font-size:15px}
+.legal-link:active{background:rgba(255,255,255,.1)}
+.agree-row{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.4;cursor:pointer}
+.agree-row input{width:24px;height:24px;flex:none;margin:0;accent-color:var(--paint,#e8541c)}
 .seg.dark{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
 .seg.dark button{color:rgba(255,255,255,.7);flex:1}
 .seg.dark button.on{background:#fff;color:var(--navy)}
@@ -433,7 +437,7 @@ input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width
 input[type=date]::-webkit-date-and-time-value{text-align:left}
 .form>*{min-width:0}
 </style>
-<script src="config.js?v=20261112b"></script>
+<script src="config.js?v=20261112c"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -751,6 +755,7 @@ const brandHtml=`<div class="brand-mark"><svg width="18" height="18" viewBox="0 
 
 function render(){
   setTimeout(()=>syncHelpBtn(),0);
+  if(TERMS_GATE){TERMS_GATE.draw();return}
   if(!ME){DEMO?renderLogin():renderCloudLogin();return}
   if(!navOk(view))view="inicio";
   $("#root").innerHTML=`<div class="app">
@@ -930,7 +935,10 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
    <label class="switch"><input type="checkbox" id="s-pp" ${s.painterPrices?"checked":""}><span></span>${t("painterPrices")}</label>
    <p style="margin:0;font-size:13px;color:var(--muted)">${t("pricesNote")}</p></div></div>
   ${!DEMO&&SHOP?`<div class="card"><div class="sec-h"><h2>${t("plan")}</h2><span style="display:flex;gap:6px"><span class="chip">${t("tiers")[tier]}</span><span class="chip ${SHOP.plan==="trial"?"c-warn":"c-ok"}">${t("plans")[SHOP.plan]}</span></span></div>
-   ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}</div>
+   ${SHOP.plan==="trial"?`<div class="box-b">${Math.max(0,Math.ceil((new Date(SHOP.trial_ends)-new Date())/DAY))} ${t("daysLeft")}</div>`:""}
+   ${SHOP.paid_until?`<div class="box-b">${t("paidUntil")} ${new Date(SHOP.paid_until).toLocaleDateString(loc())}</div>`:""}
+   ${ME.role==="owner"&&stripeOn()&&(SHOP.plan==="trial"||SHOP.stripe_sub)?`<div class="box-b" style="display:flex;flex-direction:column;gap:10px">${SHOP.plan==="trial"?payBtns(false):""}
+     ${SHOP.stripe_sub&&STRIPE.portal?`<a class="btn btn-ghost" href="${esc(portalUrl())}" target="_blank" rel="noopener" style="text-decoration:none">${t("manageBill")} ↗</a>`:""}</div>`:""}</div>
   <div class="card"><div class="sec-h"><h2>${t("joinCode")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px">
    <div class="codebox">${esc(SHOP.join_code)}</div><p style="margin:0;color:var(--muted);font-size:14px">${t("joinHow")}</p>
    <p style="margin:0;font-size:14px"><b>dakrastudio.com/colorbay/app.html</b></p></div></div>`:""}
@@ -941,6 +949,8 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
   <div class="card"><div class="sec-h"><h2>${t("plusTitle")}</h2><span class="chip ${tier==="plus"?"c-ok":"c-paint"}">${tier==="plus"?t("inPlus"):"Plus"}</span></div><div class="box-b" style="display:flex;flex-direction:column;gap:10px;font-size:14px">
    <div style="display:flex;justify-content:space-between;gap:10px"><span>💬 ${t("plusSms")}</span><span class="chip">${t("soon")}</span></div>
    <div style="display:flex;justify-content:space-between;gap:10px"><span>✨ ${t("plusAi")}</span><span class="chip">${t("soon")}</span></div></div></div>
+  <div class="card"><div class="sec-h"><h2>${t("legal")}</h2>${TERMS_AT?`<span class="chip c-ok">${t("termsAccepted")} ${new Date(TERMS_AT).toLocaleDateString(loc())}</span>`:""}</div><div class="box-b" style="display:flex;gap:8px;flex-wrap:wrap">
+   <a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("terms")}" style="text-decoration:none">${t("legalTerms")} ↗</a><a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("privacy")}" style="text-decoration:none">${t("legalPrivacy")} ↗</a></div></div>
   <div class="card"><div class="sec-h"><h2>${t("helpBtnSet")}</h2></div><div class="box-b"><button class="btn btn-ghost" id="s-help">${helpOff?t("helpShow"):t("helpHide")}</button></div></div>
   <div class="card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
    <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
@@ -1477,7 +1487,8 @@ function openDoc(id,kind){
     <tr><td><b>${t("total")}</b></td><td style="text-align:right"><b>${money(tt.tot)}</b></td></tr>${isInv?`<tr><td>${t("paid")}</td><td style="text-align:right">${money(tt.paid)}</td></tr><tr><td><b>${t("balance")}</b></td><td style="text-align:right"><b>${money(Math.max(0,tt.bal))}</b></td></tr>`:""}</tbody></table>
    ${isInv&&(o.pays||[]).length?`<h3>${t("payments")}</h3><table><tbody>${o.pays.map(p=>`<tr><td>${fmtD(p.d)}</td><td>${({cash:t("cash"),card:t("card"),cashapp:t("cashapp"),check:t("check"),ins:t("insPay")})[p.m]||p.m}</td><td style="text-align:right">${money(+p.a)}</td></tr>`).join("")}</tbody></table>`:""}
    ${o.sig?`<h3>${t("approval")}</h3><img src="${o.sig.img}" alt="" style="height:80px;border:1px solid #d9dfe5;border-radius:6px"><div style="font-size:13px">${t("signedBy")} ${esc(o.sig.name)} · ${fmtD(o.sig.d)}</div>`:""}
-   <div class="foot"><b>${t("terms")}:</b> ${esc(s.terms||t("termsDef"))}</div></article>`);
+   <div class="foot"><b>${t("terms")}:</b> ${esc(s.terms||t("termsDef"))}</div>
+   <div style="margin-top:14px;font-size:11px;color:#8a96a3;text-align:center">${s.lang==="es"?"Hecho con ColorBay Shop · Privacidad":"Made with ColorBay Shop · Privacy"}: dakrastudio.com/colorbay/legal.html</div></article>`);
 }
 
 /* ---------- Citas ---------- */
@@ -1621,6 +1632,59 @@ function enhanceCombos(root){
 /* Cerrar la lista solo al tocar fuera de ella (no al quitar el teclado ni al deslizar) */
 document.addEventListener("pointerdown",e=>{document.querySelectorAll(".combo.open").forEach(w=>{if(!w.contains(e.target))w.classList.remove("open")})},true);
 new MutationObserver(()=>{clearTimeout(enhanceCombos.t);enhanceCombos.t=setTimeout(()=>enhanceCombos(),0)}).observe(document.body,{childList:true,subtree:true});
+
+/* ================== Cobro con Stripe (listo para encender) ==================
+   Se enciende solo cuando pegas los Payment Links en config.js → stripe. Mientras estén vacíos, no aparece ningún botón de pago.
+   El webhook (supabase/functions/stripe-webhook) activa el plan automáticamente con el id del taller (client_reference_id). */
+const STRIPE=(window.COLORBAY_CONFIG||{}).stripe||{};let USER_EMAIL="";
+const stripeOn=()=>["solo","shop","plus","founder"].some(k=>/^https:\/\//.test(STRIPE[k]||""));
+function payUrl(k){const u=STRIPE[k];if(!u||!SHOP)return"";const q=new URLSearchParams({client_reference_id:SHOP.id});if(USER_EMAIL)q.set("prefilled_email",USER_EMAIL);return u+(u.includes("?")?"&":"?")+q}
+function portalUrl(){const u=STRIPE.portal||"";return u&&USER_EMAIL?u+(u.includes("?")?"&":"?")+"prefilled_email="+encodeURIComponent(USER_EMAIL):u}
+function payBtns(dark){
+  const P=[["founder",t("payFounder"),"$29"],["solo","Solo","$35"],["shop",t("tiers").shop,"$69"],["plus","Plus","$99"]].filter(([k])=>/^https:\/\//.test(STRIPE[k]||""));
+  const sty=dark?"color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)":"";
+  return`<div style="display:flex;flex-direction:column;gap:8px">${P.map(([k,n,p],i)=>`<a class="btn ${i===0?"btn-paint":"btn-ghost"} pay-btn" data-pay="${k}" href="${esc(payUrl(k))}" target="_blank" rel="noopener" style="text-decoration:none;justify-content:space-between;${i?sty:""}"><span>${esc(n)}</span><b>${p}${t("perMo")}</b></a>`).join("")}
+   ${["solo_y","shop_y","plus_y"].some(k=>STRIPE[k])?`<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:14px">${t("yearly")}: ${[["solo_y","Solo"],["shop_y",t("tiers").shop],["plus_y","Plus"]].filter(([k])=>STRIPE[k]).map(([k,n])=>`<a href="${esc(payUrl(k))}" target="_blank" rel="noopener">${esc(n)}</a>`).join(" · ")}</div>`:""}
+   <small style="opacity:.75">🔒 ${t("payNote")}</small></div>`}
+/* Al volver de pagar (Stripe → app.html?paid=1): esperar a que el webhook active el plan */
+async function paidReturn(){if(!/[?&]paid=1/.test(location.search)||!sb||!SHOP)return;history.replaceState(null,"",location.pathname);toast(t("payThanks"));
+  for(let i=0;i<6;i++){await new Promise(r=>setTimeout(r,4000));const{data}=await sb.from("shops").select("*").eq("id",SHOP.id).single();
+    if(data&&data.plan==="paid"){SHOP=data;toast(t("payActive"));render();return}}}
+Object.assign(L.es,{payFounder:"Fundador (Taller)",perMo:"/mes",yearly:"Pago anual (2 meses gratis)",payNote:"Pago seguro con Stripe. Tu plan se activa solo en unos segundos. Cancelas cuando quieras.",
+  manageBill:"Ver o cancelar mi suscripción",paidUntil:"Pagado hasta el",payThanks:"¡Gracias! Activando tu plan…",payActive:"Tu plan ya está activo ✓",
+  payDueT:"Tu pago está pendiente",payKeep:"Escoge un plan para seguir usando ColorBay:",dataSafe:"Tus datos están guardados y seguros; no se borra nada.",orText:"¿Dudas? Mándanos mensaje de texto:"});
+Object.assign(L.en,{payFounder:"Founder (Shop)",perMo:"/mo",yearly:"Yearly (2 months free)",payNote:"Secure payment with Stripe. Your plan turns on by itself in a few seconds. Cancel anytime.",
+  manageBill:"View or cancel my subscription",paidUntil:"Paid through",payThanks:"Thanks! Turning on your plan…",payActive:"Your plan is active ✓",
+  payDueT:"Your payment is past due",payKeep:"Pick a plan to keep using ColorBay:",dataSafe:"Your data is saved and safe; nothing gets deleted.",orText:"Questions? Text us:"});
+
+/* ================== Términos y privacidad ==================
+   Si cambias TERMS_V (y legal.html), todos — dueños y trabajadores — lo vuelven a aceptar al entrar. Queda guardado en la nube. */
+const TERMS_V="2026-11-12";let TERMS_GATE=null;
+const legalUrl=h=>`legal.html?lang=${S.settings.lang==="es"?"es":"en"}${h?"#"+(S.settings.lang==="es"?{terms:"terminos",privacy:"privacidad"}[h]:h):""}`;
+Object.assign(L.es,{legal:"Términos y privacidad",legalTerms:"Términos de servicio",legalPrivacy:"Aviso de privacidad",termsTitle:"Antes de entrar",
+  termsBody:"Actualizamos los Términos de servicio y el Aviso de privacidad de ColorBay. En corto: tus datos son tuyos, no los vendemos, no los borramos por nuestra cuenta y puedes descargarlos cuando quieras.",
+  termsAgree:"Leí y acepto los Términos y el Aviso de privacidad",termsGo:"Aceptar y entrar",termsNeed:"Marca la casilla para continuar.",termsAccepted:"Aceptados el",termsRead:"Leer"});
+Object.assign(L.en,{legal:"Terms & Privacy",legalTerms:"Terms of Service",legalPrivacy:"Privacy Policy",termsTitle:"Before you continue",
+  termsBody:"Please review ColorBay's Terms of Service and Privacy Policy. In short: your data is yours, we never sell it, we never delete it on our own, and you can download it anytime.",
+  termsAgree:"I have read and agree to the Terms and Privacy Policy",termsGo:"Agree and continue",termsNeed:"Check the box to continue.",termsAccepted:"Accepted on",termsRead:"Read"});
+async function termsOk(uid){
+  try{const{data,error}=await sb.from("consents").select("accepted_at").eq("user_id",uid).eq("version",TERMS_V).limit(1);
+    if(error)return true; /* si la tabla aún no existe, no bloquear a nadie */
+    if(data?.length){TERMS_AT=data[0].accepted_at;return true}return false}catch(e){return true}
+}
+let TERMS_AT=null;
+function termsGate(shopId){return new Promise(resolve=>{
+  let err="",checked=false;
+  TERMS_GATE={draw(){renderShell(`<h1 style="font-size:34px">${t("termsTitle")}</h1><p style="margin:0;color:rgba(255,255,255,.82);line-height:1.5">${t("termsBody")}</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="legal-link" target="_blank" rel="noopener" href="${legalUrl("terms")}">${t("legalTerms")} ↗</a><a class="legal-link" target="_blank" rel="noopener" href="${legalUrl("privacy")}">${t("legalPrivacy")} ↗</a></div>
+    <label class="agree-row"><input type="checkbox" id="tg-ok" ${checked?"checked":""}><span>${t("termsAgree")}</span></label>
+    <div class="cerr" id="tg-err">${esc(err)}</div><button class="btn btn-paint" id="tg-go">${t("termsGo")}</button><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`);
+    $("#tg-ok").onchange=e=>checked=e.target.checked;
+    $("#tg-go").onclick=async()=>{if(!$("#tg-ok").checked){err=t("termsNeed");$("#tg-err").textContent=err;return}
+      $("#tg-go").disabled=true;try{await sb.rpc("accept_terms",{p_version:TERMS_V,p_shop:shopId,p_agent:navigator.userAgent.slice(0,300)})}catch(e){}
+      TERMS_AT=new Date().toISOString();TERMS_GATE=null;resolve()}}};
+  TERMS_GATE.draw();
+})}
 
 /* ================== Ayuda dentro de la app ================== */
 const HKEY="colorbay-help-off";
@@ -1793,7 +1857,7 @@ function softRender(){clearTimeout(softT);softT=setTimeout(()=>{
   softPending=false;if(!ME)return;const sc=$("#sheet-b")?.scrollTop;render();if(openId){renderSheet();const b=$("#sheet-b");if(b&&sc)b.scrollTop=sc}},350)}
 document.addEventListener("focusout",()=>{if(softPending)setTimeout(softRender,50)});
 /* entrar y cargar */
-function shopBlocked(s){return s.status!=="active"||(s.plan==="trial"&&new Date(s.trial_ends)<new Date())}
+function shopBlocked(s){return s.status!=="active"||(s.plan==="trial"&&new Date(s.trial_ends)<new Date())||((s.plan==="paid"||s.plan==="founder")&&s.paid_until&&new Date(s.paid_until).getTime()+7*DAY<Date.now())}
 function renderShell(inner){$("#root").innerHTML=`<div class="login"><div class="login-card"><div><span class="tape">ColorBay Shop</span></div>${inner}
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px"><a href="index.html">${t("backWeb")}</a>${langBtns()}</div></div></div>`}
 function renderCloudLogin(){
@@ -1824,8 +1888,9 @@ function renderCloudLogin(){
     if(er){cloudErr=t({bad_code:"errCode",bad_pin:"errPin",too_many_attempts:"errMany",shop_closed:"errClosed"}[er]||"errNet");renderCloudLogin();return}
     try{localStorage.setItem("colorbay-shop-id",data.shop_id)}catch(x){}enterShop()};
 }
-function renderBlocked(s){renderShell(`<h1>${s.status!=="active"?t("pausedT"):t("trialT")}</h1><div class="shopname">${esc(s.name)}</div>
-  <p style="opacity:.85;margin:0">${t("pausedP")}</p><div style="font-family:var(--display);font-size:30px;font-weight:700">+1 (931) 292-2496</div>
+function renderBlocked(s,role){const canPay=role==="owner"&&s.status==="active"&&stripeOn();
+  renderShell(`<h1>${s.status!=="active"?t("pausedT"):s.plan!=="trial"?t("payDueT"):t("trialT")}</h1><div class="shopname">${esc(s.name)}</div>
+  ${canPay?`<p style="opacity:.85;margin:0">${t("payKeep")}</p>${payBtns(true)}<p style="opacity:.7;margin:0;font-size:14px">${t("dataSafe")}</p><p style="opacity:.85;margin:0">${t("orText")}</p>`:`<p style="opacity:.85;margin:0">${t("pausedP")}</p>`}<div style="font-family:var(--display);font-size:30px;font-weight:700">+1 (931) 292-2496</div>
   <div style="opacity:.75">dakrastudio@gmail.com</div><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`)}
 async function enterShop(){
   renderShell(`<h1 style="font-size:32px">${t("loading")}</h1>`);
@@ -1842,10 +1907,11 @@ async function enterShop(){
     <a class="btn btn-paint" href="info.html#prueba" style="text-decoration:none">${t("createShop")}</a><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`);return}
   let pref=null;try{pref=localStorage.getItem("colorbay-shop-id")}catch(e){}
   const m=mem.find(x=>x.shop_id===pref)||mem[0];
-  const{data:shop,error:e1}=await sb.from("shops").select("id,name,plan,tier,status,trial_ends,join_code").eq("id",m.shop_id).single();
+  const{data:shop,error:e1}=await sb.from("shops").select("*").eq("id",m.shop_id).single();USER_EMAIL=user.email||"";
   if(e1||!shop){cloudErr=t("errNet");renderCloudLogin();return}
   SHOP=shop;
-  if(shopBlocked(shop)){renderBlocked(shop);return}
+  if(shopBlocked(shop)){renderBlocked(shop,m.role);return}
+  if(!(await termsOk(user.id)))await termsGate(shop.id);
   const[{data:sd,error:e2},{data:ords,error:e3},{data:wk,error:e4}]=await Promise.all([
     sb.from("shop_data").select("doc").eq("shop_id",shop.id).maybeSingle(),
     sb.from("orders").select("id,doc").eq("shop_id",shop.id),
@@ -1857,7 +1923,7 @@ async function enterShop(){
   CLOUD.snap.doc=stable(cloudDoc());CLOUD.snap.orders={};CLOUD.snap.money={};MONEY_ON=false;S.orders.forEach(o=>CLOUD.snap.orders[o.id]=stable(o));
   ME=S.users.find(u=>u.id===m.worker_id)||{id:m.worker_id,name:user.email||"?",role:m.role};
   if(can("money"))await loadMoney();
-  applyTheme();subscribe();flushUploads();render();purgeTrash();
+  applyTheme();subscribe();flushUploads();render();purgeTrash();paidReturn();
   if(MONEY_ON&&S.orders.some(o=>stable(splitOrder(o).pub)!==CLOUD.snap.orders[o.id]))scheduleSync();
 }
 function subscribe(){

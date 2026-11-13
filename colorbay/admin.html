@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="config.js?v=20261112b"></script>
+<script src="config.js?v=20261112c"></script>
 <style>
 /* Panel solo para Dakra Studio: lista de talleres con plan, estado y acciones */
 :root{--navy:#0c2347;--bay:#1456b8;--paint:#e8541c;--tape:#e9d9a8;--ok:#1f8a4c;--bad:#c2352b;--warn:#b7791f;
@@ -118,7 +118,9 @@ function render(){
    ${list.map(s=>{const o=open(s);return`<div class="card shop" style="--c:${o?PC[s.plan]:"var(--bad)"}" data-id="${s.id}">
      <div><h3>${esc(s.name)}</h3><div class="meta"><span>${esc(s.owner_email||"")}</span>${s.phone?`<span>${esc(s.phone)}</span>`:""}<span>Código <b>${esc(s.join_code)}</b></span></div>
       <div class="meta"><span class="chip" style="color:${PC[s.plan]}">${PLAN[s.plan]}</span><span class="chip">${(TIER[s.tier]||TIER.shop).split(" · ")[0]}</span><span class="chip" style="color:${o?"var(--ok)":"var(--bad)"}">${o?"Activo":s.status==="suspended"?"Suspendido":"Prueba vencida"}</span>
-       ${s.plan==="trial"?`<span>${daysLeft(s.trial_ends)>0?daysLeft(s.trial_ends)+" días de prueba":"venció el "+fmt(s.trial_ends)}</span>`:""}</div>
+       ${s.plan==="trial"?`<span>${daysLeft(s.trial_ends)>0?daysLeft(s.trial_ends)+" días de prueba":"venció el "+fmt(s.trial_ends)}</span>`:""}
+       ${s.paid_until?`<span>Stripe: pagado hasta ${fmt(s.paid_until)}</span>`:""}
+       <span style="color:${s.terms_at?"var(--ok)":"var(--muted)"}">${s.terms_at?"Términos aceptados "+fmt(s.terms_at):"Términos aún sin aceptar"}</span></div>
       <div class="meta"><span>${s.orders} órdenes</span><span>${s.workers} personas</span><span>Último uso: ${fmt(s.last_activity)}</span><span>Alta: ${fmt(s.created_at)}</span></div></div>
      <div class="form">
       <label>Plan<select data-k="plan">${Object.entries(PLAN).map(([k,v])=>`<option value="${k}" ${s.plan===k?"selected":""}>${v}</option>`).join("")}</select></label>

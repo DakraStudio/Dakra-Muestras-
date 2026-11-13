@@ -27,6 +27,12 @@ create table if not exists public.shops(
 alter table public.shops add column if not exists tier text not null default 'shop';
 do $$ begin alter table public.shops add constraint shops_tier_chk check (tier in ('solo','shop','plus'));
 exception when duplicate_object then null; end $$;
+-- Términos aceptados por el dueño y datos de cobro con Stripe (se llenan solos)
+alter table public.shops add column if not exists terms_version   text;
+alter table public.shops add column if not exists terms_at        timestamptz;
+alter table public.shops add column if not exists stripe_customer text;
+alter table public.shops add column if not exists stripe_sub      text;
+alter table public.shops add column if not exists paid_until      timestamptz;
 
 create table if not exists public.workers(
   id         uuid primary key default gen_random_uuid(),
@@ -96,11 +102,13 @@ language sql stable security definer set search_path = public as $$
   select role from members where shop_id = s and user_id = auth.uid()
 $$;
 
--- El taller está abierto si está activo y, si es prueba, no ha vencido.
+-- El taller está abierto si está activo; si es prueba, que no haya vencido;
+-- si paga con Stripe, que su pago siga al corriente (con 7 días de gracia). Nunca se borra nada.
 create or replace function public.shop_open(s uuid) returns boolean
 language sql stable security definer set search_path = public as $$
   select exists(select 1 from shops where id = s and status = 'active'
-                and (plan <> 'trial' or trial_ends > now()))
+                and (plan <> 'trial' or trial_ends > now())
+                and (plan not in ('paid','founder') or paid_until is null or paid_until + interval '7 days' > now()))
 $$;
 
 create or replace function public.can_use(s uuid) returns boolean
@@ -258,13 +266,15 @@ drop function if exists public.admin_shops();
 drop function if exists public.admin_update_shop(uuid, text, text, timestamptz, text);
 create or replace function public.admin_shops()
 returns table(id uuid, name text, owner_email text, phone text, plan text, tier text, status text, trial_ends timestamptz,
-              join_code text, notes text, created_at timestamptz, orders bigint, workers bigint, last_activity timestamptz)
+              join_code text, notes text, created_at timestamptz, orders bigint, workers bigint, last_activity timestamptz,
+              terms_version text, terms_at timestamptz, paid_until timestamptz, stripe_sub text)
 language sql stable security definer set search_path = public as $$
   select s.id, s.name, s.owner_email, s.phone, s.plan, s.tier, s.status, s.trial_ends, s.join_code, s.notes, s.created_at,
          (select count(*) from orders o where o.shop_id = s.id),
          (select count(*) from workers w where w.shop_id = s.id),
          greatest((select max(o.updated_at) from orders o where o.shop_id = s.id),
-                  (select d.updated_at from shop_data d where d.shop_id = s.id))
+                  (select d.updated_at from shop_data d where d.shop_id = s.id)),
+         s.terms_version, s.terms_at, s.paid_until, s.stripe_sub
   from shops s where public.is_admin() order by s.created_at desc
 $$;
 
@@ -302,6 +312,38 @@ language sql security definer set search_path = public as $$
   insert into heartbeat(id, at) values (1, now()) on conflict (id) do update set at = now() returning at
 $$;
 grant execute on function public.keep_alive() to anon, authenticated;
+
+-- ---------- Términos y privacidad: quién aceptó, qué versión y cuándo ----------
+-- Si cambias la versión en la app, todos (dueños y trabajadores) la vuelven a aceptar al entrar.
+create table if not exists public.consents(
+  id          bigserial primary key,
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  shop_id     uuid references public.shops(id) on delete cascade,
+  role        text,
+  version     text not null,
+  accepted_at timestamptz not null default now(),
+  agent       text
+);
+create index if not exists consents_user_idx on public.consents(user_id, version);
+alter table public.consents enable row level security;
+revoke all on public.consents from anon, authenticated;
+grant select on public.consents to authenticated;
+drop policy if exists consents_own on public.consents;
+create policy consents_own on public.consents for select to authenticated using (user_id = auth.uid() or public.is_admin());
+
+create or replace function public.accept_terms(p_version text, p_shop uuid default null, p_agent text default null)
+returns void language plpgsql security definer set search_path = public as $$
+declare r text;
+begin
+  if auth.uid() is null then raise exception 'not_signed_in'; end if;
+  if p_shop is not null then
+    r := public.my_role(p_shop);
+    if r is null then raise exception 'not_member'; end if;
+  end if;
+  insert into consents(user_id, shop_id, role, version, agent) values (auth.uid(), p_shop, r, left(p_version, 40), left(p_agent, 300));
+  if r = 'owner' then update shops set terms_version = left(p_version, 40), terms_at = now() where id = p_shop; end if;
+end $$;
+grant execute on function public.accept_terms(text, uuid, text) to authenticated;
 
 -- ---------- Fotos ----------
 insert into storage.buckets(id, name, public) values ('photos', 'photos', false) on conflict (id) do nothing;

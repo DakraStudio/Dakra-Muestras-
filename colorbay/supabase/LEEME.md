@@ -31,3 +31,45 @@ Nunca compartas la **secret key** ni la **service_role**.
 - Plan gratis de Supabase: 500 MB de base de datos y 1 GB de fotos. Supabase pausa los proyectos gratis sin uso por 7 días, pero el robot `.github/workflows/colorbay-keepalive.yml` lo despierta cada 3 días, así que no se pausa ni en vacaciones.
 - Cortesía = gratis de por vida. Suspendido = no puede entrar, pero sus datos se quedan guardados.
 - "Descargar sus datos" baja órdenes y clientes; las fotos quedan en Supabase → Storage → photos → carpeta del taller.
+
+## Encender el cobro con Stripe (cuando estés listo)
+
+Todo ya está programado; solo está apagado. Mientras `config.js → stripe` esté vacío, nadie ve botones de pago.
+**Nunca pegues la llave secreta de Stripe (sk_...) en config.js ni en ninguna página.** Solo va en los "Secrets" de Supabase.
+
+1. **Crea tu cuenta en stripe.com** (gratis; cobran ~2.9% + 30¢ por pago). Empieza en *modo de prueba* (Test mode).
+2. **Crea los productos** (Productos → Agregar producto), cada uno con precio *recurrente mensual*:
+   Fundador $29 · Solo $35 · Taller $69 · Plus $99. Si quieres, agrega también precios anuales ($350, $690, $990).
+   Copia el **ID de cada precio** (empieza con `price_...`).
+3. **Crea un Payment Link por cada precio** (Payment Links → Nuevo). En "Después del pago" escoge
+   *Redirigir a tu sitio* y pon: `https://dakrastudio.com/colorbay/app.html?paid=1`
+   Copia cada enlace (`https://buy.stripe.com/...`) y pégalo en `config.js → stripe` (founder, solo, shop, plus…).
+4. **Portal de clientes** (Configuración → Facturación → Portal de clientes): actívalo, permite cancelar, y copia
+   el enlace de inicio de sesión del portal en `stripe.portal`.
+5. **Sube la función del webhook a Supabase**: Edge Functions → *Deploy a new function* → *Via editor* →
+   nombre `stripe-webhook` → pega el archivo `supabase/functions/stripe-webhook/index.ts` → Deploy.
+   Luego en la función, en *Details*, **apaga "Enforce JWT verification"** (Stripe no manda esa llave).
+6. **Guarda los secretos** (Edge Functions → Secrets):
+   - `STRIPE_SECRET_KEY` = tu llave secreta de Stripe (`sk_test_...` para pruebas)
+   - `PRICE_TIERS` = `{"price_FUNDADOR":"founder","price_SOLO":"solo","price_TALLER":"shop","price_PLUS":"plus"}`
+     (cambia cada `price_...` por los tuyos; los anuales también, con el mismo nivel)
+7. **Crea el webhook en Stripe** (Desarrolladores → Webhooks → Agregar destino):
+   URL: `https://gjnkwxmkwuqrsbocigdw.supabase.co/functions/v1/stripe-webhook`
+   Eventos: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`,
+   `customer.subscription.deleted`, `invoice.paid`. Copia el *Signing secret* (`whsec_...`) y guárdalo en Supabase
+   como `STRIPE_WEBHOOK_SECRET`.
+8. **Prueba** con la tarjeta de prueba `4242 4242 4242 4242` (cualquier fecha futura y CVC). En el panel admin el taller
+   debe pasar solo a "Pagado" y mostrar "Stripe: pagado hasta…". Cuando todo funcione, repite los pasos en modo real (Live).
+
+Cómo funciona solo: el dueño toca "pagar" en Ajustes (o en la pantalla de prueba vencida) → paga en Stripe → Stripe avisa
+al webhook → el taller queda **Pagado** con su nivel. Si cancela o falla el pago, sigue entrando hasta su fecha pagada
+más 7 días de gracia; después se pausa, **sin borrar nada**, y se reactiva en cuanto vuelve a pagar.
+
+## Términos y privacidad
+
+- La página está en `legal.html` (inglés y español).
+- Al registrarse hay que marcar la casilla, y **todos** (dueños y trabajadores) los aceptan al entrar a la app. Queda
+  guardado en la tabla `consents` (quién, versión, fecha). En el panel admin ves si cada taller ya los aceptó.
+- Si algún día cambias los términos: edita `legal.html`, cambia la fecha de versión ahí, en `app.html` (`TERMS_V`) e
+  `info.html` (`TERMS_V`). La próxima vez que cada persona entre, se le piden de nuevo automáticamente.
+- Los clientes de cada taller ven el enlace de privacidad al pie de cada estimado y factura en PDF.
