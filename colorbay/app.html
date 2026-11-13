@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -196,7 +196,7 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 
 /* Inspección por partes */
 .insp{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:16px;align-items:start}
-.insp svg{width:100%;height:auto;max-width:300px;display:block;margin:0 auto}
+.insp>div:first-child>svg{width:100%;height:auto;max-width:300px;display:block;margin:0 auto}
 .part{cursor:pointer}
 .part rect,.part ellipse{stroke:var(--muted);stroke-width:1.3;transition:fill .25s,stroke .2s,stroke-width .2s}
 .part:hover rect,.part:hover ellipse{stroke:var(--bay);stroke-width:2}
@@ -484,7 +484,8 @@ const tsAgo=(days,h=10)=>{const d=new Date(Date.now()-days*DAY);d.setHours(h,Mat
 function defaultStock(){return[
  {id:"s1",n:"Barniz (clear) 2K",u:"gal",q:3,min:2},{id:"s2",n:"Primer 2K gris",u:"gal",q:1,min:2},{id:"s3",n:"Reductor medio",u:"gal",q:4,min:2},
  {id:"s4",n:"Endurecedor",u:"qt",q:2,min:2},{id:"s5",n:"Lija 400",u:"caja",q:1,min:1},{id:"s6",n:"Cinta de enmascarar 3/4",u:"rollo",q:9,min:6}]}
-function demo(){
+function demo(lang){
+  lang=lang||"en";
   const U=[{id:"u1",name:"Jorge Ramírez",role:"owner",pin:"1234"},{id:"u2",name:"Luis Pérez",role:"tech",pin:"1111"},{id:"u3",name:"Ana Ruiz",role:"painter",pin:"2222"}];
   const C=[{id:"c1",name:"María Hernández",phone:"(931) 555-0142",email:""},{id:"c2",name:"Dale Whitaker",phone:"(931) 555-0187",email:"dalew@example.com"},
     {id:"c3",name:"Luis Ortega",phone:"(615) 555-0110",email:""},{id:"c4",name:"Brenda Collins",phone:"(931) 555-0163",email:""},{id:"c5",name:"Taller El Primo (flota)",phone:"(931) 555-0199",email:""}];
@@ -521,17 +522,21 @@ function demo(){
      impact:["rear"],phase:8,log:log(8),inDate:addD(-30),promised:addD(-20),
      est:[{d:"Defensa trasera",t:"part",q:1,p:210},{d:"Pintar defensa",t:"paint",q:3,p:45},{d:"Instalar",t:"labor",q:1.5,p:55}],parts:[{n:"Defensa trasera",s:3,c:210}],notes:[],pays:[{a:427.5,m:"cash",d:addD(-20)}]}
   ];
-  return{settings:{shop:"Taller Ramírez",rate:55,paintRate:45,tax:9.75,lang:"es",theme:"auto"},users:U,customers:C,orders:O,
+  const out={settings:{shop:"Taller Ramírez",rate:55,paintRate:45,tax:9.75,lang,theme:"auto"},users:U,customers:C,orders:O,
     paint:{library:[{id:"f1",code:"YZ",name:"Oxford White",brand:"PPG",make:"Ford",tn:[{n:"Blanco",g:180},{n:"Negro fino",g:4.2},{n:"Amarillo óxido",g:1.6},{n:"Aluminio fino",g:12}]},
       {id:"f2",code:"G7C",name:"Red Hot",brand:"PPG",make:"Chevrolet",tn:[{n:"Rojo brillante",g:150},{n:"Magenta",g:22},{n:"Negro",g:3}]},
       {id:"f3",code:"NH797M",name:"Modern Steel",brand:"Axalta",make:"Honda",tn:[{n:"Plata fino",g:120},{n:"Negro",g:14},{n:"Azul oscuro",g:2.5}]},
       {id:"f4",code:"PW7",name:"Bright White",brand:"PPG",make:"Ram",tn:[{n:"Blanco",g:200},{n:"Negro fino",g:1.2}]}],
      mixes:[{id:"m1",d:addD(-1),code:"YZ",order:"1048",g:500,by:"u3"},{id:"m2",d:addD(-3),code:"PW7",order:"1046",g:350,by:"u3"},{id:"m3",d:addD(-9),code:"NH797M",order:"1050",g:400,by:"u3"}],
      stock:defaultStock()},demo:true};
+  return lang==="en"?trDemo(out):out;
 }
+const DEMO_EN={"Taller Ramírez": "Ramirez Auto Body", "Taller El Primo (flota)": "Primo's Garage (fleet)", "Mutual del Sur (ejemplo)": "Southern Mutual (sample)", "Carretera Seguros (ejemplo)": "Highway Insurance (sample)", "Blanco": "White", "Rojo": "Red", "Gris": "Gray", "Azul": "Blue", "Negro": "Black", "Cubierta rota del lado derecho": "Cover cracked on the right side", "Faro estrellado": "Headlamp cracked", "Reparar defensa delantera": "Repair front bumper", "Cubierta de defensa": "Bumper cover", "Faro derecho": "Right headlamp", "Pintar defensa y salpicadera der.": "Paint bumper and right fender", "Materiales de pintura": "Paint materials", "Reparar costado izq.": "Repair left quarter panel", "Calavera izq.": "Left tail lamp", "Pintar costado": "Paint quarter panel", "Repintar cofre": "Refinish hood", "Materiales": "Materials", "Desmontar y montar cofre": "R&I hood", "Revisión y estimado": "Inspection and estimate", "Reparar puerta izq.": "Repair left door", "Pintar puerta": "Paint door", "Defensa trasera": "Rear bumper", "Pintar defensa": "Paint bumper", "Instalar": "Install", "Rejilla XLT": "XLT grille", "Soporte der.": "Right bracket", "Moldura de caja": "Bed molding", "Le avisamos que las partes ya llegaron.": "Told the customer the parts arrived.", "Se mandó suplemento con fotos del soporte.": "Sent supplement with bracket photos.", "Revisar sensor de estacionamiento al armar.": "Check parking sensor at reassembly.", "Cliente pasa hoy en la tarde.": "Customer picks up this afternoon.", "Negro fino": "Fine black", "Amarillo óxido": "Oxide yellow", "Aluminio fino": "Fine aluminum", "Rojo brillante": "Bright red", "Plata fino": "Fine silver", "Azul oscuro": "Dark blue", "Barniz (clear) 2K": "2K clearcoat", "Primer 2K gris": "2K gray primer", "Reductor medio": "Medium reducer", "Endurecedor": "Hardener", "Lija 400": "400 grit sandpaper", "Cinta de enmascarar 3/4": "3/4 masking tape", "caja": "box", "rollo": "roll"};
+function trDemo(x){if(typeof x==="string")return DEMO_EN[x]??x;if(Array.isArray(x))return x.map(trDemo);if(x&&typeof x==="object"){const o={};for(const k in x)o[k]=(k==="id"||k==="pin")?x[k]:trDemo(x[k]);return o}return x}
 let S;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
-if(!S||!S.orders||!S.users)S=demo();
+let WEBLANG="en";try{WEBLANG=localStorage.getItem("colorbay-web-lang")||"en"}catch(e){}
+if(!S||!S.orders||!S.users)S=demo(WEBLANG);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true}catch(e){toast("⚠ No se pudo guardar");return false}}
 let ME=null;
 try{const sid=sessionStorage.getItem(SKEY);ME=S.users.find(u=>u.id===sid)||null}catch(e){}
@@ -564,7 +569,7 @@ function fakePhoto(id){
   return cv.toDataURL("image/jpeg",.7);
 }
 function stamp(g,w,h,ro,date){
-  const txt=`#${ro} · ${date.toLocaleDateString("es-MX")} ${date.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"})} · ColorBay`;
+  const txt=`#${ro} · ${date.toLocaleDateString(loc())} ${date.toLocaleTimeString(loc(),{hour:"2-digit",minute:"2-digit"})} · ColorBay`;
   g.font="600 "+Math.round(w/34)+"px Barlow, sans-serif";const tw=g.measureText(txt).width;
   g.fillStyle="rgba(0,0,0,.6)";g.fillRect(w-tw-24,h-Math.round(w/18),tw+24,Math.round(w/18));
   g.fillStyle="#fff";g.fillText(txt,w-tw-12,h-Math.round(w/60));
@@ -828,7 +833,7 @@ function wireSet(){
   bind("#s-shop","shop");bind("#s-rate","rate",1);bind("#s-prate","paintRate",1);bind("#s-tax","tax",1);bind("#s-theme","theme");
   $("#s-copy").onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(S));toast(t("copied"))}catch(e){toast(t("noCopy"))}};
   $("#s-reset").onclick=e=>{if(!resetArm){resetArm=true;e.target.textContent=t("sure");setTimeout(()=>{resetArm=false},3000);return}
-    const lang=S.settings.lang;S=demo();S.settings.lang=lang;save();resetArm=false;ME=S.users[0];try{sessionStorage.setItem(SKEY,ME.id)}catch(x){}applyTheme();render()};
+    S=demo(S.settings.lang);save();resetArm=false;ME=S.users[0];try{sessionStorage.setItem(SKEY,ME.id)}catch(x){}applyTheme();render()};
   document.querySelectorAll("[data-du]").forEach(b=>b.onclick=()=>{S.users=S.users.filter(u=>u.id!==b.dataset.du);save();render()});
   $("#u-add").onclick=()=>openModal(`<div class="sec-h"><h2>${t("addUser")}</h2><button class="del" onclick="closeModal()">×</button></div>
    <form class="mb" id="u-form"><div class="form"><label class="full">${t("name")}<input class="input" id="u-n" required></label>

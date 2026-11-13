@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -107,6 +107,7 @@ footer b{color:#fff}
 @media (max-width:920px){.layout{grid-template-columns:1fr}.toc{display:none}.mods,.roles,.plans,.trial{grid-template-columns:1fr}.links .hide{display:none}}
 @media (max-width:520px){.row2{grid-template-columns:1fr}.links{gap:10px}}
 </style>
+<script>try{document.documentElement.style.visibility="hidden"}catch(e){}</script>
 </head>
 <body>
 <header class="nav"><div class="wrap">
@@ -220,7 +221,8 @@ function bill(m){billing=m;document.querySelectorAll("[data-bill]").forEach(b=>b
     const n=m==="m"?v:Math.round(v*10/12*100)/100;a.firstChild.nodeValue="$"+(Number.isInteger(n)?n:n.toFixed(2));
     small.innerHTML=m==="m"?(lang==="en"?" /month":" /mes"):(lang==="en"?" /mo, billed $"+v*10+"/yr":" /mes, $"+v*10+" al año")})}
 document.querySelectorAll("[data-bill]").forEach(b=>b.onclick=()=>bill(b.dataset.bill));
-let l0="es";try{l0=localStorage.getItem(LK)||"es"}catch(e){}if(l0!=="es")setLang(l0);
+let l0="en";try{l0=localStorage.getItem(LK)||"en"}catch(e){}
+try{setLang(l0)}finally{document.documentElement.style.visibility=""}
 /* índice activo */
 const secs=[...document.querySelectorAll("section[id]")];
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll(".toc a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-40% 0px -55% 0px"});
@@ -231,7 +233,7 @@ document.getElementById("tf").addEventListener("submit",e=>{e.preventDefault();
   const shop=v("t-shop"),name=v("t-name"),pin=v("t-pin");
   if(!shop||!name){err.textContent=lang==="en"?"Write the shop name and your name.":"Escribe el nombre del taller y tu nombre.";return}
   if(!/^\d{4}$/.test(pin)){err.textContent=lang==="en"?"The PIN must be 4 digits.":"El PIN debe tener 4 números.";return}
-  const stock=[{id:"s1",n:"Barniz (clear) 2K",u:"gal",q:0,min:0},{id:"s2",n:"Primer 2K",u:"gal",q:0,min:0},{id:"s3",n:"Reductor",u:"gal",q:0,min:0},{id:"s4",n:"Endurecedor",u:"qt",q:0,min:0},{id:"s5",n:"Lija 400",u:"caja",q:0,min:0},{id:"s6",n:"Cinta de enmascarar",u:"rollo",q:0,min:0}];
+  const EN=lang==="en";const stock=[{id:"s1",n:EN?"2K clearcoat":"Barniz (clear) 2K",u:"gal",q:0,min:0},{id:"s2",n:EN?"2K primer":"Primer 2K",u:"gal",q:0,min:0},{id:"s3",n:EN?"Reducer":"Reductor",u:"gal",q:0,min:0},{id:"s4",n:EN?"Hardener":"Endurecedor",u:"qt",q:0,min:0},{id:"s5",n:EN?"400 grit sandpaper":"Lija 400",u:EN?"box":"caja",q:0,min:0},{id:"s6",n:EN?"Masking tape":"Cinta de enmascarar",u:EN?"roll":"rollo",q:0,min:0}];
   const S={settings:{shop,rate:55,paintRate:45,tax:9.75,lang,theme:"auto",phone:v("t-phone")},users:[{id:"u1",name,role:"owner",pin}],customers:[],orders:[],paint:{library:[],mixes:[],stock},demo:false};
   try{localStorage.setItem("colorbay-shop-v2",JSON.stringify(S));sessionStorage.setItem("colorbay-session","u1")}catch(x){err.textContent=lang==="en"?"This browser blocked saving. Try another browser.":"Este navegador no dejó guardar. Prueba con otro navegador.";return}
   location.href="app.html#inicio";
