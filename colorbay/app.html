@@ -1689,10 +1689,12 @@ const TERMS_V="2026-11-13";let TERMS_GATE=null;
 const legalUrl=h=>`legal.html?lang=${S.settings.lang==="es"?"es":"en"}${h?"#"+(S.settings.lang==="es"?{terms:"terminos",privacy:"privacidad"}[h]:h):""}`;
 Object.assign(L.es,{legal:"Términos y privacidad",legalTerms:"Términos de servicio",legalPrivacy:"Aviso de privacidad",termsTitle:"Antes de entrar",
   termsBody:"Actualizamos los Términos de servicio y el Aviso de privacidad de ColorBay. En corto: tus datos son tuyos, no los vendemos, no los borramos por nuestra cuenta y puedes descargarlos cuando quieras.",
-  termsAgree:"Leí y acepto los Términos y el Aviso de privacidad",termsGo:"Aceptar y entrar",termsNeed:"Marca la casilla para continuar.",termsAccepted:"Aceptados el",termsRead:"Leer"});
+  termsAgree:"Leí y acepto los Términos y el Aviso de privacidad",termsKeyT:"Lo más importante:",
+  termsKeys:["Tus datos son tuyos: no los vendemos, no los borramos por nuestra cuenta y los descargas cuando quieras.","Prueba gratis sin tarjeta. Si pagas, se renueva cada mes hasta que canceles; cancelas cuando quieras y no hay reembolsos de meses a medias.","Si un pago falla, tienes 7 días de gracia; después la cuenta se pausa, pero no se borra nada.","Tú respondes por tus precios, estimados, facturas y los mensajes que mandas a tus clientes.","Los promotores no pueden prometer nada a nuestro nombre: solo cuentan estos términos y los precios de la página.","Si cambiamos estos términos o subimos precios, te avisamos antes y te los volvemos a pedir aquí."],termsGo:"Aceptar y entrar",termsNeed:"Marca la casilla para continuar.",termsAccepted:"Aceptados el",termsRead:"Leer"});
 Object.assign(L.en,{legal:"Terms & Privacy",legalTerms:"Terms of Service",legalPrivacy:"Privacy Policy",termsTitle:"Before you continue",
   termsBody:"Please review ColorBay's Terms of Service and Privacy Policy. In short: your data is yours, we never sell it, we never delete it on our own, and you can download it anytime.",
-  termsAgree:"I have read and agree to the Terms and Privacy Policy",termsGo:"Agree and continue",termsNeed:"Check the box to continue.",termsAccepted:"Accepted on",termsRead:"Read"});
+  termsAgree:"I have read and agree to the Terms and Privacy Policy",termsKeyT:"The most important points:",
+  termsKeys:["Your data is yours: we never sell it, never delete it on our own, and you can download it anytime.","Free trial, no card. If you pay, it renews monthly until you cancel; cancel anytime, no refunds for partial months.","If a payment fails you get 7 days of grace; then the account pauses, but nothing is deleted.","You're responsible for your prices, estimates, invoices and the messages you send your customers.","Partners can't promise anything for us: only these terms and our website prices count.","If we change these terms or raise prices, we tell you first and ask you to accept again here."],termsGo:"Agree and continue",termsNeed:"Check the box to continue.",termsAccepted:"Accepted on",termsRead:"Read"});
 async function termsOk(uid){
   try{const{data,error}=await sb.from("consents").select("accepted_at").eq("user_id",uid).eq("version",TERMS_V).limit(1);
     if(error)return true; /* si la tabla aún no existe, no bloquear a nadie */
@@ -1702,6 +1704,8 @@ let TERMS_AT=null;
 function termsGate(shopId){return new Promise(resolve=>{
   let err="",checked=false;
   TERMS_GATE={draw(){renderShell(`<h1 style="font-size:34px">${t("termsTitle")}</h1><p style="margin:0;color:rgba(255,255,255,.82);line-height:1.5">${t("termsBody")}</p>
+    <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 14px;max-height:34vh;overflow-y:auto;overscroll-behavior:contain"><b style="display:block;margin-bottom:6px">${t("termsKeyT")}</b>
+     <ul style="margin:0;padding-left:18px;line-height:1.45;color:rgba(255,255,255,.88)">${t("termsKeys").map(x=>`<li style="margin:5px 0">${x}</li>`).join("")}</ul></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="legal-link" target="_blank" rel="noopener" href="${legalUrl("terms")}">${t("legalTerms")} ↗</a><a class="legal-link" target="_blank" rel="noopener" href="${legalUrl("privacy")}">${t("legalPrivacy")} ↗</a></div>
     <label class="agree-row"><input type="checkbox" id="tg-ok" ${checked?"checked":""}><span>${t("termsAgree")}</span></label>
     <div class="cerr" id="tg-err">${esc(err)}</div><button class="btn btn-paint" id="tg-go">${t("termsGo")}</button><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`);

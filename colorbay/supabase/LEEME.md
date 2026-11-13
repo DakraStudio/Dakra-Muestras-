@@ -113,3 +113,16 @@ pagando, y aparece solo en Promotores como "Taller cliente".
   nuevo (otro código, firma otra vez) y pausa el viejo. Los talleres viejos siguen con la regla vieja.
 - **Terminar la relación:** en su tarjeta, **Terminar relación** → sin causa o con causa → **Copiar aviso** y mándaselo.
 - Todos los escenarios posibles y cómo resolverlos están en el documento "Manual de escenarios".
+
+## Dinero: el registro que se llena solo
+
+Pestaña **💰 Dinero** del panel:
+- **Entra:** pagos con tarjeta (Stripe los anota solos, con su comisión real) y pagos a mano (botón **Ya me pagó** o
+  **Registrar pago recibido**, escogiendo Zelle, efectivo, etc.).
+- **Sale:** comisión de Stripe, pagos a promotores (botón **Ya le pagué**, con método y referencia), reembolsos y
+  gastos (formulario **Anotar un gasto**).
+- Ves: lo que entró este mes, lo que entra fijo cada mes, lo que toca cobrar este mes, lo que debes a promotores,
+  una tabla mes por mes (entró / salió / te queda) y todos los movimientos. **Descargar registro (CSV)** abre en Excel
+  o Google Sheets para tus impuestos.
+- El dinero con tarjeta llega a la cuenta de banco que conectes en Stripe; Stripe deposita solo. Lo de Zelle o
+  efectivo te llega directo. A los promotores les pagas tú desde tu banco o Zelle.

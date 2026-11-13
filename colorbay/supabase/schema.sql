@@ -411,6 +411,38 @@ create unique index if not exists promoters_token_uq on public.promoters(accept_
 alter table public.commissions drop constraint if exists commissions_status_check;
 alter table public.commissions add constraint commissions_status_check check (status in ('owed','paid','void'));
 alter table public.payments add column if not exists refunded_at timestamptz;
+-- Registro de dinero: cómo pagó y cuánto se quedó Stripe
+alter table public.payments add column if not exists method text;          -- tarjeta, Zelle, efectivo, Cash App…
+alter table public.payments add column if not exists fee    numeric(10,2);  -- comisión de Stripe (si pagó con tarjeta)
+-- Pagos que tú haces a los promotores (cada uno junta varias comisiones)
+create table if not exists public.payouts(
+  id          bigserial primary key,
+  promoter_id uuid not null references public.promoters(id) on delete cascade,
+  amount      numeric(10,2) not null,
+  paid_at     timestamptz not null default now(),
+  method      text,
+  ref         text
+);
+alter table public.commissions add column if not exists payout_id bigint references public.payouts(id) on delete set null;
+-- Gastos del negocio (servidor, dominio, publicidad…), para saber cuánto te queda y para tus impuestos
+create table if not exists public.expenses(
+  id       bigserial primary key,
+  spent_at date not null default current_date,
+  concept  text not null,
+  category text,
+  amount   numeric(10,2) not null check (amount >= 0),
+  note     text,
+  created_at timestamptz not null default now()
+);
+alter table public.payouts  enable row level security;
+alter table public.expenses enable row level security;
+revoke all on public.payouts, public.expenses from anon, authenticated;
+grant select, insert, update on public.payouts, public.expenses to authenticated;
+grant usage, select on sequence public.payouts_id_seq, public.expenses_id_seq to authenticated;
+drop policy if exists payouts_admin on public.payouts;
+create policy payouts_admin on public.payouts for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists expenses_admin on public.expenses;
+create policy expenses_admin on public.expenses for all to authenticated using (public.is_admin()) with check (public.is_admin());
 create index if not exists payments_shop_idx on public.payments(shop_id);
 create index if not exists commissions_promoter_idx on public.commissions(promoter_id, status);
 alter table public.promoters   enable row level security;
@@ -605,6 +637,21 @@ begin
   return 'ok';
 end $$;
 grant execute on function public.promoter_accept(uuid, text, text, text, text, text) to anon, authenticated;
+
+-- Panel: registrar que le pagaste a un promotor (junta sus comisiones en un solo pago con método y referencia)
+create or replace function public.admin_pay_promoter(p_promoter uuid, p_ids bigint[], p_method text, p_ref text default null) returns bigint
+language plpgsql security definer set search_path = public as $$
+declare t numeric; pid bigint;
+begin
+  if not public.is_admin() then raise exception 'not_admin'; end if;
+  select coalesce(sum(amount), 0) into t from commissions where id = any(p_ids) and promoter_id = p_promoter and status = 'owed' and kind <> 'credit';
+  if t > 0 then
+    insert into payouts(promoter_id, amount, method, ref) values (p_promoter, t, left(p_method, 60), left(p_ref, 120)) returning id into pid;
+  end if;  -- si se compensan (comisión y descuento), solo se marcan como saldadas
+  update commissions set status = 'paid', paid_at = now(), payout_id = pid where id = any(p_ids) and promoter_id = p_promoter and status = 'owed' and kind <> 'credit';
+  return pid;
+end $$;
+grant execute on function public.admin_pay_promoter(uuid, bigint[], text, text) to authenticated;
 
 -- Panel: marcar un taller como revisado
 create or replace function public.admin_seen(p_shop uuid) returns void

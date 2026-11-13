@@ -83,6 +83,24 @@ async function applyStripeCredits() {
   }
 }
 
+// Cuánto se quedó Stripe de un cobro (para tu registro de dinero). Si no se puede saber, queda vacío y el panel lo estima.
+// deno-lint-ignore no-explicit-any
+async function stripeFee(inv: any): Promise<number | null> {
+  try {
+    let ch = inv.charge ?? null;
+    if (!ch) {
+      // deno-lint-ignore no-explicit-any
+      const ips = await (stripe as any).invoicePayments.list({ invoice: inv.id, limit: 1 });
+      ch = ips?.data?.[0]?.payment?.charge ?? null;
+    }
+    if (!ch) return null;
+    const charge = await stripe.charges.retrieve(typeof ch === "string" ? ch : ch.id, { expand: ["balance_transaction"] });
+    // deno-lint-ignore no-explicit-any
+    const bt = charge.balance_transaction as any;
+    return bt && typeof bt === "object" && typeof bt.fee === "number" ? bt.fee / 100 : null;
+  } catch { return null; }
+}
+
 // Reembolso total o contracargo (el taller reclamó al banco): el pago deja de contar y la comisión del promotor
 // se anula, o si ya se le pagó, se descuenta de la siguiente. Los reembolsos parciales se revisan a mano en el panel.
 async function refundByCharge(ch: Stripe.Charge, force = false) {
@@ -155,7 +173,8 @@ Deno.serve(async (req) => {
         if (!shop) throw new Error("taller aún no ligado a la suscripción"); // Stripe reintenta en unos minutos
         if ((inv.amount_paid ?? 0) > 0) {
           const { error } = await db.from("payments").upsert(
-            { shop_id: shop.id, amount: inv.amount_paid / 100, paid_at: new Date((inv.status_transitions?.paid_at ?? inv.created) * 1000).toISOString(), source: "stripe", ext_id: inv.id },
+            { shop_id: shop.id, amount: inv.amount_paid / 100, paid_at: new Date((inv.status_transitions?.paid_at ?? inv.created) * 1000).toISOString(),
+              source: "stripe", method: "Tarjeta (Stripe)", fee: await stripeFee(inv), ext_id: inv.id },
             { onConflict: "ext_id", ignoreDuplicates: true });
           if (error) throw new Error("db: " + error.message);
         }
