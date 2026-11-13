@@ -188,6 +188,10 @@ main{overflow-y:auto;padding:24px clamp(16px,3vw,36px) 100px;min-width:0}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
 .stat{padding:16px;position:relative;overflow:hidden}
+.ob-row{cursor:pointer;align-items:center}.ob-row .t1,.ob-row .t2{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}.ob-row.done{cursor:default;opacity:.6}.ob-row.done .t1{text-decoration:line-through}
+.ob-check{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
+.ob-row.done .ob-check{background:var(--ok);border-color:var(--ok);animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.6)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
 .stat .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
 .stat .val{font-family:var(--display);font-size:clamp(24px,7.4vw,38px);white-space:nowrap;font-weight:700;line-height:1.1;margin-top:6px}
 .stat .bar{position:absolute;left:0;top:0;bottom:0;width:4px}
@@ -762,6 +766,8 @@ function navHtml(mobile){const list=NAV.filter(n=>navOk(n[0])&&(!mobile||PRIMARY
 function navHtmlOld(){return NAV.filter(n=>navOk(n[0])).map(([id,k,ic])=>`<button class="nav-btn ${view===id?"on":""}" data-go="${id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${t(k)}</button>`).join("")}
 function go(v){view=v;try{history.replaceState(null,"","#"+v)}catch(e){}render()}
 document.addEventListener("click",e=>{
+  const obk=e.target.closest("[data-obok]");if(obk){S.settings.ob={...(S.settings.ob||{}),[obk.dataset.obok]:1};save();render();toast(t("saved"));return}
+  const ob=e.target.closest("[data-ob]");if(ob){obGo(ob.dataset.ob);return}
   const g=e.target.closest("[data-go]");if(g){go(g.dataset.go);return}
   const lg=e.target.closest("[data-lang]");if(lg){S.settings.lang=lg.dataset.lang;try{localStorage.setItem("colorbay-web-lang",lg.dataset.lang)}catch(x){}document.documentElement.lang=S.settings.lang;save();render();if(openId)renderSheet();return}
   const o=e.target.closest("[data-open]");if(o){openOrder(o.dataset.open)}
@@ -816,6 +822,7 @@ function vHome(){
   const tiles=[["inToday",inT,0,"var(--bay)"],["outToday",outT,0,"var(--ok)"],["onSite",act.length,0,"var(--paint)"],can("money")?["owed",owed,1,"var(--warn)"]:["mine",mineN,0,"var(--warn)"]];
   return`<div class="top"><div><h1>${esc(S.settings.shop)}</h1><p>${t("sumToday")} · ${new Date().toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long"})}</p></div>
    <button class="btn btn-pri" onclick="newOrder()">＋ ${t("newOrder")}</button></div>
+  ${obCard()}
   <div class="stats stagger">${tiles.map(([k,v,mo,c])=>`<div class="card stat"><span class="bar" style="background:${c}"></span><div class="lbl">${t(k)}</div><div class="val num" data-count="${v}" data-money="${mo}">0</div></div>`).join("")}</div>
   ${(S.appts||[]).some(x=>x.d===today())?`<div class="card" style="margin-bottom:18px"><div class="sec-h"><h2>${t("todayAppts")}</h2><button class="btn btn-ghost btn-sm" data-go="citas">${t("appts")} →</button></div>
    <div class="list">${(S.appts||[]).filter(x=>x.d===today()).sort((x,y)=>(x.time||"").localeCompare(y.time||"")).map(x=>`<div class="row" data-go="citas"><div class="thumb" style="font-family:var(--display);font-weight:700;color:var(--bay);background:var(--bay-soft);border:0">${esc(x.time||"—")}</div><div class="main"><div class="t1">${esc(x.name)}</div><div class="t2">${esc(x.car||"")}</div></div></div>`).join("")}</div></div>`:""}
@@ -976,7 +983,7 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
   <div class="card"><div class="sec-h"><h2>${t("legal")}</h2>${TERMS_AT?`<span class="chip c-ok">${t("termsAccepted")} ${new Date(TERMS_AT).toLocaleDateString(loc())}</span>`:""}</div><div class="box-b" style="display:flex;gap:8px;flex-wrap:wrap">
    <a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("terms")}" style="text-decoration:none">${t("legalTerms")} ↗</a><a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("privacy")}" style="text-decoration:none">${t("legalPrivacy")} ↗</a></div></div>
   <div class="card"><div class="sec-h"><h2>${t("helpBtnSet")}</h2></div><div class="box-b"><button class="btn btn-ghost" id="s-help">${helpOff?t("helpShow"):t("helpHide")}</button></div></div>
-  <div class="card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
+  <div class="card" id="quick-card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
    <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
   <div class="card"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
    <p style="margin:0;color:var(--muted)">${DEMO?t("dataNote"):t("cloudNote")}</p>
@@ -1497,6 +1504,7 @@ async function decodeVin(vin){
 
 /* ---------- Estimado y factura para imprimir o guardar en PDF ---------- */
 function openDoc(id,kind){
+  if(ME?.role==="owner"&&!S.demo&&!(S.settings.ob||{}).pdf){S.settings.ob={...(S.settings.ob||{}),pdf:1};save()}
   const o=S.orders.find(x=>x.id===id),c=cust(o.cust),tt=totals(o),s=S.settings,isInv=kind==="invoice";
   const tn={labor:t("labor"),part:t("partT"),paint:t("paintT"),other:t("other")};
   openOver(`<div class="over-bar"><b>${isInv?t("invoicePdf"):t("estimatePdf")} · #${o.id}</b><span style="display:flex;gap:8px"><button class="btn btn-paint btn-sm" onclick="window.print()">${t("printPdf")}</button><button class="x" onclick="closeOver()" aria-label="${t("close")}">×</button></span></div>
@@ -1733,6 +1741,56 @@ function termsGate(shopId){return new Promise(resolve=>{
   TERMS_GATE.draw();
 })}
 
+/* ================== Primeros pasos (guía que se palomea sola) ================== */
+function obSteps(){
+  const s=S.settings,ob=s.ob||{},solo=(typeof SHOP!=="undefined"&&SHOP&&SHOP.tier==="solo");
+  const standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+  return[
+    {k:"shop",done:!!(s.shop&&s.phone&&s.address)},
+    {k:"rates",done:!!ob.rates,ok:1},
+    {k:"logo",done:!!s.logo,opt:1},
+    ...(solo?[]:[{k:"team",done:S.users.length>1}]),
+    {k:"order",done:S.orders.length>0},
+    {k:"photos",done:S.orders.some(o=>genCount(o)>0)},
+    {k:"pdf",done:!!ob.pdf},
+    {k:"install",done:!!ob.install||standalone,ok:1}];
+}
+function obCard(){
+  if(!ME||ME.role!=="owner"||S.demo||(S.settings.ob||{}).hidden)return"";
+  const st=obSteps(),req=st.filter(x=>!x.opt),n=req.filter(x=>x.done).length,all=n===req.length,pct=Math.round(n/req.length*100);
+  return`<div class="card ob" style="margin-bottom:18px"><div class="sec-h"><h2>${all?t("obDoneT"):t("obT")}</h2><span class="chip ${all?"c-ok":"c-bay"} num">${n}/${req.length}</span></div>
+   <div style="padding:0 16px"><div style="height:8px;border-radius:8px;background:var(--surface-2);overflow:hidden"><div style="height:100%;width:${pct}%;background:${all?"var(--ok)":"var(--bay)"};border-radius:8px;transition:width .5s"></div></div>
+    <p style="margin:10px 0 4px;color:var(--muted);font-size:14px">${all?t("obDoneP"):t("obP")}</p></div>
+   ${all?"":`<div class="list">${st.map(x=>`<div class="row ob-row ${x.done?"done":""}" ${x.done?"":`data-ob="${x.k}"`}>
+     <span class="ob-check" aria-hidden="true">${x.done?"✓":""}</span><div class="main"><div class="t1">${t("ob")[x.k][0]}${x.opt?` <span class="chip" style="font-size:11px">${t("obOpt")}</span>`:""}</div><div class="t2">${t("ob")[x.k][1]}</div></div>
+     ${x.done?"":`<span style="display:flex;gap:6px;align-items:center">${x.ok?`<button class="btn btn-ghost btn-sm" data-obok="${x.k}" type="button">${t("obMark")}</button>`:""}<span style="color:var(--bay);font-weight:700">→</span></span>`}</div>`).join("")}</div>`}
+   <div style="padding:8px 16px 14px;display:flex;justify-content:flex-end"><button class="btn btn-ghost btn-sm" data-obok="hidden" type="button">${all?t("obHideDone"):t("obHide")}</button></div></div>`;
+}
+function obGo(k){
+  const toSet=sel=>{view="ajustes";render();setTimeout(()=>{const el=$(sel);if(el){el.scrollIntoView({behavior:"smooth",block:"center"});if(el.focus&&!(window.matchMedia&&matchMedia("(pointer:coarse)").matches))el.focus()}},120)};
+  const last=[...S.orders].sort((a,b)=>b.id.localeCompare(a.id))[0];
+  if(k==="shop")toSet(S.settings.phone?(S.settings.address?"#s-shop":"#s-addr"):"#s-phone");
+  else if(k==="rates")toSet("#s-rate");
+  else if(k==="logo")toSet("#s-logo");
+  else if(k==="team")toSet("#u-add");
+  else if(k==="order")newOrder();
+  else if(k==="photos"){if(!last)return newOrder();openOrder(last.id);setTimeout(()=>{const tb=document.querySelector(`#sheet .tab[onclick*="'inspection'"]`);tb&&tb.click()},150)}
+  else if(k==="pdf"){if(!last)return newOrder();openDoc(last.id,"estimate")}
+  else if(k==="install")toSet("#quick-card");
+}
+Object.assign(L.es,{obT:"Primeros pasos",obP:"Termina estos pasos y tu taller queda listo para trabajar. Se palomean solos.",obDoneT:"¡Tu taller está listo!",obDoneP:"Completaste todos los pasos. Ya puedes trabajar con ColorBay todos los días.",
+  obMark:"Ya lo hice",obOpt:"opcional",obHide:"Ocultar por ahora",obHideDone:"Quitar esta tarjeta",
+  ob:{shop:["Completa los datos de tu taller","Nombre, dirección y teléfono: salen en tus estimados y facturas."],rates:["Revisa tus precios","Mano de obra, pintura e impuesto. Cámbialos si no son los tuyos."],
+    logo:["Sube tu logo","Se ve en tus estimados y facturas en PDF."],team:["Agrega a tu equipo","Técnicos y pintores, cada uno con su PIN."],
+    order:["Crea tu primera orden","Cliente y carro en menos de un minuto."],photos:["Toma las fotos de entrada","Las fotos de todos los ángulos te protegen si hay reclamos."],
+    pdf:["Abre tu primer estimado en PDF","Para mandarlo o imprimirlo para tu cliente."],install:["Ponla en la pantalla de inicio","Ábrela como una app, con un toque."]}});
+Object.assign(L.en,{obT:"Getting started",obP:"Finish these steps and your shop is ready to work. They check themselves off.",obDoneT:"Your shop is ready!",obDoneP:"You finished every step. You're set to run your shop with ColorBay every day.",
+  obMark:"I did it",obOpt:"optional",obHide:"Hide for now",obHideDone:"Remove this card",
+  ob:{shop:["Complete your shop details","Name, address and phone: they show on your estimates and invoices."],rates:["Check your rates","Labor, paint and tax. Change them if they aren't yours."],
+    logo:["Upload your logo","It shows on your PDF estimates and invoices."],team:["Add your team","Technicians and painters, each with their own PIN."],
+    order:["Create your first order","Customer and car in under a minute."],photos:["Take the check-in photos","Photos from every angle protect you if there's a claim."],
+    pdf:["Open your first PDF estimate","To send or print it for your customer."],install:["Add it to your home screen","Open it like an app, in one tap."]}});
+
 /* ================== Ayuda dentro de la app ================== */
 const HKEY="colorbay-help-off";
 let helpOff=false;try{helpOff=localStorage.getItem(HKEY)==="1"}catch(e){}
@@ -1966,7 +2024,7 @@ async function enterShop(){
     sb.from("workers").select("id,name,role").eq("shop_id",shop.id)]);
   if(e2||e3||e4){cloudErr=t("errNet");renderCloudLogin();return}
   const doc=sd?.doc||{};const lang=S.settings.lang;
-  S={settings:{shop:shop.name,rate:55,paintRate:45,tax:9.75,theme:"auto",...(doc.settings||{}),lang},users:wk||[],customers:doc.customers||[],
+  S={settings:{shop:shop.name,rate:55,paintRate:45,tax:9.75,theme:"auto",...(shop.phone?{phone:shop.phone}:{}),...(doc.settings||{}),lang},users:wk||[],customers:doc.customers||[],
      orders:(ords||[]).map(r=>r.doc),paint:{library:[],mixes:[],stock:[],...(doc.paint||{})},appts:doc.appts||[],demo:false};
   CLOUD.snap.doc=stable(cloudDoc());CLOUD.snap.orders={};CLOUD.snap.money={};MONEY_ON=false;S.orders.forEach(o=>CLOUD.snap.orders[o.id]=stable(o));
   ME=S.users.find(u=>u.id===m.worker_id)||{id:m.worker_id,name:user.email||"?",role:m.role};
