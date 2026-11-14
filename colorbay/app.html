@@ -914,7 +914,7 @@ function swatchColor(c){c=(c||"").toLowerCase();
 function vPaint(){
   const P=S.paint,mon=today().slice(0,7),gm=P.mixes.filter(m=>m.d.startsWith(mon)).reduce((s,m)=>s+ +m.g,0);
   let body="";
-  if(paintTab==="codes")body=`${PAINTER()?obCard():""}`+vPaintCodes();
+  if(paintTab==="codes")body=`${PAINTER()?obCard():""}<button class="card lab-cta" onclick="openLab({})" type="button"><span class="lab-ic" aria-hidden="true"></span><span style="flex:1;text-align:left"><b>${t("labT")}</b><small>${t("labP")}</small></span><span style="font-size:22px;color:var(--bay)">→</span></button>`+vPaintCodes();
   if(paintTab==="library")body=`${PAINTER()?obCard():""}<button class="card lab-cta" onclick="openLab({})" type="button"><span class="lab-ic" aria-hidden="true"></span><span style="flex:1;text-align:left"><b>${t("labT")}</b><small>${t("labP")}</small></span><span style="font-size:22px;color:var(--bay)">→</span></button>
    <div class="toolbar"><input class="input" id="fq" placeholder="${S.settings.lang==="es"?"Buscar código, color o marca":"Search code, color or make"}"><button class="btn btn-paint" onclick="editFormula()">＋ ${t("newFormula")}</button></div>
    <div class="fgrid stagger" id="flist">${fCards(P.library)}</div>`;
