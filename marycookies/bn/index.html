@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Made By Mary H Cookies</title>
@@ -790,7 +791,8 @@ const T = {
 /* ===== helpers ===== */
 const holiday = CONFIG.season === 'holiday';
 if(holiday) document.body.classList.add('holiday');
-let lang = 'en', look = 'real';
+// Spanish phones open in Spanish (our own translation, not the browser's)
+let lang = (navigator.language || '').toLowerCase().startsWith('es') ? 'es' : 'en', look = 'real';
 try{ const s = localStorage.getItem('mmh-lang'); if(s==='es'||s==='en') lang = s; const l = localStorage.getItem('mmh-look2'); if(STYLES.includes(l)) look = l; }catch(e){}
 const $ = s => document.querySelector(s);
 const t = (k, v={}) => (T[lang][k] ?? T.en[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => v[x] ?? '');
