@@ -372,24 +372,37 @@ body:not(.holiday) .season-only{display:none!important}
 }
 </style>
 <style>
-/* B&N + color accents: neutral black/white layout; photos, buttons and tags keep their color */
-:root{--cream:#FFFFFF;--paper:#F7F7F6;--mist:#F0F0EE;--choco:#111111;--soft:#5C5C5C;--line:#E4E4E2;--olive-ink:#111111}
+/* Black & white: neutral layout, color only in the cookies */
+:root{--cream:#FFFFFF;--paper:#F7F7F6;--mist:#F0F0EE;--choco:#111111;--soft:#5C5C5C;--line:#E4E4E2;--olive:#111111;--olive-deep:#111111;--olive-ink:#111111;--caramel:#111111;--caramel-deep:#000;--holly:#111111}
 header.nav{background:rgba(255,255,255,.94)}
 .hero{background:linear-gradient(180deg,#fff 55%,#F0F0EE)}
-.announce{background:#111}.announce a{color:#C9D27A}
-.marquee{background:#111}.marquee-track span::after{background:var(--olive)}
-.dark{background:#111}.dark .eyebrow{color:#C9D27A}
-footer{background:#111}.foot h4{color:#C9D27A}
-.eyebrow{color:var(--olive)}
+.announce,.marquee,.dark,footer,.boxcard,.chat-top,.chat-fab,.story .logo-c{background:#111}
+.slots{background:#000}.slot.pie{box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.announce a,.dark .eyebrow,.foot h4,.surprise{color:#fff}
+.marquee-track span::after{background:#fff}
+.eyebrow{color:#111}
+.hero h1 em{color:#555}
 .hero-photo .frame,.gift-photo{border-color:#111}
 .brand{color:#111}.foot .brand{color:#fff}
-.chip[aria-pressed="true"]{background:var(--olive-deep)}
-.boxcard{background:#111}.slots{background:#000}
+.btn-primary{background:#111;color:#fff}.btn-primary:hover{background:#333}
 .btn-ghost{color:#111;box-shadow:inset 0 0 0 2px #111}.btn-ghost:hover{background:#111;color:#fff}
 .boxcard .btn-ghost{color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+.btn-cream{background:#fff;color:#111}.btn-gold{background:#111;color:#fff}
+.box-pill .count{background:#fff;color:#111}
+.progress i{background:#fff}
+.chip[aria-pressed="true"]{background:#111}
+.tag,.tag.cold,.tag.new{background:rgba(17,17,17,.88)}
+.tagline{background:#111}
+.chat-fab .ping{background:#fff;box-shadow:0 0 0 3px #111}
+.chat-fab .face,.chat-top .face{border-color:#fff}
+.msg.me{background:#111}.msg .acts button{background:#111}
+.chat form button,.plus,.step .n{background:#111}.plus:hover{background:#333}
+.piec .plus{background:#fff;color:#111}
+.note-cold b{color:#111}
 .card,.step,.ws-card,.tile,.icon,.acc details{box-shadow:0 1px 0 #E4E4E2,0 14px 30px -24px rgba(0,0,0,.45)}
-.chat-top{background:#111}.chat-fab{background:#111}
-.story .logo-c{background:#111}
+.acc summary::after{color:#111}
+input[type=range]{accent-color:#111}
+.cold-note{background:rgba(255,255,255,.12)}
 </style>
 </head>
 <body>
@@ -471,7 +484,6 @@ footer{background:#111}.foot h4{color:#C9D27A}
         <div class="filters" id="filters" role="group" aria-label="Filter"></div>
         <div class="styles" role="group" aria-label="Look"><span data-i18n="mn.look">Look</span>
           <button class="sw real" type="button" data-style="real" aria-label="Kitchen" aria-pressed="true"></button>
-          <button class="sw olive" type="button" data-style="olive" aria-label="Olive" aria-pressed="false"></button>
           <button class="sw dark" type="button" data-style="dark" aria-label="Dark" aria-pressed="false"></button>
           <button class="sw marble" type="button" data-style="marble" aria-label="Marble" aria-pressed="false"></button>
           <button class="sw rustic" type="button" data-style="rustic" aria-label="Rustic" aria-pressed="false"></button>
@@ -508,7 +520,7 @@ footer{background:#111}.foot h4{color:#C9D27A}
     <div class="wrap">
       <div class="head reveal"><div><p class="eyebrow" data-i18n="ws.eyebrow">Wholesale &amp; events</p><h2 data-i18n="ws.title">For your store, office or party</h2></div></div>
       <div class="ws">
-        <div class="ws-photo reveal"><img src="img/real-assort.jpg" alt="Assorted stuffed cookies and cookie pies" data-lb width="600" height="600" loading="lazy"></div>
+        <div class="ws-photo reveal"><img src="img/real-tower-2.jpg" alt="Four stuffed cookies stacked on a plate" data-lb width="600" height="600" loading="lazy"></div>
         <div class="ws-card">
           <div class="field"><span class="lbl-t" data-i18n="ws.who">I'm ordering for</span><div class="row" id="wsType"></div></div>
           <div class="field"><label for="dozens"><span data-i18n="ws.qty">Dozens</span>: <span id="dzOut">5</span></label><input type="range" id="dozens" min="1" max="30" value="5"></div>
@@ -648,7 +660,7 @@ const CONFIG = {
   prices: { gift: null, box6: null, box12: null }   // e.g. 28 → $28. null → "Price coming soon"
 };
 const AVAIL = new Set(["box-real", "dark-arequipe", "dark-brownie", "dark-coconut", "dark-hazelnut", "dark-lemon", "dark-pie-arequipe", "dark-pie-coconut", "dark-pie-hazelnut", "dark-pie-lemon", "dark-redvelvet", "giftbox", "gpt-01", "gpt-02", "gpt-04", "gpt-05", "gpt-07", "gpt-08", "hero", "lk-01", "lk-02", "lk-03", "lk-04", "lk-05", "lk-06", "lk-07", "lk-08", "lk-09", "lk-10", "marble-arequipe", "marble-brownie", "marble-coconut", "marble-guava", "marble-hazelnut", "marble-hazelnut-whole", "marble-lemon", "marble-pie-coconut", "marble-redvelvet", "olive-arequipe", "olive-brownie", "olive-coconut", "olive-guava", "olive-guava-whole", "olive-hazelnut", "olive-lemon", "olive-pie-arequipe", "olive-pie-coconut", "olive-pie-hazelnut", "olive-pie-lemon", "olive-redvelvet", "real-assort", "real-box-branches", "real-box-closed", "real-box-open", "real-brownie", "real-brownie-2", "real-coconut", "real-gold", "real-lemon", "real-lemon-2", "real-pie-coconut", "real-pie-coconut-2", "real-plate", "real-redvelvet", "real-redvelvet-2", "real-redvelvet-3", "real-rv-tower", "real-sleeves", "real-tower", "real-tower-2", "real-white-box", "rustic-arequipe", "rustic-brownie", "rustic-coconut", "rustic-guava", "rustic-hazelnut", "rustic-lemon", "rustic-mix", "rustic-pie-arequipe", "rustic-pie-coconut", "rustic-pie-hazelnut", "rustic-pie-lemon", "rustic-redvelvet", "splash", "torre-lazo"]);
-const STYLES = ['real','olive','dark','marble','rustic'];
+const STYLES = ['real','dark','marble','rustic'];
 const imgFor = (key, style) => { const order = [style, ...STYLES.filter(s => s !== style)]; for(const s of order){ if(AVAIL.has(`${s}-${key}`)) return `img/${s}-${key}.jpg`; } return 'img/hero.jpg'; };
 const imgsOf = key => [2,3].filter(n => AVAIL.has(`real-${key}-${n}`)).map(n => `img/real-${key}-${n}.jpg`).reduce((a,x)=>{a.splice(1,0,x);return a;}, STYLES.filter(s => AVAIL.has(`${s}-${key}`)).map(s => `img/${s}-${key}.jpg`).concat(AVAIL.has(`olive-${key}-whole`)?[`img/olive-${key}-whole.jpg`]:[]).concat(AVAIL.has(`marble-${key}-whole`)?[`img/marble-${key}-whole.jpg`]:[]));
 
