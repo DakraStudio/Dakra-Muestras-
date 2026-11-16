@@ -249,7 +249,7 @@ footer{background:var(--olive-ink);color:var(--cream);padding:52px 0 28px}
 .pp-intro{font-size:.85rem;color:var(--soft);margin-bottom:6px}
 .pp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line);font-weight:800;font-size:.92rem}
 .pp-row .stepper{padding:0;gap:10px}
-.pp-row.on span{text-decoration:underline;text-underline-offset:4px}
+
 .tile .zoom{border:0;padding:0;background:none;display:block;position:relative;cursor:zoom-in;width:100%}
 .tile .zoom img{aspect-ratio:1;width:100%;object-fit:cover}
 .zi{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);color:#111;display:grid;place-items:center;font-size:.85rem;font-weight:800}
@@ -658,10 +658,10 @@ const ALL_FLAVORS = [
 ];
 const FLAVORS = ALL_FLAVORS.filter(f => !HIDDEN.has(f.id));
 const ALL_PIES = [
-  {id:'pie-coconut', name:{en:'Coconut cheesecake', es:'Cheesecake de coco'}, d:{en:'Piped cream cheese, toasted coconut.', es:'Queso crema y coco tostado.'}, fill:{en:'cream cheese (milk), sugar, toasted coconut', es:'queso crema (leche), azúcar, coco tostado'}, al:{en:'Wheat, Milk, Egg, Soy. Also contains coconut.', es:'Trigo, Leche, Huevo, Soya. También contiene coco.'}},
-  {id:'pie-lemon', name:{en:'Lemon cheesecake', es:'Cheesecake de limón'}, d:{en:'Lemon cheesecake cream, fresh zest.', es:'Crema de cheesecake de limón y ralladura.'}, fill:{en:'cream cheese (milk), sugar, lemon', es:'queso crema (leche), azúcar, limón'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
-  {id:'pie-arequipe', name:{en:'Dulce de Leche', es:'Dulce de Leche'}, d:{en:'Filled with arequipe and a caramel drizzle.', es:'Relleno de arequipe con hilos de caramelo.'}, fill:{en:'arequipe (milk, sugar)', es:'arequipe (leche, azúcar)'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
-  {id:'pie-hazelnut', name:{en:'Nutella®', es:'Nutella®'}, d:{en:'Nutella® and chopped hazelnuts.', es:'Nutella® y avellana picada.'}, fill:{en:'chocolate hazelnut spread (sugar, palm oil, hazelnuts, cocoa, milk, soy lecithin), hazelnuts', es:'crema de avellana y cacao (azúcar, aceite de palma, avellanas, cacao, leche, lecitina de soya), avellanas'}, al:{en:'Wheat, Milk, Egg, Soy, Tree nuts (hazelnut)', es:'Trigo, Leche, Huevo, Soya, Nueces de árbol (avellana)'}}
+  {id:'pie-coconut', cold:true, name:{en:'Coconut cheesecake', es:'Cheesecake de coco'}, d:{en:'Piped cream cheese, toasted coconut.', es:'Queso crema y coco tostado.'}, fill:{en:'cream cheese (milk), sugar, toasted coconut', es:'queso crema (leche), azúcar, coco tostado'}, al:{en:'Wheat, Milk, Egg, Soy. Also contains coconut.', es:'Trigo, Leche, Huevo, Soya. También contiene coco.'}},
+  {id:'pie-lemon', cold:true, name:{en:'Lemon cheesecake', es:'Cheesecake de limón'}, d:{en:'Lemon cheesecake cream, fresh zest.', es:'Crema de cheesecake de limón y ralladura.'}, fill:{en:'cream cheese (milk), sugar, lemon', es:'queso crema (leche), azúcar, limón'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
+  {id:'pie-arequipe', cold:true, name:{en:'Dulce de Leche', es:'Dulce de Leche'}, d:{en:'Filled with arequipe and a caramel drizzle.', es:'Relleno de arequipe con hilos de caramelo.'}, fill:{en:'arequipe (milk, sugar)', es:'arequipe (leche, azúcar)'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
+  {id:'pie-hazelnut', cold:true, name:{en:'Nutella®', es:'Nutella®'}, d:{en:'Nutella® and chopped hazelnuts.', es:'Nutella® y avellana picada.'}, fill:{en:'chocolate hazelnut spread (sugar, palm oil, hazelnuts, cocoa, milk, soy lecithin), hazelnuts', es:'crema de avellana y cacao (azúcar, aceite de palma, avellanas, cacao, leche, lecitina de soya), avellanas'}, al:{en:'Wheat, Milk, Egg, Soy, Tree nuts (hazelnut)', es:'Trigo, Leche, Huevo, Soya, Nueces de árbol (avellana)'}}
 ];
 const PIES = ALL_PIES.filter(p => !HIDDEN.has(p.id));
 const BOXES = [
@@ -672,7 +672,7 @@ const BOXES = [
 const FILTERS = [{id:'all',en:'All',es:'Todas'},{id:'cheesecake',en:'Cheesecake',es:'Cheesecake'},{id:'chocolate',en:'Chocolate',es:'Chocolate'}];
 const NOTES = [
   {en:['Made by hand','Size, color and filling can look a little different from the photos, which show serving ideas.'], es:['Hecho a mano','El tamaño, color y relleno pueden verse un poco distintos a las fotos, que son sugerencias de presentación.']},
-  {en:['Storage','No fridge needed. Keep cookies and cookie pies in a closed container at room temperature, or freeze cookies up to 1 month.'], es:['Cuidados','No necesitan refrigerador. Guarda galletas y cookie pies en un recipiente cerrado a temperatura ambiente, o congela las galletas hasta 1 mes.']},
+  {en:['Storage','Cookie pies need refrigeration. Stuffed cookies keep in a closed container at room temperature up to 4 days, or freeze them up to 1 month.'], es:['Cuidados','Los cookie pies necesitan refrigeración. Las galletas rellenas se guardan en un recipiente cerrado a temperatura ambiente hasta 4 días, o congeladas hasta 1 mes.']},
   {en:['Orders and changes','Confirmed only when we text you the day and price. Large orders may need a deposit. Changes or cancellations: 48 hours before delivery.'], es:['Pedidos y cambios','Confirmado cuando te mandamos día y precio. Pedidos grandes pueden requerir anticipo. Cambios o cancelaciones: 48 horas antes.']},
   {en:['Delivery and payment','We deliver to your door within our local delivery radius in Middle Tennessee. Text us your address and we confirm it. Someone must receive the order. Payment is made when you place your order, not at delivery.'], es:['Entrega y pago','Entregamos a domicilio dentro de nuestro radio de entrega en el centro de Tennessee. Mándanos tu dirección y te confirmamos. Alguien debe recibir el pedido. El pago se hace al pedir, no al recibir.']},
   {en:['Ingredients','Each cookie lists its ingredients from most to least. Our recipes stay in our kitchen.'], es:['Ingredientes','Cada galleta muestra sus ingredientes de mayor a menor. Las recetas se quedan en nuestra cocina.']},
@@ -701,7 +701,7 @@ const T = {
   'bd.eyebrow':'Build a box','bd.title':'Mix your favorites','bd.sub':'Fill it, send it by text, we confirm day and price.',
   'bd.cookies':'Stuffed cookies','gb.c':'Choose 3 stuffed cookies','gb.p':'Choose 2 cookie pies','gb.pintro':'Vanilla chocolate chip cookie cup with the creamy filling you like:','bd.order':'Order this box','gb.order':'Order this gift box','bd.clear':'Empty',
   'bd.surprise':'Surprise me','bd.left':'{c} to go','bd.cookie':'cookie','bd.cookiesw':'cookies','bd.pie':'cookie pie','bd.piesw':'cookie pies','bd.and':'and','bd.full':'Full and ready to order',
-  'bd.added':'Added {f}','bd.isfull':'That part of the box is full.','bd.cold':'Includes cookie pies: delivered chilled.',
+  'bd.added':'Added {f}','bd.isfull':'That part of the box is full.','bd.cold':'Cookie pies need refrigeration.',
   'price.soon':'Price coming soon',
   'lk.eyebrow':'Lookbook','lk.title':'Which one is calling you?',
   'ws.eyebrow':'Wholesale & events','ws.title':'For your store, office or party','ws.who':"I'm ordering for",'ws.qty':'Dozens','ws.freq':'How often?','ws.once':'One time','ws.weekly':'Every week',
@@ -731,7 +731,7 @@ const T = {
   'bd.eyebrow':'Arma tu caja','bd.title':'Combina tus favoritas','bd.sub':'Llénala, mándala por mensaje y confirmamos día y precio.',
   'bd.cookies':'Galletas rellenas','gb.c':'Elige 3 galletas rellenas','gb.p':'Elige 2 cookie pies','gb.pintro':'Galleta de vainilla con chispas y el relleno cremoso de tu preferencia:','bd.order':'Pedir esta caja','gb.order':'Pedir esta caja de regalo','bd.clear':'Vaciar',
   'bd.surprise':'Sorpréndeme','bd.left':'Faltan {c}','bd.cookie':'galleta','bd.cookiesw':'galletas','bd.pie':'cookie pie','bd.piesw':'cookie pies','bd.and':'y','bd.full':'Llena y lista para pedir',
-  'bd.added':'Agregaste {f}','bd.isfull':'Esa parte de la caja ya está llena.','bd.cold':'Lleva cookie pies: se entregan fríos.',
+  'bd.added':'Agregaste {f}','bd.isfull':'Esa parte de la caja ya está llena.','bd.cold':'Los cookie pies necesitan refrigeración.',
   'price.soon':'Precio próximamente',
   'lk.eyebrow':'Galería','lk.title':'¿Cuál se te antoja?',
   'ws.eyebrow':'Mayoreo y eventos','ws.title':'Para tu tienda, oficina o fiesta','ws.who':'Pido para','ws.qty':'Docenas','ws.freq':'¿Cada cuándo?','ws.once':'Una vez','ws.weekly':'Cada semana',
@@ -927,7 +927,7 @@ function orderText(){
   const lines = FLAVORS.filter(f => st.items[f.id]).map(f => `• ${st.items[f.id]} × ${L(f.name)}`);
   PIES.filter(pp => st.pies[pp.id]).forEach(pp => lines.push(`• ${st.pies[pp.id]} × Cookie Pie (${L(pp.name)})`));
   return [(es ? `¡Hola Mary H! Quiero pedir: ${L(b.name)}` : `Hi Mary H! I'd like to order: ${L(b.name)}`) + (p ? ` (${p})` : ''), ...lines,
-    st.cold() ? (es ? 'Incluye cookie pies (refrigerados).' : 'Includes cookie pies (chilled).') : '',
+    st.cold() ? (es ? 'Los cookie pies necesitan refrigeración.' : 'Cookie pies need refrigeration.') : '',
     v('coAddr') ? `${es?'Entregar en':'Deliver to'}: ${v('coAddr')}` : '', v('coDate') ? `${es?'Fecha':'Date'}: ${v('coDate')}` : '',
     v('coName') ? `${es?'Nombre':'Name'}: ${v('coName')}` : '', v('coPhone') ? `${es?'Tel':'Phone'}: ${v('coPhone')}` : '', v('coNote') ? `${es?'Nota':'Note'}: ${v('coNote')}` : '',
     $('#coAgree').checked ? (es ? 'Leí las notas del pedido.' : 'I read the order notes.') : ''].filter(Boolean).join('\n');
@@ -957,7 +957,7 @@ const CATS = [
   {id:'quiz', t:say('Help me choose','Ayúdame a elegir'), s:say('2 quick questions','2 preguntas rápidas'), quiz:true},
   {id:'order', t:say('Order & delivery','Pedidos y entregas'), s:say('How, when and where','Cómo, cuándo y dónde'), qs:['ord.how','ord.when','ord.where','ord.change']},
   {id:'price', t:say('Prices & payment','Precios y pago'), s:say('Cost, deposit, payment','Costo, anticipo, pago'), qs:['pr.price','pr.pay','pr.deposit']},
-  {id:'care', t:say('Storage','Cuidados'), s:say('Freshness and ingredients','Frescura e ingredientes'), qs:['care.fridge','care.fresh','care.ing']},
+  {id:'care', t:say('Storage','Cuidados'), s:say('Fridge, freshness, ingredients','Refrigerar, frescura, ingredientes'), qs:['care.fridge','care.fresh','care.ing']},
   {id:'events', t:say('Wholesale & events','Mayoreo y eventos'), s:say('Stores, offices, weddings','Tiendas, oficinas, bodas'), qs:['ev.store','ev.office','ev.wedding']},
   {id:'human', t:say('Talk to Mary H','Hablar con Mary H'), s:say('Text or email','Mensaje o correo'), qs:['hm.contact']}
 ];
@@ -976,7 +976,7 @@ const Q = {
   'pr.pay':{q:say('How do I pay?','¿Cómo pago?'), a:say('When you place your order. We text you the total and how to pay when we confirm.','Al hacer tu pedido. Te mandamos por mensaje el total y cómo pagar al confirmar.')},
   'pr.deposit':{q:say('Do I need a deposit?','¿Piden anticipo?'), a:say('Only for large or event orders. We tell you when we confirm.','Solo en pedidos grandes o de eventos. Te avisamos al confirmar.')},
   'care.al':{q:say('What about allergies?','¿Y las alergias?'), a:say('All cookies have wheat, milk and eggs; most have soy. The coconut cookie and cookie pie contain coconut, and our home kitchen also handles nuts. We cannot promise allergen-free cookies.','Todas llevan trigo, leche y huevo; la mayoría soya. La galleta y el cookie pie de coco llevan coco, y en la cocina también se usan nueces. No podemos garantizar galletas libres de alérgenos.'), go:'#build', gl:say('Allergens by flavor','Alérgenos por sabor')},
-  'care.fridge':{q:say('Do they need the fridge?','¿Necesitan refrigerador?'), a:say('No. Cookies and cookie pies keep in a closed container at room temperature.','No. Las galletas y los cookie pies se guardan en un recipiente cerrado a temperatura ambiente.')},
+  'care.fridge':{q:say('Which ones need the fridge?','¿Cuáles van en el refrigerador?'), a:say('Only the cookie pies need refrigeration. The stuffed cookies keep in a closed container at room temperature.','Solo los cookie pies necesitan refrigeración. Las galletas rellenas se guardan en un recipiente cerrado a temperatura ambiente.')},
   'care.fresh':{q:say('How long do they last?','¿Cuánto duran?'), a:say('Stuffed cookies: 4 days in a closed container, or freeze up to 1 month.','Las galletas rellenas: 4 días en recipiente cerrado, o congeladas hasta 1 mes.')},
   'care.ing':{q:say('Can I see ingredients?','¿Puedo ver ingredientes?'), a:say('Yes: tap any cookie photo in the box builder to see it up close.','Sí: toca la foto de cualquier galleta en el armador para verla de cerca.'), go:'#build', gl:say('Build my box','Armar mi caja')},
   'ev.store':{q:say('Do you sell to stores?','¿Venden a tiendas?'), a:say('Yes, in Tennessee: all four stuffed cookies, wrapped and labeled. Cookie pies are sold only in person.','Sí, en Tennessee: las cuatro galletas rellenas, empacadas y con etiqueta. Los cookie pies solo en persona.'), sms:true},
