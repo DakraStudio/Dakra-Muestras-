@@ -136,7 +136,7 @@ header.nav.scrolled{border-color:var(--line)}
 .note-cold b{color:#2F5E7A}
 
 /* pies */
-.pies{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pies{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,340px));justify-content:center;gap:16px}
 .piec{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;cursor:pointer;box-shadow:var(--shadow);background:#2b2a1a}
 .piec img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .piec:hover img{transform:scale(1.06)}
@@ -334,7 +334,7 @@ body:not(.holiday) .season-only{display:none!important}
 @media (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)} .nav-links a{padding:8px 8px}}
 @media (max-width:900px){
   .hero-grid,.gift,.builder,.ws,.drawer{grid-template-columns:1fr}
-  .pies{grid-template-columns:repeat(2,1fr)}
+  .pies{grid-template-columns:minmax(0,340px)}
   .grid{grid-template-columns:repeat(2,1fr)}
   .boxcard{position:static}
   .hero-photo{max-width:380px}
@@ -446,7 +446,7 @@ body:not(.holiday) .season-only{display:none!important}
 
   <section id="menu" class="tint">
     <div class="wrap">
-      <div class="head reveal"><div><p class="eyebrow" data-i18n="mn.eyebrow">The menu</p><h2 data-i18n="mn.title">Seven stuffed cookies</h2><p class="sub" data-i18n="mn.sub">Tap a cookie to see it up close, its ingredients and allergens.</p></div></div>
+      <div class="head reveal"><div><p class="eyebrow" data-i18n="mn.eyebrow">The menu</p><h2 data-i18n="mn.title">Four stuffed cookies</h2><p class="sub" data-i18n="mn.sub">Tap a cookie to see it up close, its ingredients and allergens.</p></div></div>
       <div class="tools">
         <div class="filters" id="filters" role="group" aria-label="Filter"></div>
         <div class="styles" role="group" aria-label="Look"><span data-i18n="mn.look">Look</span>
@@ -464,7 +464,7 @@ body:not(.holiday) .season-only{display:none!important}
 
   <section id="pies">
     <div class="wrap">
-      <div class="head reveal"><div><p class="eyebrow" data-i18n="pi.eyebrow">Cookie pies</p><h2 data-i18n="pi.title">A cookie cup, filled your way</h2></div><p class="sub" data-i18n="pi.sub">Part of the Holiday Gift Box. Pick your favorite filling.</p></div>
+      <div class="head reveal"><div><p class="eyebrow" data-i18n="pi.eyebrow">Cookie pies</p><h2 data-i18n="pi.title">The Coconut Cheesecake Cookie Pie</h2></div><p class="sub" data-i18n="pi.sub">Part of the Holiday Gift Box. Pick your favorite filling.</p></div>
       <div class="pies" id="pieGrid"></div>
     </div>
   </section>
@@ -637,7 +637,9 @@ const BASE = {en:'wheat flour, butter (milk), brown sugar, sugar, eggs, cornstar
 const DK = {en:'chocolate chips (sugar, chocolate, cocoa butter, soy lecithin, vanilla)', es:'chispas de chocolate (azúcar, chocolate, manteca de cacao, lecitina de soya, vainilla)'};
 const WH = {en:'white chocolate (sugar, cocoa butter, milk, soy lecithin, vanilla)', es:'chocolate blanco (azúcar, manteca de cacao, leche, lecitina de soya, vainilla)'};
 const ing = (extra, fill) => ({en:`Cookie: ${BASE.en}, ${extra.en}. Filling: ${fill.en}.`, es:`Galleta: ${BASE.es}, ${extra.es}. Relleno: ${fill.es}.`});
-const FLAVORS = [
+// Hidden until they have real photos / are launched. Remove an id here to bring it back.
+const HIDDEN = new Set(['arequipe','hazelnut','guava','pie-lemon','pie-arequipe','pie-hazelnut']);
+const ALL_FLAVORS = [
   {id:'lemon', cold:true, cats:['cheesecake','fresh'], name:{en:'Lemon Cheesecake', es:'Cheesecake de Limón'}, short:{en:'White chocolate · lemon cheesecake', es:'Chocolate blanco · cheesecake de limón'},
    d:{en:'Vanilla cookie with white chocolate and a creamy lemon cheesecake center.', es:'Galleta de vainilla con chocolate blanco y centro cremoso de cheesecake de limón.'},
    ing:ing(WH,{en:'cream cheese (milk), sugar, lemon juice, lemon zest', es:'queso crema (leche), azúcar, jugo y ralladura de limón'}), al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
@@ -660,18 +662,20 @@ const FLAVORS = [
    d:{en:'Red velvet cookie with white chocolate and a creamy cheesecake center.', es:'Galleta red velvet con chocolate blanco y centro cremoso de cheesecake.'},
    ing:{en:`Cookie: ${BASE.en}, cocoa, red food coloring, ${WH.en}. Filling: cream cheese (milk), sugar, vanilla.`, es:`Galleta: ${BASE.es}, cacao, colorante rojo, ${WH.es}. Relleno: queso crema (leche), azúcar, vainilla.`}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}}
 ];
-const PIES = [
+const FLAVORS = ALL_FLAVORS.filter(f => !HIDDEN.has(f.id));
+const ALL_PIES = [
   {id:'pie-coconut', cold:true, name:{en:'Coconut cheesecake', es:'Cheesecake de coco'}, d:{en:'Piped cream cheese, toasted coconut.', es:'Queso crema y coco tostado.'}, fill:{en:'cream cheese (milk), sugar, toasted coconut', es:'queso crema (leche), azúcar, coco tostado'}, al:{en:'Wheat, Milk, Egg, Soy. Also contains coconut.', es:'Trigo, Leche, Huevo, Soya. También contiene coco.'}},
   {id:'pie-lemon', cold:true, name:{en:'Lemon cheesecake', es:'Cheesecake de limón'}, d:{en:'Lemon cheesecake cream, fresh zest.', es:'Crema de cheesecake de limón y ralladura.'}, fill:{en:'cream cheese (milk), sugar, lemon', es:'queso crema (leche), azúcar, limón'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
   {id:'pie-arequipe', name:{en:'Dulce de leche', es:'Arequipe'}, d:{en:'Filled with arequipe and a caramel drizzle.', es:'Relleno de arequipe con hilos de caramelo.'}, fill:{en:'arequipe (milk, sugar)', es:'arequipe (leche, azúcar)'}, al:{en:'Wheat, Milk, Egg, Soy', es:'Trigo, Leche, Huevo, Soya'}},
   {id:'pie-hazelnut', name:{en:'Chocolate hazelnut', es:'Chocolate y avellana'}, d:{en:'Nutella® and chopped hazelnuts.', es:'Nutella® y avellana picada.'}, fill:{en:'chocolate hazelnut spread (sugar, palm oil, hazelnuts, cocoa, milk, soy lecithin), hazelnuts', es:'crema de avellana y cacao (azúcar, aceite de palma, avellanas, cacao, leche, lecitina de soya), avellanas'}, al:{en:'Wheat, Milk, Egg, Soy, Tree nuts (hazelnut)', es:'Trigo, Leche, Huevo, Soya, Nueces de árbol (avellana)'}}
 ];
+const PIES = ALL_PIES.filter(p => !HIDDEN.has(p.id));
 const BOXES = [
   {id:'gift', cookies:3, pies:2, price:'gift', name:{en:'Holiday Gift Box', es:'Caja de Regalo Navideña'}, sub:{en:'3 cookies + 2 cookie pies', es:'3 galletas + 2 cookie pies'}},
   {id:'b6', cookies:6, pies:0, price:'box6', name:{en:'Box of 6', es:'Caja de 6'}, sub:{en:'Stuffed cookies', es:'Galletas rellenas'}},
   {id:'b12', cookies:12, pies:0, price:'box12', name:{en:'Box of 12', es:'Caja de 12'}, sub:{en:'Stuffed cookies', es:'Galletas rellenas'}}
 ];
-const FILTERS = [{id:'all',en:'All',es:'Todas'},{id:'cheesecake',en:'Cheesecake',es:'Cheesecake'},{id:'chocolate',en:'Chocolate',es:'Chocolate'},{id:'caramel',en:'Caramel',es:'Caramelo'},{id:'fruity',en:'Fruity',es:'Frutal'},{id:'nuts',en:'With nuts',es:'Con nueces'},{id:'cold',en:'Refrigerated',es:'Refrigeradas'}];
+const FILTERS = [{id:'all',en:'All',es:'Todas'},{id:'cheesecake',en:'Cheesecake',es:'Cheesecake'},{id:'chocolate',en:'Chocolate',es:'Chocolate'},{id:'cold',en:'Refrigerated',es:'Refrigeradas'}];
 const NOTES = [
   {en:['Made by hand','Size, color and filling can look a little different from the photos, which show serving ideas.'], es:['Hecho a mano','El tamaño, color y relleno pueden verse un poco distintos a las fotos, que son sugerencias de presentación.']},
   {en:['Allergens','All cookies contain wheat, milk and eggs; most contain soy. Our home kitchen also uses walnuts, hazelnuts and coconut, so we cannot promise any cookie is free of them. Tell us about allergies first.'], es:['Alérgenos','Todas llevan trigo, leche y huevo; la mayoría soya. En la cocina también se usan nuez, avellana y coco, así que no podemos garantizar que una galleta esté libre de ellos. Avísanos de cualquier alergia.']},
@@ -700,9 +704,9 @@ const T = {
   'hero.f1':'Real butter','hero.f2':'Small batches','hero.f3':'Weekend delivery','hero.f4':'Tennessee only',
   'gift.eyebrow':'Holiday edition','gift.title':'The Holiday Gift Box','gift.sub':'Kraft box, eucalyptus paper, olive ribbon. Ready to give.',
   'gift.i1':'stuffed cookies','gift.i2':'cookie pies','gift.i3':'handwritten note','gift.cta':'Fill your gift box','gb.eyebrow':'Make it yours','gb.title':'Fill your gift box',
-  'mn.eyebrow':'The menu','mn.title':'Seven stuffed cookies','mn.sub':'Tap a cookie to see it up close, its ingredients and allergens.','mn.look':'Look',
+  'mn.eyebrow':'The menu','mn.title':'Four stuffed cookies','mn.sub':'Tap a cookie to see it up close, its ingredients and allergens.','mn.look':'Look',
   'mn.cold':'<b>Keep refrigerated</b> = cream cheese filling. Delivered chilled, enjoy within 3 days.','tag.cold':'Keep refrigerated','tag.new':'New',
-  'pi.eyebrow':'Cookie pies','pi.title':'A cookie cup, filled your way','pi.sub':'Part of the Holiday Gift Box. Pick your favorite filling.',
+  'pi.eyebrow':'Cookie pies','pi.title':'The Coconut Cheesecake Cookie Pie','pi.sub':'A thick cookie cup filled with cream cheese and toasted coconut. Part of the Holiday Gift Box.',
   'bd.eyebrow':'Build a box','bd.title':'Mix your favorites','bd.sub':'Fill it, send it by text, we confirm day and price.',
   'bd.cookies':'Stuffed cookies','gb.c':'Choose 3 stuffed cookies','gb.p':'Choose 2 cookie pies','bd.order':'Order this box','gb.order':'Order this gift box','bd.clear':'Empty',
   'bd.surprise':'Surprise me','bd.left':'{c} to go','bd.cookie':'cookie','bd.cookiesw':'cookies','bd.pie':'cookie pie','bd.piesw':'cookie pies','bd.and':'and','bd.full':'Full and ready to order',
@@ -730,9 +734,9 @@ const T = {
   'hero.f1':'Mantequilla de verdad','hero.f2':'Lotes pequeños','hero.f3':'Entrega el fin de semana','hero.f4':'Solo Tennessee',
   'gift.eyebrow':'Edición navideña','gift.title':'Caja de Regalo Navideña','gift.sub':'Caja kraft, papel de eucalipto, listón verde olivo. Lista para regalar.',
   'gift.i1':'galletas rellenas','gift.i2':'cookie pies','gift.i3':'nota escrita a mano','gift.cta':'Llena tu caja de regalo','gb.eyebrow':'Hazla tuya','gb.title':'Llena tu caja de regalo',
-  'mn.eyebrow':'El menú','mn.title':'Siete galletas rellenas','mn.sub':'Toca una galleta para verla de cerca, con ingredientes y alérgenos.','mn.look':'Estilo',
+  'mn.eyebrow':'El menú','mn.title':'Cuatro galletas rellenas','mn.sub':'Toca una galleta para verla de cerca, con ingredientes y alérgenos.','mn.look':'Estilo',
   'mn.cold':'<b>Mantener refrigerado</b> = relleno de queso crema. Llega frío, disfrútalo en 3 días.','tag.cold':'Refrigerar','tag.new':'Nuevo',
-  'pi.eyebrow':'Cookie pies','pi.title':'Una tartaleta de galleta, a tu gusto','pi.sub':'Parte de la Caja de Regalo Navideña. Elige tu relleno favorito.',
+  'pi.eyebrow':'Cookie pies','pi.title':'Cookie Pie de Cheesecake de Coco','pi.sub':'Una tartaleta de galleta rellena de queso crema y coco tostado. Parte de la Caja de Regalo Navideña.',
   'bd.eyebrow':'Arma tu caja','bd.title':'Combina tus favoritas','bd.sub':'Llénala, mándala por mensaje y confirmamos día y precio.',
   'bd.cookies':'Galletas rellenas','gb.c':'Elige 3 galletas rellenas','gb.p':'Elige 2 cookie pies','bd.order':'Pedir esta caja','gb.order':'Pedir esta caja de regalo','bd.clear':'Vaciar',
   'bd.surprise':'Sorpréndeme','bd.left':'Faltan {c}','bd.cookie':'galleta','bd.cookiesw':'galletas','bd.pie':'cookie pie','bd.piesw':'cookie pies','bd.and':'y','bd.full':'Llena y lista para pedir',
@@ -969,8 +973,8 @@ const Q = {
   'gift.what':{q:say("What's in the gift box?",'¿Qué trae la caja de regalo?'), a:say('3 stuffed cookies and 2 cookie pies you choose, in a kraft box with eucalyptus paper, an olive ribbon and a handwritten note.','3 galletas rellenas y 2 cookie pies que tú eliges, en caja kraft con papel de eucalipto, listón verde olivo y nota escrita a mano.'), go:'#giftBuilder', gl:say('Fill my gift box','Llenar mi caja')},
   'gift.custom':{q:say('Can I add a message?','¿Puedo agregar un mensaje?'), a:say('Yes! Write it in the note when you order and we handwrite it on the card.','¡Sí! Escríbelo en la nota al pedir y lo escribimos a mano en la tarjeta.')},
   'gift.when':{q:say('When should I order for Christmas?','¿Cuándo pido para Navidad?'), a:say('As early as you can. Order by Wednesday for weekend delivery; December weekends fill up fast.','Lo antes posible. Antes del miércoles para el fin de semana; los fines de semana de diciembre se llenan rápido.')},
-  'flv.list':{q:say('What flavors do you have?','¿Qué sabores tienen?'), a:()=>say('Seven stuffed cookies: '+FLAVORS.map(f=>f.name.en).join(', ')+'.','Siete galletas rellenas: '+FLAVORS.map(f=>f.name.es).join(', ')+'.'), go:'#menu', gl:say('See the menu','Ver el menú')},
-  'flv.pie':{q:say('What is a cookie pie?','¿Qué es un cookie pie?'), a:say('A thick chocolate chip cookie shaped like a little pie: coconut cheesecake, lemon cheesecake, dulce de leche or chocolate hazelnut.','Una galleta gruesa con chispas en forma de tartaleta: cheesecake de coco, de limón, arequipe o Nutella.'), go:'#pies', gl:say('See cookie pies','Ver cookie pies')},
+  'flv.list':{q:say('What flavors do you have?','¿Qué sabores tienen?'), a:()=>say('Four stuffed cookies: '+FLAVORS.map(f=>f.name.en).join(', ')+'.','Cuatro galletas rellenas: '+FLAVORS.map(f=>f.name.es).join(', ')+'.'), go:'#menu', gl:say('See the menu','Ver el menú')},
+  'flv.pie':{q:say('What is a cookie pie?','¿Qué es un cookie pie?'), a:say('A thick chocolate chip cookie shaped like a little cup, filled with coconut cheesecake and toasted coconut.','Una galleta gruesa con chispas en forma de tartaleta, rellena de cheesecake de coco y coco tostado.'), go:'#pies', gl:say('See cookie pies','Ver cookie pies')},
   'flv.best':{q:say("What's the most popular?",'¿Cuál es la más pedida?'), a:say('The Coconut Cheesecake cookie pie and the Red Velvet Cheesecake are the favorites in our gift box.','El cookie pie de cheesecake de coco y el Red Velvet con Cheesecake son las favoritas de la caja.'), recs:['pie-coconut','redvelvet']},
   'ord.how':{q:say('How do I order?','¿Cómo pido?'), a:say('Build your box here and tap order: your order is written into a text for us. We confirm the day and price. You pay at delivery.','Arma tu caja aquí y toca pedir: tu pedido se escribe en un mensaje para nosotros. Confirmamos día y precio. Pagas al recibir.'), go:'#build', gl:say('Build my box','Armar mi caja')},
   'ord.when':{q:say('How far ahead?','¿Con cuánta anticipación?'), a:say('By Wednesday for weekend delivery. Events and large orders: at least 3 days.','Antes del miércoles para el fin de semana. Eventos y pedidos grandes: mínimo 3 días.')},
@@ -979,11 +983,11 @@ const Q = {
   'pr.price':{q:say('How much is it?','¿Cuánto cuesta?'), a:()=> priceOf(BOXES[1]) ? say(`Box of 6: ${priceOf(BOXES[1])}. Box of 12: ${priceOf(BOXES[2])||'ask us'}. Gift box: ${priceOf(BOXES[0])||'ask us'}.`,`Caja de 6: ${priceOf(BOXES[1])}. Caja de 12: ${priceOf(BOXES[2])||'pregúntanos'}. Caja de regalo: ${priceOf(BOXES[0])||'pregúntanos'}.`) : say('We are finishing our holiday prices. Send your order and we text you the exact price before confirming.','Estamos terminando los precios de temporada. Manda tu pedido y te enviamos el precio exacto antes de confirmar.')},
   'pr.pay':{q:say('How do I pay?','¿Cómo pago?'), a:say('At delivery. Refrigerated items are sold and paid in person when we deliver.','Al recibir. Lo refrigerado se vende y paga en persona al entregar.')},
   'pr.deposit':{q:say('Do I need a deposit?','¿Piden anticipo?'), a:say('Only for large or event orders. We tell you when we confirm.','Solo en pedidos grandes o de eventos. Te avisamos al confirmar.')},
-  'care.al':{q:say('What about allergies?','¿Y las alergias?'), a:say('All cookies have wheat, milk and eggs; most have soy. Hazelnut and Guava & Walnut have tree nuts, and our kitchen also uses coconut. We cannot promise allergen-free cookies.','Todas llevan trigo, leche y huevo; la mayoría soya. Avellana y Bocadillo y Nuez llevan nueces, y en la cocina se usa coco. No podemos garantizar galletas libres de alérgenos.'), go:'#menu', gl:say('Allergens by flavor','Alérgenos por sabor')},
+  'care.al':{q:say('What about allergies?','¿Y las alergias?'), a:say('All cookies have wheat, milk and eggs; most have soy. The coconut cookie and cookie pie contain coconut, and our home kitchen also handles nuts. We cannot promise allergen-free cookies.','Todas llevan trigo, leche y huevo; la mayoría soya. La galleta y el cookie pie de coco llevan coco, y en la cocina también se usan nueces. No podemos garantizar galletas libres de alérgenos.'), go:'#menu', gl:say('Allergens by flavor','Alérgenos por sabor')},
   'care.fridge':{q:say('Which ones need the fridge?','¿Cuáles van en el refrigerador?'), a:say('Lemon, Coconut and Red Velvet cheesecake cookies, and the cheesecake cookie pies. Fridge right away, enjoy within 3 days.','Las de cheesecake (Limón, Coco, Red Velvet) y los cookie pies de cheesecake. Al refrigerador de inmediato y dentro de 3 días.')},
   'care.fresh':{q:say('How long do they last?','¿Cuánto duran?'), a:say('Non-refrigerated cookies: 4 days in a closed container, or freeze up to 1 month.','Las no refrigeradas: 4 días en recipiente cerrado, o congeladas hasta 1 mes.')},
   'care.ing':{q:say('Can I see ingredients?','¿Puedo ver ingredientes?'), a:say('Yes: tap any cookie on the menu to see its ingredients from most to least.','Sí: toca cualquier galleta del menú para ver sus ingredientes de mayor a menor.'), go:'#menu', gl:say('Open the menu','Abrir el menú')},
-  'ev.store':{q:say('Do you sell to stores?','¿Venden a tiendas?'), a:say('Yes, in Tennessee: Brownie, Dulce de Leche, Chocolate Hazelnut and Guava & Walnut, wrapped and labeled. Cheesecake cookies are sold only in person.','Sí, en Tennessee: Brownie, Arequipe, Chocolate y Avellana y Bocadillo y Nuez, empacadas y con etiqueta. Las de cheesecake solo en persona.'), go:'#wholesale', gl:say('Request a quote','Pedir cotización')},
+  'ev.store':{q:say('Do you sell to stores?','¿Venden a tiendas?'), a:say('Yes, in Tennessee: the Brownie Stuffed cookie, wrapped and labeled. Cheesecake cookies are sold only in person.','Sí, en Tennessee: la Rellena de Brownie, empacada y con etiqueta. Las de cheesecake solo en persona.'), go:'#wholesale', gl:say('Request a quote','Pedir cotización')},
   'ev.office':{q:say('Office or client gifts?','¿Regalos de oficina o clientes?'), a:say('Yes! Gift boxes for your team or clients, delivered chilled with a note from you.','¡Sí! Cajas de regalo para tu equipo o clientes, entregadas frías con tu nota.'), go:'#wholesale', gl:say('Request a quote','Pedir cotización')},
   'ev.wedding':{q:say('Weddings and showers?','¿Bodas y baby showers?'), a:say('We make favors and dessert tables. Order at least 2 weeks ahead for weddings.','Hacemos recuerdos y mesas de postres. Para bodas pide con al menos 2 semanas.'), go:'#wholesale', gl:say('Request a quote','Pedir cotización')},
   'hm.contact':{q:say('How do I reach Mary H?','¿Cómo contacto a Mary H?'), a:()=>say(`Text ${CONFIG.phoneDisplay} or email ${CONFIG.email}. Mary H replies as soon as she is out of the kitchen.`,`Mensaje al ${CONFIG.phoneDisplay} o correo a ${CONFIG.email}. Mary H responde en cuanto sale de la cocina.`), sms:true}
@@ -999,10 +1003,10 @@ const KW = {
 };
 const FL_KW = {lemon:['lemon','limon','limón'], brownie:['brownie'], coconut:['coconut cheesecake','cheesecake de coco'], arequipe:['arequipe','dulce de leche','caramel','cajeta'], hazelnut:['hazelnut','nutella','avellana'], guava:['guava','bocadillo','guayaba','walnut'], redvelvet:['red velvet','redvelvet']};
 const QUIZ = [
-  {q:say('What are you craving?','¿Qué se te antoja?'), opts:[['choc',say('Chocolate','Chocolate')],['cream',say('Creamy','Cremoso')],['fruit',say('Fruity & fresh','Frutal y fresco')],['caramel',say('Caramel','Caramelo')]]},
+  {q:say('What are you craving?','¿Qué se te antoja?'), opts:[['choc',say('Chocolate','Chocolate')],['cream',say('Creamy','Cremoso')],['fruit',say('Fruity & fresh','Frutal y fresco')]]},
   {q:say('Who is it for?','¿Para quién es?'), opts:[['me',say('Just me','Para mí')],['gift',say('A gift','Un regalo')],['group',say('A group','Un grupo')]]}
 ];
-const QUIZ_MAP = {choc:['brownie','hazelnut','pie-hazelnut'], cream:['coconut','redvelvet','pie-coconut'], fruit:['lemon','guava','pie-lemon'], caramel:['arequipe','pie-arequipe','brownie']};
+const QUIZ_MAP = {choc:['brownie','redvelvet'], cream:['coconut','pie-coconut','redvelvet'], fruit:['lemon','coconut','pie-coconut']};
 let quizAns = [];
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
 const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -1052,7 +1056,7 @@ function finishQuiz(){ const picks = QUIZ_MAP[quizAns[0]]; const who = quizAns[1
 function freeText(text){
   const q = norm(text);
   if(ES_HINT.test(text) && lang !== 'es'){ lang = 'es'; renderAll(); } else if(EN_HINT.test(text) && !ES_HINT.test(text) && lang !== 'en'){ lang = 'en'; renderAll(); }
-  const fid = Object.keys(FL_KW).find(id => FL_KW[id].some(k => hit(q, k)));
+  const fid = Object.keys(FL_KW).filter(id => FLAVORS.some(f => f.id === id)).find(id => FL_KW[id].some(k => hit(q, k)));
   if(fid && !/\b(price|precio|cost|cuesta)\b/.test(q)){ const f = FLAVORS.find(x => x.id === fid);
     typing(() => botMsg(m => { m.textContent = `${L(f.d)} ${t('dr.contains')}: ${L(f.al)}.${f.cold ? (lang==='es'?' Mantener refrigerado.':' Keep refrigerated.') : ''}`; m.appendChild(recCard(fid)); })); return; }
   if(/\b(hi|hello|hey|hola|buenas)\b/.test(q)){ showHome(); return; }
