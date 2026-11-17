@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gigi's Boutique · Baby & kids' clothing, baby registry & gifts · Lawrenceburg, TN</title>
+<meta name="description" content="Gigi's Boutique on the Public Square in downtown Lawrenceburg, TN: children's and baby clothing, baby registry and gifts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Quicksand:wght@400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF5EC;--cream2:#F5EADB;--peach:#F4C3AE;--peach2:#E58F74;--peachd:#B9583E;
+  --sage:#B9C8AB;--sage2:#7E9672;--saged:#4F6447;--ink:#40342D;--ink2:#6E5E53;--white:#FFFDF9;
+  --serif:'Playfair Display',Georgia,'Times New Roman',serif;--sans:'Quicksand',system-ui,sans-serif;--script:'Parisienne','Playfair Display',cursive;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:500 17px/1.6 var(--sans);overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:var(--peachd)}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.12;margin:0;color:var(--ink)}
+em{font-style:italic;color:var(--peachd)}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+
+/* aviso de muestra */
+.demo{background:var(--saged);color:#F3F1E8;text-align:center;font-size:13.5px;padding:7px 14px;letter-spacing:.02em}
+.demo a{color:#fff;font-weight:700}
+
+/* encabezado */
+header{position:sticky;top:0;z-index:40;background:rgba(251,245,236,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(64,52,45,.1)}
+.bar{max-width:1140px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);min-width:0}
+.logo svg{width:44px;height:44px;flex:none}
+.logo b{display:block;font:400 30px/1 var(--script);color:var(--peachd);white-space:nowrap}
+.logo small{display:block;font:600 11px/1.3 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);white-space:nowrap}
+.tools{display:flex;align-items:center;gap:10px;flex:none}
+.langs{display:flex;flex-direction:row-reverse;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden}
+.langs button{border:0;background:transparent;font:700 12.5px var(--sans);padding:7px 11px;cursor:pointer;color:var(--ink);letter-spacing:.06em}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--cream)}
+.callsm{display:flex;align-items:center;gap:7px;background:var(--peachd);color:#fff;text-decoration:none;font-weight:700;font-size:14.5px;padding:9px 15px;border-radius:999px}
+.callsm svg{width:16px;height:16px}
+@media(max-width:640px){.callsm span{display:none}.callsm{padding:10px}.logo small{display:none}.logo b{font-size:27px}.logo svg{width:38px;height:38px}}
+
+/* portada */
+.hero{position:relative;overflow:hidden;background-color:var(--cream);
+  background-image:
+   repeating-linear-gradient(0deg,rgba(244,195,174,.32) 0 22px,transparent 22px 44px),
+   repeating-linear-gradient(90deg,rgba(244,195,174,.32) 0 22px,transparent 22px 44px);
+  background-size:44px 44px;padding:56px 0 70px}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 30% 50%,rgba(251,245,236,.96) 30%,rgba(251,245,236,.55) 75%,rgba(251,245,236,.2));pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;z-index:1;pointer-events:none}
+.blob.b1{width:360px;height:360px;background:var(--peach);left:-120px;top:-80px}
+.blob.b2{width:320px;height:320px;background:var(--sage);right:-100px;bottom:-120px}
+.hin{position:relative;z-index:2;max-width:1140px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid rgba(64,52,45,.15);padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--saged)}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--sage2)}
+.hero h1{font-size:clamp(40px,6.2vw,74px);margin:18px 0 16px;letter-spacing:-.01em}
+.hero h1 .scr{font:400 1.08em/1 var(--script);color:var(--peachd);display:inline-block;padding-right:.05em}
+.lead{font-size:19px;color:var(--ink2);max-width:520px;margin:0 0 26px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:700;font-size:16px;padding:14px 22px;border-radius:999px;border:1.5px solid var(--ink);color:var(--ink);background:var(--white);transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(64,52,45,.15)}
+.btn.p{background:var(--peachd);border-color:var(--peachd);color:#fff}
+.btn.s{background:var(--saged);border-color:var(--saged);color:#fff}
+.btn svg{width:18px;height:18px;flex:none}
+.scene{position:relative;height:440px}
+.scene svg{width:100%;height:100%;overflow:visible}
+@media(max-width:860px){.hin{grid-template-columns:1fr}.scene{height:320px;max-width:420px;margin:0 auto;width:100%}.hero{padding:36px 0 40px}.hero::after{background:radial-gradient(ellipse 120% 60% at 50% 30%,rgba(251,245,236,.96) 40%,rgba(251,245,236,.5))}}
+
+/* moño divisor */
+.ribbon{height:14px;background:repeating-linear-gradient(90deg,var(--peach2) 0 14px,var(--cream) 14px 22px,var(--sage2) 22px 36px,var(--cream) 36px 44px);opacity:.75}
+
+section{padding:78px 0}
+.eyebrow{font:600 13px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--sage2);margin:0 0 10px}
+.sh{text-align:center;max-width:680px;margin:0 auto 42px}
+.sh h2{font-size:clamp(32px,4.4vw,48px)}
+.sh p{color:var(--ink2);margin:14px 0 0}
+
+/* qué hay en la tienda */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:var(--white);border-radius:26px 26px 26px 26px;padding:26px 22px 24px;border:1px solid rgba(64,52,45,.1);box-shadow:0 10px 30px rgba(64,52,45,.06);position:relative}
+.card .ic{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px;background:var(--cream2)}
+.card:nth-child(2n) .ic{background:#E6EDDF}
+.card .ic svg{width:40px;height:40px}
+.card h3{font-size:24px;margin-bottom:8px}
+.card p{margin:0;color:var(--ink2);font-size:15.5px}
+@media(max-width:980px){.cards{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.cards{grid-template-columns:1fr}}
+
+/* registro */
+.reg{background:var(--white);position:relative;overflow:hidden}
+.reg::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(185,200,171,.22) 0 16px,transparent 16px 32px),repeating-linear-gradient(90deg,rgba(185,200,171,.22) 0 16px,transparent 16px 32px);opacity:.7;pointer-events:none}
+.regin{position:relative;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.tagcard{background:var(--cream);border-radius:22px;padding:34px 30px;border:1.5px dashed var(--sage2);position:relative;box-shadow:0 14px 36px rgba(64,52,45,.08)}
+.tagcard::before{content:"";position:absolute;top:18px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--white);border:1.5px solid var(--sage2)}
+.tagcard h2{font-size:clamp(32px,4vw,44px);margin-top:20px}
+.tagcard .scr{font:400 1.1em var(--script);color:var(--peachd)}
+.tagcard p{color:var(--ink2)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.steps li{display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:start;background:var(--cream);border-radius:18px;padding:18px 20px;border:1px solid rgba(64,52,45,.08)}
+.steps .n{width:52px;height:52px;border-radius:50%;background:var(--sage);color:var(--saged);display:grid;place-items:center;font:600 22px var(--serif)}
+.steps li:nth-child(2) .n{background:var(--peach);color:var(--peachd)}
+.steps h3{font-size:21px;margin:4px 0 4px}
+.steps p{margin:0;color:var(--ink2);font-size:15.5px}
+@media(max-width:860px){.regin{grid-template-columns:1fr}}
+
+/* marcas */
+.brands{display:flex;justify-content:center;flex-wrap:wrap;gap:18px}
+.brand{background:var(--white);border:1.5px solid var(--ink);border-radius:999px;padding:16px 34px;font:italic 500 26px var(--serif);color:var(--ink);box-shadow:5px 5px 0 var(--peach)}
+.brand:nth-child(2){box-shadow:5px 5px 0 var(--sage)}
+.note{text-align:center;color:var(--ink2);font-size:14.5px;margin-top:22px}
+
+/* final fridays */
+.ff{background:var(--saged);color:#F6F2E9;position:relative;overflow:hidden}
+.ff h2{color:#fff;font-size:clamp(32px,4.4vw,48px)}
+.ff .eyebrow{color:var(--peach)}
+.ffin{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;position:relative;z-index:2}
+.ff p{color:#E7EDE0;max-width:560px}
+.ff .btn{background:transparent;color:#fff;border-color:#fff}
+.ff .lights{position:absolute;left:0;right:0;top:0;height:40px;z-index:1}
+.ffart{display:grid;place-items:center}
+.ffart svg{width:220px;height:220px}
+@media(max-width:760px){.ffin{grid-template-columns:1fr}.ffart svg{width:160px;height:160px}}
+
+/* visita */
+.visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.vcard{background:var(--white);border-radius:26px;padding:30px 28px;border:1px solid rgba(64,52,45,.1);box-shadow:0 10px 30px rgba(64,52,45,.06)}
+.vcard h3{font-size:27px;margin-bottom:14px}
+.hours{width:100%;border-collapse:collapse;font-size:16px}
+.hours td{padding:9px 4px;border-bottom:1px dashed rgba(64,52,45,.18)}
+.hours td:last-child{text-align:right;font-weight:700}
+.hours tr.today td{color:var(--peachd)}
+.hours tr.closed td:last-child{color:var(--ink2);font-weight:500}
+.status{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:700;font-size:14.5px;padding:5px 12px;border-radius:999px;background:var(--cream2)}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--ink2)}
+.status.on{background:#E3ECDC;color:var(--saged)}.status.on i{background:var(--sage2)}
+.addr{font:500 22px/1.35 var(--serif);margin:0 0 6px}
+.vcard p{color:var(--ink2);margin:0 0 16px}
+.links{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:10px}
+.links a{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;color:var(--ink);word-break:break-all}
+.links a svg{width:20px;height:20px;flex:none;color:var(--peachd)}
+.vcard .ctas{gap:10px}
+@media(max-width:820px){.visit .grid{grid-template-columns:1fr}}
+
+footer{background:var(--ink);color:#E9DFD3;text-align:center;padding:34px 20px 100px;font-size:14.5px}
+footer a{color:#fff}
+footer .fb{font:400 34px var(--script);color:var(--peach);display:block;margin-bottom:6px}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero{animation:gingham 40s linear infinite}
+@keyframes gingham{from{background-position:0 0,0 0}to{background-position:0 440px,440px 0}}
+.mo.b1{animation:drift1 17s ease-in-out infinite}
+.mo.b2{animation:drift2 21s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,60px) scale(1.12)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.1)}}
+.mobile{transform-box:view-box;transform-origin:250px 0;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.mobile .hang{transform-box:fill-box;transform-origin:50% 0;animation:twirl 4s ease-in-out infinite}
+.mobile .hang:nth-of-type(2){animation-delay:-1s}.mobile .hang:nth-of-type(3){animation-delay:-2s}.mobile .hang:nth-of-type(4){animation-delay:-3s}
+@keyframes twirl{0%,100%{transform:rotate(6deg)}50%{transform:rotate(-6deg)}}
+.balloons{animation:bob 7s ease-in-out infinite}
+.balloons .bl2{transform-box:fill-box;transform-origin:50% 100%;animation:lean 5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-22px)}}
+@keyframes lean{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}
+.gift{animation:hop 5s ease-in-out infinite}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.gift .bow{transform-box:fill-box;transform-origin:50% 80%;animation:bowp 5s ease-in-out infinite}
+@keyframes bowp{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-3deg)}}
+.spark{transform-box:fill-box;transform-origin:center;animation:twinkle 2.8s ease-in-out infinite}
+.spark:nth-of-type(2){animation-delay:-.9s}.spark:nth-of-type(3){animation-delay:-1.8s}
+@keyframes twinkle{0%,100%{transform:scale(.4);opacity:.25}50%{transform:scale(1);opacity:1}}
+.lights circle{animation:glow 2.4s ease-in-out infinite}
+.lights circle:nth-child(2n){animation-delay:-1.2s}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:1}}
+.hin>div:first-child>*{animation:rise .9s ease both}
+.hin>div:first-child>*:nth-child(2){animation-delay:.12s}.hin>div:first-child>*:nth-child(3){animation-delay:.24s}.hin>div:first-child>*:nth-child(4){animation-delay:.36s}
+.scene{animation:fadein 1.2s .2s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hero,.mo,.mobile,.mobile .hang,.balloons,.balloons .bl2,.gift,.gift .bow,.spark,.lights circle,.hin>div:first-child>*,.scene,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+:root{--bc:#B9583E;--bc2:#4F6447;--bi:#40342D;--bb:#FBF5EC;--bf:Quicksand,system-ui,sans-serif;--bd:'Playfair Display',Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-en="Sample page created by" data-es="Página de muestra creada por">Sample page created by</span> <a href="https://dakrastudio.com">Dakra Studio</a> <span data-en="for Gigi's Boutique" data-es="para Gigi's Boutique">for Gigi's Boutique</span></div>
+<header><div class="bar">
+  <a class="logo" href="#top" aria-label="Gigi's Boutique">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="23" fill="#F4C3AE"/><circle cx="24" cy="24" r="19.5" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2 3"/><path d="M24 25c-4-6-11-8-12-3s5 7 12 3zm0 0c4-6 11-8 12-3s-5 7-12 3z" fill="#B9583E"/><path d="M23 25l-4 9 3-1 2 3 1-11zm2 0l4 9-3-1-2 3-1-11z" fill="#B9583E" opacity=".85"/><circle cx="24" cy="25" r="2.6" fill="#7E2F1E"/></svg>
+    <span><b>Gigi's Boutique</b><small data-en="Lawrenceburg · on the Square" data-es="Lawrenceburg · en la plaza">Lawrenceburg · on the Square</small></span>
+  </a>
+  <div class="tools">
+    <div class="langs" role="group" aria-label="Language / Idioma"><button type="button" data-lang="es" aria-pressed="false">ES</button><button type="button" data-lang="en" aria-pressed="true">EN</button></div>
+    <a class="callsm" href="tel:+19317626222" aria-label="Call (931) 762-6222"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span>(931) 762-6222</span></a>
+  </div>
+</div></header>
+
+<main id="top">
+<div class="hero">
+  <div class="blob b1 mo" aria-hidden="true"></div><div class="blob b2 mo" aria-hidden="true"></div>
+  <div class="hin">
+    <div>
+      <span class="tag"><i></i><span data-en="42 Public Square · downtown Lawrenceburg" data-es="42 Public Square · centro de Lawrenceburg">42 Public Square · downtown Lawrenceburg</span></span>
+      <h1 data-en="Sweet little things for <span class=&quot;scr&quot;>little ones</span>" data-es="Cositas tiernas para <span class=&quot;scr&quot;>los pequeños</span>">Sweet little things for <span class="scr">little ones</span></h1>
+      <p class="lead" data-en="Children's and baby clothing, a baby registry and gifts wrapped up in Southern charm, right on the square in Lawrenceburg, Tennessee." data-es="Ropa para niños y bebés, registro de bebé y regalos con encanto sureño, justo en la plaza de Lawrenceburg, Tennessee.">Children's and baby clothing, a baby registry and gifts wrapped up in Southern charm, right on the square in Lawrenceburg, Tennessee.</p>
+      <div class="ctas">
+        <a class="btn p" href="tel:+19317626222"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-en="Call (931) 762-6222" data-es="Llamar (931) 762-6222">Call (931) 762-6222</span></a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=42+Public+Square+Lawrenceburg+TN+38464" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+      </div>
+    </div>
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 500 440" role="presentation">
+        <!-- móvil de cuna -->
+        <g class="mobile">
+          <line x1="250" y1="0" x2="250" y2="58" stroke="#6E5E53" stroke-width="2"/>
+          <circle cx="250" cy="60" r="6" fill="#B9583E"/>
+          <path d="M120 82 Q250 52 380 82" fill="none" stroke="#7E9672" stroke-width="7" stroke-linecap="round"/>
+          <path d="M250 60 L120 82 M250 60 L380 82" stroke="#6E5E53" stroke-width="1.2" opacity=".6"/>
+          <g class="hang"><line x1="128" y1="82" x2="128" y2="150" stroke="#6E5E53" stroke-width="1.4"/><path d="M128 150l7 14 15 2-11 11 3 15-14-7-14 7 3-15-11-11 15-2z" fill="#F4C3AE" stroke="#B9583E" stroke-width="1.5"/></g>
+          <g class="hang"><line x1="200" y1="70" x2="200" y2="176" stroke="#6E5E53" stroke-width="1.4"/><g transform="translate(200 196)"><path d="M-30 10a14 14 0 0 1 4-26 18 18 0 0 1 32-6 15 15 0 0 1 24 12 12 12 0 0 1-2 20z" fill="#FFFDF9" stroke="#7E9672" stroke-width="1.8"/><circle cx="-8" cy="0" r="1.8" fill="#40342D"/><circle cx="8" cy="0" r="1.8" fill="#40342D"/><path d="M-4 5q4 4 8 0" fill="none" stroke="#40342D" stroke-width="1.4" stroke-linecap="round"/></g></g>
+          <g class="hang"><line x1="300" y1="70" x2="300" y2="140" stroke="#6E5E53" stroke-width="1.4"/><path d="M300 140c-18 4-26 24-16 40 6 10 20 14 32 8-16-2-26-20-16-48z" fill="#E9D18F" stroke="#B98E3E" stroke-width="1.5"/></g>
+          <g class="hang"><line x1="372" y1="82" x2="372" y2="168" stroke="#6E5E53" stroke-width="1.4"/><path d="M372 168l6 12 13 2-10 9 3 13-12-6-12 6 3-13-10-9 13-2z" fill="#B9C8AB" stroke="#4F6447" stroke-width="1.5"/></g>
+        </g>
+        <!-- globos -->
+        <g class="balloons">
+          <path d="M92 300 Q86 340 104 380 M136 286 Q140 330 108 380" fill="none" stroke="#6E5E53" stroke-width="1.3"/>
+          <g class="bl1"><ellipse cx="92" cy="262" rx="32" ry="38" fill="#F4C3AE"/><ellipse cx="80" cy="248" rx="7" ry="11" fill="#fff" opacity=".55"/><path d="M88 299h8l-4 6z" fill="#E58F74"/></g>
+          <g class="bl2"><ellipse cx="138" cy="246" rx="30" ry="36" fill="#B9C8AB"/><ellipse cx="127" cy="233" rx="6" ry="10" fill="#fff" opacity=".55"/><path d="M134 281h8l-4 6z" fill="#7E9672"/></g>
+          <path d="M98 378l10 4 10-4-10 8z" fill="#B9583E"/>
+        </g>
+        <!-- caja de regalo -->
+        <g class="gift">
+          <ellipse cx="368" cy="428" rx="92" ry="9" fill="#40342D" opacity=".1"/>
+          <rect x="290" y="334" width="156" height="90" rx="6" fill="#FFFDF9" stroke="#40342D" stroke-width="1.5"/>
+          <g opacity=".55"><rect x="290" y="334" width="156" height="90" rx="6" fill="url(#ging)"/></g>
+          <rect x="280" y="312" width="176" height="28" rx="6" fill="#F5EADB" stroke="#40342D" stroke-width="1.5"/>
+          <rect x="358" y="312" width="20" height="112" fill="#E58F74"/>
+          <g class="bow">
+            <path d="M368 312c-14-26-50-30-46-8 3 14 30 12 46 8z" fill="#E58F74" stroke="#B9583E" stroke-width="1.5"/>
+            <path d="M368 312c14-26 50-30 46-8-3 14-30 12-46 8z" fill="#E58F74" stroke="#B9583E" stroke-width="1.5"/>
+            <circle cx="368" cy="311" r="8" fill="#B9583E"/>
+          </g>
+        </g>
+        <defs><pattern id="ging" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#fff"/><rect width="8" height="16" fill="#B9C8AB" opacity=".6"/><rect width="16" height="8" fill="#B9C8AB" opacity=".6"/></pattern></defs>
+        <!-- destellos -->
+        <path class="spark" d="M200 300l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#E9D18F"/>
+        <path class="spark" d="M450 210l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#E58F74"/>
+        <path class="spark" d="M40 160l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#7E9672"/>
+      </svg>
+    </div>
+  </div>
+</div>
+<div class="ribbon" aria-hidden="true"></div>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="sh">
+      <p class="eyebrow" data-en="In the shop" data-es="En la tienda">In the shop</p>
+      <h2 data-en="Made for <em>tiny</em> moments" data-es="Para los momentos <em>pequeñitos</em>">Made for <em>tiny</em> moments</h2>
+      <p data-en="Come browse in person on the Public Square. The selection changes, so call ahead if you're looking for something special." data-es="Ven a verlo en persona en la plaza. Lo que hay va cambiando, así que llama antes si buscas algo en especial.">Come browse in person on the Public Square. The selection changes, so call ahead if you're looking for something special.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M14 6h12l8 6-4 6-3-2v18H13V16l-3 2-4-6z" fill="#F4C3AE" stroke="#B9583E" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 6q5 6 10 0" fill="none" stroke="#B9583E" stroke-width="1.6"/></svg></div>
+        <h3 data-en="Children's clothing" data-es="Ropa para niños">Children's clothing</h3>
+        <p data-en="Outfits for the little ones in your life, for everyday play and the days you want a photo." data-es="Ropa para los pequeños de tu vida, para jugar todos los días y para los días de foto.">Outfits for the little ones in your life, for everyday play and the days you want a photo.</p>
+      </article>
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12 7h16v6l6 4-3 5-3-2v8l-4 6h-8l-4-6v-8l-3 2-3-5 6-4z" fill="#E6EDDF" stroke="#4F6447" stroke-width="1.6" stroke-linejoin="round"/><circle cx="17" cy="9" r="1.4" fill="#4F6447"/><circle cx="23" cy="9" r="1.4" fill="#4F6447"/></svg></div>
+        <h3 data-en="Baby clothing" data-es="Ropa de bebé">Baby clothing</h3>
+        <p data-en="Soft little pieces for newborns and babies, from coming-home outfits to first-birthday looks." data-es="Prendas suaves para recién nacidos y bebés, desde el primer conjunto para salir del hospital hasta el del primer cumpleaños.">Soft little pieces for newborns and babies, from coming-home outfits to first-birthday looks.</p>
+      </article>
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="8" width="22" height="26" rx="3" fill="#FFFDF9" stroke="#B9583E" stroke-width="1.6"/><path d="M14 16h12M14 21h12M14 26h8" stroke="#B9583E" stroke-width="1.6" stroke-linecap="round"/><path d="M20 4c-2-3-6-2-5 1s5 1 5-1zm0 0c2-3 6-2 5 1s-5 1-5-1z" fill="#E58F74"/></svg></div>
+        <h3 data-en="Baby registry" data-es="Registro de bebé">Baby registry</h3>
+        <p data-en="Expecting? Set up a registry with us so family and friends can find just the right thing." data-es="¿Esperas bebé? Haz tu registro con nosotros para que familia y amigos encuentren justo lo que necesitas.">Expecting? Set up a registry with us so family and friends can find just the right thing.</p>
+      </article>
+      <article class="card">
+        <div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="17" width="24" height="17" rx="2" fill="#E6EDDF" stroke="#4F6447" stroke-width="1.6"/><rect x="6" y="12" width="28" height="7" rx="2" fill="#FFFDF9" stroke="#4F6447" stroke-width="1.6"/><path d="M20 12v22" stroke="#E58F74" stroke-width="3"/><path d="M20 12c-3-6-10-6-9-2s6 3 9 2zm0 0c3-6 10-6 9-2s-6 3-9 2z" fill="#E58F74"/></svg></div>
+        <h3 data-en="Gifts" data-es="Regalos">Gifts</h3>
+        <p data-en="Baby showers, birthdays, a new grandbaby: stop in and find a gift that feels personal." data-es="Baby showers, cumpleaños, un nieto nuevo: pasa y encuentra un regalo con cariño.">Baby showers, birthdays, a new grandbaby: stop in and find a gift that feels personal.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="reg" id="registry">
+  <div class="wrap regin">
+    <div class="tagcard">
+      <p class="eyebrow" data-en="Baby registry" data-es="Registro de bebé">Baby registry</p>
+      <h2 data-en="A registry with a <span class=&quot;scr&quot;>hometown</span> touch" data-es="Un registro con <span class=&quot;scr&quot;>cariño</span> de pueblo">A registry with a <span class="scr">hometown</span> touch</h2>
+      <p data-en="Starting a registry is simple: come by the shop or give us a call, and we'll help you get it going." data-es="Empezar tu registro es sencillo: pasa a la tienda o llámanos y te ayudamos a armarlo.">Starting a registry is simple: come by the shop or give us a call, and we'll help you get it going.</p>
+      <div class="ctas"><a class="btn p" href="tel:+19317626222"><span data-en="Call to start a registry" data-es="Llama para tu registro">Call to start a registry</span></a></div>
+    </div>
+    <ol class="steps">
+      <li><span class="n">1</span><div><h3 data-en="Stop by or call" data-es="Pasa o llama">Stop by or call</h3><p data-en="Visit us at 42 Public Square during shop hours, or call (931) 762-6222." data-es="Visítanos en 42 Public Square en horario de tienda, o llama al (931) 762-6222.">Visit us at 42 Public Square during shop hours, or call (931) 762-6222.</p></div></li>
+      <li><span class="n">2</span><div><h3 data-en="Pick your favorites" data-es="Elige tus favoritos">Pick your favorites</h3><p data-en="Choose the clothing and gifts you love for your little one." data-es="Escoge la ropa y los regalos que más te gusten para tu bebé.">Choose the clothing and gifts you love for your little one.</p></div></li>
+      <li><span class="n">3</span><div><h3 data-en="Let family know" data-es="Avísale a tu familia">Let family know</h3><p data-en="Tell friends and family your registry is at Gigi's. Ask us how they can shop it." data-es="Diles a tus amigos y familia que tu registro está en Gigi's. Pregúntanos cómo pueden comprar de él.">Tell friends and family your registry is at Gigi's. Ask us how they can shop it.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="brands">
+  <div class="wrap">
+    <div class="sh">
+      <p class="eyebrow" data-en="Brands we carry" data-es="Marcas que vendemos">Brands we carry</p>
+      <h2 data-en="Southern favorites" data-es="Favoritas del Sur">Southern favorites</h2>
+    </div>
+    <div class="brands"><span class="brand">Simply Southern</span><span class="brand">Trotter Street</span></div>
+    <p class="note" data-en="Stock changes often. Call to ask what's in the shop right now." data-es="El inventario cambia seguido. Llama para preguntar qué hay ahorita en la tienda.">Stock changes often. Call to ask what's in the shop right now.</p>
+  </div>
+</section>
+
+<section class="ff" id="fridays">
+  <svg class="lights" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 6 Q150 34 300 6 T600 6 T900 6 T1200 6" fill="none" stroke="#B9C8AB" stroke-width="1.5" opacity=".6"/><circle cx="75" cy="19" r="5" fill="#E9D18F"/><circle cx="150" cy="24" r="5" fill="#F4C3AE"/><circle cx="225" cy="19" r="5" fill="#E9D18F"/><circle cx="375" cy="19" r="5" fill="#F4C3AE"/><circle cx="450" cy="24" r="5" fill="#E9D18F"/><circle cx="525" cy="19" r="5" fill="#F4C3AE"/><circle cx="675" cy="19" r="5" fill="#E9D18F"/><circle cx="750" cy="24" r="5" fill="#F4C3AE"/><circle cx="825" cy="19" r="5" fill="#E9D18F"/><circle cx="975" cy="19" r="5" fill="#F4C3AE"/><circle cx="1050" cy="24" r="5" fill="#E9D18F"/><circle cx="1125" cy="19" r="5" fill="#F4C3AE"/></svg>
+  <div class="wrap ffin">
+    <div>
+      <p class="eyebrow" data-en="Downtown Lawrenceburg" data-es="Centro de Lawrenceburg">Downtown Lawrenceburg</p>
+      <h2 data-en="See you at <em style=&quot;color:#F4C3AE&quot;>Final Fridays</em>" data-es="Nos vemos en <em style=&quot;color:#F4C3AE&quot;>Final Fridays</em>">See you at <em style="color:#F4C3AE">Final Fridays</em></h2>
+      <p data-en="Gigi's takes part in Final Fridays, the Friday-evening gatherings on the downtown square. Follow us on Facebook for upcoming dates and details." data-es="Gigi's participa en Final Fridays, los eventos de viernes en la tarde en la plaza del centro. Síguenos en Facebook para fechas y detalles.">Gigi's takes part in Final Fridays, the Friday-evening gatherings on the downtown square. Follow us on Facebook for upcoming dates and details.</p>
+      <div class="ctas"><a class="btn" href="https://www.facebook.com/gigisboutiquetn" target="_blank" rel="noopener"><span data-en="Follow on Facebook" data-es="Síguenos en Facebook">Follow on Facebook</span></a></div>
+    </div>
+    <div class="ffart" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="92" fill="none" stroke="#B9C8AB" stroke-width="1.5" stroke-dasharray="3 6"/><path d="M50 150V90l50-34 50 34v60z" fill="#F6F2E9"/><path d="M42 94l58-40 58 40" fill="none" stroke="#F4C3AE" stroke-width="6" stroke-linejoin="round"/><rect x="88" y="112" width="24" height="38" rx="12" fill="#4F6447"/><rect x="60" y="104" width="18" height="18" rx="2" fill="#E9D18F"/><rect x="122" y="104" width="18" height="18" rx="2" fill="#E9D18F"/><path d="M100 70c-6-10-18-10-16-3s12 5 16 3zm0 0c6-10 18-10 16-3s-12 5-16 3z" fill="#E58F74"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap">
+    <div class="sh">
+      <p class="eyebrow" data-en="Visit us" data-es="Visítanos">Visit us</p>
+      <h2 data-en="On the square, <em>right downtown</em>" data-es="En la plaza, <em>en pleno centro</em>">On the square, <em>right downtown</em></h2>
+    </div>
+    <div class="grid">
+      <div class="vcard">
+        <h3 data-en="Shop hours" data-es="Horario de la tienda">Shop hours</h3>
+        <span class="status" id="status"><i></i><span id="statusTxt"></span></span>
+        <table class="hours" id="hours">
+          <tr data-d="2"><td data-en="Tuesday" data-es="Martes">Tuesday</td><td>10 am – 6 pm</td></tr>
+          <tr data-d="3"><td data-en="Wednesday" data-es="Miércoles">Wednesday</td><td>10 am – 6 pm</td></tr>
+          <tr data-d="4"><td data-en="Thursday" data-es="Jueves">Thursday</td><td>10 am – 6 pm</td></tr>
+          <tr data-d="5"><td data-en="Friday" data-es="Viernes">Friday</td><td>10 am – 6 pm</td></tr>
+          <tr data-d="6"><td data-en="Saturday" data-es="Sábado">Saturday</td><td>10 am – 4 pm</td></tr>
+          <tr data-d="0" class="closed"><td data-en="Sunday" data-es="Domingo">Sunday</td><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+          <tr data-d="1" class="closed"><td data-en="Monday" data-es="Lunes">Monday</td><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+        </table>
+      </div>
+      <div class="vcard">
+        <h3 data-en="Find Gigi's" data-es="Encuentra Gigi's">Find Gigi's</h3>
+        <p class="addr">42 Public Square<br>Lawrenceburg, TN 38464</p>
+        <p data-en="On the downtown square in Lawrenceburg." data-es="En la plaza del centro de Lawrenceburg.">On the downtown square in Lawrenceburg.</p>
+        <ul class="links">
+          <li><a href="tel:+19317626222"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>(931) 762-6222</a></li>
+          <li><a href="mailto:Gigisboutiquetn@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Gigisboutiquetn@gmail.com</a></li>
+          <li><a href="https://www.facebook.com/gigisboutiquetn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>facebook.com/gigisboutiquetn</a></li>
+        </ul>
+        <div class="ctas">
+          <a class="btn s" href="https://www.google.com/maps/search/?api=1&amp;query=42+Public+Square+Lawrenceburg+TN+38464" target="_blank" rel="noopener"><span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+          <a class="btn p" href="tel:+19317626222"><span data-en="Call the shop" data-es="Llamar a la tienda">Call the shop</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer>
+  <span class="fb">Gigi's Boutique</span>
+  42 Public Square, Lawrenceburg, TN 38464 · <a href="tel:+19317626222">(931) 762-6222</a><br>
+  <span data-en="Sample website by" data-es="Página de muestra por">Sample website by</span> <a href="https://dakrastudio.com">Dakra Studio</a>
+</footer>
+<script>
+(function(){
+  let lang="en";
+  const TT={en:"Gigi's Boutique · Baby & kids' clothing, baby registry & gifts · Lawrenceburg, TN",es:"Gigi's Boutique · Ropa de bebé y niños, registro de bebé y regalos · Lawrenceburg, TN"};
+  const H=[null,null,[10,18],[10,18],[10,18],[10,18],[10,16]];
+  const DN={en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"]};
+  const fmt=h=>(((h+11)%12)+1)+(h>=12?" pm":" am");
+  function now(){try{const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}catch(e){const n=new Date();return{d:n.getDay(),h:n.getHours()+n.getMinutes()/60}}}
+  function status(){const t=now(),r=H[t.d],el=document.getElementById("status"),tx=document.getElementById("statusTxt");
+    document.querySelectorAll("#hours tr").forEach(tr=>tr.classList.toggle("today",+tr.dataset.d===t.d));
+    if(r&&t.h>=r[0]&&t.h<r[1]){el.classList.add("on");tx.textContent=lang==="en"?`Open now · until ${fmt(r[1])}`:`Abierto ahora · hasta las ${fmt(r[1])}`;return}
+    el.classList.remove("on");let d=t.d,first=true;for(let i=0;i<8;i++){const x=H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;tx.textContent=lang==="en"?`Closed now · opens ${today?"today":DN.en[d]} at ${fmt(H[d][0])}`:`Cerrado ahora · abre ${today?"hoy":"el "+DN.es[d]} a las ${fmt(H[d][0])}`}
+  function render(){document.documentElement.lang=lang;document.title=TT[lang];
+    document.querySelectorAll("[data-en]:not(.bot-l)").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));status()}
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang;render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".card, .steps li, .tagcard, .brand, .vcard, section .sh"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.12});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Gigi's Boutique assistant" hidden>
+  <div class="bh"><div><b>Gigi's Boutique</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Gigi's Boutique",color:"#B9583E",color2:"#4F6447",ink:"#40342D",bg:"#FBF5EC",font:"Quicksand,system-ui,sans-serif",display:"'Playfair Display',Georgia,serif",
+  tel:"+19317626222",telTxt:"(931) 762-6222",maps:"https://www.google.com/maps/search/?api=1&query=42+Public+Square+Lawrenceburg+TN+38464",address:"42 Public Square, Lawrenceburg, TN 38464",
+  H:[null,null,[10,18],[10,18],[10,18],[10,18],[10,16]]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAPS=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`,MAIL=`<a href="mailto:Gigisboutiquetn@gmail.com">Gigisboutiquetn@gmail.com</a>`,FB=`<a href="https://www.facebook.com/gigisboutiquetn" target="_blank" rel="noopener">Facebook</a>`;
+const INTENTS=[
+  {k:"thanks",re:/gracias|thank|\bthx\b/i,en:()=>"You're so welcome! We'd love to see you on the square. 🎀",es:()=>"¡Con mucho gusto! Nos encantaría verte en la plaza. 🎀"},
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos d[ií]as|buenas tardes|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))[\s!.,¡]*$/i,en:()=>"Hi there! 🎀 Ask me about our baby registry, baby shower gifts, sizes, brands, hours or how to find us.",es:()=>"¡Hola! 🎀 Pregúntame por el registro de bebé, regalos para baby shower, tallas, marcas, horario o cómo llegar."},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|do you speak|idioma|language/i,en:()=>`This website works in English and Spanish. To ask which languages are spoken in the shop, give us a call at ${TEL}. 🗣️`,es:()=>`Esta página está en inglés y español. Para preguntar qué idiomas se hablan en la tienda, llámanos al ${TEL}. 🗣️`},
+  {k:"giftcard",re:/gift ?cards?|gift ?certificate|tarjetas? de regalo|certificado/i,en:()=>`Gift cards aren't confirmed on this page yet. Call ${TEL} to ask. 🎁`,es:()=>`Las tarjetas de regalo todavía no están confirmadas en esta página. Llama al ${TEL} para preguntar. 🎁`},
+  {k:"wrap",re:/wrap|envolver|envoltura|envuelv|gift ?box|caja de regalo|\bmoño/i,en:()=>`We can't confirm gift wrapping here yet. Call ${TEL} and ask before you come in. 🎀`,es:()=>`Todavía no podemos confirmar aquí si envuelven regalos. Llama al ${TEL} y pregunta antes de venir. 🎀`},
+  {k:"registry",re:/registr|registro|baby list|wish ?list|lista de (beb[eé]|regalos)/i,en:()=>`Yes, Gigi's has a baby registry! 🍼 To create one, stop by the shop at ${MAPS} during shop hours, or call ${TEL}, and we'll help you get started. Ask us how family and friends can shop it.`,es:()=>`¡Sí, Gigi's tiene registro de bebé! 🍼 Para crear uno, pasa a la tienda en ${MAPS} en horario de tienda, o llama al ${TEL}, y te ayudamos a empezar. Pregúntanos cómo pueden comprar de él tu familia y amigos.`},
+  {k:"return",re:/devol|devuelv|return|exchange|refund|reembols|cambiar (una|la|el|de)|layaway|apartad|apartar|\bhold\b/i,en:()=>`Returns, exchanges and layaway (holding an item) aren't confirmed on this page yet. Please call ${TEL} to ask about the shop's policy. 🧾`,es:()=>`Las devoluciones, cambios y apartados todavía no están confirmados en esta página. Llama al ${TEL} para preguntar por las políticas de la tienda. 🧾`},
+  {k:"size",re:/talla|tallas|\bsizes?\b|sizing|medida|newborn|preemie|reci[eé]n nacid|\d+ ?(m|mo|months|meses)\b|toddler|\b\d+t\b|qu[eé] edad|\bages?\b|edades|\bfit\b/i,en:()=>`We carry children's and baby clothing. Sizes in stock change, so call ${TEL} to ask about a specific size or age before you come in. 📏`,es:()=>`Vendemos ropa para niños y bebés. Las tallas disponibles van cambiando, así que llama al ${TEL} para preguntar por una talla o edad en especial antes de venir. 📏`},
+  {k:"shower",re:/shower|baby gift|regalo (para|de) (un |una )?beb|new ?baby|grandbaby|nieto|nieta|gender reveal/i,en:()=>`Baby shower gifts are our sweet spot! 🎁 Stop in to browse baby clothing and gifts, or check if the parents-to-be have a registry with us. To ask about something specific, call ${TEL}.`,es:()=>`¡Los regalos para baby shower son lo nuestro! 🎁 Pasa a ver la ropa de bebé y los regalos, o pregunta si los futuros papás tienen registro con nosotros. Para algo en especial, llama al ${TEL}.`},
+  {k:"ship",re:/env[ií]o|enviar|env[ií]an|mandan|\bship|mail it|deliver|entreg|a domicilio|online|en l[ií]nea|por tel[eé]fono|over the phone|by phone|pedido|\border|website|p[aá]gina web|compr(ar|o) (por|en|desde)/i,en:()=>`Shipping, delivery or ordering by phone aren't confirmed on this page yet. Call ${TEL} to ask. Or come shop in person at ${MAPS}. 📦`,es:()=>`Los envíos, entregas o compras por teléfono todavía no están confirmados en esta página. Llama al ${TEL} para preguntar, o ven a comprar en persona a ${MAPS}. 📦`},
+  {k:"brands",re:/marca|brand|simply southern|trotter|label/i,en:()=>`Brands we carry include Simply Southern and Trotter Street. Stock changes, so call ${TEL} to ask what's in right now. 🏷️`,es:()=>`Entre las marcas que vendemos están Simply Southern y Trotter Street. El inventario cambia, así que llama al ${TEL} para preguntar qué hay ahorita. 🏷️`},
+  {k:"fridays",re:/final|[uú]ltimo viernes|viernes final|downtown event|eventos? (del|en el) centro|\bevents?\b|eventos?\b/i,en:()=>`Gigi's takes part in Final Fridays, the Friday-evening gatherings on downtown Lawrenceburg's square. 🌟 For upcoming dates, follow us on ${FB} or call ${TEL}.`,es:()=>`Gigi's participa en Final Fridays, los eventos de viernes en la tarde en la plaza del centro de Lawrenceburg. 🌟 Para las próximas fechas, síguenos en ${FB} o llama al ${TEL}.`},
+  {k:"price",re:/precio|cu[aá]nto (cuesta|cuestan|vale|valen|cobran)|\bcost|price|how much|caro|barato|expensive|cheap|affordable/i,en:()=>`Prices aren't posted on this page. Call ${TEL} and we'll gladly help. 💵`,es:()=>`Los precios no están en esta página. Llama al ${TEL} y con gusto te ayudamos. 💵`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|\bcard|credit|debit|apple ?pay|venmo|zelle|aceptan|accept/i,en:()=>`To confirm which payment options the shop takes, call ${TEL}. 💳`,es:()=>`Para confirmar qué formas de pago acepta la tienda, llama al ${TEL}. 💳`},
+  {k:"special",re:/especial(es)?\b|promo|oferta|descuento|discount|\bsales?\b|\bdeals?\b|special|coupon|cup[oó]n|new arrivals?|lo nuevo|novedades/i,en:()=>`For current specials and new arrivals, follow us on ${FB} or call ${TEL}. ✨`,es:()=>`Para promociones y lo nuevo que llega, síguenos en ${FB} o llama al ${TEL}. ✨`},
+  {k:"group",re:/grupo|group|bulk|mayoreo|muchos regalos|varios regalos|corporat|empresa|teacher|maestr|party favors?|fiesta|several gifts|lots of/i,en:()=>`For a bigger order, a group gift or something for a party, call ${TEL} so we can talk it through. 🎉`,es:()=>`Para un pedido grande, un regalo de grupo o algo para una fiesta, llama al ${TEL} y lo platicamos. 🎉`},
+  {k:"wait",re:/espera|\bwait|\bline\b|fila|busy|lleno|crowd/i,en:()=>`It's a boutique, so there's no line to sign up for: just stop in during shop hours. If you want to make sure someone can help you with a registry, call ahead at ${TEL}. 🛍️`,es:()=>`Es una boutique, así que no hay que apuntarse en ninguna lista: solo pasa en horario de tienda. Si quieres asegurarte de que te atiendan con un registro, llama antes al ${TEL}. 🛍️`},
+  {k:"appt",re:/\bcitas?\b|appointment|\bbook\b|reserv|agendar|private shopping|by appointment/i,en:()=>`No appointment needed: just come by during shop hours (Tue–Fri 10 am – 6 pm, Sat 10 am – 4 pm). For anything special, call ${TEL}. 🕙`,es:()=>`No necesitas cita: solo pasa en horario de tienda (mar–vie 10 am – 6 pm, sáb 10 am – 4 pm). Para algo especial, llama al ${TEL}. 🕙`},
+  {k:"open",re:/abiert|\bopen|horas?\b|horario|\babre|abren|cierra|cierran|hours|clos(e|ed|ing)|\bwhen\b|cu[aá]ndo|domingo|sunday|s[aá]bado|saturday|lunes|monday|martes|tuesday|mi[eé]rcoles|wednesday|jueves|thursday|viernes|friday|\bhoy\b|today|\bnow\b|ahorita/i,en:()=>`${STATUS().en}\n\n${HOURS("en")}`,es:()=>`${STATUS().es}\n\n${HOURS("es")}`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|locat|direction|\bpark|estacion|square|plaza|downtown|centro|\bfind you/i,en:()=>`We're at ${MAPS}, on the downtown square. 📍 Parking details aren't confirmed here; the shop is right on the Public Square, and you can call ${TEL} to ask the best place to park.`,es:()=>`Estamos en ${MAPS}, en la plaza del centro. 📍 No tenemos confirmado aquí dónde estacionarse; la tienda está en la Public Square y puedes llamar al ${TEL} para preguntar dónde conviene dejar el carro.`},
+  {k:"what",re:/ropa|cloth|outfit|vend|\bsell|carry|tienen|\bhave\b|product|beb[eé]s?|\bbaby|babies|\bkids?\b|child|ni[ñn][oa]s?|\bgirls?\b|\bboys?\b|recomi|recommend|suggest|ideas?\b|gift|regalo|qu[eé] (hay|venden)|\bshop\b|tienda|boutique/i,en:()=>`Gigi's Boutique carries children's and baby clothing, a baby registry and gifts. 🎀 Brands include Simply Southern and Trotter Street. For a recommendation, tell us who it's for when you call ${TEL} or stop by.`,es:()=>`Gigi's Boutique tiene ropa para niños y bebés, registro de bebé y regalos. 🎀 Entre las marcas están Simply Southern y Trotter Street. Para una recomendación, dinos para quién es cuando llames al ${TEL} o pases a la tienda.`},
+  {k:"person",re:/persona|humano|due[ñn]|encargad|hablar con|llam|tel[eé]fono|n[uú]mero|correo|email|e-mail|human|person|someone|talk to|speak|owner|\bcall|phone|contact|facebook/i,en:()=>`Of course! Call the shop at ${TEL}, email ${MAIL} or message us on ${FB}. 📞`,es:()=>`¡Claro! Llama a la tienda al ${TEL}, escribe a ${MAIL} o mándanos mensaje en ${FB}. 📞`}
+];
+const CHIPS={en:[["registry","Baby registry"],["open","Hours"],["shower","Shower gifts"],["size","Sizes"],["brands","Brands"],["where","Directions"],["fridays","Final Fridays"],["person","Talk to us"]],
+             es:[["registry","Registro de bebé"],["open","Horario"],["shower","Regalos de baby shower"],["size","Tallas"],["brands","Marcas"],["where","Cómo llegar"],["fridays","Final Fridays"],["person","Hablar con alguien"]]};
+const TXT={en:{hi:"Hi! 👋 I'm Gigi's Boutique's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Gigi's Boutique. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
