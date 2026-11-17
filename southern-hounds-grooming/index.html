@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Southern Hounds Grooming · Dog grooming in Columbia, TN</title>
+<meta name="description" content="Full grooms, baths, haircuts, nail trims and self-serve dog washing at 2004 Carmack Blvd, Suite A, Columbia, TN. Call (931) 223-5221.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FBF3E4;--cream2:#F3E3C7;--terra:#C25B33;--terra2:#9E4423;--pet:#1D4A57;--pet2:#123540;--mustard:#E6A93A;--ink:#20313A;--ink2:#4C5C63;--fur:#D9A066;--fur2:#B9783F;--line:rgba(29,74,87,.16)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.6 "Figtree",system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}
+svg{max-width:100%}
+.notice{background:var(--pet2);color:#F6E9D2;font-size:13.5px;text-align:center;padding:7px 16px}
+.notice a{color:var(--mustard);font-weight:700}
+header{position:sticky;top:0;z-index:40;background:rgba(251,243,228,.94);backdrop-filter:blur(8px);border-bottom:2px dashed rgba(194,91,51,.35)}
+.bar{max-width:1160px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo .seal{flex:none;width:44px;height:44px;border-radius:50%;background:var(--terra);display:grid;place-items:center;box-shadow:inset 0 0 0 3px var(--cream),0 0 0 2px var(--terra)}
+.logo b{font:400 21px/1 "Shrikhand",Georgia,serif;display:block;color:var(--pet);white-space:nowrap}
+.logo small{display:block;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--terra2);font-weight:800}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+.lang{border:2px solid var(--pet);background:transparent;color:var(--pet);border-radius:999px;padding:6px 12px;font:700 14px "Figtree",sans-serif;cursor:pointer}
+.callsm{display:inline-flex;gap:6px;align-items:center;background:var(--terra);color:#fff;text-decoration:none;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;white-space:nowrap}
+.booksm{background:var(--pet);color:#fff;text-decoration:none;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;white-space:nowrap}
+@media(max-width:760px){.booksm{display:none}}
+@media(max-width:520px){.callsm span{display:none}.callsm{padding:9px}.logo b{font-size:17px}.logo small{font-size:9.5px;letter-spacing:.12em}.logo .seal{width:38px;height:38px}}
+
+/* Portada */
+.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#FBF3E4,#F7E2C6 40%,#F4D9C4 60%,#E8EEE6);background-size:240% 240%}
+.gingham{position:absolute;inset:0;opacity:.13;pointer-events:none;background-image:linear-gradient(90deg,rgba(194,91,51,.55) 50%,transparent 50%),linear-gradient(rgba(194,91,51,.55) 50%,transparent 50%);background-size:44px 44px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 70%);mask-image:linear-gradient(180deg,transparent 10%,#000 85%)}
+.hin{position:relative;z-index:2;max-width:1160px;margin:0 auto;padding:56px 16px 92px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--pet);color:#F6E9D2;border-radius:999px;padding:6px 14px;font-size:13.5px;font-weight:700;letter-spacing:.04em}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--mustard)}
+h1{font:400 clamp(44px,7.4vw,84px)/.98 "Shrikhand",Georgia,serif;margin:18px 0 16px;color:var(--pet2);letter-spacing:.005em}
+h1 em{font-style:normal;color:var(--terra);display:inline-block;transform:rotate(-2deg)}
+.lead{font-size:clamp(17px,2.2vw,20px);color:var(--ink2);max-width:33em;margin:0 0 24px}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:800;border-radius:16px;padding:13px 20px;border:2.5px solid var(--pet2);background:#fff;color:var(--pet2);box-shadow:4px 4px 0 var(--pet2);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--pet2)}
+.btn.p{background:var(--terra);color:#fff}
+.btn.b{background:var(--pet);color:#fff}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:22px 0 0;padding:0;list-style:none;font-size:15px;font-weight:700;color:var(--pet)}
+.facts li{display:flex;align-items:center;gap:6px}
+.scene{position:relative;width:100%;max-width:440px;justify-self:center}
+.scene .sun{position:absolute;inset:4% 2% 10%;border-radius:50%;background:radial-gradient(circle at 40% 35%,#FFF6E4,#F6D9A8 70%,#EFC789);box-shadow:0 0 0 10px rgba(230,169,58,.18)}
+.scene svg.tubdog{position:relative;width:100%;height:auto;display:block}
+.sticker{position:absolute;left:-4px;bottom:6%;background:#fff;border:2.5px solid var(--pet2);border-radius:14px;padding:8px 12px;font-weight:800;font-size:14px;line-height:1.25;color:var(--pet2);transform:rotate(-4deg);box-shadow:3px 3px 0 var(--terra)}
+.sticker b{display:block;font:400 18px/1.05 "Shrikhand",serif;color:var(--terra)}
+.trail{position:absolute;left:0;right:0;bottom:6px;height:70px;z-index:1;overflow:hidden;pointer-events:none}
+.trail svg{position:absolute;width:26px;height:26px;fill:var(--terra2);opacity:0}
+.scallop{height:22px;background:radial-gradient(circle at 11px 0,transparent 11px,var(--pet) 11.5px) repeat-x;background-size:22px 22px;margin-top:-22px;position:relative;z-index:3}
+
+/* Secciones */
+section.s{max-width:1160px;margin:0 auto;padding:72px 16px}
+.kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--terra)}
+h2.t{font:400 clamp(32px,5vw,50px)/1.05 "Shrikhand",Georgia,serif;margin:8px 0 12px;color:var(--pet2)}
+.sub{color:var(--ink2);max-width:40em;margin:0 0 34px}
+.band{background:var(--pet);color:#F6E9D2}
+.band h2.t{color:#FBF3E4}.band .sub{color:#CFE0DF}.band .kicker{color:var(--mustard)}
+.svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:20px}
+.tagc{position:relative;background:var(--cream);color:var(--ink);border-radius:22px 22px 26px 26px;padding:34px 20px 20px;box-shadow:0 6px 0 var(--pet2)}
+.tagc:before{content:"";position:absolute;top:12px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--pet);box-shadow:0 0 0 4px var(--mustard)}
+.tagc .ic{width:54px;height:54px;border-radius:16px;background:var(--cream2);display:grid;place-items:center;margin-bottom:10px}
+.tagc h3{font:400 23px/1.1 "Shrikhand",serif;margin:0 0 6px;color:var(--terra2)}
+.tagc p{margin:0 0 12px;font-size:15.5px;color:var(--ink2)}
+.tagc .pr{display:flex;justify-content:space-between;align-items:center;border-top:2px dashed var(--line);padding-top:10px;font-weight:800;font-size:14px;color:var(--pet)}
+.tagc .pr span:last-child{font-size:18px}
+.tagc.wide{background:var(--mustard)}
+.tagc.wide .ic{background:#F6D08A}
+.tagc.wide p{color:var(--ink)}
+.note{margin-top:26px;font-size:14px;color:#CFE0DF}
+.good{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.gd{background:#fff;border:2.5px solid var(--pet2);border-radius:18px;padding:18px 18px 16px;box-shadow:5px 5px 0 var(--cream2)}
+.gd b{display:block;font-size:18px;color:var(--pet2);margin-bottom:4px}
+.gd p{margin:0;font-size:15.5px;color:var(--ink2)}
+.gd a{color:var(--terra2);font-weight:800}
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.vcard{background:#fff;border-radius:22px;padding:24px;border:2.5px solid var(--pet2);box-shadow:6px 6px 0 var(--terra)}
+.vcard h3{font:400 24px/1.1 "Shrikhand",serif;margin:0 0 12px;color:var(--pet2)}
+.hours{width:100%;border-collapse:collapse;font-size:16px}
+.hours td{padding:9px 0;border-bottom:1.5px dashed var(--line)}
+.hours td:last-child{text-align:right;font-weight:700}
+.hours tr.q td:last-child{color:var(--terra2)}
+.vcard p{margin:0 0 10px}
+.vcard .ctas{margin-top:16px}
+.mail,.fb{color:var(--pet);font-weight:800;overflow-wrap:anywhere}
+footer{background:var(--pet2);color:#CFE0DF;text-align:center;padding:30px 16px 96px;font-size:14px}
+footer a{color:var(--mustard);font-weight:700}
+@media(max-width:860px){.hin{grid-template-columns:1fr;padding-top:36px}.scene{max-width:340px}.visit{grid-template-columns:1fr}}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+body{overflow-x:clip}
+.hero{animation:sky 18s ease-in-out infinite alternate}
+@keyframes sky{to{background-position:100% 50%}}
+.gingham{animation:pan 40s linear infinite}
+@keyframes pan{to{background-position:44px 44px,44px 44px}}
+.mo.deco{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none}
+.mo .blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.5}
+.mo .b1{width:40vw;height:40vw;max-width:460px;max-height:460px;background:#F2B98E;top:-14%;right:-8%;animation:drift1 22s ease-in-out infinite alternate}
+.mo .b2{width:34vw;height:34vw;max-width:380px;max-height:380px;background:#A9CBC9;bottom:-20%;left:-8%;animation:drift2 26s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(-6vw,8vh) scale(1.1)}}
+@keyframes drift2{to{transform:translate(8vw,-6vh) scale(1.12)}}
+.tubdog .tail{transform-origin:312px 188px;animation:wag .5s ease-in-out infinite alternate}
+@keyframes wag{from{transform:rotate(-14deg)}to{transform:rotate(16deg)}}
+.tubdog .head{transform-origin:180px 160px;animation:tilt 5s ease-in-out infinite}
+@keyframes tilt{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-7deg)}90%{transform:rotate(4deg)}}
+.tubdog .ear{animation:flop 5s ease-in-out infinite}
+.tubdog .earL{transform-origin:138px 92px}.tubdog .earR{transform-origin:222px 92px}
+@keyframes flop{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(8deg)}}
+.tubdog .bub{animation:rise 4.2s ease-in infinite;opacity:0}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(.6)}15%{opacity:.95}100%{opacity:0;transform:translateY(-150px) scale(1.15)}}
+.tubdog .brush{transform-origin:330px 72px;animation:scrub 2.4s ease-in-out infinite}
+@keyframes scrub{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(10deg) translateY(-6px)}}
+.tubdog .drop{animation:drip 2.6s ease-in infinite}
+@keyframes drip{0%{opacity:0;transform:translateY(-8px)}30%{opacity:1}100%{opacity:0;transform:translateY(26px)}}
+.trail svg{animation:step 7s linear infinite}
+@keyframes step{0%{opacity:0}6%{opacity:.7}40%{opacity:.5}60%,100%{opacity:0}}
+.hin .eyebrow{animation:up .8s ease both}.hin h1{animation:up .9s .1s ease both}.hin .lead{animation:up .9s .25s ease both}.hin .ctas{animation:up .9s .4s ease both}.hin .facts{animation:up .9s .5s ease both}.scene{animation:pop 1s .3s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.85) rotate(-3deg)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hero,.gingham,.mo,.mo *,.tubdog *,.trail svg,.hin *,.scene,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.tubdog .bub{opacity:.8}.trail svg{opacity:.45}}
+:root{--bc:#C25B33;--bc2:#1D4A57;--bi:#20313A;--bb:#FBF3E4;--bf:Figtree,system-ui,sans-serif;--bd:Shrikhand,Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="notice"><span data-en="Sample page created by Dakra Studio for Southern Hounds Grooming ·" data-es="Página de muestra creada por Dakra Studio para Southern Hounds Grooming ·">Sample page created by Dakra Studio for Southern Hounds Grooming ·</span> <a href="https://dakrastudio.com">dakrastudio.com</a></div>
+<header>
+ <div class="bar">
+  <a class="logo" href="#top" aria-label="Southern Hounds Grooming">
+   <span class="seal" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="#FBF3E4"><ellipse cx="6" cy="9" rx="2.2" ry="2.8"/><ellipse cx="10.2" cy="5.6" rx="2.2" ry="2.8"/><ellipse cx="14.4" cy="5.6" rx="2.2" ry="2.8"/><ellipse cx="18.4" cy="9" rx="2.2" ry="2.8"/><path d="M12.2 11c-3.3 0-6.2 3.6-6.2 6.2 0 2 1.6 2.9 3.2 2.6 1.2-.2 2-.8 3-.8s1.8.6 3 .8c1.6.3 3.2-.6 3.2-2.6 0-2.6-2.9-6.2-6.2-6.2z"/></svg></span>
+   <span><b>Southern Hounds</b><small data-en="Grooming · Columbia, TN" data-es="Estética · Columbia, TN">Grooming · Columbia, TN</small></span>
+  </a>
+  <div class="tools">
+   <a class="booksm" href="#book" data-en="Book online" data-es="Agendar en línea">Book online</a>
+   <button class="lang" type="button" data-lang="es" aria-label="Español">Español</button>
+   <a class="callsm" href="tel:+19312235221" aria-label="Call (931) 223-5221"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span>(931) 223-5221</span></a>
+  </div>
+ </div>
+</header>
+<main id="top">
+<div class="hero">
+ <div class="gingham" aria-hidden="true"></div>
+ <div class="mo deco" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></div>
+ <div class="trail" aria-hidden="true" id="trail"></div>
+ <div class="hin">
+  <div>
+   <span class="eyebrow"><i></i><span data-en="Dog grooming · Columbia, Tennessee" data-es="Estética canina · Columbia, Tennessee">Dog grooming · Columbia, Tennessee</span></span>
+   <h1 data-en="Fresh pups, <em>happy tails.</em>" data-es="Perritos limpios, <em>colitas felices.</em>">Fresh pups, <em>happy tails.</em></h1>
+   <p class="lead" data-en="Southern Hounds Grooming gives Columbia dogs full grooms, baths, haircuts and nail trims on Carmack Blvd, plus a self-serve dog wash if you'd rather do the scrubbing yourself." data-es="Southern Hounds Grooming atiende a los perros de Columbia con estética completa, baños, cortes y corte de uñas en Carmack Blvd, y además tiene lavado de perros de autoservicio si prefieres bañarlo tú.">Southern Hounds Grooming gives Columbia dogs full grooms, baths, haircuts and nail trims on Carmack Blvd, plus a self-serve dog wash if you'd rather do the scrubbing yourself.</p>
+   <div class="ctas">
+    <a class="btn p" href="#book">🗓️ <span data-en="Book online" data-es="Agendar en línea">Book online</span></a>
+    <a class="btn b" href="tel:+19312235221">📞 <span data-en="Call (931) 223-5221" data-es="Llamar (931) 223-5221">Call (931) 223-5221</span></a>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&query=2004+Carmack+Blvd+Suite+A+Columbia+TN+38401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+   </div>
+   <ul class="facts">
+    <li>🐾 <span data-en="Mon–Fri 8 am – 4 pm" data-es="Lun–Vie 8 am – 4 pm">Mon–Fri 8 am – 4 pm</span></li>
+    <li>🛁 <span data-en="Self-serve dog wash" data-es="Lavado de autoservicio">Self-serve dog wash</span></li>
+   </ul>
+  </div>
+  <div class="scene" aria-hidden="true">
+   <div class="sun"></div>
+   <svg class="tubdog" viewBox="0 0 360 330" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="180" cy="308" rx="128" ry="12" fill="rgba(18,53,64,.18)"/>
+    <!-- cola -->
+    <g class="tail"><path d="M312 188 C338 170 346 138 334 112" stroke="#9E4423" stroke-width="15" stroke-linecap="round" fill="none"/><circle cx="334" cy="108" r="11" fill="#fff"/><circle cx="345" cy="117" r="7" fill="#fff"/></g>
+    <!-- cabeza -->
+    <g class="head">
+     <ellipse class="ear earL" cx="128" cy="128" rx="22" ry="42" fill="#9E4423" transform="rotate(18 128 128)"/>
+     <ellipse class="ear earR" cx="232" cy="128" rx="22" ry="42" fill="#9E4423" transform="rotate(-18 232 128)"/>
+     <ellipse cx="180" cy="122" rx="56" ry="60" fill="#D9A066"/>
+     <ellipse cx="180" cy="152" rx="36" ry="28" fill="#F3D9B4"/>
+     <path d="M168 140 q12 10 24 0 q-2 12 -12 12 q-10 0 -12 -12z" fill="#20313A"/>
+     <path d="M180 156 v8" stroke="#20313A" stroke-width="3" stroke-linecap="round"/>
+     <path d="M172 166 q8 14 16 0z" fill="#E87C7C"/>
+     <circle cx="158" cy="114" r="7" fill="#20313A"/><circle cx="202" cy="114" r="7" fill="#20313A"/>
+     <circle cx="160" cy="111" r="2.3" fill="#fff"/><circle cx="204" cy="111" r="2.3" fill="#fff"/>
+     <!-- espuma en la cabeza -->
+     <g fill="#fff"><circle cx="160" cy="68" r="16"/><circle cx="182" cy="60" r="20"/><circle cx="204" cy="70" r="15"/><circle cx="194" cy="50" r="10"/></g>
+     <circle cx="176" cy="54" r="5" fill="#E9F1F0"/>
+    </g>
+    <!-- patitas en el borde -->
+    <ellipse cx="140" cy="186" rx="16" ry="11" fill="#D9A066"/><ellipse cx="220" cy="186" rx="16" ry="11" fill="#D9A066"/>
+    <path d="M134 182v8M140 181v9M146 182v8M214 182v8M220 181v9M226 182v8" stroke="#B9783F" stroke-width="2" stroke-linecap="round"/>
+    <!-- tina -->
+    <path d="M36 192 h288 c0 0 -4 76 -70 90 h-148 c-66 -14 -70 -90 -70 -90z" fill="#1D4A57"/>
+    <rect x="26" y="182" width="308" height="20" rx="10" fill="#FBF3E4" stroke="#123540" stroke-width="4"/>
+    <path d="M70 230 q110 30 220 0" stroke="#2C6475" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M96 280 l-14 22 h22 l6 -22z M264 280 l14 22 h-22 l-6 -22z" fill="#E6A93A" stroke="#123540" stroke-width="3" stroke-linejoin="round"/>
+    <!-- espuma del borde -->
+    <g fill="#fff"><circle cx="54" cy="180" r="14"/><circle cx="78" cy="174" r="17"/><circle cx="104" cy="182" r="12"/><circle cx="252" cy="180" r="13"/><circle cx="278" cy="172" r="17"/><circle cx="304" cy="180" r="13"/></g>
+    <!-- burbujas -->
+    <g fill="rgba(255,255,255,.55)" stroke="#fff" stroke-width="2">
+     <circle class="bub" cx="70" cy="168" r="9" style="animation-delay:0s"/>
+     <circle class="bub" cx="110" cy="160" r="6" style="animation-delay:.9s"/>
+     <circle class="bub" cx="250" cy="164" r="8" style="animation-delay:1.6s"/>
+     <circle class="bub" cx="290" cy="158" r="5" style="animation-delay:2.4s"/>
+     <circle class="bub" cx="190" cy="42" r="7" style="animation-delay:3.1s"/>
+     <circle class="bub" cx="40" cy="150" r="5" style="animation-delay:2s"/>
+    </g>
+    <!-- cepillo -->
+    <g class="brush"><rect x="318" y="20" width="12" height="54" rx="6" fill="#C25B33" transform="rotate(28 324 47)"/><rect x="296" y="62" width="40" height="16" rx="5" fill="#E6A93A" transform="rotate(28 316 70)"/><path d="M296 82 l-4 8 M304 86 l-4 8 M312 90 l-4 8 M320 94 l-4 8" stroke="#123540" stroke-width="3" stroke-linecap="round"/></g>
+    <!-- gotas -->
+    <path class="drop" d="M30 120 q6 10 0 14 q-6 -4 0 -14z" fill="#7FB3BC"/>
+    <path class="drop" style="animation-delay:1.2s" d="M48 96 q6 10 0 14 q-6 -4 0 -14z" fill="#7FB3BC"/>
+   </svg>
+   <div class="sticker"><b data-en="Spa day!" data-es="¡Día de spa!">Spa day!</b><span data-en="Baths, cuts &amp; nails" data-es="Baño, corte y uñas">Baths, cuts &amp; nails</span></div>
+  </div>
+ </div>
+</div>
+<div class="scallop" aria-hidden="true"></div>
+
+<div class="band">
+ <section class="s" id="services">
+  <div class="kicker" data-en="Services" data-es="Servicios">Services</div>
+  <h2 class="t" data-en="Everything from suds to snips" data-es="De la espuma a las tijeras">Everything from suds to snips</h2>
+  <p class="sub" data-en="Tell us about your dog when you book or call, and we'll help you pick the right service." data-es="Cuéntanos de tu perro cuando agendes o llames, y te ayudamos a escoger el servicio indicado.">Tell us about your dog when you book or call, and we'll help you pick the right service.</p>
+  <div class="svc">
+   <article class="tagc">
+    <div class="ic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1D4A57" stroke-width="2.4" stroke-linecap="round"><circle cx="9" cy="23" r="4"/><circle cx="23" cy="23" r="4"/><path d="M12 20 24 6M20 20 8 6"/></svg></div>
+    <h3 data-en="Full groom" data-es="Estética completa">Full groom</h3>
+    <p data-en="Bath plus a full haircut, the works from nose to tail." data-es="Baño y corte completo, todo de la nariz a la cola.">Bath plus a full haircut, the works from nose to tail.</p>
+    <div class="pr"><span data-en="Price" data-es="Precio">Price</span><span>$—</span></div>
+   </article>
+   <article class="tagc">
+    <div class="ic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1D4A57" stroke-width="2.4" stroke-linecap="round"><path d="M4 16h24c0 6-4 10-10 10h-4C8 26 4 22 4 16z"/><path d="M8 16V8a3 3 0 0 1 6 0"/><circle cx="20" cy="9" r="2"/><circle cx="25" cy="6" r="1.5"/></svg></div>
+    <h3 data-en="Bath only" data-es="Solo baño">Bath only</h3>
+    <p data-en="A good wash and brush for a clean, soft, sweet-smelling pup." data-es="Un buen baño y cepillado para un perrito limpio, suave y oliendo rico.">A good wash and brush for a clean, soft, sweet-smelling pup.</p>
+    <div class="pr"><span data-en="Price" data-es="Precio">Price</span><span>$—</span></div>
+   </article>
+   <article class="tagc">
+    <div class="ic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#1D4A57" stroke-width="2.4" stroke-linecap="round"><rect x="5" y="5" width="22" height="8" rx="3"/><path d="M8 13v12M12 13v10M16 13v12M20 13v10M24 13v12"/></svg></div>
+    <h3 data-en="Haircuts &amp; trims" data-es="Cortes y recortes">Haircuts &amp; trims</h3>
+    <p data-en="A tidy-up between grooms, or a fresh cut in the style you like." data-es="Una arregladita entre estéticas, o un corte nuevo en el estilo que te guste.">A tidy-up between grooms, or a fresh cut in the style you like.</p>
+    <div class="pr"><span data-en="Price" data-es="Precio">Price</span><span>$—</span></div>
+   </article>
+   <article class="tagc">
+    <div class="ic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="#1D4A57"><ellipse cx="8" cy="13" rx="3" ry="4"/><ellipse cx="13.5" cy="8" rx="3" ry="4"/><ellipse cx="19.5" cy="8" rx="3" ry="4"/><ellipse cx="25" cy="13" rx="3" ry="4"/><path d="M16.5 15c-4.5 0-8 5-8 8.5 0 2.6 2 3.8 4.2 3.4 1.6-.3 2.5-1 3.8-1s2.2.7 3.8 1c2.2.4 4.2-.8 4.2-3.4 0-3.5-3.5-8.5-8-8.5z"/></svg></div>
+    <h3 data-en="Nail trims" data-es="Corte de uñas">Nail trims</h3>
+    <p data-en="Quick and easy. Thinking of stopping in without an appointment? Give us a call first." data-es="Rápido y sencillo. ¿Quieres pasar sin cita? Llámanos primero.">Quick and easy. Thinking of stopping in without an appointment? Give us a call first.</p>
+    <div class="pr"><span data-en="Price" data-es="Precio">Price</span><span>$—</span></div>
+   </article>
+   <article class="tagc wide">
+    <div class="ic" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#123540" stroke-width="2.4" stroke-linecap="round"><path d="M6 28V8a4 4 0 0 1 4-4h6v4"/><path d="M10 12h12l-2-4h-8z"/><path d="M12 17v2M16 16v3M20 17v2M14 23v2M18 23v2"/></svg></div>
+    <h3 data-en="Self-serve dog wash" data-es="Lavado de autoservicio">Self-serve dog wash</h3>
+    <p data-en="Rather bathe your dog yourself? Use our self-serve dog washing and leave the mess at the shop, not at home." data-es="¿Prefieres bañar tú a tu perro? Usa nuestro lavado de autoservicio y el tiradero se queda en la tienda, no en tu casa.">Rather bathe your dog yourself? Use our self-serve dog washing and leave the mess at the shop, not at home.</p>
+    <div class="pr"><span data-en="Price" data-es="Precio">Price</span><span>$—</span></div>
+   </article>
+  </div>
+  <p class="note" data-en="Prices depend on your dog's size and coat. Call (931) 223-5221 for a quote." data-es="Los precios dependen del tamaño y el pelaje de tu perro. Llama al (931) 223-5221 para cotizar.">Prices depend on your dog's size and coat. Call (931) 223-5221 for a quote.</p>
+ </section>
+</div>
+
+<section class="s" id="good">
+ <div class="kicker" data-en="Good to know" data-es="Bueno saber">Good to know</div>
+ <h2 class="t" data-en="Before you bring your pup" data-es="Antes de traer a tu perrito">Before you bring your pup</h2>
+ <div class="good">
+  <div class="gd"><b data-en="Book a time online" data-es="Agenda en línea">Book a time online</b><p data-en="Pick the service, day and time below. You can move or cancel it yourself." data-es="Escoge el servicio, el día y la hora aquí abajo. Tú mismo puedes moverla o cancelarla.">Pick the service, day and time below. You can move or cancel it yourself.</p></div>
+  <div class="gd"><b data-en="Nail trim without an appointment?" data-es="¿Uñas sin cita?">Nail trim without an appointment?</b><p data-en="Call first at <a href='tel:+19312235221'>(931) 223-5221</a> to make sure there's time." data-es="Llama primero al <a href='tel:+19312235221'>(931) 223-5221</a> para ver si hay lugar.">Call first at <a href='tel:+19312235221'>(931) 223-5221</a> to make sure there's time.</p></div>
+  <div class="gd"><b data-en="Questions about your dog?" data-es="¿Dudas sobre tu perro?">Questions about your dog?</b><p data-en="Big dogs, nervous dogs, puppies or vaccine records: call and talk it over with us." data-es="Perros grandes, nerviosos, cachorros o cartilla de vacunas: llama y platícalo con nosotros.">Big dogs, nervous dogs, puppies or vaccine records: call and talk it over with us.</p></div>
+  <div class="gd"><b data-en="Saturdays" data-es="Sábados">Saturdays</b><p data-en="Saturday hours aren't confirmed yet. Please call before coming in." data-es="El horario del sábado no está confirmado. Llama antes de venir.">Saturday hours aren't confirmed yet. Please call before coming in.</p></div>
+ </div>
+</section>
+<script>window.BKCFG={name:"Southern Hounds Grooming",open:{1:[8,16],2:[8,16],3:[8,16],4:[8,16],5:[8,16]},step:30,days:14,
+ services:[{id:"full",en:"Full groom",es:"Estética completa",min:120},{id:"bath",en:"Bath & brush",es:"Baño y cepillado",min:60},{id:"trim",en:"Haircut / trim",es:"Corte / recorte",min:90},{id:"nails",en:"Nail trim",es:"Corte de uñas",min:15}],
+ fee:{on:false,amt:10,hours:2}}</script>
+<!-- ==== Reservas de citas (Dakra Studio) · demo ==== -->
+<style>
+.bk{--k1:var(--bc,#B3261E);--k2:var(--bc2,#13213A);--kb:var(--bb,#F5EEDF);--ki:var(--bi,#14181F);--kf:var(--bf,system-ui,sans-serif);--kd:var(--bd,Georgia,serif);font-family:var(--kf);color:var(--ki);padding:64px 20px;background:var(--kb)}
+.bk *{box-sizing:border-box}
+.bk .bkw{max-width:980px;margin:0 auto}
+.bk h2{font:400 clamp(30px,5vw,46px)/1.05 var(--kd);margin:0 0 8px;color:var(--k2)}
+.bk .bkl{font-size:17px;margin:0 0 20px;max-width:620px;opacity:.85}
+.bk .bkdemo{font-size:13px;background:#fff;border:1px dashed rgba(0,0,0,.3);border-radius:10px;padding:8px 12px;margin:0 0 20px}
+.bk .bkt{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.bk .bkt button{border:2px solid var(--k2);background:#fff;color:var(--k2);border-radius:999px;padding:9px 16px;font:700 15px var(--kf);cursor:pointer}
+.bk .bkt button[aria-pressed=true]{background:var(--k2);color:#fff}
+.bk .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 0 rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.08)}
+.bk .step{font:700 14px var(--kf);margin:14px 0 8px;color:var(--k2)}
+.bk .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.bk .chips button,.bk .slots button{flex:none;border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:12px;padding:9px 12px;font:600 14px var(--kf);cursor:pointer;color:var(--ki);min-height:44px}
+.bk .chips button[aria-pressed=true],.bk .slots button[aria-pressed=true]{background:var(--k1);border-color:var(--k1);color:#fff}
+.bk .chips button small{display:block;font-weight:500;font-size:12px;opacity:.75}
+.bk .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.bk .slots button:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.bk .empty{font-size:14px;opacity:.75;padding:6px 0}
+.bk .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk label{font-size:13px;font-weight:700;display:block;margin-bottom:4px}
+.bk input[type=text],.bk input[type=tel],.bk input[type=number]{width:100%;border:1.5px solid rgba(0,0,0,.25);border-radius:10px;padding:11px 12px;font:16px var(--kf);color:var(--ki)}
+.bk .go{margin-top:14px;width:100%;border:0;background:var(--k1);color:#fff;border-radius:12px;padding:14px;font:800 16px var(--kf);cursor:pointer;min-height:50px}
+.bk .go:disabled{opacity:.45;cursor:not-allowed}
+.bk .sec{border:2px solid var(--k2);background:#fff;color:var(--k2)}
+.bk .feeNote{margin-top:12px;background:#FFF4D6;border-radius:10px;padding:10px 12px;font-size:14px}
+.bk .feeNote label{display:flex;gap:8px;align-items:flex-start;font-weight:600;margin:6px 0 0}
+.bk .msg{margin-top:12px;font-weight:700;min-height:1.4em}
+.bk .list{display:grid;gap:10px}
+.bk .ap{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.bk .ap .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.bk .ap b{font-size:16px}
+.bk .st{font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.bk .st.ok{background:#DDF5E6;color:#0f6b36}.bk .st.mv{background:#E4E9FF;color:#2a3a9a}.bk .st.cx{background:#FDE2E0;color:#a3231a}.bk .st.ns{background:#FFE9C7;color:#8a5200}.bk .st.dn{background:#EAEAEA;color:#444}
+.bk .ap.cxd{opacity:.65}
+.bk .ap .acts{display:flex;gap:6px;flex-wrap:wrap}
+.bk .ap .acts button{border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:10px;padding:7px 11px;font:700 13px var(--kf);cursor:pointer;color:var(--ki);min-height:38px}
+.bk .ap .acts .danger{border-color:#c0392b;color:#c0392b}
+.bk .hist{font-size:12px;opacity:.7}
+.bk .own{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bk .own>*,.bk .card,.bk .chips,.bk .list{min-width:0}
+.bk .ap span{overflow-wrap:anywhere}
+.bk .msg:not(:empty){animation:bkpop .35s ease}
+@keyframes bkpop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bk .msg{animation:none!important}}
+.bk .set{display:grid;gap:10px}
+.bk .tog{display:flex;align-items:center;gap:10px;font-weight:700}
+.bk .tog input{width:22px;height:22px}
+.bk .moving{background:#E4E9FF;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+.bk .moving button{border:0;background:none;text-decoration:underline;font:700 14px var(--kf);cursor:pointer;color:#2a3a9a}
+.bk :focus-visible{outline:3px solid var(--k1);outline-offset:2px}
+@media(max-width:760px){.bk .own,.bk .f2{grid-template-columns:1fr}}
+</style>
+<section class="bk" id="book" aria-labelledby="bkH">
+ <div class="bkw">
+  <h2 id="bkH" class="bk-t" data-k="title"></h2>
+  <p class="bkl bk-t" data-k="lead"></p>
+  <p class="bkdemo bk-t" data-k="demo"></p>
+  <div class="bkt" role="group" id="bkTabs">
+   <button type="button" data-v="book" aria-pressed="true" class="bk-t" data-k="tBook"></button>
+   <button type="button" data-v="mine" aria-pressed="false" class="bk-t" data-k="tMine"></button>
+   <button type="button" data-v="owner" aria-pressed="false" class="bk-t" data-k="tOwner"></button>
+  </div>
+  <div id="bkView"></div>
+ </div>
+</section>
+<script>
+(function(){
+/* Configuración: horario y servicios de EJEMPLO (la barbería pone los suyos) */
+const BK=window.BKCFG||{name:"Barber Shop",open:{2:[9,18],3:[9,18],4:[9,18],5:[9,19],6:[8,16]},step:30,days:14,
+  services:[{id:"cut",en:"Haircut",es:"Corte",min:30},{id:"fade",en:"Fade",es:"Degradado",min:45},{id:"beard",en:"Beard trim",es:"Barba",min:15},{id:"combo",en:"Cut + beard",es:"Corte + barba",min:60},{id:"kids",en:"Kids' cut",es:"Corte de niño",min:30}],
+  fee:{on:false,amt:10,hours:2}};
+const KEY="dakra-bk-"+location.pathname;
+const T={
+ en:{title:"Book your pup's spa day",lead:"Pick a service, a day and a time for your dog. You'll get a confirmation right away, and you can cancel or move your appointment yourself.",
+  demo:"Demo: sample hours and services. On this sample, appointments are saved only on this phone. On the real website, the grooming shop sees every booking on its own phone.",
+  tBook:"Book",tMine:"My appointments",tOwner:"Groomer view",s1:"1. Service",s2:"2. Day",s3:"3. Time",s4:"4. Your info",name:"Your name & dog's name",phone:"Phone",
+  book:"Book appointment",move:"Move to this time",none:"No times left this day. Try another day.",closed:"Closed",
+  ok:c=>`✅ Booked! Your code is ${c}. You can cancel or move it in "My appointments".`,moved:"✅ Moved. The old time is free again.",
+  feeTxt:(a,h)=>`This grooming shop charges a $${a} no-show fee if you miss your appointment without canceling at least ${h} hours before.`,feeOk:"I understand the no-show policy",
+  mineEmpty:"You don't have appointments yet.",cancel:"Cancel",resched:"Move",rebook:"Book again",
+  st:{ok:"Confirmed",mv:"Moved",cx:"Canceled",ns:"No-show",dn:"Done"},movingTo:"Moving appointment of",stop:"Stop",
+  ownerDay:"Day",ownerEmpty:"No appointments this day.",noshow:"No-show",done:"Done",chargeFee:a=>`Charge $${a} no-show fee`,charged:a=>`Fee of $${a} charged (demo)`,
+  settings:"Settings",feeOn:"Charge a no-show fee (optional)",feeAmt:"Fee amount ($)",feeH:"Free cancellation up to (hours before)",
+  feeInfo:"In the real website the fee is charged with the grooming shop's own payment method (for example a deposit with a Square link).",
+  canceledBy:"Canceled",today:"Today",tomorrow:"Tomorrow",was:"was",sample:"Sample",chooseAll:"Choose a service, day and time, and write your name and phone.",
+  conf:"Cancel this appointment? The time will be free for someone else."},
+ es:{title:"Agenda el día de spa de tu perrito",lead:"Elige el servicio, el día y la hora para tu perro. Te confirmamos al instante y tú mismo puedes cancelar o mover tu cita.",
+  demo:"Demo: horario y servicios de ejemplo. En esta muestra las citas se guardan solo en este teléfono. En la página real, la estética ve todas las citas desde su propio teléfono.",
+  tBook:"Agendar",tMine:"Mis citas",tOwner:"Vista del groomer",s1:"1. Servicio",s2:"2. Día",s3:"3. Hora",s4:"4. Tus datos",name:"Tu nombre y el de tu perro",phone:"Teléfono",
+  book:"Agendar cita",move:"Mover a esta hora",none:"Ya no hay horas este día. Prueba otro día.",closed:"Cerrado",
+  ok:c=>`✅ ¡Listo! Tu código es ${c}. Puedes cancelar o mover tu cita en "Mis citas".`,moved:"✅ Cita movida. La hora anterior quedó libre.",
+  feeTxt:(a,h)=>`Esta estética cobra $${a} si no te presentas sin cancelar al menos ${h} horas antes.`,feeOk:"Entiendo la política de inasistencia",
+  mineEmpty:"Todavía no tienes citas.",cancel:"Cancelar",resched:"Mover",rebook:"Volver a agendar",
+  st:{ok:"Confirmada",mv:"Movida",cx:"Cancelada",ns:"No asistió",dn:"Atendida"},movingTo:"Moviendo la cita de",stop:"Dejar así",
+  ownerDay:"Día",ownerEmpty:"No hay citas este día.",noshow:"No asistió",done:"Atendida",chargeFee:a=>`Cobrar $${a} por no asistir`,charged:a=>`Se cobraron $${a} (demo)`,
+  settings:"Ajustes",feeOn:"Cobrar por no asistir (opcional)",feeAmt:"Monto ($)",feeH:"Cancelación gratis hasta (horas antes)",
+  feeInfo:"En la página real el cobro se hace con la forma de pago del propio negocio (por ejemplo, un depósito con link de Square).",
+  canceledBy:"Cancelada",today:"Hoy",tomorrow:"Mañana",was:"antes",sample:"Ejemplo",chooseAll:"Elige servicio, día y hora, y escribe tu nombre y teléfono.",
+  conf:"¿Cancelar esta cita? La hora quedará libre para alguien más."}};
+const L=()=>(document.documentElement.lang||"en").slice(0,2)==="es"?"es":"en";
+const t=k=>T[L()][k];
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const dkey=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseD=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtT=m=>{const h=Math.floor(m/60),mi=m%60;if(L()==="es")return h+":"+pad(mi);return((h+11)%12+1)+":"+pad(mi)+(h<12?" am":" pm")};
+const fmtD=k=>{const d=parseD(k),td=dkey(new Date()),tm=dkey(new Date(Date.now()+864e5));if(k===td)return t("today");if(k===tm)return t("tomorrow");return d.toLocaleDateString(L()==="es"?"es-MX":"en-US",{weekday:"short",month:"short",day:"numeric"})};
+const svc=id=>BK.services.find(s=>s.id===id)||BK.services[0];
+let S;
+function load(){try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}
+  if(!S||!S.v){S={v:1,fee:{...BK.fee},ap:[],mine:[]};seed()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function seed(){/* citas de ejemplo para que el dueño vea su agenda */
+  const days=nextDays().filter(d=>d.open).slice(0,2);
+  const names=[["Daisy (Lab)","(931) 000-0101","full"],["Biscuit (Shih Tzu)","(931) 000-0102","bath"],["Tucker (Doodle)","(931) 000-0103","nails"]];
+  days.forEach((d,i)=>{const o=BK.open[parseD(d.k).getDay()];let m=o[0]*60+60*(i+1);
+    names.slice(i,i+2).forEach(n=>{S.ap.push({id:code(),day:d.k,start:m,svc:n[2],name:n[0],phone:n[1],st:"ok",sample:true,h:[]});m+=svc(n[2]).min})});}
+function code(){return Math.random().toString(36).slice(2,6).toUpperCase()}
+function nextDays(){const out=[];const b=new Date();b.setHours(0,0,0,0);for(let i=0;i<BK.days;i++){const d=new Date(b.getTime()+i*864e5);out.push({k:dkey(d),open:!!BK.open[d.getDay()]})}return out}
+const live=a=>a.st!=="cx";
+function free(day,start,min,ignore){/* inteligente: no se encima con otra cita; pegadas una tras otra sí */
+  const o=BK.open[parseD(day).getDay()];if(!o)return false;
+  if(start<o[0]*60||start+min>o[1]*60)return false;
+  if(day===dkey(new Date())){const n=new Date();if(start<=n.getHours()*60+n.getMinutes())return false}
+  return !S.ap.some(a=>a.id!==ignore&&a.day===day&&live(a)&&start<a.start+svc(a.svc).min&&a.start<start+min);}
+function slots(day,min,ignore){const o=BK.open[parseD(day).getDay()];if(!o)return[];const r=[];for(let m=o[0]*60;m+min<=o[1]*60;m+=BK.step)r.push({m,ok:free(day,m,min,ignore)});return r}
+let V="book",F={svc:BK.services[0].id,day:null,start:null},MOVE=null,OWNDAY=null,MSG="";
+function render(){
+  document.querySelectorAll("#book .bk-t").forEach(e=>{e.textContent=t(e.dataset.k)});
+  document.querySelectorAll("#bkTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===V));
+  const v=$("#bkView");
+  if(V==="book")v.innerHTML=bookView();else if(V==="mine")v.innerHTML=mineView();else v.innerHTML=ownerView();
+  wire();}
+function bookView(){
+  const days=nextDays();if(!F.day)F.day=(days.find(d=>d.open)||days[0]).k;
+  const s=svc(F.svc),mv=MOVE&&S.ap.find(a=>a.id===MOVE);
+  const sl=slots(F.day,mv?svc(mv.svc).min:s.min,MOVE);
+  const anyFree=sl.some(x=>x.ok);
+  return `<div class="card">
+   ${mv?`<div class="moving"><span>${esc(t("movingTo"))} ${esc(mv.name)} · ${esc(fmtD(mv.day))} ${esc(fmtT(mv.start))}</span><button type="button" id="bkStop">${esc(t("stop"))}</button></div>`:""}
+   ${mv?"":`<div class="step">${esc(t("s1"))}</div><div class="chips" id="bkSvc">${BK.services.map(x=>`<button type="button" data-id="${x.id}" aria-pressed="${x.id===F.svc}">${esc(x[L()])}<small>${x.min} min</small></button>`).join("")}</div>`}
+   <div class="step">${esc(t("s2"))}</div><div class="chips" id="bkDay">${days.map(d=>`<button type="button" data-k="${d.k}" aria-pressed="${d.k===F.day}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}${d.open?"":`<small>${esc(t("closed"))}</small>`}</button>`).join("")}</div>
+   <div class="step">${esc(t("s3"))}</div>${anyFree?`<div class="slots" id="bkSlots">${sl.map(x=>`<button type="button" data-m="${x.m}" ${x.ok?"":"disabled"} aria-pressed="${x.m===F.start}">${esc(fmtT(x.m))}</button>`).join("")}</div>`:`<p class="empty">${esc(t("none"))}</p>`}
+   ${mv?`<button class="go" type="button" id="bkGo" ${F.start==null?"disabled":""}>${esc(t("move"))}</button>`:`
+   <div class="step">${esc(t("s4"))}</div><div class="f2"><div><label for="bkN">${esc(t("name"))}</label><input type="text" id="bkN" autocomplete="name" value="${esc(F.name||"")}"></div><div><label for="bkP">${esc(t("phone"))}</label><input type="tel" id="bkP" autocomplete="tel" value="${esc(F.phone||"")}"></div></div>
+   ${S.fee.on?`<div class="feeNote">${esc(T[L()].feeTxt(S.fee.amt,S.fee.hours))}<label><input type="checkbox" id="bkFee" ${F.fee?"checked":""}> ${esc(t("feeOk"))}</label></div>`:""}
+   <button class="go" type="button" id="bkGo">${esc(t("book"))}</button>`}
+   <p class="msg" role="status">${esc(MSG)}</p></div>`;}
+function apCard(a,owner){
+  const st=a.st,cls={ok:"ok",mv:"mv",cx:"cx",ns:"ns",dn:"dn"}[st];
+  const s=svc(a.svc),past=a.day<dkey(new Date());
+  let acts="";
+  if(st==="ok"||st==="mv"){acts=`<button type="button" data-a="move" data-id="${a.id}">${esc(t("resched"))}</button><button type="button" class="danger" data-a="cancel" data-id="${a.id}">${esc(t("cancel"))}</button>`;
+    if(owner)acts+=`<button type="button" data-a="done" data-id="${a.id}">${esc(t("done"))}</button><button type="button" data-a="ns" data-id="${a.id}">${esc(t("noshow"))}</button>`;}
+  if(st==="cx"&&!owner)acts=`<button type="button" data-a="rebook" data-id="${a.id}">${esc(t("rebook"))}</button>`;
+  if(st==="ns"&&owner&&S.fee.on)acts=a.charged?`<span class="hist">${esc(T[L()].charged(S.fee.amt))}</span>`:`<button type="button" data-a="fee" data-id="${a.id}">${esc(T[L()].chargeFee(S.fee.amt))}</button>`;
+  const hist=(a.h||[]).map(h=>`${fmtD(h.day)} ${fmtT(h.start)}`).join(" → ");
+  return `<div class="ap ${st==="cx"?"cxd":""}"><div class="top"><b>${esc(fmtT(a.start))} · ${esc(s[L()])}${owner?" · "+esc(a.name):""}</b><span class="st ${cls}">${esc(t("st")[st])}</span></div>
+   <span>${owner?esc(a.phone)+" · ":""}${esc(fmtD(a.day))} · ${s.min} min${a.sample?" · "+esc(t("sample")):""} · #${esc(a.id)}</span>
+   ${hist?`<span class="hist">${esc(t("was"))}: ${esc(hist)}</span>`:""}
+   ${acts?`<div class="acts">${acts}</div>`:""}</div>`;}
+function mineView(){const mine=S.ap.filter(a=>S.mine.includes(a.id)).sort((a,b)=>(a.day+pad(a.start)).localeCompare(b.day+pad(b.start)));
+  return `<div class="list">${mine.length?mine.map(a=>apCard(a,false)).join(""):`<p class="empty">${esc(t("mineEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p>`;}
+function ownerView(){const days=nextDays();if(!OWNDAY)OWNDAY=(days.find(d=>S.ap.some(a=>a.day===d.k))||days.find(d=>d.open)||days[0]).k;
+  const list=S.ap.filter(a=>a.day===OWNDAY).sort((a,b)=>a.start-b.start);
+  return `<div class="own"><div><div class="step">${esc(t("ownerDay"))}</div><div class="chips" id="bkOD">${days.map(d=>{const n=S.ap.filter(a=>a.day===d.k&&live(a)).length;return `<button type="button" data-k="${d.k}" aria-pressed="${d.k===OWNDAY}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}<small>${d.open?n+" 🐾":esc(t("closed"))}</small></button>`}).join("")}</div>
+   <div class="list" style="margin-top:12px">${list.length?list.map(a=>apCard(a,true)).join(""):`<p class="empty">${esc(t("ownerEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p></div>
+   <div class="card set"><b>${esc(t("settings"))}</b><label class="tog"><input type="checkbox" id="bkFeeOn" ${S.fee.on?"checked":""}> ${esc(t("feeOn"))}</label>
+   ${S.fee.on?`<div class="f2"><div><label for="bkFeeAmt">${esc(t("feeAmt"))}</label><input type="number" min="1" id="bkFeeAmt" value="${S.fee.amt}"></div><div><label for="bkFeeH">${esc(t("feeH"))}</label><input type="number" min="0" id="bkFeeH" value="${S.fee.hours}"></div></div>`:""}
+   <p class="hist">${esc(t("feeInfo"))}</p></div></div>`;}
+function act(a,id){const ap=S.ap.find(x=>x.id===id);if(!ap)return;MSG="";
+  if(a==="cancel"){if(!confirmSafe(t("conf")))return;ap.st="cx";}
+  if(a==="move"){MOVE=id;F.day=ap.day;F.start=null;V="book";}
+  if(a==="rebook"){F.svc=ap.svc;F.name=ap.name;F.phone=ap.phone;F.day=null;F.start=null;V="book";}
+  if(a==="done")ap.st="dn";if(a==="ns")ap.st="ns";if(a==="fee")ap.charged=true;
+  save();render();}
+function confirmSafe(m){try{return window.confirm(m)}catch(e){return true}}
+function wire(){
+  document.querySelectorAll("#bkSvc button").forEach(b=>b.onclick=()=>{F.svc=b.dataset.id;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkDay button").forEach(b=>b.onclick=()=>{F.day=b.dataset.k;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkSlots button").forEach(b=>b.onclick=()=>{F.start=+b.dataset.m;keep();MSG="";render()});
+  document.querySelectorAll("#bkOD button").forEach(b=>b.onclick=()=>{OWNDAY=b.dataset.k;MSG="";render()});
+  document.querySelectorAll("#bkView [data-a]").forEach(b=>b.onclick=()=>act(b.dataset.a,b.dataset.id));
+  const st=$("#bkStop");if(st)st.onclick=()=>{MOVE=null;F.start=null;V=S.mine.length?"mine":"book";render()};
+  const fo=$("#bkFeeOn");if(fo)fo.onchange=()=>{S.fee.on=fo.checked;save();render()};
+  const fa=$("#bkFeeAmt");if(fa)fa.onchange=()=>{S.fee.amt=Math.max(1,+fa.value||1);save()};
+  const fh=$("#bkFeeH");if(fh)fh.onchange=()=>{S.fee.hours=Math.max(0,+fh.value||0);save()};
+  const fe=$("#bkFee");if(fe)fe.onchange=()=>{F.fee=fe.checked};
+  const go=$("#bkGo");if(go)go.onclick=submit;}
+function keep(){const n=$("#bkN"),p=$("#bkP");if(n)F.name=n.value;if(p)F.phone=p.value}
+function submit(){keep();
+  if(MOVE){const ap=S.ap.find(a=>a.id===MOVE);if(!ap||F.start==null)return;
+    if(!free(F.day,F.start,svc(ap.svc).min,ap.id)){MSG="";render();return}
+    ap.h=(ap.h||[]).concat([{day:ap.day,start:ap.start}]);ap.day=F.day;ap.start=F.start;ap.st="mv";MOVE=null;F.start=null;MSG=t("moved");save();V=S.mine.includes(ap.id)?"mine":"owner";if(V==="owner")OWNDAY=ap.day;render();return}
+  const s=svc(F.svc);
+  if(F.start==null||!(F.name||"").trim()||!(F.phone||"").trim()||(S.fee.on&&!F.fee)){MSG=t("chooseAll");render();return}
+  if(!free(F.day,F.start,s.min)){F.start=null;render();return}
+  const id=code();S.ap.push({id,day:F.day,start:F.start,svc:F.svc,name:F.name.trim(),phone:F.phone.trim(),st:"ok",h:[],fee:S.fee.on?{amt:S.fee.amt,hours:S.fee.hours}:null});S.mine.push(id);
+  F.start=null;F.fee=false;MSG=T[L()].ok(id);save();render();}
+document.querySelectorAll("#bkTabs button").forEach(b=>b.onclick=()=>{V=b.dataset.v;MOVE=null;MSG="";render()});
+load();render();
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+})();
+</script>
+<!-- ==== fin reservas ==== -->
+
+<section class="s" id="visit">
+ <div class="kicker" data-en="Visit us" data-es="Visítanos">Visit us</div>
+ <h2 class="t" data-en="Come on by Carmack Blvd" data-es="Pásate por Carmack Blvd">Come on by Carmack Blvd</h2>
+ <div class="visit">
+  <div class="vcard">
+   <h3 data-en="Hours" data-es="Horario">Hours</h3>
+   <table class="hours">
+    <tr><td data-en="Monday – Friday" data-es="Lunes a viernes">Monday – Friday</td><td>8 am – 4 pm</td></tr>
+    <tr class="q"><td data-en="Saturday" data-es="Sábado">Saturday</td><td data-en="Call to confirm" data-es="Llama para confirmar">Call to confirm</td></tr>
+    <tr><td data-en="Sunday" data-es="Domingo">Sunday</td><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+   </table>
+  </div>
+  <div class="vcard">
+   <h3 data-en="Find us" data-es="Encuéntranos">Find us</h3>
+   <p><b>Southern Hounds Grooming</b><br>2004 Carmack Blvd, Suite A<br>Columbia, TN 38401</p>
+   <p><a href="tel:+19312235221" class="mail">(931) 223-5221</a></p>
+   <p><a class="mail" href="mailto:southernhoundsgrooming@gmail.com">southernhoundsgrooming@gmail.com</a></p>
+   <p><a class="fb" href="https://www.facebook.com/southernhg/" target="_blank" rel="noopener" data-en="Follow us on Facebook" data-es="Síguenos en Facebook">Follow us on Facebook</a></p>
+   <div class="ctas">
+    <a class="btn p" href="https://www.google.com/maps/search/?api=1&query=2004+Carmack+Blvd+Suite+A+Columbia+TN+38401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+    <a class="btn b" href="#book">🗓️ <span data-en="Book online" data-es="Agendar en línea">Book online</span></a>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+<footer>Southern Hounds Grooming LLC · 2004 Carmack Blvd, Suite A, Columbia, TN 38401 · <a href="tel:+19312235221">(931) 223-5221</a><br><span data-en="Sample website by" data-es="Página de muestra por">Sample website by</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+<script>
+(function(){
+  let lang="en";
+  const TT={en:"Southern Hounds Grooming · Dog grooming in Columbia, TN",es:"Southern Hounds Grooming · Estética canina en Columbia, TN"};
+  function render(){document.documentElement.lang=lang;document.title=TT[lang];
+    document.querySelectorAll("[data-en]:not(.bot-l)").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("button[data-lang]").forEach(b=>{const to=lang==="en"?"es":"en";b.dataset.lang=to;b.textContent=to==="es"?"Español":"English";b.setAttribute("aria-label",b.textContent)});}
+  document.querySelectorAll("button[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang==="es"?"es":"en";render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: huellas que caminan y aparecer al bajar */
+(function(){
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var tr=document.getElementById("trail");
+if(tr){var n=14,paw='<path d="M8 9.5c-.9 0-1.6-1-1.6-2.2S7.1 5 8 5s1.6 1 1.6 2.3S8.9 9.5 8 9.5zm8 0c-.9 0-1.6-1-1.6-2.2S15.1 5 16 5s1.6 1 1.6 2.3-.7 2.2-1.6 2.2zM4.6 13c-.8 0-1.4-.9-1.4-2s.6-2 1.4-2 1.4.9 1.4 2-.6 2-1.4 2zm14.8 0c-.8 0-1.4-.9-1.4-2s.6-2 1.4-2 1.4.9 1.4 2-.6 2-1.4 2zM12 11.5c2.8 0 5.2 3.2 5.2 5.4 0 1.7-1.3 2.4-2.6 2.1-1-.2-1.6-.7-2.6-.7s-1.6.5-2.6.7c-1.3.3-2.6-.4-2.6-2.1 0-2.2 2.4-5.4 5.2-5.4z"/>';
+  for(var i=0;i<n;i++){var s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");s.innerHTML=paw;
+    s.style.left=(2+i*(96/n))+"%";s.style.top=(i%2?34:10)+"px";s.style.transform="rotate(90deg)";s.style.animationDelay=(i*.35)+"s";tr.appendChild(s)}}
+var els=[].slice.call(document.querySelectorAll(".tagc, .gd, .vcard, section h2.t"));
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.12});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Southern Hounds Grooming assistant" hidden>
+  <div class="bh"><div><b>Southern Hounds Grooming</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Southern Hounds Grooming",color:"#C25B33",color2:"#1D4A57",ink:"#20313A",bg:"#FBF3E4",font:"Figtree,system-ui,sans-serif",display:"Shrikhand,Georgia,serif",
+  tel:"+19312235221",telTxt:"(931) 223-5221",maps:"https://www.google.com/maps/search/?api=1&query=2004+Carmack+Blvd+Suite+A+Columbia+TN+38401",address:"2004 Carmack Blvd, Suite A, Columbia, TN 38401",
+  H:[null,[8,16],[8,16],[8,16],[8,16],[8,16],null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAPS=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`,MAIL=`<a href="mailto:southernhoundsgrooming@gmail.com">southernhoundsgrooming@gmail.com</a>`,FB=`<a href="https://www.facebook.com/southernhg/" target="_blank" rel="noopener">Facebook</a>`;
+const HRS=l=>window.HOURS(l).replace("Saturday: closed","Saturday: call to confirm").replace("Sábado: cerrado","Sábado: llama para confirmar");
+const INTENTS=[
+  {k:"thanks",re:/gracias|thank|thx/i,en:()=>"You're so welcome! Give your pup a scratch behind the ears for us. 🐾",es:()=>"¡Con mucho gusto! Dale una rascadita detrás de las orejas a tu perrito de nuestra parte. 🐾"},
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos d[ií]as|buenas tardes|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))[\s!.,¡]*$/i,en:()=>"Howdy! 🐶 Ask me about booking, grooms, baths, nail trims, the self-serve wash, hours or how to find us.",es:()=>"¡Hola! 🐶 Pregúntame por citas, estética, baños, uñas, el lavado de autoservicio, el horario o cómo llegar."},
+  {k:"vaccine",re:/vacun|vaccin|rabies|rabia|\bshots?\b|bordetella|kennel cough|tos de las perreras|cartilla|records?\b|pulga|flea|tick|garrapata/i,en:()=>`Vaccine (and flea) requirements aren't posted here yet. Please call ${TEL} before your visit so you know exactly what to bring. 💉`,es:()=>`Los requisitos de vacunas (y de pulgas) todavía no están en la página. Llama al ${TEL} antes de tu visita para saber qué traer. 💉`},
+  {k:"bigdog",re:/large|\bbig\b|giant|huge|anxious|nervous|scared|afraid|aggressive|\bbites?\b|reactive|senior|old dog|grande|enorme|ansios|nervios|miedo|asustad|muerde|agresiv|viejit|mayor/i,en:()=>`Every dog is different. If your pup is extra big, nervous, older or not a fan of baths, call ${TEL} and tell us about them before you book, so we can plan the visit. 🐕`,es:()=>`Cada perro es diferente. Si tu perrito es muy grande, nervioso, ya mayor o no le gustan los baños, llama al ${TEL} y cuéntanos de él antes de agendar, para planear la visita. 🐕`},
+  {k:"puppy",re:/pupp|cachorr|first (groom|bath|time)|primer (ba[ñn]o|corte)|primera vez|how old|qu[eé] edad/i,en:()=>`Puppies are welcome to call about! 🐶 For your pup's first groom (and at what age to start), call ${TEL} and we'll talk you through it.`,es:()=>`¡Pregunta por tu cachorro! 🐶 Para su primera estética (y a qué edad empezar), llama al ${TEL} y te explicamos.`},
+  {k:"time",re:/how long|long does|take long|wait|espera|tarda|dura|cu[aá]nto tiempo|cu[aá]ntas horas|all day|todo el d[ií]a/i,en:()=>`It depends on your dog's size and coat. As a rough guide in our booking: nail trim about 15 min, bath & brush about 1 hour, haircut / trim about 1½ hours, full groom about 2 hours. For your dog, call ${TEL}. ⏱️`,es:()=>`Depende del tamaño y el pelaje de tu perro. Como guía en la agenda: uñas unos 15 min, baño y cepillado como 1 hora, corte / recorte como 1 hora y media, estética completa unas 2 horas. Para tu perro, llama al ${TEL}. ⏱️`},
+  {k:"price",re:/precio|cuesta|cobran|cu[aá]nto (es|vale|sale)|price|how much|cost|\brates?\b|tarifa|quote|cotiza/i,en:()=>`Prices aren't posted here yet, since they depend on your dog's size and coat. Call ${TEL} for a quote. 💵`,es:()=>`Los precios todavía no están en la página, porque dependen del tamaño y el pelaje de tu perro. Llama al ${TEL} para cotizar. 💵`},
+  {k:"self",re:/self.?serv|self.?wash|diy|do it myself|wash (my|our) (own )?dog|bathe (my|our) (own )?dog myself|myself|autoservicio|yo mism[oa]|ba[ñn]arlo yo|lavarlo yo|\btub\b|\btina\b/i,en:()=>`Yes! We offer self-serve dog washing 🛁 so you can bathe your dog yourself at the shop. To check times and what's included, call ${TEL}.`,es:()=>`¡Sí! Tenemos lavado de perros de autoservicio 🛁 para que tú bañes a tu perro en el local. Para confirmar horarios y qué incluye, llama al ${TEL}.`},
+  {k:"nails",re:/nail|u[ñn]as|claw/i,en:()=>`We do nail trims! ✂️ Want to stop in without an appointment? Call ${TEL} first to make sure there's time, or <a href="#book">book a nail trim online</a>.`,es:()=>`¡Cortamos uñas! ✂️ ¿Quieres pasar sin cita? Llama primero al ${TEL} para ver si hay lugar, o <a href="#book">agenda un corte de uñas en línea</a>.`},
+  {k:"deliver",re:/mobile|m[oó]vil|domicilio|come to (me|my)|(to|from) my (house|home)|a (mi|tu) casa|deliver|entrega|env[ií]o|transport/i,en:()=>`Grooming is done at the shop on Carmack Blvd. To ask about anything else, call ${TEL}. 🏠`,es:()=>`La estética se hace en el local de Carmack Blvd. Para preguntar otra cosa, llama al ${TEL}. 🏠`},
+  {k:"pickup",re:/pick.?up|pick (him|her|them|my)|recog|ready|list[oa]|drop.?off|dejar|dejo|avis/i,en:()=>`When you drop off, ask the groomer when your dog will be ready, and they can tell you how they'll let you know. For questions, call ${TEL}. 🦴`,es:()=>`Cuando dejes a tu perro, pregunta a qué hora estará listo y cómo te avisarán. Para dudas, llama al ${TEL}. 🦴`},
+  {k:"book",re:/cita|agend|reserv|apart|turno|appointment|\bbook|schedul|cancel|mover|move my|walk.?in|sin cita/i,en:()=>`You can book right here: pick a service, day and time, and move or cancel it yourself in "My appointments". <a href="#book">Book now</a>. For walk-ins, call ${TEL} first.`,es:()=>`Puedes agendar aquí mismo: eliges servicio, día y hora, y tú mismo mueves o cancelas tu cita en "Mis citas". <a href="#book">Agendar ahora</a>. Para llegar sin cita, llama primero al ${TEL}.`},
+  {k:"open",re:/abierto|abren|est[aá]n abiertos|open|hora|horario|abre|cierra|cierran|hours|close|when|domingo|sunday|s[aá]bado|saturday|lunes|monday|weekend|fin de semana/i,en:()=>`${window.STATUS().en}\n\n${HRS("en")}\n\nSaturday hours aren't confirmed yet, so please call ${TEL} before coming in. ⏰`,es:()=>`${window.STATUS().es}\n\n${HRS("es")}\n\nEl horario del sábado no está confirmado; llama al ${TEL} antes de venir. ⏰`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion|carmack/i,en:()=>`We're at ${MAPS}. 📍 For the best spot to park, give us a call at ${TEL}.`,es:()=>`Estamos en ${MAPS}. 📍 Para saber dónde estacionarte, llámanos al ${TEL}.`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|apple ?pay|zelle|venmo|aceptan|tip|propina/i,en:()=>`To confirm payment options, call ${TEL}. 💳`,es:()=>`Para confirmar las formas de pago, llama al ${TEL}. 💳`},
+  {k:"group",re:/several dogs|multiple dogs|two dogs|three dogs|\d+ dogs|more than one dog|varios perros|dos perros|tres perros|mis perros|group|grupo|evento|event|rescue|rescate/i,en:()=>`Bringing more than one dog? Call ${TEL} so we can line up the times together. 🐕🐕`,es:()=>`¿Traes más de un perro? Llama al ${TEL} para acomodar los horarios juntos. 🐕🐕`},
+  {k:"special",re:/especial|promo|oferta|descuento|discount|deal|special|coupon|cup[oó]n/i,en:()=>`For current specials, call ${TEL} or check our ${FB} page. ✨`,es:()=>`Para promociones actuales, llama al ${TEL} o revisa nuestra página de ${FB}. ✨`},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|do you speak/i,en:()=>"This website works in English and Spanish. To ask which languages are spoken at the shop, give us a call. 🗣️",es:()=>"Esta página está en inglés y español. Para preguntar qué idiomas se hablan en el local, llámanos. 🗣️"},
+  {k:"services",re:/servic|what do you|qu[eé] (hacen|ofrecen)|groom|est[eé]tica|corte|haircut|\bcut\b|trim|bath|ba[ñn]o|wash|lav|shed|brush|cepill|breed|raza|recomi|recommend|suggest|which one|cu[aá]l/i,en:()=>`We offer full grooms (bath + full haircut), bath only, haircuts & trims, nail trims and a self-serve dog wash. 🛁 Not sure which one? Tell us about your dog at ${TEL}, or <a href="#book">book online</a>.`,es:()=>`Ofrecemos estética completa (baño + corte completo), solo baño, cortes y recortes, corte de uñas y lavado de autoservicio. 🛁 ¿No sabes cuál? Cuéntanos de tu perro al ${TEL}, o <a href="#book">agenda en línea</a>.`},
+  {k:"person",re:/persona|humano|due[ñn]|encargad|hablar con|llamar|tel[eé]fono|n[uú]mero|correo|email|e-mail|facebook|human|person|someone|talk to|speak to|owner|groomer|call|phone|contact/i,en:()=>`Of course! Call ${TEL}, email ${MAIL} or message us on ${FB}. 📞`,es:()=>`¡Claro! Llama al ${TEL}, escribe a ${MAIL} o mándanos mensaje por ${FB}. 📞`}
+];
+const CHIPS={en:[["book","Book online"],["open","Hours"],["services","Services"],["nails","Nail trims"],["self","Self-serve wash"],["price","Prices"],["where","Directions"],["person","Talk to us"]],
+             es:[["book","Agendar"],["open","Horario"],["services","Servicios"],["nails","Uñas"],["self","Autoservicio"],["price","Precios"],["where","Cómo llegar"],["person","Hablar con alguien"]]};
+const TXT={en:{hi:"Hi! 👋 I'm the Southern Hounds Grooming assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Southern Hounds Grooming. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
