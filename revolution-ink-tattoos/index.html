@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revolution Ink Tattoos · Veteran-owned tattoo shop · Columbia, TN</title>
+<meta name="description" content="Revolution Ink Tattoos, a veteran-owned tattoo shop at 1510 Hatcher Ln, Columbia, TN. Custom tattoos and cover-ups. Call (931) 981-5304.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ultra&family=Yellowtail&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#141110;--ink2:#1F1A17;--paper:#F1E6CC;--paper2:#E6D7B4;--red:#B8231B;--red2:#8E1812;--olive:#4E5A2E;--olive2:#39431F;--gold:#D9A520;--soft:#6B5E4C;--line:rgba(20,17,16,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 "Work Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img,svg{max-width:100%}
+h1,h2,h3{font-family:Ultra,"Rockwell Extra Bold",Rockwell,Georgia,serif;font-weight:400;margin:0;letter-spacing:.01em}
+.script{font-family:Yellowtail,"Brush Script MT",cursive;font-weight:400}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+.demo{background:var(--olive2);color:#EFE6CF;font-size:13px;text-align:center;padding:8px 16px}
+.demo a{color:var(--gold);font-weight:700}
+/* encabezado */
+header.top{position:sticky;top:0;z-index:40;background:rgba(20,17,16,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:3px solid var(--red);color:var(--paper)}
+.bar{max-width:1140px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand svg{flex:none}
+.brand b{font:400 19px/1 Ultra,Georgia,serif;display:block;white-space:nowrap}
+.brand small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:3px}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+.lang{border:2px solid var(--paper);background:transparent;color:var(--paper);border-radius:6px;padding:7px 12px;font:700 14px "Work Sans",sans-serif;cursor:pointer;min-height:40px}
+.call{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;text-decoration:none;border-radius:6px;padding:8px 14px;font-weight:700;font-size:14px;min-height:40px;border:2px solid var(--red)}
+@media(max-width:600px){.call span{display:none}.brand small{display:none}.brand b{font-size:16px}}
+@media(max-width:360px){.brand b{font-size:14px}}
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font:800 16px "Work Sans",sans-serif;padding:14px 20px;border-radius:8px;min-height:52px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn.r{background:var(--red);color:#fff}
+.btn.c{background:var(--paper);color:var(--ink)}
+.btn.g{background:var(--gold);color:var(--ink)}
+.hero .btn{border-color:var(--paper);box-shadow:4px 4px 0 var(--red2)}
+.hero .btn.c{background:transparent;color:var(--paper)}
+/* portada */
+.hero{background:var(--ink);color:var(--paper);overflow:hidden;padding:56px 0 64px}
+.hero .lay{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
+.kick{display:inline-flex;align-items:center;gap:8px;background:var(--olive);color:var(--paper);font:700 13px "Work Sans",sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:4px;border:1.5px solid rgba(241,230,204,.35)}
+.kick svg{flex:none}
+.hero h1{font-size:clamp(46px,9.4vw,104px);line-height:.92;margin:18px 0 6px;color:var(--paper);text-shadow:4px 4px 0 var(--red)}
+.hero h1 span{display:block;color:var(--gold);text-shadow:4px 4px 0 var(--red2)}
+.ribbon{display:inline-block;position:relative;background:var(--red);color:#fff;font-size:clamp(28px,5vw,40px);line-height:1.1;padding:6px 26px 10px;margin:10px 0 18px;transform:rotate(-2deg);border:2px solid var(--paper)}
+.ribbon:before,.ribbon:after{content:"";position:absolute;top:10px;width:18px;height:100%;background:var(--red2);z-index:-1}
+.ribbon:before{left:-12px}.ribbon:after{right:-12px}
+.sub{font-size:18px;max-width:560px;color:#E6DAC0;margin:0 0 24px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.now{margin-top:20px;font-size:15px;font-weight:600;color:#E6DAC0;display:flex;align-items:center;gap:8px}
+.now i{width:10px;height:10px;border-radius:50%;background:var(--gold);display:inline-block;flex:none}
+.now.open i{background:#7CD992;box-shadow:0 0 0 4px rgba(124,217,146,.25)}
+.art{position:relative;display:grid;place-items:center;min-height:360px}
+.art .disc{position:absolute;width:min(360px,86%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--paper) 0 58%,var(--paper2) 58% 60%,transparent 60%);border:6px solid var(--paper);box-shadow:0 0 0 6px var(--red),0 0 0 12px var(--ink),0 0 0 14px var(--gold)}
+.art .machine{position:relative;width:min(300px,78%);z-index:2}
+.art .spin{position:absolute;z-index:3;width:70px;top:4%;right:6%}
+.art .spin2{position:absolute;z-index:3;width:44px;bottom:8%;left:6%}
+/* secciones */
+section{padding:72px 0}
+.lbl{font:700 13px "Work Sans",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px;margin:0 0 10px}
+.lbl:before{content:"★";color:var(--olive)}
+h2{font-size:clamp(32px,5.4vw,54px);line-height:1;color:var(--ink);margin-bottom:14px}
+.lead{font-size:18px;max-width:680px;color:var(--soft);margin:0 0 30px}
+.paper{background-color:var(--paper);background-image:radial-gradient(rgba(107,94,76,.09) 1px,transparent 1.4px),radial-gradient(rgba(107,94,76,.06) 1px,transparent 1.2px);background-size:7px 7px,13px 13px;background-position:0 0,3px 5px}
+/* hoja de flash */
+.flash{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.fc{background:#FBF5E6;border:3px solid var(--ink);border-radius:10px;padding:20px 18px 18px;position:relative;box-shadow:6px 6px 0 var(--ink)}
+.fc .no{position:absolute;top:-14px;left:14px;background:var(--gold);border:2px solid var(--ink);font:400 14px Ultra,Georgia,serif;padding:2px 10px;border-radius:4px}
+.fc svg{display:block;height:78px;width:auto;margin:6px 0 12px}
+.fc h3{font-size:22px;line-height:1.1;margin-bottom:8px}
+.fc p{margin:0 0 10px;font-size:16px;color:#3B332B}
+.fc .pr{font-weight:700;font-size:14px;color:var(--red);border-top:2px dashed rgba(20,17,16,.25);padding-top:8px;margin:0}
+/* veteranos */
+.vet{background:var(--olive2);color:var(--paper);position:relative;overflow:hidden}
+.vet .lay{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center}
+.vet h2{color:var(--paper)}
+.vet .lbl{color:var(--gold)}.vet .lbl:before{color:var(--paper)}
+.vet blockquote{margin:0 0 18px;font-size:clamp(30px,5vw,44px);line-height:1.15;color:var(--gold)}
+.vet blockquote small{display:block;font:600 14px "Work Sans",sans-serif;color:#D8CFB6;margin-top:8px}
+.vet p{color:#E6DAC0;max-width:620px;margin:0}
+.stars{display:flex;gap:10px}
+.stars svg{width:44px;height:44px}
+.badge{width:190px;height:190px;flex:none}
+/* pasos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.st3{border-left:6px solid var(--red);background:#FBF5E6;padding:18px 18px 18px 20px;border-radius:0 10px 10px 0}
+.st3 b{font:400 46px/1 Ultra,Georgia,serif;color:var(--olive);display:block;margin-bottom:6px}
+.st3 h3{font-size:20px;margin-bottom:6px}
+.st3 p{margin:0;font-size:16px;color:#3B332B}
+.mid{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+/* visita */
+.visit{background:var(--ink);color:var(--paper)}
+.visit h2{color:var(--paper)}
+.visit .lbl{color:var(--gold)}
+.vg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vcard{background:var(--ink2);border:2px solid rgba(241,230,204,.25);border-radius:12px;padding:22px}
+.vcard h3{font-size:22px;color:var(--gold);margin-bottom:10px}
+.vcard p{margin:0 0 10px;color:#E6DAC0}
+.hrs{list-style:none;padding:0;margin:0 0 10px}
+.hrs li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed rgba(241,230,204,.22);font-size:16px}
+.hrs li.today{color:var(--gold);font-weight:700}
+.note{font-size:14px;color:#CFC3A6;font-style:italic}
+.vcard a.link{color:var(--paper);font-weight:700;overflow-wrap:anywhere}
+.vcard .ctas{margin-top:14px}
+.visit .btn{border-color:var(--paper);box-shadow:4px 4px 0 var(--red2)}
+.visit .btn.c{background:transparent;color:var(--paper)}
+footer{background:#0B0908;color:#CFC3A6;text-align:center;padding:26px 16px 96px;font-size:14px}
+footer a{color:var(--gold)}
+@media(max-width:900px){.flash{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}}
+@media(max-width:820px){.hero .lay{grid-template-columns:1fr}.art{min-height:300px}.vet .lay{grid-template-columns:1fr}.badge{width:140px;height:140px}.vg{grid-template-columns:1fr}}
+@media(max-width:560px){.flash{grid-template-columns:1fr}section{padding:56px 0}.hero{padding:40px 0 48px}.ctas .btn{flex:1 1 100%}}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+body{overflow-x:clip}
+.hero{position:relative;isolation:isolate}
+.hero>*{position:relative;z-index:1}
+.mo.deco{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none}
+.mo .pat{position:absolute;inset:-160px;opacity:.13;animation:drift 40s linear infinite}
+@keyframes drift{to{transform:translate(120px,120px)}}
+.mo .glow{position:absolute;width:640px;height:640px;border-radius:50%;opacity:.5;animation:glow 16s ease-in-out infinite alternate}
+.mo .glow.a{background:radial-gradient(circle,rgba(142,24,18,.9),rgba(142,24,18,0) 68%);left:-160px;top:-140px}
+.mo .glow.b{background:radial-gradient(circle,rgba(78,90,46,.9),rgba(78,90,46,0) 68%);right:-180px;bottom:-200px;animation-delay:-8s}
+@keyframes glow{to{transform:translate(80px,60px) scale(1.15)}}
+.mo .bird{position:absolute;top:12%;left:0;width:74px;animation:fly 22s linear infinite}
+.mo .bird svg{display:block;animation:flap .6s ease-in-out infinite alternate;transform-origin:50% 50%}
+@keyframes fly{0%{transform:translate(-120px,40px)}50%{transform:translate(50vw,-10px)}100%{transform:translate(calc(100vw + 120px),30px)}}
+@keyframes flap{to{transform:scaleY(.78) rotate(-4deg)}}
+.machine .buzz{animation:buzz .09s linear infinite;transform-origin:50% 50%}
+@keyframes buzz{0%{transform:translate(0,0)}25%{transform:translate(.8px,-.6px)}50%{transform:translate(-.6px,.8px)}75%{transform:translate(.6px,.6px)}100%{transform:translate(0,0)}}
+.machine .drop{animation:drip 2.4s ease-in infinite;opacity:0}
+.machine .drop.d2{animation-delay:.8s}.machine .drop.d3{animation-delay:1.6s}
+@keyframes drip{0%{transform:translateY(0) scale(.4);opacity:0}15%{opacity:1;transform:translateY(4px) scale(1)}100%{transform:translateY(70px) scale(.8);opacity:0}}
+.spin svg,.spin2 svg{animation:spin 12s linear infinite;display:block}
+.spin2 svg{animation-duration:9s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero .kick{animation:rise .7s ease both}.hero h1{animation:rise .8s .1s ease both}.hero .ribbon{animation:rise2 .8s .25s ease both}.hero .sub{animation:rise .8s .35s ease both}.hero .ctas{animation:rise .8s .45s ease both}
+.art{animation:pop 1s .2s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes rise2{from{opacity:0;transform:translateY(22px) rotate(-2deg)}to{opacity:1;transform:rotate(-2deg)}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.mo,.mo *,.machine *,.spin svg,.spin2 svg,.hero *,.art,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.machine .drop{opacity:1}}
+:root{--bc:#B8231B;--bc2:#141110;--bi:#141110;--bb:#F1E6CC;--bf:'Work Sans',system-ui,sans-serif;--bd:Ultra,Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-en="Sample page created by Dakra Studio for Revolution Ink Tattoos" data-es="Página de muestra creada por Dakra Studio para Revolution Ink Tattoos">Sample page created by Dakra Studio for Revolution Ink Tattoos</span> · <a href="https://dakrastudio.com">dakrastudio.com</a></div>
+<header class="top">
+ <div class="bar">
+  <a class="brand" href="#top" aria-label="Revolution Ink Tattoos">
+   <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#B8231B" stroke="#F1E6CC" stroke-width="2"/><path d="M20 7l3.7 8 8.6.9-6.4 5.8 1.8 8.5L20 25.9l-7.7 4.3 1.8-8.5-6.4-5.8 8.6-.9z" fill="#F1E6CC" stroke="#141110" stroke-width="1.4" stroke-linejoin="round"/></svg>
+   <span><b>Revolution Ink</b><small data-en="Tattoos · Columbia, TN" data-es="Tatuajes · Columbia, TN">Tattoos · Columbia, TN</small></span>
+  </a>
+  <div class="tools"><button class="lang" type="button" data-lang="es">Español</button><a class="call" href="tel:+19319815304" aria-label="Call (931) 981-5304"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span>(931) 981-5304</span></a></div>
+ </div>
+</header>
+<main id="top">
+<section class="hero">
+ <div class="mo deco" aria-hidden="true">
+  <svg class="pat" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fp" width="120" height="120" patternUnits="userSpaceOnUse"><path d="M30 14l3.5 7.4 8 .9-6 5.4 1.7 7.9L30 31.6l-7.2 4 1.7-7.9-6-5.4 8-.9z" fill="#F1E6CC"/><circle cx="90" cy="30" r="3" fill="#D9A520"/><path d="M80 84c6-10 18-10 22 0-6-4-14-4-22 0z" fill="#F1E6CC"/><path d="M20 90h14M27 83v14" stroke="#D9A520" stroke-width="3" stroke-linecap="round"/><circle cx="66" cy="104" r="2" fill="#F1E6CC"/></pattern></defs><rect width="100%" height="100%" fill="url(#fp)"/></svg>
+  <div class="glow a"></div><div class="glow b"></div>
+  <div class="bird"><svg viewBox="0 0 120 80" width="74"><path d="M8 40c18-4 34-2 46 6 6-14 20-30 46-38-10 10-18 20-22 30 10-4 22-4 34 0-14 4-26 10-34 18l10 20c-8-6-16-10-24-12-10 6-22 8-34 4 8-2 14-6 18-12-12-4-26-10-40-16z" fill="#1F4E8C" stroke="#F1E6CC" stroke-width="2.5" stroke-linejoin="round"/><path d="M54 46c4 6 10 10 18 12" fill="none" stroke="#B8231B" stroke-width="5" stroke-linecap="round"/><circle cx="20" cy="40" r="2" fill="#F1E6CC"/></svg></div>
+ </div>
+ <div class="wrap lay">
+  <div>
+   <span class="kick"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.7 1.5 6.8L12 17l-6.1 3.5 1.5-6.8L2.2 9l6.9-.7z" fill="#D9A520"/></svg><span data-en="Veteran-owned tattoo shop in Columbia, TN" data-es="Estudio de tatuajes de un veterano en Columbia, TN">Veteran-owned tattoo shop in Columbia, TN</span></span>
+   <h1>Revolution <span>Ink Tattoos</span></h1>
+   <div class="ribbon script" data-en="Custom work &amp; cover-ups" data-es="Diseños propios y cover-ups">Custom work &amp; cover-ups</div>
+   <p class="sub" data-en="Bring your idea and we'll draw it up just for you, or let us turn an old tattoo into something you're proud to show. Clean, professional studio on Hatcher Ln." data-es="Trae tu idea y la dibujamos solo para ti, o deja que convirtamos un tatuaje viejo en algo que te dé orgullo enseñar. Estudio limpio y profesional en Hatcher Ln.">Bring your idea and we'll draw it up just for you, or let us turn an old tattoo into something you're proud to show. Clean, professional studio on Hatcher Ln.</p>
+   <div class="ctas">
+    <a class="btn r" href="tel:+19319815304">📞 <span data-en="Call (931) 981-5304" data-es="Llamar (931) 981-5304">Call (931) 981-5304</span></a>
+    <a class="btn g" href="#book">🗓️ <span data-en="Book online" data-es="Agendar en línea">Book online</span></a>
+    <a class="btn c" href="https://www.google.com/maps/search/?api=1&amp;query=1510+Hatcher+Ln+Columbia+TN+38401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+   </div>
+   <p class="now" id="now"><i></i><span id="nowTxt"></span></p>
+  </div>
+  <div class="art" aria-hidden="true">
+   <div class="disc"></div>
+   <svg class="machine" viewBox="0 0 300 300">
+    <g class="buzz">
+     <!-- marco -->
+     <path d="M70 70h120a14 14 0 0 1 14 14v8H96v96H70z" fill="#4E5A2E" stroke="#141110" stroke-width="5" stroke-linejoin="round"/>
+     <circle cx="84" cy="84" r="5" fill="#D9A520" stroke="#141110" stroke-width="2"/>
+     <!-- bobinas -->
+     <rect x="104" y="96" width="34" height="72" rx="6" fill="#B8231B" stroke="#141110" stroke-width="5"/>
+     <rect x="146" y="96" width="34" height="72" rx="6" fill="#B8231B" stroke="#141110" stroke-width="5"/>
+     <path d="M104 116h34M104 132h34M104 148h34M146 116h34M146 132h34M146 148h34" stroke="#8E1812" stroke-width="3"/>
+     <rect x="98" y="168" width="88" height="10" rx="3" fill="#D9A520" stroke="#141110" stroke-width="4"/>
+     <!-- barra -->
+     <path d="M188 70l40-10" stroke="#141110" stroke-width="8" stroke-linecap="round"/>
+     <circle cx="230" cy="60" r="7" fill="#F1E6CC" stroke="#141110" stroke-width="4"/>
+     <path d="M228 66l-6 120" stroke="#141110" stroke-width="5"/>
+     <!-- tubo y grip -->
+     <rect x="208" y="150" width="28" height="70" rx="8" fill="#141110"/>
+     <path d="M212 160h20M212 172h20M212 184h20M212 196h20M212 208h20" stroke="#F1E6CC" stroke-width="2.5" opacity=".7"/>
+     <path d="M212 220h20l-6 30h-8z" fill="#D9A520" stroke="#141110" stroke-width="4" stroke-linejoin="round"/>
+     <path d="M222 250v14" stroke="#141110" stroke-width="3" stroke-linecap="round"/>
+     <!-- clip cord -->
+     <path d="M70 120c-30 10-40 60-20 110" fill="none" stroke="#141110" stroke-width="5" stroke-linecap="round"/>
+    </g>
+    <circle class="drop" cx="222" cy="268" r="5" fill="#141110"/>
+    <circle class="drop d2" cx="222" cy="268" r="4" fill="#B8231B"/>
+    <circle class="drop d3" cx="222" cy="268" r="5" fill="#141110"/>
+   </svg>
+   <div class="spin"><svg viewBox="0 0 40 40"><path d="M20 2l5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1z" fill="#D9A520" stroke="#141110" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+   <div class="spin2"><svg viewBox="0 0 40 40"><path d="M20 2l5 12 13 1-10 9 3 13-11-7-11 7 3-13-10-9 13-1z" fill="#B8231B" stroke="#F1E6CC" stroke-width="2.5" stroke-linejoin="round"/></svg></div>
+  </div>
+ </div>
+</section>
+
+<section class="paper" id="work">
+ <div class="wrap">
+  <p class="lbl" data-en="The flash sheet" data-es="La hoja de flash">The flash sheet</p>
+  <h2 data-en="What we do" data-es="Lo que hacemos">What we do</h2>
+  <p class="lead" data-en="Custom tattoos and cover-ups, done in a clean, professional studio. Not sure where to start? Book a consultation and talk it through." data-es="Tatuajes personalizados y cover-ups, en un estudio limpio y profesional. ¿No sabes por dónde empezar? Agenda una consulta y lo platicamos.">Custom tattoos and cover-ups, done in a clean, professional studio. Not sure where to start? Book a consultation and talk it through.</p>
+  <div class="flash">
+   <div class="fc rv"><span class="no">No. 1</span>
+    <svg viewBox="0 0 80 80" aria-hidden="true"><path d="M12 66l8-22 34-34 14 14-34 34z" fill="#F1E6CC" stroke="#141110" stroke-width="4" stroke-linejoin="round"/><path d="M12 66l8-22 14 14z" fill="#B8231B" stroke="#141110" stroke-width="4" stroke-linejoin="round"/><path d="M46 18l14 14" stroke="#141110" stroke-width="4"/></svg>
+    <h3 data-en="Custom tattoos" data-es="Tatuajes personalizados">Custom tattoos</h3>
+    <p data-en="Your idea, drawn up just for you. Bring a reference, a story or a rough sketch." data-es="Tu idea, dibujada solo para ti. Trae una referencia, una historia o un boceto.">Your idea, drawn up just for you. Bring a reference, a story or a rough sketch.</p>
+    <p class="pr" data-en="Price: $— · call for a quote" data-es="Precio: $— · llama para cotizar">Price: $— · call for a quote</p></div>
+   <div class="fc rv"><span class="no">No. 2</span>
+    <svg viewBox="0 0 80 80" aria-hidden="true"><path d="M40 70S10 50 10 30a15 15 0 0 1 30-6 15 15 0 0 1 30 6c0 20-30 40-30 40z" fill="#B8231B" stroke="#141110" stroke-width="4" stroke-linejoin="round"/><path d="M20 20l40 34" stroke="#141110" stroke-width="5" stroke-linecap="round"/><path d="M58 14l8 8-8 8" fill="none" stroke="#4E5A2E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h3 data-en="Cover-ups" data-es="Cover-ups">Cover-ups</h3>
+    <p data-en="Got a tattoo you'd rather not see? We'll look at it with you and plan a new design over it." data-es="¿Tienes un tatuaje que ya no quieres ver? Lo revisamos contigo y planeamos un diseño nuevo encima.">Got a tattoo you'd rather not see? We'll look at it with you and plan a new design over it.</p>
+    <p class="pr" data-en="Price: $— · depends on the piece" data-es="Precio: $— · depende de la pieza">Price: $— · depends on the piece</p></div>
+   <div class="fc rv"><span class="no">No. 3</span>
+    <svg viewBox="0 0 80 80" aria-hidden="true"><rect x="12" y="14" width="56" height="54" rx="6" fill="#F1E6CC" stroke="#141110" stroke-width="4"/><path d="M12 28h56" stroke="#141110" stroke-width="4"/><path d="M24 46l10 10 20-20" fill="none" stroke="#4E5A2E" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="21" r="3" fill="#B8231B"/></svg>
+    <h3 data-en="Consultations" data-es="Consultas">Consultations</h3>
+    <p data-en="Talk about size, placement and style before you commit. Book one online in a minute." data-es="Platica del tamaño, el lugar y el estilo antes de decidir. Agenda una en línea en un minuto.">Talk about size, placement and style before you commit. Book one online in a minute.</p>
+    <p class="pr" data-en="Price: $— · ask the studio" data-es="Precio: $— · pregunta al estudio">Price: $— · ask the studio</p></div>
+   <div class="fc rv"><span class="no">No. 4</span>
+    <svg viewBox="0 0 80 80" aria-hidden="true"><path d="M40 8l26 10v20c0 18-12 28-26 34C26 66 14 56 14 38V18z" fill="#4E5A2E" stroke="#141110" stroke-width="4" stroke-linejoin="round"/><path d="M40 24l4.4 9 9.9 1-7.4 6.6 2.1 9.7L40 45.4l-9 4.9 2.1-9.7-7.4-6.6 9.9-1z" fill="#D9A520" stroke="#141110" stroke-width="2.5" stroke-linejoin="round"/></svg>
+    <h3 data-en="Clean &amp; professional" data-es="Limpio y profesional">Clean &amp; professional</h3>
+    <p data-en="A clean, professional shop where you can relax and enjoy getting tattooed." data-es="Un estudio limpio y profesional donde puedes relajarte y disfrutar tu tatuaje.">A clean, professional shop where you can relax and enjoy getting tattooed.</p>
+    <p class="pr" data-en="1510 Hatcher Ln, Columbia" data-es="1510 Hatcher Ln, Columbia">1510 Hatcher Ln, Columbia</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="vet">
+ <div class="wrap lay">
+  <svg class="badge rv" viewBox="0 0 200 200" aria-hidden="true">
+   <circle cx="100" cy="100" r="94" fill="#141110" stroke="#D9A520" stroke-width="6"/>
+   <circle cx="100" cy="100" r="80" fill="none" stroke="#F1E6CC" stroke-width="2" stroke-dasharray="4 6"/>
+   <path d="M100 38l13 27 30 3-22 20 6 30-27-15-27 15 6-30-22-20 30-3z" fill="#B8231B" stroke="#F1E6CC" stroke-width="4" stroke-linejoin="round"/>
+   <path d="M72 146l3 6 7 .7-5 4.6 1.4 6.7-6.4-3.6-6.4 3.6 1.4-6.7-5-4.6 7-.7z" fill="#F1E6CC"/><path d="M100 146l3 6 7 .7-5 4.6 1.4 6.7-6.4-3.6-6.4 3.6 1.4-6.7-5-4.6 7-.7z" fill="#F1E6CC"/><path d="M128 146l3 6 7 .7-5 4.6 1.4 6.7-6.4-3.6-6.4 3.6 1.4-6.7-5-4.6 7-.7z" fill="#F1E6CC"/>
+   
+  </svg>
+  <div>
+   <p class="lbl rv" data-en="Veteran owned" data-es="De un veterano">Veteran owned</p>
+   <blockquote class="script rv"><span data-en="&ldquo;We are a veteran owned tattoo shop here in Columbia tn&rdquo;" data-es="&ldquo;Somos un estudio de tatuajes de un veterano aquí en Columbia, TN&rdquo;">&ldquo;We are a veteran owned tattoo shop here in Columbia tn&rdquo;</span><small data-en="From the Revolution Ink Tattoos Facebook page" data-es="De la página de Facebook de Revolution Ink Tattoos">From the Revolution Ink Tattoos Facebook page</small></blockquote>
+   <p class="rv" data-en="A local, veteran-owned shop that takes the work seriously. Fellow veterans and anyone with a story to carry are welcome to come talk about their next piece." data-es="Un estudio local, de un veterano, que toma el trabajo en serio. Veteranos y cualquiera con una historia que llevar en la piel son bienvenidos a platicar de su próxima pieza.">A local, veteran-owned shop that takes the work seriously. Fellow veterans and anyone with a story to carry are welcome to come talk about their next piece.</p>
+  </div>
+ </div>
+</section>
+
+<section class="paper">
+ <div class="wrap">
+  <p class="lbl" data-en="How it works" data-es="Cómo funciona">How it works</p>
+  <h2 data-en="From idea to ink" data-es="De la idea a la tinta">From idea to ink</h2>
+  <div class="steps">
+   <div class="st3 rv"><b>1</b><h3 data-en="Bring your idea" data-es="Trae tu idea">Bring your idea</h3><p data-en="A photo, a sketch, a name or a memory. Or show us the tattoo you want to cover." data-es="Una foto, un boceto, un nombre o un recuerdo. O enséñanos el tatuaje que quieres cubrir.">A photo, a sketch, a name or a memory. Or show us the tattoo you want to cover.</p></div>
+   <div class="st3 rv"><b>2</b><h3 data-en="Talk it through" data-es="Lo platicamos">Talk it through</h3><p data-en="Book a consultation online or call. We'll talk size, placement and how many sessions it may take." data-es="Agenda una consulta en línea o llama. Platicamos del tamaño, el lugar y cuántas sesiones podría llevar.">Book a consultation online or call. We'll talk size, placement and how many sessions it may take.</p></div>
+   <div class="st3 rv"><b>3</b><h3 data-en="Get tattooed" data-es="A tatuar">Get tattooed</h3><p data-en="Come in for your session at a clean, professional studio and leave with a piece you love." data-es="Ven a tu sesión en un estudio limpio y profesional y llévate una pieza que te encante.">Come in for your session at a clean, professional studio and leave with a piece you love.</p></div>
+  </div>
+  <div class="mid"><a class="btn r" href="#book">🗓️ <span data-en="Book online" data-es="Agendar en línea">Book online</span></a><a class="btn c" href="tel:+19319815304">📞 <span data-en="Call the studio" data-es="Llamar al estudio">Call the studio</span></a></div>
+ </div>
+</section>
+
+<script>window.BKCFG={name:"Revolution Ink Tattoos",open:{0:[9,17],1:[9,17],2:[9,17],3:[12,20],4:[12,20],5:[12,20],6:[12,20]},step:30,days:14,
+ services:[{id:"consult",en:"Consultation",es:"Consulta",min:30},{id:"small",en:"Small tattoo",es:"Tatuaje pequeño",min:60},{id:"custom",en:"Custom piece session",es:"Sesión de pieza personalizada",min:180},{id:"cover",en:"Cover-up consultation",es:"Consulta de cover-up",min:30}],
+ fee:{on:false,amt:10,hours:2}}</script>
+<!-- ==== Reservas de citas (Dakra Studio) · demo ==== -->
+<style>
+.bk{--k1:var(--bc,#B3261E);--k2:var(--bc2,#13213A);--kb:var(--bb,#F5EEDF);--ki:var(--bi,#14181F);--kf:var(--bf,system-ui,sans-serif);--kd:var(--bd,Georgia,serif);font-family:var(--kf);color:var(--ki);padding:64px 20px;background:var(--kb)}
+.bk *{box-sizing:border-box}
+.bk .bkw{max-width:980px;margin:0 auto}
+.bk h2{font:400 clamp(30px,5vw,46px)/1.05 var(--kd);margin:0 0 8px;color:var(--k2)}
+.bk .bkl{font-size:17px;margin:0 0 20px;max-width:620px;opacity:.85}
+.bk .bkdemo{font-size:13px;background:#fff;border:1px dashed rgba(0,0,0,.3);border-radius:10px;padding:8px 12px;margin:0 0 20px}
+.bk .bkt{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.bk .bkt button{border:2px solid var(--k2);background:#fff;color:var(--k2);border-radius:999px;padding:9px 16px;font:700 15px var(--kf);cursor:pointer}
+.bk .bkt button[aria-pressed=true]{background:var(--k2);color:#fff}
+.bk .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 0 rgba(0,0,0,.08);border:1px solid rgba(0,0,0,.08)}
+.bk .step{font:700 14px var(--kf);margin:14px 0 8px;color:var(--k2)}
+.bk .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.bk .chips button,.bk .slots button{flex:none;border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:12px;padding:9px 12px;font:600 14px var(--kf);cursor:pointer;color:var(--ki);min-height:44px}
+.bk .chips button[aria-pressed=true],.bk .slots button[aria-pressed=true]{background:var(--k1);border-color:var(--k1);color:#fff}
+.bk .chips button small{display:block;font-weight:500;font-size:12px;opacity:.75}
+.bk .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.bk .slots button:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.bk .empty{font-size:14px;opacity:.75;padding:6px 0}
+.bk .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bk label{font-size:13px;font-weight:700;display:block;margin-bottom:4px}
+.bk input[type=text],.bk input[type=tel],.bk input[type=number]{width:100%;border:1.5px solid rgba(0,0,0,.25);border-radius:10px;padding:11px 12px;font:16px var(--kf);color:var(--ki)}
+.bk .go{margin-top:14px;width:100%;border:0;background:var(--k1);color:#fff;border-radius:12px;padding:14px;font:800 16px var(--kf);cursor:pointer;min-height:50px}
+.bk .go:disabled{opacity:.45;cursor:not-allowed}
+.bk .sec{border:2px solid var(--k2);background:#fff;color:var(--k2)}
+.bk .feeNote{margin-top:12px;background:#FFF4D6;border-radius:10px;padding:10px 12px;font-size:14px}
+.bk .feeNote label{display:flex;gap:8px;align-items:flex-start;font-weight:600;margin:6px 0 0}
+.bk .msg{margin-top:12px;font-weight:700;min-height:1.4em}
+.bk .list{display:grid;gap:10px}
+.bk .ap{background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+.bk .ap .top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.bk .ap b{font-size:16px}
+.bk .st{font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.bk .st.ok{background:#DDF5E6;color:#0f6b36}.bk .st.mv{background:#E4E9FF;color:#2a3a9a}.bk .st.cx{background:#FDE2E0;color:#a3231a}.bk .st.ns{background:#FFE9C7;color:#8a5200}.bk .st.dn{background:#EAEAEA;color:#444}
+.bk .ap.cxd{opacity:.65}
+.bk .ap .acts{display:flex;gap:6px;flex-wrap:wrap}
+.bk .ap .acts button{border:1.5px solid rgba(0,0,0,.25);background:#fff;border-radius:10px;padding:7px 11px;font:700 13px var(--kf);cursor:pointer;color:var(--ki);min-height:38px}
+.bk .ap .acts .danger{border-color:#c0392b;color:#c0392b}
+.bk .hist{font-size:12px;opacity:.7}
+.bk .own{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.bk .own>*,.bk .card,.bk .chips,.bk .list{min-width:0}
+.bk .ap span{overflow-wrap:anywhere}
+.bk .msg:not(:empty){animation:bkpop .35s ease}
+@keyframes bkpop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bk .msg{animation:none!important}}
+.bk .set{display:grid;gap:10px}
+.bk .tog{display:flex;align-items:center;gap:10px;font-weight:700}
+.bk .tog input{width:22px;height:22px}
+.bk .moving{background:#E4E9FF;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+.bk .moving button{border:0;background:none;text-decoration:underline;font:700 14px var(--kf);cursor:pointer;color:#2a3a9a}
+.bk :focus-visible{outline:3px solid var(--k1);outline-offset:2px}
+@media(max-width:760px){.bk .own,.bk .f2{grid-template-columns:1fr}}
+</style>
+<section class="bk" id="book" aria-labelledby="bkH">
+ <div class="bkw">
+  <h2 id="bkH" class="bk-t" data-k="title"></h2>
+  <p class="bkl bk-t" data-k="lead"></p>
+  <p class="bkdemo bk-t" data-k="demo"></p>
+  <div class="bkt" role="group" id="bkTabs">
+   <button type="button" data-v="book" aria-pressed="true" class="bk-t" data-k="tBook"></button>
+   <button type="button" data-v="mine" aria-pressed="false" class="bk-t" data-k="tMine"></button>
+   <button type="button" data-v="owner" aria-pressed="false" class="bk-t" data-k="tOwner"></button>
+  </div>
+  <div id="bkView"></div>
+ </div>
+</section>
+<script>
+(function(){
+/* Configuración: horario y servicios de EJEMPLO (el estudio pone los suyos) */
+const BK=window.BKCFG||{name:"Barber Shop",open:{2:[9,18],3:[9,18],4:[9,18],5:[9,19],6:[8,16]},step:30,days:14,
+  services:[{id:"cut",en:"Haircut",es:"Corte",min:30},{id:"fade",en:"Fade",es:"Degradado",min:45},{id:"beard",en:"Beard trim",es:"Barba",min:15},{id:"combo",en:"Cut + beard",es:"Corte + barba",min:60},{id:"kids",en:"Kids' cut",es:"Corte de niño",min:30}],
+  fee:{on:false,amt:10,hours:2}};
+const KEY="dakra-bk-"+location.pathname;
+const T={
+ en:{title:"Book your session",lead:"Pick a consultation or a session, a day and a time. You'll get a confirmation right away, and you can cancel or move your appointment yourself.",
+  demo:"Demo: sample hours and services. On this sample, appointments are saved only on this phone. On the real website, the studio sees every booking on its own phone.",
+  tBook:"Book",tMine:"My appointments",tOwner:"Studio view",s1:"1. Service",s2:"2. Day",s3:"3. Time",s4:"4. Your info",name:"Name",phone:"Phone",
+  book:"Book appointment",move:"Move to this time",none:"No times left this day. Try another day.",closed:"Closed",
+  ok:c=>`✅ Booked! Your code is ${c}. You can cancel or move it in "My appointments".`,moved:"✅ Moved. The old time is free again.",
+  feeTxt:(a,h)=>`This studio charges a $${a} no-show fee if you miss your appointment without canceling at least ${h} hours before.`,feeOk:"I understand the no-show policy",
+  mineEmpty:"You don't have appointments yet.",cancel:"Cancel",resched:"Move",rebook:"Book again",
+  st:{ok:"Confirmed",mv:"Moved",cx:"Canceled",ns:"No-show",dn:"Done"},movingTo:"Moving appointment of",stop:"Stop",
+  ownerDay:"Day",ownerEmpty:"No appointments this day.",noshow:"No-show",done:"Done",chargeFee:a=>`Charge $${a} no-show fee`,charged:a=>`Fee of $${a} charged (demo)`,
+  settings:"Settings",feeOn:"Charge a no-show fee (optional)",feeAmt:"Fee amount ($)",feeH:"Free cancellation up to (hours before)",
+  feeInfo:"In the real website the fee is charged with the studio's own payment method (for example a deposit with a Square link).",
+  canceledBy:"Canceled",today:"Today",tomorrow:"Tomorrow",was:"was",sample:"Sample",chooseAll:"Choose a service, day and time, and write your name and phone.",
+  conf:"Cancel this appointment? The time will be free for someone else."},
+ es:{title:"Agenda tu sesión",lead:"Elige una consulta o una sesión, el día y la hora. Te confirmamos al instante y tú mismo puedes cancelar o mover tu cita.",
+  demo:"Demo: horario y servicios de ejemplo. En esta muestra las citas se guardan solo en este teléfono. En la página real, el estudio ve todas las citas desde su propio teléfono.",
+  tBook:"Agendar",tMine:"Mis citas",tOwner:"Vista del estudio",s1:"1. Servicio",s2:"2. Día",s3:"3. Hora",s4:"4. Tus datos",name:"Nombre",phone:"Teléfono",
+  book:"Agendar cita",move:"Mover a esta hora",none:"Ya no hay horas este día. Prueba otro día.",closed:"Cerrado",
+  ok:c=>`✅ ¡Listo! Tu código es ${c}. Puedes cancelar o mover tu cita en "Mis citas".`,moved:"✅ Cita movida. La hora anterior quedó libre.",
+  feeTxt:(a,h)=>`Este estudio cobra $${a} si no te presentas sin cancelar al menos ${h} horas antes.`,feeOk:"Entiendo la política de inasistencia",
+  mineEmpty:"Todavía no tienes citas.",cancel:"Cancelar",resched:"Mover",rebook:"Volver a agendar",
+  st:{ok:"Confirmada",mv:"Movida",cx:"Cancelada",ns:"No asistió",dn:"Atendida"},movingTo:"Moviendo la cita de",stop:"Dejar así",
+  ownerDay:"Día",ownerEmpty:"No hay citas este día.",noshow:"No asistió",done:"Atendida",chargeFee:a=>`Cobrar $${a} por no asistir`,charged:a=>`Se cobraron $${a} (demo)`,
+  settings:"Ajustes",feeOn:"Cobrar por no asistir (opcional)",feeAmt:"Monto ($)",feeH:"Cancelación gratis hasta (horas antes)",
+  feeInfo:"En la página real el cobro se hace con la forma de pago del propio negocio (por ejemplo, un depósito con link de Square).",
+  canceledBy:"Cancelada",today:"Hoy",tomorrow:"Mañana",was:"antes",sample:"Ejemplo",chooseAll:"Elige servicio, día y hora, y escribe tu nombre y teléfono.",
+  conf:"¿Cancelar esta cita? La hora quedará libre para alguien más."}};
+const L=()=>(document.documentElement.lang||"en").slice(0,2)==="es"?"es":"en";
+const t=k=>T[L()][k];
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const dkey=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseD=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtT=m=>{const h=Math.floor(m/60),mi=m%60;if(L()==="es")return h+":"+pad(mi);return((h+11)%12+1)+":"+pad(mi)+(h<12?" am":" pm")};
+const fmtD=k=>{const d=parseD(k),td=dkey(new Date()),tm=dkey(new Date(Date.now()+864e5));if(k===td)return t("today");if(k===tm)return t("tomorrow");return d.toLocaleDateString(L()==="es"?"es-MX":"en-US",{weekday:"short",month:"short",day:"numeric"})};
+const svc=id=>BK.services.find(s=>s.id===id)||BK.services[0];
+let S;
+function load(){try{S=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){S=null}
+  if(!S||!S.v){S={v:1,fee:{...BK.fee},ap:[],mine:[]};seed()}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function seed(){/* citas de ejemplo para que el dueño vea su agenda */
+  const days=nextDays().filter(d=>d.open).slice(0,2);
+  const names=[["Dustin","(931) 000-0101","consult"],["Kayla","(931) 000-0102","small"],["Marcus","(931) 000-0103","custom"]];
+  days.forEach((d,i)=>{const o=BK.open[parseD(d.k).getDay()];let m=o[0]*60+60*(i+1);
+    names.slice(i,i+2).forEach(n=>{S.ap.push({id:code(),day:d.k,start:m,svc:n[2],name:n[0],phone:n[1],st:"ok",sample:true,h:[]});m+=svc(n[2]).min})});}
+function code(){return Math.random().toString(36).slice(2,6).toUpperCase()}
+function nextDays(){const out=[];const b=new Date();b.setHours(0,0,0,0);for(let i=0;i<BK.days;i++){const d=new Date(b.getTime()+i*864e5);out.push({k:dkey(d),open:!!BK.open[d.getDay()]})}return out}
+const live=a=>a.st!=="cx";
+function free(day,start,min,ignore){/* inteligente: no se encima con otra cita; pegadas una tras otra sí */
+  const o=BK.open[parseD(day).getDay()];if(!o)return false;
+  if(start<o[0]*60||start+min>o[1]*60)return false;
+  if(day===dkey(new Date())){const n=new Date();if(start<=n.getHours()*60+n.getMinutes())return false}
+  return !S.ap.some(a=>a.id!==ignore&&a.day===day&&live(a)&&start<a.start+svc(a.svc).min&&a.start<start+min);}
+function slots(day,min,ignore){const o=BK.open[parseD(day).getDay()];if(!o)return[];const r=[];for(let m=o[0]*60;m+min<=o[1]*60;m+=BK.step)r.push({m,ok:free(day,m,min,ignore)});return r}
+let V="book",F={svc:BK.services[0].id,day:null,start:null},MOVE=null,OWNDAY=null,MSG="";
+function render(){
+  document.querySelectorAll("#book .bk-t").forEach(e=>{e.textContent=t(e.dataset.k)});
+  document.querySelectorAll("#bkTabs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===V));
+  const v=$("#bkView");
+  if(V==="book")v.innerHTML=bookView();else if(V==="mine")v.innerHTML=mineView();else v.innerHTML=ownerView();
+  wire();}
+function bookView(){
+  const days=nextDays();if(!F.day)F.day=(days.find(d=>d.open)||days[0]).k;
+  const s=svc(F.svc),mv=MOVE&&S.ap.find(a=>a.id===MOVE);
+  const sl=slots(F.day,mv?svc(mv.svc).min:s.min,MOVE);
+  const anyFree=sl.some(x=>x.ok);
+  return `<div class="card">
+   ${mv?`<div class="moving"><span>${esc(t("movingTo"))} ${esc(mv.name)} · ${esc(fmtD(mv.day))} ${esc(fmtT(mv.start))}</span><button type="button" id="bkStop">${esc(t("stop"))}</button></div>`:""}
+   ${mv?"":`<div class="step">${esc(t("s1"))}</div><div class="chips" id="bkSvc">${BK.services.map(x=>`<button type="button" data-id="${x.id}" aria-pressed="${x.id===F.svc}">${esc(x[L()])}<small>${x.min} min</small></button>`).join("")}</div>`}
+   <div class="step">${esc(t("s2"))}</div><div class="chips" id="bkDay">${days.map(d=>`<button type="button" data-k="${d.k}" aria-pressed="${d.k===F.day}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}${d.open?"":`<small>${esc(t("closed"))}</small>`}</button>`).join("")}</div>
+   <div class="step">${esc(t("s3"))}</div>${anyFree?`<div class="slots" id="bkSlots">${sl.map(x=>`<button type="button" data-m="${x.m}" ${x.ok?"":"disabled"} aria-pressed="${x.m===F.start}">${esc(fmtT(x.m))}</button>`).join("")}</div>`:`<p class="empty">${esc(t("none"))}</p>`}
+   ${mv?`<button class="go" type="button" id="bkGo" ${F.start==null?"disabled":""}>${esc(t("move"))}</button>`:`
+   <div class="step">${esc(t("s4"))}</div><div class="f2"><div><label for="bkN">${esc(t("name"))}</label><input type="text" id="bkN" autocomplete="name" value="${esc(F.name||"")}"></div><div><label for="bkP">${esc(t("phone"))}</label><input type="tel" id="bkP" autocomplete="tel" value="${esc(F.phone||"")}"></div></div>
+   ${S.fee.on?`<div class="feeNote">${esc(T[L()].feeTxt(S.fee.amt,S.fee.hours))}<label><input type="checkbox" id="bkFee" ${F.fee?"checked":""}> ${esc(t("feeOk"))}</label></div>`:""}
+   <button class="go" type="button" id="bkGo">${esc(t("book"))}</button>`}
+   <p class="msg" role="status">${esc(MSG)}</p></div>`;}
+function apCard(a,owner){
+  const st=a.st,cls={ok:"ok",mv:"mv",cx:"cx",ns:"ns",dn:"dn"}[st];
+  const s=svc(a.svc),past=a.day<dkey(new Date());
+  let acts="";
+  if(st==="ok"||st==="mv"){acts=`<button type="button" data-a="move" data-id="${a.id}">${esc(t("resched"))}</button><button type="button" class="danger" data-a="cancel" data-id="${a.id}">${esc(t("cancel"))}</button>`;
+    if(owner)acts+=`<button type="button" data-a="done" data-id="${a.id}">${esc(t("done"))}</button><button type="button" data-a="ns" data-id="${a.id}">${esc(t("noshow"))}</button>`;}
+  if(st==="cx"&&!owner)acts=`<button type="button" data-a="rebook" data-id="${a.id}">${esc(t("rebook"))}</button>`;
+  if(st==="ns"&&owner&&S.fee.on)acts=a.charged?`<span class="hist">${esc(T[L()].charged(S.fee.amt))}</span>`:`<button type="button" data-a="fee" data-id="${a.id}">${esc(T[L()].chargeFee(S.fee.amt))}</button>`;
+  const hist=(a.h||[]).map(h=>`${fmtD(h.day)} ${fmtT(h.start)}`).join(" → ");
+  return `<div class="ap ${st==="cx"?"cxd":""}"><div class="top"><b>${esc(fmtT(a.start))} · ${esc(s[L()])}${owner?" · "+esc(a.name):""}</b><span class="st ${cls}">${esc(t("st")[st])}</span></div>
+   <span>${owner?esc(a.phone)+" · ":""}${esc(fmtD(a.day))} · ${s.min} min${a.sample?" · "+esc(t("sample")):""} · #${esc(a.id)}</span>
+   ${hist?`<span class="hist">${esc(t("was"))}: ${esc(hist)}</span>`:""}
+   ${acts?`<div class="acts">${acts}</div>`:""}</div>`;}
+function mineView(){const mine=S.ap.filter(a=>S.mine.includes(a.id)).sort((a,b)=>(a.day+pad(a.start)).localeCompare(b.day+pad(b.start)));
+  return `<div class="list">${mine.length?mine.map(a=>apCard(a,false)).join(""):`<p class="empty">${esc(t("mineEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p>`;}
+function ownerView(){const days=nextDays();if(!OWNDAY)OWNDAY=(days.find(d=>S.ap.some(a=>a.day===d.k))||days.find(d=>d.open)||days[0]).k;
+  const list=S.ap.filter(a=>a.day===OWNDAY).sort((a,b)=>a.start-b.start);
+  return `<div class="own"><div><div class="step">${esc(t("ownerDay"))}</div><div class="chips" id="bkOD">${days.map(d=>{const n=S.ap.filter(a=>a.day===d.k&&live(a)).length;return `<button type="button" data-k="${d.k}" aria-pressed="${d.k===OWNDAY}" ${d.open?"":"disabled"}>${esc(fmtD(d.k))}<small>${d.open?n+" ★":esc(t("closed"))}</small></button>`}).join("")}</div>
+   <div class="list" style="margin-top:12px">${list.length?list.map(a=>apCard(a,true)).join(""):`<p class="empty">${esc(t("ownerEmpty"))}</p>`}</div><p class="msg" role="status">${esc(MSG)}</p></div>
+   <div class="card set"><b>${esc(t("settings"))}</b><label class="tog"><input type="checkbox" id="bkFeeOn" ${S.fee.on?"checked":""}> ${esc(t("feeOn"))}</label>
+   ${S.fee.on?`<div class="f2"><div><label for="bkFeeAmt">${esc(t("feeAmt"))}</label><input type="number" min="1" id="bkFeeAmt" value="${S.fee.amt}"></div><div><label for="bkFeeH">${esc(t("feeH"))}</label><input type="number" min="0" id="bkFeeH" value="${S.fee.hours}"></div></div>`:""}
+   <p class="hist">${esc(t("feeInfo"))}</p></div></div>`;}
+function act(a,id){const ap=S.ap.find(x=>x.id===id);if(!ap)return;MSG="";
+  if(a==="cancel"){if(!confirmSafe(t("conf")))return;ap.st="cx";}
+  if(a==="move"){MOVE=id;F.day=ap.day;F.start=null;V="book";}
+  if(a==="rebook"){F.svc=ap.svc;F.name=ap.name;F.phone=ap.phone;F.day=null;F.start=null;V="book";}
+  if(a==="done")ap.st="dn";if(a==="ns")ap.st="ns";if(a==="fee")ap.charged=true;
+  save();render();}
+function confirmSafe(m){try{return window.confirm(m)}catch(e){return true}}
+function wire(){
+  document.querySelectorAll("#bkSvc button").forEach(b=>b.onclick=()=>{F.svc=b.dataset.id;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkDay button").forEach(b=>b.onclick=()=>{F.day=b.dataset.k;F.start=null;MSG="";render()});
+  document.querySelectorAll("#bkSlots button").forEach(b=>b.onclick=()=>{F.start=+b.dataset.m;keep();MSG="";render()});
+  document.querySelectorAll("#bkOD button").forEach(b=>b.onclick=()=>{OWNDAY=b.dataset.k;MSG="";render()});
+  document.querySelectorAll("#bkView [data-a]").forEach(b=>b.onclick=()=>act(b.dataset.a,b.dataset.id));
+  const st=$("#bkStop");if(st)st.onclick=()=>{MOVE=null;F.start=null;V=S.mine.length?"mine":"book";render()};
+  const fo=$("#bkFeeOn");if(fo)fo.onchange=()=>{S.fee.on=fo.checked;save();render()};
+  const fa=$("#bkFeeAmt");if(fa)fa.onchange=()=>{S.fee.amt=Math.max(1,+fa.value||1);save()};
+  const fh=$("#bkFeeH");if(fh)fh.onchange=()=>{S.fee.hours=Math.max(0,+fh.value||0);save()};
+  const fe=$("#bkFee");if(fe)fe.onchange=()=>{F.fee=fe.checked};
+  const go=$("#bkGo");if(go)go.onclick=submit;}
+function keep(){const n=$("#bkN"),p=$("#bkP");if(n)F.name=n.value;if(p)F.phone=p.value}
+function submit(){keep();
+  if(MOVE){const ap=S.ap.find(a=>a.id===MOVE);if(!ap||F.start==null)return;
+    if(!free(F.day,F.start,svc(ap.svc).min,ap.id)){MSG="";render();return}
+    ap.h=(ap.h||[]).concat([{day:ap.day,start:ap.start}]);ap.day=F.day;ap.start=F.start;ap.st="mv";MOVE=null;F.start=null;MSG=t("moved");save();V=S.mine.includes(ap.id)?"mine":"owner";if(V==="owner")OWNDAY=ap.day;render();return}
+  const s=svc(F.svc);
+  if(F.start==null||!(F.name||"").trim()||!(F.phone||"").trim()||(S.fee.on&&!F.fee)){MSG=t("chooseAll");render();return}
+  if(!free(F.day,F.start,s.min)){F.start=null;render();return}
+  const id=code();S.ap.push({id,day:F.day,start:F.start,svc:F.svc,name:F.name.trim(),phone:F.phone.trim(),st:"ok",h:[],fee:S.fee.on?{amt:S.fee.amt,hours:S.fee.hours}:null});S.mine.push(id);
+  F.start=null;F.fee=false;MSG=T[L()].ok(id);save();render();}
+document.querySelectorAll("#bkTabs button").forEach(b=>b.onclick=()=>{V=b.dataset.v;MOVE=null;MSG="";render()});
+load();render();
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+})();
+</script>
+<!-- ==== fin reservas ==== -->
+
+
+<section class="visit" id="visit">
+ <div class="wrap">
+  <p class="lbl" data-en="Visit the studio" data-es="Visita el estudio">Visit the studio</p>
+  <h2 data-en="Find us on Hatcher Ln" data-es="Estamos en Hatcher Ln">Find us on Hatcher Ln</h2>
+  <div class="vg">
+   <div class="vcard rv">
+    <h3 data-en="Hours" data-es="Horario">Hours</h3>
+    <ul class="hrs" id="hrs"></ul>
+    <p class="note" data-en="Hours may vary, call to confirm." data-es="El horario puede cambiar, llama para confirmar.">Hours may vary, call to confirm.</p>
+   </div>
+   <div class="vcard rv">
+    <h3 data-en="Address &amp; contact" data-es="Dirección y contacto">Address &amp; contact</h3>
+    <p>1510 Hatcher Ln<br>Columbia, TN 38401</p>
+    <p>📞 <a class="link" href="tel:+19319815304">(931) 981-5304</a></p>
+    <p>✉️ <a class="link" href="mailto:Joshuablaine11@gmail.com">Joshuablaine11@gmail.com</a></p>
+    <p>👍 <a class="link" href="https://www.facebook.com/p/Revolution-Ink-Tattoos-61578109116336/" target="_blank" rel="noopener" data-en="Revolution Ink Tattoos on Facebook" data-es="Revolution Ink Tattoos en Facebook">Revolution Ink Tattoos on Facebook</a></p>
+    <div class="ctas"><a class="btn g" href="https://www.google.com/maps/search/?api=1&amp;query=1510+Hatcher+Ln+Columbia+TN+38401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a><a class="btn c" href="#book">🗓️ <span data-en="Book online" data-es="Agendar en línea">Book online</span></a></div>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+<footer>Revolution Ink Tattoos · 1510 Hatcher Ln, Columbia, TN 38401 · <a href="tel:+19319815304">(931) 981-5304</a><br><span data-en="Sample website by" data-es="Página de muestra por">Sample website by</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+<script>
+(function(){
+  let lang="en";
+  const TT={en:"Revolution Ink Tattoos · Veteran-owned tattoo shop · Columbia, TN",es:"Revolution Ink Tattoos · Estudio de tatuajes de un veterano · Columbia, TN"};
+  const H={0:[9,17],1:[9,17],2:[9,17],3:[12,20],4:[12,20],5:[12,20],6:[12,20]};
+  const DN={en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],es:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"]};
+  const f=h=>((h+11)%12+1)+(h>=12?" pm":" am");
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  function hours(){const t=now();
+    document.getElementById("hrs").innerHTML=[1,2,3,4,5,6,0].map(d=>`<li class="${d===t.d?"today":""}"><span>${DN[lang][d]}</span><span>${f(H[d][0])} – ${f(H[d][1])}</span></li>`).join("");
+    const r=H[t.d],el=document.getElementById("now"),tx=document.getElementById("nowTxt");
+    if(t.h>=r[0]&&t.h<r[1]){el.className="now open";tx.textContent=lang==="en"?`Open now until ${f(r[1])} (call to confirm)`:`Abierto ahora hasta las ${f(r[1])} (llama para confirmar)`;}
+    else{let d=t.d;if(t.h>=r[0])d=(d+1)%7;const td=d===t.d;el.className="now";
+      tx.textContent=lang==="en"?`Closed now · opens ${td?"today":DN.en[d]} at ${f(H[d][0])}`:`Cerrado ahora · abre ${td?"hoy":"el "+DN.es[d].toLowerCase()} a las ${f(H[d][0])}`;}}
+  function render(){document.documentElement.lang=lang;document.title=TT[lang];
+    document.querySelectorAll("[data-en]:not(.bot-l)").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=lang==="en"?"Español":"English";b.dataset.lang=lang==="en"?"es":"en"});
+    hours();}
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+  const els=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});els.forEach(e=>io.observe(e))}
+  else els.forEach(e=>e.classList.add("in"));
+})();
+</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Revolution Ink Tattoos assistant" hidden>
+  <div class="bh"><div><b>Revolution Ink Tattoos</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Revolution Ink Tattoos",color:"#B8231B",color2:"#141110",ink:"#141110",bg:"#F1E6CC",font:"'Work Sans',system-ui,sans-serif",display:"Ultra,Georgia,serif",
+  tel:"+19319815304",telTxt:"(931) 981-5304",maps:"https://www.google.com/maps/search/?api=1&query=1510+Hatcher+Ln+Columbia+TN+38401",address:"1510 Hatcher Ln, Columbia, TN 38401",
+  H:[[9,17],[9,17],[9,17],[12,20],[12,20],[12,20],[12,20]]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAPS=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`,MAIL=`<a href="mailto:Joshuablaine11@gmail.com">Joshuablaine11@gmail.com</a>`,FB=`<a href="https://www.facebook.com/p/Revolution-Ink-Tattoos-61578109116336/" target="_blank" rel="noopener">Facebook</a>`;
+const INTENTS=[
+  {k:"thanks",re:/gracias|thank|thx/i,en:()=>"You're welcome! Hope to see you at the studio. ★",es:()=>"¡Con gusto! Esperamos verte en el estudio. ★"},
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos d[ií]as|buenas tardes|buenas noches|qu[eé] tal|hi|hello|hey|yo|good (morning|afternoon|evening))[\s!.,¡]*$/i,en:()=>"Hey there! ★ Ask me about booking, custom tattoos, cover-ups, aftercare, hours or how to find us.",es:()=>"¡Hola! ★ Pregúntame por citas, tatuajes personalizados, cover-ups, cuidados, horario o cómo llegar."},
+  {k:"care",re:/aftercare|after care|\bcare\b|cuidad|cuido|cuidar|heal|sanar|cicatriz|curar|curaci|lotion|crema|pomada|ointment|wash|lavar|scab|costra|peel|pela|itch|comez[oó]n|swim|nadar|alberca|pool|sunlight|sunburn|\bsol\b|infect/i,en:()=>`Always follow the aftercare instructions your artist gives you. In general: keep it clean, wash gently with mild soap and pat it dry, use a thin layer of unscented lotion or ointment, don't pick or scratch, and skip pools, baths and strong sun while it heals. 🧴\nQuestions about your tattoo? Call ${TEL}. If it looks infected, see a doctor.`,es:()=>`Sigue siempre las instrucciones de cuidado que te dé tu tatuador. En general: mantenlo limpio, lávalo suave con jabón neutro y sécalo a toques, usa una capa delgada de crema o pomada sin perfume, no te rasques ni quites costras, y evita albercas, tinas y sol fuerte mientras sana. 🧴\n¿Dudas sobre tu tatuaje? Llama al ${TEL}. Si se ve infectado, ve con un médico.`},
+  {k:"cover",re:/cover|cubrir|cubra|tapar|tape|old tattoo|tatuaje viejo|tatuaje (que no|feo)|ex.?s name|nombre de mi ex|fix (my|a|an old) tattoo|arreglar (mi|un) tatuaje|rework|retocar/i,en:()=>`Yes, we do cover-ups! The best first step is a cover-up consultation so the artist can see the old tattoo and plan the new design. <a href="#book">Book a cover-up consultation</a> or call ${TEL}.`,es:()=>`¡Sí, hacemos cover-ups! Lo mejor es empezar con una consulta de cover-up para que el tatuador vea el tatuaje viejo y planee el diseño nuevo. <a href="#book">Agenda una consulta de cover-up</a> o llama al ${TEL}.`},
+  {k:"piercing",re:/piercing|perfora|arete|earring|laser|l[aá]ser|remov|quitar (un|mi) tatuaje|borrar/i,en:()=>`This page lists custom tattoos and cover-ups. For anything else (piercing, removal and so on), please call ${TEL} to ask.`,es:()=>`En esta página aparecen tatuajes personalizados y cover-ups. Para cualquier otra cosa (perforaciones, quitar tatuajes, etc.), llama al ${TEL} para preguntar.`},
+  {k:"wait",re:/walk.?in|sin cita|llegar sin|just (show|come|walk)|same.?day|hoy mismo|wait|espera|fila|\bline\b/i,en:()=>`Walk-ins aren't confirmed here, so please call ${TEL} before coming. The surest way is to <a href="#book">book a time online</a>.`,es:()=>`No tenemos confirmado si atienden sin cita, así que llama al ${TEL} antes de ir. Lo más seguro es <a href="#book">agendar una hora en línea</a>.`},
+  {k:"age",re:/\bage\b|how old|edad|a[ñn]os tengo|cu[aá]ntos a[ñn]os|\b1[5-8]\b|minor|menor|parent|padres|permiso|consent|\bid\b|identific|licen/i,en:()=>`Please call ${TEL} to ask about age and ID requirements before your appointment. 🪪`,es:()=>`Llama al ${TEL} para preguntar por los requisitos de edad e identificación antes de tu cita. 🪪`},
+  {k:"time",re:/how long|cu[aá]nto (tarda|dura|tiempo)|tardan|tarda|dura|how many (hours|sessions)|cu[aá]ntas (horas|sesiones)|sessions|sesiones/i,en:()=>"It depends on the size, detail and placement. A small tattoo can take around an hour, and a big custom piece may need one or more long sessions (in online booking a custom session is 3 hours). The artist can give you a better idea at your <a href=\"#book\">consultation</a>. ⏱️",es:()=>"Depende del tamaño, el detalle y el lugar. Un tatuaje pequeño puede llevar como una hora, y una pieza grande personalizada puede necesitar una o varias sesiones largas (en la agenda en línea una sesión personalizada es de 3 horas). El tatuador te dará una mejor idea en tu <a href=\"#book\">consulta</a>. ⏱️"},
+  {k:"pain",re:/duele|dolor|doler|hurt|pain|painful|ouch|miedo|scared|nervous|nervios/i,en:()=>`Everyone feels it a little differently, and some spots are more sensitive than others (bony areas usually more). Most people find it very manageable. Eat beforehand, get some rest and drink water. Nervous? Tell your artist, or call ${TEL} and ask anything. 💪`,es:()=>`Cada quien lo siente distinto, y unas partes son más sensibles que otras (las zonas de hueso suelen doler más). La mayoría dice que se aguanta muy bien. Come antes, descansa y toma agua. ¿Nervios? Díselo a tu tatuador, o llama al ${TEL} y pregunta lo que quieras. 💪`},
+  {k:"deposit",re:/dep[oó]sit|anticipo|adelanto|down payment|apartado/i,en:()=>`To ask whether a deposit is needed and how it works, please call ${TEL}.`,es:()=>`Para preguntar si piden depósito y cómo funciona, llama al ${TEL}.`},
+  {k:"vet",re:/veteran|veterano|military|militar|army|ej[eé]rcito|navy|marina|marine|air force|fuerza a[eé]rea|\bvets?\b|served|soldier|soldado/i,en:()=>`Revolution Ink Tattoos is a veteran-owned tattoo shop here in Columbia. ★ Fellow veterans are welcome to come talk about a piece. To ask about anything specific for veterans, call ${TEL}.`,es:()=>`Revolution Ink Tattoos es un estudio de tatuajes de un veterano aquí en Columbia. ★ Los veteranos son bienvenidos a platicar de su pieza. Para preguntar algo especial para veteranos, llama al ${TEL}.`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|\bcobra|price|how much|cost|\brates?\b|tarifa|minimum|m[ií]nimo|quote|cotiza|cheap|barato/i,en:()=>`Prices aren't posted here, since each tattoo depends on size, detail and placement. Call ${TEL} for a quote, or <a href="#book">book a consultation</a>. 💵`,es:()=>`Los precios no están en la página, porque cada tatuaje depende del tamaño, el detalle y el lugar. Llama al ${TEL} para cotizar, o <a href="#book">agenda una consulta</a>. 💵`},
+  {k:"design",re:/own design|my (own )?(idea|design|drawing|sketch)|bring (my|a|an)|draw|dibuj|dise[ñn]|design|sketch|boceto|custom|personaliz|flash|\bidea|referenc|foto|photo|picture|imagen/i,en:()=>`Bring your idea! A photo, a sketch, a reference or just a story, and the artist will draw a custom design for you. A <a href="#book">consultation</a> is a great place to start, or call ${TEL}. ✍️`,es:()=>`¡Trae tu idea! Una foto, un boceto, una referencia o solo una historia, y el tatuador te dibuja un diseño personalizado. Una <a href="#book">consulta</a> es buen comienzo, o llama al ${TEL}. ✍️`},
+  {k:"book",re:/cita|agend|reserv|apart|turno|appointment|book|schedule|reschedul|cancel|mover|move my|consult/i,en:()=>"You can book online right here: pick a consultation or a session, a day and a time, and cancel or move it yourself in \"My appointments\". <a href=\"#book\">Book now</a>",es:()=>"Puedes agendar en línea aquí mismo: eliges consulta o sesión, día y hora, y tú mismo cancelas o mueves tu cita en \"Mis citas\". <a href=\"#book\">Agendar ahora</a>"},
+  {k:"open",re:/abierto|abren|abre\b|est[aá]n abiertos|open|horario|hora|cierra|cierran|hours|close|when|cu[aá]ndo|today|hoy|domingo|sunday|s[aá]bado|saturday|lunes|monday|weekend|fin de semana/i,en:()=>`${STATUS().en}\n\n${HOURS("en")}\n\nHours may vary, call ${TEL} to confirm. ⏰`,es:()=>`${STATUS().es}\n\n${HOURS("es")}\n\nEl horario puede cambiar, llama al ${TEL} para confirmar. ⏰`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion|hatcher|find you/i,en:()=>`We're at ${MAPS}. 📍 For parking details, give us a call at ${TEL}.`,es:()=>`Estamos en ${MAPS}. 📍 Para saber dónde estacionarte, llámanos al ${TEL}.`},
+  {k:"group",re:/grupo|group|friends|amig|pareja|couple|matching|iguales|evento|event|party|fiesta|varios|several people/i,en:()=>`Matching tattoos or a group coming in together? Call ${TEL} so the studio can plan the time for everyone. 👥`,es:()=>`¿Tatuajes iguales o vienen varios juntos? Llama al ${TEL} para que el estudio organice el tiempo para todos. 👥`},
+  {k:"first",re:/first tattoo|primer tatuaje|recommend|recomi|suggest|suger|qu[eé] me (tat[uú]o|conviene|recomiendas)|what should i get|no s[eé] qu[eé]/i,en:()=>`First tattoo or not sure what to get? Book a <a href="#book">consultation</a> and talk about size, placement and style with the artist, no rush. Or call ${TEL}. ★`,es:()=>`¿Tu primer tatuaje o no sabes qué hacerte? Agenda una <a href="#book">consulta</a> y platica con el tatuador del tamaño, el lugar y el estilo, sin prisa. O llama al ${TEL}. ★`},
+  {k:"services",re:/servic|what do you|qu[eé] hacen|tattoo|tatua(?!dor)|tatto|style|estilo|black|color|lettering|letras|nombre|name/i,en:()=>`We do custom tattoos and cover-ups in a clean, professional studio. To ask about a specific style, call ${TEL}, or <a href="#book">book a consultation</a>.`,es:()=>`Hacemos tatuajes personalizados y cover-ups en un estudio limpio y profesional. Para preguntar por un estilo en especial, llama al ${TEL}, o <a href="#book">agenda una consulta</a>.`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|\bcards?\b|credit|debit|apple ?pay|zelle|cash ?app|venmo|aceptan|accept|gift|regalo|financ/i,en:()=>`To confirm payment options (and gift certificates), please call ${TEL}. 💳`,es:()=>`Para confirmar las formas de pago (y certificados de regalo), llama al ${TEL}. 💳`},
+  {k:"special",re:/especial|promo|oferta|descuento|discount|deal|special|coupon|cup[oó]n|friday the 13|viernes 13/i,en:()=>`For current specials, call ${TEL} or check our ${FB} page. ✨`,es:()=>`Para promociones actuales, llama al ${TEL} o revisa nuestra página de ${FB}. ✨`},
+  {k:"deliver",re:/domicilio|a casa|house call|home visit|come to (me|my)|mobile|m[oó]vil|deliver|entrega|env[ií]o|ship|recoger|pick ?up|pedido|order/i,en:()=>`Tattoos are done at the studio, ${MAPS}. For anything else, call ${TEL}.`,es:()=>`Los tatuajes se hacen en el estudio, ${MAPS}. Para cualquier otra cosa, llama al ${TEL}.`},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|idioma|do you speak|language/i,en:()=>"This website works in English and Spanish. To ask which languages are spoken at the studio, give us a call. 🗣️",es:()=>"Esta página está en inglés y español. Para preguntar qué idiomas se hablan en el estudio, llámanos. 🗣️"},
+  {k:"person",re:/persona|humano|due[ñn]|encargad|tatuador|artista|hablar con|llamar|tel[eé]fono|n[uú]mero|correo|email|e-mail|facebook|human|person|someone|talk to|speak to|owner|artist|call|phone|contact|message/i,en:()=>`Of course! Call the studio at ${TEL}, email ${MAIL} or message us on ${FB}. 📞`,es:()=>`¡Claro! Llama al estudio al ${TEL}, escribe a ${MAIL} o mándanos mensaje en ${FB}. 📞`}
+];
+const CHIPS={en:[["book","Book online"],["open","Hours"],["cover","Cover-ups"],["design","Bring my idea"],["care","Aftercare"],["price","Prices"],["where","Directions"],["person","Talk to us"]],
+             es:[["book","Agendar"],["open","Horario"],["cover","Cover-ups"],["design","Traer mi idea"],["care","Cuidados"],["price","Precios"],["where","Cómo llegar"],["person","Hablar con alguien"]]};
+const TXT={en:{hi:"Hey! 👋 I'm the Revolution Ink Tattoos assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet. Call ${TEL} and the studio will gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Revolution Ink Tattoos. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía. Llama al ${TEL} y con gusto te ayudan en el estudio.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
