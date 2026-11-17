@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kaki Japanese Cuisine · Hibachi on Wheels · Lewisburg, TN</title>
+<meta name="description" content="Kaki Hibachi Grill on wheels: hibachi steak, chicken, shrimp and combos in Lewisburg, TN. Call 931-841-8073 for pickup orders.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Figtree:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --steel:#121212; --steel-2:#1b1b1c; --steel-3:#262628; --edge:#38383b;
+  --flame:#ff6a1a; --red:#d7261e; --gold:#f2b630; --rice:#f6efe2; --smoke:#a9a39a;
+  --disp:'Dela Gothic One',Impact,sans-serif; --body:'Figtree',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--steel);color:var(--rice);font:400 17px/1.55 var(--body);overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+[hidden]{display:none!important}
+.t-es{display:none} html[lang=es] .t-es{display:revert} html[lang=es] .t-en{display:none}
+
+.demo{background:var(--gold);color:#111;font:700 13px/1.45 var(--body);text-align:center;padding:8px 16px}
+.demo a{color:#111;font-weight:900}
+
+.bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px clamp(16px,4vw,44px);background:rgba(18,18,18,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--edge)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:54px;height:36px;object-fit:cover;object-position:left;border-radius:8px}
+.brand b{font:400 22px/1 var(--disp);letter-spacing:.04em}
+.brand small{display:block;font:700 11px var(--body);color:var(--smoke);letter-spacing:.08em;text-transform:uppercase}
+.bar nav{display:flex;gap:8px;align-items:center}
+.lang{display:flex;border:1.5px solid var(--edge);border-radius:99px;overflow:hidden}
+.lang button{background:none;border:0;padding:6px 10px;font:800 12px var(--body);color:var(--smoke)}
+.lang button[aria-pressed=true]{background:var(--rice);color:#111}
+.call{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;text-decoration:none;font:800 14px var(--body);padding:9px 14px;border-radius:99px}
+.call svg{width:16px;height:16px}
+
+/* Portada: la plancha */
+.hero{position:relative;overflow:hidden;isolation:isolate;padding:56px clamp(16px,5vw,64px) 90px}
+.griddle{position:absolute;inset:0;z-index:-3;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 2px,transparent 2px 7px),
+  radial-gradient(70% 60% at 70% 110%,rgba(255,106,26,.35),transparent 70%),
+  radial-gradient(50% 40% at 20% 0%,rgba(215,38,30,.18),transparent 70%),
+  linear-gradient(180deg,#141414,#0d0d0d)}
+.flames{position:absolute;left:0;right:0;bottom:-6px;width:100%;height:120px;z-index:-1;pointer-events:none}
+.flames path{transform-origin:50% 100%;animation:flick 1.4s ease-in-out infinite alternate}
+.flames path:nth-child(2){animation-duration:1.1s;animation-delay:-.4s}
+.flames path:nth-child(3){animation-duration:1.7s;animation-delay:-.8s}
+.sparks{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.sparks i{position:absolute;bottom:-10px;width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px 2px rgba(255,140,40,.8);animation:ember linear infinite;opacity:0}
+.hero-in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.kick{display:inline-flex;align-items:center;gap:8px;font:800 13px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.kick::before{content:"";width:28px;height:3px;background:var(--gold)}
+.hero h1{font:400 clamp(52px,9vw,112px)/.92 var(--disp);margin:14px 0 16px;letter-spacing:-.01em;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 em{font-style:normal;color:var(--flame);display:block}
+.lead{font-size:clamp(17px,1.7vw,20px);color:#ddd5c8;max-width:38ch;animation:rise .9s .12s cubic-bezier(.2,.8,.2,1) both}
+.stop{margin-top:26px;background:var(--steel-2);border:1.5px solid var(--edge);border-left:6px solid var(--flame);border-radius:16px;padding:18px 18px 16px;max-width:460px;animation:rise .9s .24s cubic-bezier(.2,.8,.2,1) both}
+.stop .lbl{font:800 12px var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--flame);display:flex;align-items:center;gap:8px}
+.stop .lbl i{width:9px;height:9px;border-radius:50%;background:#45e07a;box-shadow:0 0 0 4px rgba(69,224,122,.25);animation:pulse 1.6s ease-in-out infinite}
+.stop h3{font:900 21px/1.25 var(--body);margin:8px 0 4px}
+.stop p{color:var(--smoke);font-size:15px}
+.stop .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;font:800 16px var(--body);text-decoration:none;border:0}
+.btn.fire{background:var(--flame);color:#111}
+.btn.fire:hover{background:#ff7f3a}
+.btn.line{border:2px solid var(--rice);color:var(--rice);background:transparent}
+.btn.red{background:var(--red);color:#fff}
+.photo{position:relative;justify-self:center;width:min(100%,460px)}
+.photo .truck{border-radius:22px;border:3px solid var(--rice);box-shadow:14px 14px 0 var(--red);transform:rotate(2deg);animation:park 1s .2s cubic-bezier(.2,.9,.25,1.15) both}
+.photo .plate{position:absolute;left:-26px;bottom:-34px;width:46%;border-radius:50%;aspect-ratio:1;object-fit:cover;border:5px solid var(--steel);box-shadow:0 14px 30px rgba(0,0,0,.6)}
+.steam{position:absolute;left:4%;bottom:12%;width:30%;height:40%;pointer-events:none}
+.steam span{position:absolute;bottom:0;width:16px;height:60px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.55),transparent);filter:blur(6px);animation:steam 3.2s ease-in infinite;opacity:0}
+.steam span:nth-child(1){left:20%}.steam span:nth-child(2){left:45%;animation-delay:1s}.steam span:nth-child(3){left:70%;animation-delay:2s}
+
+section{padding:76px clamp(16px,5vw,64px)}
+.wrap{max-width:1180px;margin:0 auto}
+.h2{font:400 clamp(38px,6vw,64px)/1 var(--disp);margin-bottom:10px}
+.h2 span.ac{color:var(--flame)}
+.sub{color:var(--smoke);max-width:56ch;margin-bottom:30px}
+
+/* Arma tu combo */
+.combo{background:linear-gradient(180deg,#191919,#121212);border-top:1px solid var(--edge);border-bottom:1px solid var(--edge)}
+.tickets{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.ticket{position:relative;background:var(--rice);color:#111;border:0;border-radius:10px;padding:14px 26px;font:400 22px var(--disp);display:flex;align-items:baseline;gap:12px;transition:transform .2s}
+.ticket::before,.ticket::after{content:"";position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#161616;transform:translateY(-50%)}
+.ticket::before{left:-9px}.ticket::after{right:-9px}
+.ticket small{font:900 18px var(--body);color:var(--red)}
+.ticket[aria-pressed=true]{background:var(--gold);transform:rotate(-2deg) scale(1.04)}
+.prots{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+.prot{background:var(--steel-3);border:2px solid var(--edge);border-radius:14px;padding:14px 8px;font:800 16px var(--body);text-align:center}
+.prot span{display:block;font-size:26px;margin-bottom:4px}
+.prot[aria-pressed=true]{border-color:var(--flame);background:#2b1a10;box-shadow:0 0 0 3px rgba(255,106,26,.25)}
+.prot[data-off=true]{opacity:.4}
+.prot.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.order{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--steel-2);border:1.5px dashed var(--edge);border-radius:16px;padding:16px 18px}
+.order p{flex:1;min-width:220px;font-size:16px}
+.order b{color:var(--gold)}
+.order .tot{font:400 28px var(--disp);color:var(--rice)}
+.note{font-size:13px;color:var(--smoke);margin-top:10px}
+
+/* Menú */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{background:transparent;border:2px solid var(--edge);border-radius:99px;padding:9px 16px;font:800 15px var(--body)}
+.tabs button[aria-selected=true]{background:var(--red);border-color:var(--red);color:#fff}
+.dishes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.dish{background:var(--steel-2);border:1.5px solid var(--edge);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,border-color .25s}
+.dish:hover{transform:translateY(-4px);border-color:var(--flame)}
+.dish img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.dish .b{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.dish .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.dish h3{font:900 18px/1.2 var(--body)}
+.dish .pr{font:400 20px var(--disp);color:var(--gold);white-space:nowrap}
+.dish p{color:var(--smoke);font-size:14.5px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px 26px}
+.list li{list-style:none;display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--edge);padding:10px 2px;font-weight:700}
+.list li b{font:400 18px var(--disp);color:var(--gold)}
+.served{display:flex;gap:10px;align-items:center;background:#2a120f;border:1.5px solid #5a2019;color:#ffd7c9;border-radius:14px;padding:12px 16px;margin-bottom:20px;font-weight:700;font-size:15px}
+.tax{display:inline-block;margin-top:16px;background:var(--rice);color:#111;font:900 13px var(--body);letter-spacing:.08em;padding:6px 12px;border-radius:6px}
+
+/* Encuéntranos */
+.find{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--steel-2);border:1.5px solid var(--edge);border-radius:18px;padding:22px}
+.card h3{font:400 24px var(--disp);margin-bottom:8px}
+.card p{color:var(--smoke);margin-bottom:14px}
+.card .btns{display:flex;gap:10px;flex-wrap:wrap}
+.quote{font:400 clamp(28px,4.5vw,46px)/1.1 var(--disp);text-align:center;max-width:22ch;margin:0 auto 26px}
+.quote span{color:var(--flame)}
+.final{text-align:center;background:radial-gradient(60% 80% at 50% 120%,rgba(255,106,26,.35),transparent 70%)}
+footer{border-top:1px solid var(--edge);text-align:center;padding:24px 16px 96px;color:var(--smoke);font-size:14px}
+
+/* Movimiento (Dakra Studio) */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes park{from{opacity:0;transform:translateX(80px) rotate(2deg)}to{opacity:1;transform:rotate(2deg)}}
+@keyframes flick{from{transform:scaleY(.82) skewX(-3deg)}to{transform:scaleY(1.08) skewX(3deg)}}
+@keyframes ember{0%{transform:translate(0,0);opacity:0}10%{opacity:1}100%{transform:translate(var(--dx,20px),-110vh);opacity:0}}
+@keyframes steam{0%{transform:translateY(0) scaleX(1);opacity:0}25%{opacity:.8}100%{transform:translateY(-90px) scaleX(2);opacity:0}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(69,224,122,0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.sparks{display:none}}
+
+@media (max-width:900px){
+  .hero-in{grid-template-columns:1fr}
+  .photo{width:min(86%,380px);margin-top:20px}
+  .prots{grid-template-columns:repeat(3,1fr)}
+  .find{grid-template-columns:1fr}
+}
+@media (max-width:440px){.call span{display:none}.brand small{display:none}.prots{grid-template-columns:repeat(2,1fr)}}
+:root{--bc:#d7261e;--bc2:#121212;--bi:#121212;--bb:#f6efe2;--bf:Figtree,system-ui,sans-serif;--bd:'Dela Gothic One',Impact,sans-serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span class="t-en">Sample website made by <a href="https://dakrastudio.com">Dakra Studio</a> for Kaki Japanese Cuisine</span><span class="t-es">Página de muestra creada por <a href="https://dakrastudio.com">Dakra Studio</a> para Kaki Japanese Cuisine</span></div>
+
+<header class="bar">
+  <a class="brand" href="#top"><img src="img/logo.jpg" alt="Kaki logo"><span><b>KAKI</b><small>Japanese Cuisine</small></span></a>
+  <nav>
+    <div class="lang" role="group" aria-label="Language / Idioma">
+      <button type="button" data-lang="es" aria-pressed="false">ES</button>
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    </div>
+    <a class="call" href="tel:+19318418073"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg><span>931-841-8073</span></a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" aria-label="Kaki Hibachi Grill on wheels">
+    <div class="griddle"></div>
+    <div class="sparks" id="sparks" aria-hidden="true"></div>
+    <svg class="flames" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 120 C60 60 90 90 120 40 C150 90 190 70 220 20 C250 80 300 60 330 50 C360 90 400 70 440 30 C470 80 520 70 560 45 C600 95 640 60 680 25 C710 85 760 70 800 40 C840 90 880 70 920 30 C950 80 1000 75 1040 45 C1080 90 1120 70 1160 35 L1200 60 L1200 120Z" fill="#d7261e" opacity=".55"/>
+      <path d="M0 120 C70 80 100 100 140 70 C170 100 210 90 250 60 C290 100 330 90 370 70 C410 100 460 90 500 65 C540 105 580 90 620 60 C660 100 700 90 740 70 C780 105 830 90 870 60 C910 100 950 90 990 70 C1030 100 1080 90 1120 65 L1200 80 L1200 120Z" fill="#ff6a1a" opacity=".7"/>
+      <path d="M0 120 C80 100 120 110 160 95 C200 112 240 104 280 92 C320 112 370 104 410 94 C450 114 500 104 540 92 C580 112 620 104 660 94 C700 112 750 104 790 92 C830 112 880 104 920 95 C960 112 1010 104 1050 94 C1090 112 1140 104 1200 96 L1200 120Z" fill="#f2b630" opacity=".8"/>
+    </svg>
+    <div class="hero-in">
+      <div>
+        <span class="kick"><span class="t-en">Hibachi on wheels · Lewisburg</span><span class="t-es">Hibachi sobre ruedas · Lewisburg</span></span>
+        <h1><span class="t-en">Fresh off<em>the flat top.</em></span><span class="t-es">Recién salido<em>de la plancha.</em></span></h1>
+        <p class="lead"><span class="t-en">Steak, chicken, shrimp and calamari grilled with our homemade garlic butter, served with fried rice, grilled veggies and yum yum sauce.</span><span class="t-es">Res, pollo, camarón y calamar a la plancha con nuestra mantequilla de ajo casera, con arroz frito, verduras asadas y salsa yum yum.</span></p>
+        <div class="stop">
+          <div class="lbl"><i></i><span class="t-en">Latest stop</span><span class="t-es">Última parada</span></div>
+          <h3>636 E Church St, Lewisburg, TN 37091</h3>
+          <p><span class="t-en">Tuesday 11/17 · Open 11:30 am until sold out. Our spot changes, so check our Facebook for today's stop.</span><span class="t-es">Martes 17/11 · Abierto de 11:30 am hasta agotar. Cambiamos de lugar: revisa nuestro Facebook para saber dónde estamos hoy.</span></p>
+          <div class="btns">
+            <a class="btn fire" href="tel:+19318418073"><span class="t-en">Call for pickup</span><span class="t-es">Llamar para recoger</span></a>
+            <a class="btn line" href="https://www.google.com/maps/search/?api=1&query=636%20E%20Church%20St%2C%20Lewisburg%2C%20TN%2037091" target="_blank" rel="noopener"><span class="t-en">Directions</span><span class="t-es">Cómo llegar</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="photo">
+        <img class="truck" src="img/truck.jpg" alt="Kaki Japanese Cuisine food truck" width="650" height="649">
+        <img class="plate" src="img/steak-noodles.jpg" alt="Hibachi steak with noodles" width="650" height="649">
+        <div class="steam" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="combo" id="combo">
+    <div class="wrap">
+      <h2 class="h2 reveal"><span class="t-en">Build your <span class="ac">combo</span></span><span class="t-es">Arma tu <span class="ac">combo</span></span></h2>
+      <p class="sub reveal"><span class="t-en">Pick 2 or 3 different proteins. Every combo comes with fried rice, grilled veggies and yum yum sauce.</span><span class="t-es">Escoge 2 o 3 proteínas diferentes. Todos los combos llevan arroz frito, verduras asadas y salsa yum yum.</span></p>
+      <div class="tickets reveal" role="group" aria-label="Combo size">
+        <button class="ticket" type="button" data-n="2" data-price="18" aria-pressed="true">PICK 2 <small>$18</small></button>
+        <button class="ticket" type="button" data-n="3" data-price="21.50" aria-pressed="false">PICK 3 <small>$21.50</small></button>
+      </div>
+      <div class="prots reveal" role="group" aria-label="Proteins">
+        <button class="prot" type="button" data-en="Steak" data-es="Res" aria-pressed="false"><span aria-hidden="true">🥩</span><b class="t-en">Steak</b><b class="t-es">Res</b></button>
+        <button class="prot" type="button" data-en="Chicken" data-es="Pollo" aria-pressed="false"><span aria-hidden="true">🍗</span><b class="t-en">Chicken</b><b class="t-es">Pollo</b></button>
+        <button class="prot" type="button" data-en="Shrimp" data-es="Camarón" aria-pressed="false"><span aria-hidden="true">🍤</span><b class="t-en">Shrimp</b><b class="t-es">Camarón</b></button>
+        <button class="prot" type="button" data-en="Calamari" data-es="Calamar" aria-pressed="false"><span aria-hidden="true">🦑</span><b class="t-en">Calamari</b><b class="t-es">Calamar</b></button>
+        <button class="prot" type="button" data-en="Tofu" data-es="Tofu" aria-pressed="false"><span aria-hidden="true">🟨</span><b>Tofu</b></button>
+      </div>
+      <div class="order reveal">
+        <p id="comboTxt"></p>
+        <span class="tot" id="comboTot">$18</span>
+        <a class="btn fire" href="tel:+19318418073"><span class="t-en">Call to order</span><span class="t-es">Llamar para pedir</span></a>
+      </div>
+      <p class="note"><span class="t-en">Tell us your combo when you call 931-841-8073. Tax included.</span><span class="t-es">Dinos tu combo al llamar al 931-841-8073. Impuesto incluido.</span></p>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="wrap">
+      <h2 class="h2 reveal"><span class="t-en">The <span class="ac">menu</span></span><span class="t-es">El <span class="ac">menú</span></span></h2>
+      <div class="served reveal">🔥 <span><span class="t-en">Entrées and combos come with fried rice, grilled veggies and yum yum sauce. Swap for noodles or extra veggies.</span><span class="t-es">Los platillos y combos llevan arroz frito, verduras asadas y salsa yum yum. Puedes cambiarlo por fideos o más verduras.</span></span></div>
+      <div class="tabs reveal" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-tab="ent"><span class="t-en">Entrées</span><span class="t-es">Platillos</span></button>
+        <button type="button" role="tab" aria-selected="false" data-tab="app"><span class="t-en">Appetizers</span><span class="t-es">Entradas</span></button>
+        <button type="button" role="tab" aria-selected="false" data-tab="side"><span class="t-en">Sides & drinks</span><span class="t-es">Extras y bebidas</span></button>
+      </div>
+
+      <div class="dishes" data-panel="ent">
+        <article class="dish reveal"><img src="img/m-steak.jpg" alt="Hibachi steak" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Hibachi Steak</span><span class="t-es">Res Hibachi</span></h3><span class="pr">$15</span></div><p><span class="t-en">Fresh-cut cubed grade A steak with seasonings, homemade garlic butter and soy sauce.</span><span class="t-es">Res grado A en cubos, con sazón, mantequilla de ajo casera y salsa de soya.</span></p></div></article>
+        <article class="dish reveal"><img src="img/m-shrimp.jpg" alt="Hibachi shrimp" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Hibachi Shrimp</span><span class="t-es">Camarón Hibachi</span></h3><span class="pr">$15</span></div><p><span class="t-en">Grilled shrimp with homemade garlic butter, soy sauce and a hint of lemon.</span><span class="t-es">Camarón a la plancha con mantequilla de ajo casera, soya y un toque de limón.</span></p></div></article>
+        <article class="dish reveal"><img src="img/m-combo.jpg" alt="Hibachi calamari and shrimp" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Hibachi Calamari</span><span class="t-es">Calamar Hibachi</span></h3><span class="pr">$15</span></div><p><span class="t-en">Grilled calamari steak with garlic butter, soy sauce, lemon and teriyaki.</span><span class="t-es">Filete de calamar con mantequilla de ajo, soya, limón y teriyaki.</span></p></div></article>
+        <article class="dish reveal"><img src="img/m-chicken.jpg" alt="Hibachi chicken teriyaki" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Hibachi Chicken (Teriyaki)</span><span class="t-es">Pollo Hibachi (Teriyaki)</span></h3><span class="pr">$13</span></div><p><span class="t-en">Fresh-cut cubed chicken with seasonings, garlic butter and teriyaki sauce.</span><span class="t-es">Pollo en cubos con sazón, mantequilla de ajo y salsa teriyaki.</span></p></div></article>
+        <article class="dish reveal"><img src="img/m-tofu.jpg" alt="Hibachi veggies and tofu" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Hibachi Veggies Tofu</span><span class="t-es">Verduras con Tofu</span></h3><span class="pr">$13</span></div><p><span class="t-en">Zucchini, carrots, onions, broccoli and tofu with garlic butter and soy sauce.</span><span class="t-es">Calabacita, zanahoria, cebolla, brócoli y tofu con mantequilla de ajo y soya.</span></p></div></article>
+        <article class="dish reveal"><img src="img/m-sukiyaki.jpg" alt="Sukiyaki chicken with noodles" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Sukiyaki (Teriyaki)</span><span class="t-es">Sukiyaki (Teriyaki)</span></h3><span class="pr">$12.75–15</span></div><p><span class="t-en">Thin-sliced meat with carrots, onions and green onions in garlic butter, soy and teriyaki. Chicken or tofu $12.75 · steak $15.</span><span class="t-es">Carne en tiras con zanahoria, cebolla y cebollín en mantequilla de ajo, soya y teriyaki. Pollo o tofu $12.75 · res $15.</span></p></div></article>
+      </div>
+
+      <div class="dishes" data-panel="app" hidden>
+        <article class="dish"><img src="img/m-gyoza.jpg" alt="Chicken gyoza" loading="lazy"><div class="b"><div class="top"><h3><span class="t-en">Chicken Gyoza</span><span class="t-es">Gyoza de Pollo</span></h3><span class="pr">$6.50</span></div><p><span class="t-en">Chicken and mixed veggie pot stickers.</span><span class="t-es">Empanaditas de pollo con verduras.</span></p></div></article>
+        <article class="dish"><div class="b"><div class="top"><h3><span class="t-en">Egg Rolls</span><span class="t-es">Egg Rolls</span></h3><span class="pr">$6.50</span></div><p><span class="t-en">Cabbage wrapped in wonton skin and deep fried, with sweet chili sauce.</span><span class="t-es">Repollo envuelto en masa wonton, frito, con salsa dulce de chile.</span></p></div></article>
+        <article class="dish"><div class="b"><div class="top"><h3><span class="t-en">Spring Rolls</span><span class="t-es">Spring Rolls</span></h3><span class="pr">$6.50</span></div><p><span class="t-en">Mixed veggies wrapped in wonton skin and deep fried, with sweet chili sauce.</span><span class="t-es">Verduras envueltas en masa wonton, fritas, con salsa dulce de chile.</span></p></div></article>
+        <article class="dish"><div class="b"><div class="top"><h3>Edamame</h3><span class="pr">$—</span></div><p><span class="t-en">Japanese beans with light coarse sea salt. Call for today's price.</span><span class="t-es">Frijol japonés con sal de mar. Llama para el precio de hoy.</span></p></div></article>
+      </div>
+
+      <div data-panel="side" hidden>
+        <ul class="list">
+          <li><span class="t-en">Steak</span><span class="t-es">Res</span><b>$8</b></li>
+          <li><span class="t-en">Chicken</span><span class="t-es">Pollo</span><b>$7</b></li>
+          <li><span class="t-en">Shrimp</span><span class="t-es">Camarón</span><b>$8</b></li>
+          <li><span class="t-en">Calamari</span><span class="t-es">Calamar</span><b>$8</b></li>
+          <li>Tofu<b>$7</b></li>
+          <li><span class="t-en">Fried rice</span><span class="t-es">Arroz frito</span><b>$4.50</b></li>
+          <li><span class="t-en">Veggies</span><span class="t-es">Verduras</span><b>$5</b></li>
+          <li><span class="t-en">Noodles</span><span class="t-es">Fideos</span><b>$6</b></li>
+          <li><span class="t-en">Yum yum sauce</span><span class="t-es">Salsa yum yum</span><b>$1</b></li>
+          <li><span class="t-en">Teriyaki sauce</span><span class="t-es">Salsa teriyaki</span><b>$1</b></li>
+          <li><span class="t-en">Spicy teriyaki</span><span class="t-es">Teriyaki picante</span><b>$1</b></li>
+          <li><span class="t-en">Water</span><span class="t-es">Agua</span><b>$1</b></li>
+          <li><span class="t-en">Soda</span><span class="t-es">Refresco</span><b>$1.50</b></li>
+        </ul>
+      </div>
+      <span class="tax"><span class="t-en">TAX INCLUDED</span><span class="t-es">IMPUESTO INCLUIDO</span></span>
+    </div>
+  </section>
+
+  <section id="find" style="padding-top:20px">
+    <div class="wrap">
+      <h2 class="h2 reveal"><span class="t-en">Find the <span class="ac">truck</span></span><span class="t-es">Encuentra el <span class="ac">camión</span></span></h2>
+      <div class="find">
+        <div class="card reveal">
+          <h3><span class="t-en">Where we park</span><span class="t-es">Dónde nos ponemos</span></h3>
+          <p><span class="t-en">We post our stop every day on Facebook. Open 11:30 am until sold out — come early!</span><span class="t-es">Publicamos la parada del día en Facebook. Abrimos 11:30 am hasta agotar, ¡llega temprano!</span></p>
+          <div class="btns"><a class="btn red" href="https://www.facebook.com/kakijapanesecuisine" target="_blank" rel="noopener">Facebook</a><a class="btn line" href="https://www.google.com/maps/search/?api=1&query=636%20E%20Church%20St%2C%20Lewisburg%2C%20TN%2037091" target="_blank" rel="noopener"><span class="t-en">Latest stop</span><span class="t-es">Última parada</span></a></div>
+        </div>
+        <div class="card reveal">
+          <h3><span class="t-en">Pickup orders</span><span class="t-es">Pedidos para recoger</span></h3>
+          <p><span class="t-en">Skip the line: call ahead and your hibachi will be ready when you get here.</span><span class="t-es">No hagas fila: llama antes y tu hibachi estará listo cuando llegues.</span></p>
+          <div class="btns"><a class="btn fire" href="tel:+19318418073">931-841-8073</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <p class="quote reveal"><span class="t-en">Nothing brings people together like <span>good food.</span></span><span class="t-es">Nada une a la gente como <span>la buena comida.</span></span></p>
+    <a class="btn fire reveal" href="tel:+19318418073"><span class="t-en">Call for pickup</span><span class="t-es">Llamar para recoger</span></a>
+  </section>
+</main>
+
+<footer>Kaki Japanese Cuisine · Lewisburg, TN · <a href="tel:+19318418073">931-841-8073</a><br><span class="t-en">Sample site by</span><span class="t-es">Página de muestra por</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const L=()=>document.documentElement.lang==="es"?"es":"en";
+$$("[data-lang]").forEach(b=>b.addEventListener("click",()=>{document.documentElement.lang=b.dataset.lang;$$("[data-lang]").forEach(x=>x.setAttribute("aria-pressed",x===b));combo()}));
+// Chispas
+const sp=$("#sparks");for(let i=0;i<22;i++){const e=document.createElement("i");e.style.left=Math.random()*100+"%";e.style.animationDuration=(4+Math.random()*5)+"s";e.style.animationDelay=(-Math.random()*8)+"s";e.style.setProperty("--dx",(Math.random()*80-40)+"px");sp.appendChild(e)}
+// Combo
+let n=2,price=18,picked=[];
+$$(".ticket").forEach(t=>t.addEventListener("click",()=>{n=+t.dataset.n;price=+t.dataset.price;$$(".ticket").forEach(x=>x.setAttribute("aria-pressed",x===t));picked=picked.slice(0,n);sync()}));
+$$(".prot").forEach(p=>p.addEventListener("click",()=>{const i=picked.indexOf(p);if(i>-1)picked.splice(i,1);else if(picked.length<n)picked.push(p);else{p.classList.remove("shake");void p.offsetWidth;p.classList.add("shake");$("#comboTxt").innerHTML=L()==="es"?(n===2?`Ya elegiste 2. Quita una proteína o cambia a <b>Pick 3</b>.`:`Ya elegiste 3. Quita una para cambiarla.`):(n===2?`You already picked 2. Remove one or switch to <b>Pick 3</b>.`:`You already picked 3. Remove one to swap it.`);return}sync()}));
+function sync(){$$(".prot").forEach(p=>{const on=picked.includes(p);p.setAttribute("aria-pressed",on);p.dataset.off=!on&&picked.length>=n});combo()}
+function combo(){const es=L()==="es",names=picked.map(p=>p.dataset[es?"es":"en"]);
+  const left=n-picked.length;
+  $("#comboTxt").innerHTML=left>0
+    ?(es?`Elige <b>${left}</b> proteína${left>1?"s":""} más${names.length?": llevas "+names.join(", "):""}.`:`Pick <b>${left}</b> more protein${left>1?"s":""}${names.length?": you have "+names.join(", "):""}.`)
+    :(es?`Tu combo: <b>Pick ${n}</b> — ${names.join(", ")}, con arroz frito, verduras y yum yum.`:`Your combo: <b>Pick ${n}</b> — ${names.join(", ")}, with fried rice, veggies and yum yum.`);
+  $("#comboTot").textContent="$"+(price%1?price.toFixed(2):price)}
+combo();
+// Menú
+$$("[data-tab]").forEach(t=>t.addEventListener("click",()=>{$$("[data-tab]").forEach(x=>x.setAttribute("aria-selected",x===t));$$("[data-panel]").forEach(p=>p.hidden=p.dataset.panel!==t.dataset.tab)}));
+// Aparecer al bajar
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});
+$$(".reveal").forEach(el=>io.observe(el));
+})();
+</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Kaki Japanese Cuisine assistant" hidden>
+  <div class="bh"><div><b>Kaki Japanese Cuisine</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Kaki Japanese Cuisine",color:"#d7261e",color2:"#121212",ink:"#121212",bg:"#f6efe2",font:"Figtree,system-ui,sans-serif",display:"'Dela Gothic One',Impact,sans-serif",
+  tel:"+19318418073",telTxt:"931-841-8073",maps:"https://www.google.com/maps/search/?api=1&query=636%20E%20Church%20St%2C%20Lewisburg%2C%20TN%2037091",address:"636 E Church St, Lewisburg, TN 37091",H:[null,null,null,null,null,null,null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAP=`<a href="${CFG.maps}" target="_blank" rel="noopener">`,FB=`<a href="https://www.facebook.com/kakijapanesecuisine" target="_blank" rel="noopener">Facebook</a>`,MENU=`<a href="#menu">`,COMBO=`<a href="#combo">`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|hey|hi|hello|howdy|yo)\b/i,en:()=>"Hi! 👋 Ask me about the menu, combos, prices, where the truck is or how to order for pickup.",es:()=>"¡Hola! 👋 Pregúntame por el menú, los combos, precios, dónde está el camión o cómo pedir para recoger."},
+  {k:"thanks",re:/gracias|thank|thx/i,en:()=>"You're welcome! Enjoy your hibachi 🔥",es:()=>"¡De nada! Que disfrutes tu hibachi 🔥"},
+  {k:"allergy",re:/alerg|gluten|man[ií]|cacahuate|marisco|shellfish|soy|soya|allerg|peanut|dairy|l[aá]cteo|mantequilla/i,en:()=>`Our hibachi is cooked with garlic butter and soy sauce, and we also grill shrimp and calamari on the same flat top. For allergies, please call ${TEL} before ordering.`,es:()=>`Nuestro hibachi lleva mantequilla de ajo y salsa de soya, y en la misma plancha se asan camarón y calamar. Si tienes alergias, llama al ${TEL} antes de pedir.`},
+  {k:"veg",re:/vegetari|vegan|sin carne|no meat|tofu|veggie/i,en:()=>`Try the Hibachi Veggies Tofu ($13): zucchini, carrots, onions, broccoli and tofu with garlic butter and soy. Tofu also works in any combo. ${MENU}See the menu</a>`,es:()=>`Prueba el Hibachi Veggies Tofu ($13): calabacita, zanahoria, cebolla, brócoli y tofu con mantequilla de ajo y soya. El tofu también entra en los combos. ${MENU}Ver menú</a>`},
+  {k:"where",re:/d[oó]nde|ubica|direcci[oó]n|hoy est[aá]n|where|location|address|today|parked|spot/i,en:()=>`Our latest stop: 636 E Church St, Lewisburg (${MAP}directions</a>). The truck moves, so we post each day's stop on ${FB}.`,es:()=>`Nuestra última parada: 636 E Church St, Lewisburg (${MAP}cómo llegar</a>). El camión se mueve; publicamos la parada de cada día en ${FB}.`},
+  {k:"hours",re:/abiert|horario|hora|cierran|abren|open|hours|close|when/i,en:()=>`We open at 11:30 am and cook until we sell out, so come early! Check ${FB} for today's stop.`,es:()=>`Abrimos a las 11:30 am y cocinamos hasta agotar, ¡llega temprano! Revisa ${FB} para la parada de hoy.`},
+  {k:"combo",re:/combo|pick ?2|pick ?3|dos prote|tres prote|two protein|three protein/i,en:()=>`Create your own combo: Pick 2 proteins $18 or Pick 3 $21.50 (steak, chicken, shrimp, calamari, tofu), with fried rice, veggies and yum yum. ${COMBO}Build it here</a> 🍱`,es:()=>`Arma tu combo: 2 proteínas $18 o 3 por $21.50 (res, pollo, camarón, calamar, tofu), con arroz frito, verduras y yum yum. ${COMBO}Ármalo aquí</a> 🍱`},
+  {k:"recommend",re:/recomi|popular|mejor|favorit|qu[eé] pido|recommend|best|what should|good/i,en:()=>`Can't go wrong with the Hibachi Steak ($15) or a Pick 3 combo ($21.50) with steak, chicken and shrimp. Add yum yum sauce! 🔥`,es:()=>`No falla el Hibachi Steak ($15) o un combo de 3 ($21.50) con res, pollo y camarón. ¡Con salsa yum yum! 🔥`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|vale|price|how much|cost/i,en:()=>`Entrées $13–15, combos $18 (Pick 2) or $21.50 (Pick 3), appetizers $6.50. Tax included. ${MENU}Full menu</a> 💵`,es:()=>`Platillos de $13 a $15, combos $18 (2 proteínas) o $21.50 (3), entradas $6.50. Impuesto incluido. ${MENU}Menú completo</a> 💵`},
+  {k:"sauce",re:/salsa|sauce|yum ?yum|teriyaki|picante|spicy/i,en:()=>"Every entrée comes with yum yum sauce. Extra yum yum, teriyaki or spicy teriyaki is $1 each. 🌶️",es:()=>"Todos los platillos llevan salsa yum yum. Extra de yum yum, teriyaki o teriyaki picante: $1 cada una. 🌶️"},
+  {k:"noodle",re:/fideo|noodle|arroz|rice|cambiar|substitut|swap/i,en:()=>`Entrées come with fried rice and grilled veggies. You can swap for noodles or extra veggies — ask the price when you call ${TEL}.`,es:()=>`Los platillos traen arroz frito y verduras. Puedes cambiarlo por fideos o más verduras; pregunta el precio al llamar al ${TEL}.`},
+  {k:"pickup",re:/pedido|ordenar|pedir|recoger|para llevar|order|pick ?up|to go|call ahead/i,en:()=>`Call ${TEL} for pickup orders and skip the line. 📞`,es:()=>`Llama al ${TEL} para pedir y recoger sin hacer fila. 📞`},
+  {k:"delivery",re:/entrega|domicilio|deliver|doordash|uber/i,en:()=>`For delivery options, please call ${TEL}. The truck is pickup at our stop.`,es:()=>`Para saber de entregas a domicilio, llama al ${TEL}. En el camión se recoge en la parada.`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|apple pay|pay/i,en:()=>`For payment options, please call ${TEL}.`,es:()=>`Para las formas de pago, llama al ${TEL}.`},
+  {k:"events",re:/evento|fiesta|catering|boda|grupo|party|event|wedding|book the truck/i,en:()=>`Want the truck at your event? Call ${TEL} to ask about availability. 🎉`,es:()=>`¿Quieres el camión en tu evento? Llama al ${TEL} para preguntar disponibilidad. 🎉`},
+  {k:"wait",re:/tarda|espera|cu[aá]nto tiempo|wait|how long|fast/i,en:()=>`Everything's cooked fresh on the flat top. Call ahead at ${TEL} and it'll be ready when you arrive.`,es:()=>`Todo se cocina al momento en la plancha. Llama antes al ${TEL} y estará listo cuando llegues.`},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish/i,en:()=>"This site works in English and Spanish: use the EN / ES button at the top.",es:()=>"Esta página está en inglés y español: usa el botón EN / ES de arriba."},
+  {k:"person",re:/persona|humano|due[ñn]o|hablar|llamar|tel[eé]fono|n[uú]mero|human|person|owner|talk|phone|number|call/i,en:()=>`Call us at ${TEL} and we'll help you out. 📞`,es:()=>`Llámanos al ${TEL} y con gusto te ayudamos. 📞`},
+  {k:"menu",re:/men[uú]|comida|platillo|qu[eé] (venden|tienen)|food|menu|dishes|serve|hibachi|steak|chicken|shrimp|gyoza|egg ?roll/i,en:()=>`Hibachi steak, shrimp and calamari ($15), chicken teriyaki and veggie tofu ($13), sukiyaki, gyoza, egg rolls and spring rolls. ${MENU}See the menu</a> 🍽️`,es:()=>`Hibachi de res, camarón y calamar ($15), pollo teriyaki y verduras con tofu ($13), sukiyaki, gyoza, egg rolls y spring rolls. ${MENU}Ver el menú</a> 🍽️`}
+];
+const CHIPS={en:[["where","Where's the truck?"],["menu","Menu"],["combo","Combos"],["hours","Hours"],["pickup","Order for pickup"],["recommend","What's good?"],["person","Call us"]],
+             es:[["where","¿Dónde está el camión?"],["menu","Menú"],["combo","Combos"],["hours","Horario"],["pickup","Pedir para recoger"],["recommend","¿Qué me recomiendas?"],["person","Llamar"]]};
+const TXT={en:{hi:"Hi! 👋 I'm Kaki's assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I'm not sure about that one 😅. Call us at ${TEL} and we'll help you out.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Kaki. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé 😅. Llámanos al ${TEL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
