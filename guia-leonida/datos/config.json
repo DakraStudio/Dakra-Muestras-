@@ -1,0 +1,19 @@
+{
+  "nombre": "Guía Leonida",
+  "url": "https://dakrastudio.com/guia-leonida",
+  "ruta": "/guia-leonida",
+  "lanzamiento": "2026-11-19T00:00:00-06:00",
+  "descripcion": "Guías de GTA 6 en español: trucos, dinero rápido, coches, secretos, el mapa de Leonida y noticias de GTA 6 Online. Sitio de fans no oficial.",
+  "redes": [
+    { "nombre": "TikTok", "url": "https://www.tiktok.com/@guialeonida" },
+    { "nombre": "YouTube", "url": "https://www.youtube.com/@GuiaLeonidaES" }
+  ],
+  "_comentario_ingresos": "Llena estos campos cuando tengas cada cuenta. Vacío = la sección no se muestra.",
+  "amazon_tag": "",
+  "donaciones_url": "",
+  "producto_url": "",
+  "producto_nombre": "Guía completa de Leonida (PDF)",
+  "producto_precio": "",
+  "adsense_client": "",
+  "search_console": ""
+}

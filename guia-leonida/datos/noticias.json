@@ -1,0 +1,33 @@
+[
+  {
+    "slug": "gta-6-sale-el-19-de-noviembre",
+    "fecha": "2026-11-17",
+    "etiqueta": "CONFIRMADO",
+    "titulo": "GTA 6 sale este jueves 19 de noviembre en PS5 y Xbox Series",
+    "resumen": "Después de dos retrasos, la fecha final es el 19 de noviembre de 2026. La versión de PC llegará más tarde y todavía no tiene fecha.",
+    "cuerpo": [
+      "Grand Theft Auto VI llega el jueves 19 de noviembre de 2026 a PlayStation 5 y Xbox Series X|S.",
+      "El juego se había anunciado primero para otoño de 2025, luego se movió al 26 de mayo de 2026 y finalmente al 19 de noviembre.",
+      "La versión de PC no sale el mismo día: Rockstar no le ha puesto fecha."
+    ],
+    "fuentes": [
+      { "t": "Dexerto: fecha de salida", "u": "https://www.dexerto.com/gta/when-is-gta-6-coming-out-rumors-release-date-story-and-more-for-the-next-grand-theft-auto-game-245713/" },
+      { "t": "Mobalytics: fecha y plataformas", "u": "https://mobalytics.gg/news/guides/gta-6-release-date" }
+    ]
+  },
+  {
+    "slug": "copia-fisica-gta-6-sin-disco",
+    "fecha": "2026-11-17",
+    "etiqueta": "CONFIRMADO",
+    "titulo": "La copia física de GTA 6 no trae disco: trae un código",
+    "resumen": "Si compras GTA 6 en tienda, dentro de la caja viene un código de descarga. Necesitas internet y espacio libre en tu consola.",
+    "cuerpo": [
+      "Rockstar confirmó que las ediciones físicas de GTA 6 no incluyen un disco con el juego.",
+      "En su lugar, la caja trae un código de descarga, así que necesitas conexión a internet y espacio libre en tu consola para jugar.",
+      "Si tu consola está llena, conviene liberar espacio antes del jueves."
+    ],
+    "fuentes": [
+      { "t": "Tribune: ediciones y copia física", "u": "https://tribune.com.pk/story/2614883/rockstar-confirms-gta-6-price-and-details-launch-editions-ahead-of-pre-orders-going-live" }
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "id": "ssd-ps5", "nombre": "Disco SSD de 2 TB para PS5", "nota": "Más espacio para juegos grandes como GTA 6", "busqueda": "ps5 nvme ssd 2tb heatsink" },
+  { "id": "dualsense", "nombre": "Control DualSense para PS5", "nota": "Un segundo control o un repuesto", "busqueda": "dualsense controller ps5" },
+  { "id": "control-xbox", "nombre": "Control inalámbrico de Xbox", "nota": "Para Xbox Series X|S", "busqueda": "xbox wireless controller" },
+  { "id": "audifonos", "nombre": "Audífonos para juegos", "nota": "Para escuchar cada detalle de Vice City", "busqueda": "gaming headset ps5 xbox" },
+  { "id": "ssd-xbox", "nombre": "Tarjeta de expansión para Xbox Series", "nota": "Más almacenamiento para tu Xbox", "busqueda": "xbox series expansion card 1tb" },
+  { "id": "gta6-ps5", "nombre": "GTA 6 para PS5", "nota": "Edición Estándar o Ultimate", "busqueda": "grand theft auto vi ps5" },
+  { "id": "gta6-xbox", "nombre": "GTA 6 para Xbox Series X|S", "nota": "Edición Estándar o Ultimate", "busqueda": "grand theft auto vi xbox series x" }
+]

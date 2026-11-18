@@ -1,0 +1,104 @@
+[
+  {
+    "slug": "gta-6-todo-lo-confirmado",
+    "estado": "publicada",
+    "cat": "Compra",
+    "ico": "🎮",
+    "titulo": "GTA 6: todo lo confirmado antes de comprarlo",
+    "seo": "GTA 6: fecha, precio, consolas y qué trae la caja",
+    "resumen": "Fecha, consolas, precio y lo que trae la caja. Llega al jueves sin sorpresas.",
+    "publicada": "2026-11-17",
+    "actualizado": "2026-11-17",
+    "productos": ["ssd-ps5", "ssd-xbox", "gta6-ps5", "gta6-xbox"],
+    "intro": "Faltan días para entrar a Leonida. Esto es todo lo que Rockstar y Take-Two han confirmado de forma oficial, para que llegues al lanzamiento sin ninguna duda.",
+    "secciones": [
+      { "titulo": "Fecha de salida y consolas", "parrafos": ["GTA 6 sale el jueves 19 de noviembre de 2026 en PlayStation 5 y Xbox Series X|S.", "La versión de PC llegará más tarde. Rockstar todavía no le ha puesto fecha."] },
+      { "titulo": "Precio y ediciones", "lista": ["Edición Estándar: $79.99 (EE. UU.).", "Edición Ultimate: $99.99 (EE. UU.).", "Las reservas incluyen el Vintage Vice City Pack."] },
+      { "titulo": "La copia física no trae disco", "parrafos": ["Si compras la caja en tienda, adentro viene un código de descarga, no un disco. Vas a necesitar internet y espacio libre en tu consola."] },
+      { "titulo": "Historia y lugar", "parrafos": ["La historia sigue a Jason y Lucia por el estado de Leonida, la versión de Rockstar de Florida, con Vice City como ciudad principal."] }
+    ],
+    "fuentes": [
+      { "t": "Dexerto: precio y ediciones", "u": "https://www.dexerto.com/gta/gta-6-price-ultimate-edition-pre-orders-live-3378744/" },
+      { "t": "Tribune: copia física sin disco", "u": "https://tribune.com.pk/story/2614883/rockstar-confirms-gta-6-price-and-details-launch-editions-ahead-of-pre-orders-going-live" },
+      { "t": "Mobalytics: fecha y plataformas", "u": "https://mobalytics.gg/news/guides/gta-6-release-date" }
+    ]
+  },
+  {
+    "slug": "gta-6-estandar-o-ultimate",
+    "estado": "publicada",
+    "cat": "Compra",
+    "ico": "💎",
+    "titulo": "¿GTA 6 Edición Estándar o Ultimate?",
+    "seo": "GTA 6 Estándar vs Ultimate: cuál comprar",
+    "resumen": "Hay $20 de diferencia. Te decimos cuál te conviene según cómo vas a jugar.",
+    "publicada": "2026-11-17",
+    "actualizado": "2026-11-17",
+    "productos": ["gta6-ps5", "gta6-xbox"],
+    "intro": "Las dos ediciones traen el juego completo. La Ultimate cuesta $20 más ($99.99 contra $79.99) y suma contenido extra.",
+    "secciones": [
+      { "titulo": "Cuál te conviene", "lista": ["Si vas por la historia de Jason y Lucia, la Estándar te da todo lo importante.", "Si piensas jugar mucho el modo en línea cuando llegue, los extras de la Ultimate pueden darte ventaja desde el primer día.", "Las dos reciben el bono de reserva Vintage Vice City Pack."] },
+      { "titulo": "Lo que falta saber", "parrafos": ["Vamos a agregar la lista exacta de lo que trae la Ultimate en cuanto la confirmemos dentro del juego."] }
+    ],
+    "fuentes": [
+      { "t": "Dexerto: ediciones", "u": "https://www.dexerto.com/gta/gta-6-price-ultimate-edition-pre-orders-live-3378744/" },
+      { "t": "TechSpot: bono de reserva", "u": "https://techspot.com/news/112883-gta-6-standard-edition-confirmed-cost-80-while.html" }
+    ]
+  },
+  {
+    "slug": "que-es-leonida-mapa-gta-6",
+    "estado": "publicada",
+    "cat": "Mapa",
+    "ico": "🌴",
+    "titulo": "¿Qué es Leonida? El mapa de GTA 6, región por región",
+    "seo": "Mapa de GTA 6: qué es Leonida y sus 6 regiones",
+    "resumen": "Las seis regiones del mapa y lo que hace única a cada una.",
+    "publicada": "2026-11-17",
+    "actualizado": "2026-11-17",
+    "productos": ["audifonos"],
+    "intro": "Leonida es el estado ficticio donde pasa GTA 6, la versión de Rockstar de Florida. Por primera vez la serie no se queda en una sola ciudad: es un estado completo con seis regiones.",
+    "secciones": [
+      { "titulo": "Vice City", "parrafos": ["La gran ciudad de Leonida, inspirada en Miami: playas, luces de neón, hoteles Art Deco, Little Cuba y un puerto de cruceros."] },
+      { "titulo": "Leonida Keys", "parrafos": ["Una cadena de islas tropicales al sur de Vice City, con pueblos pequeños y mucho viaje por agua."] },
+      { "titulo": "Grassrivers", "parrafos": ["Manglares inspirados en los Everglades, llenos de caimanes y recorridos en aerodeslizador."] },
+      { "titulo": "Port Gellhorn", "parrafos": ["La costa olvidada de Leonida: moteles baratos, atracciones cerradas y centros comerciales vacíos alrededor de un puerto."] },
+      { "titulo": "Ambrosia", "parrafos": ["Pueblo industrial junto al Lago Leonida, dominado por la refinería de azúcar Allied Crystal y con presencia de motociclistas."] },
+      { "titulo": "Mount Kalaga", "parrafos": ["El parque nacional de la frontera norte: bosque, caza, pesca y caminos para motos de montaña."] }
+    ],
+    "fuentes": [
+      { "t": "GamesRadar: lugares de GTA 6", "u": "https://www.gamesradar.com/games/grand-theft-auto/gta-6-locations" },
+      { "t": "All Things How: regiones de Leonida", "u": "https://allthings.how/gta-6-map-locations-every-confirmed-region-in-leonida/" },
+      { "t": "Console Pulse: regiones confirmadas", "u": "https://consolepulse.com/multiplatform/gta/guides/gta-6-vice-city-leonida-locations-guide" }
+    ]
+  },
+  {
+    "slug": "gta-6-online-lo-que-se-sabe",
+    "estado": "publicada",
+    "cat": "Online",
+    "ico": "🌐",
+    "titulo": "GTA 6 Online: lo que se sabe",
+    "seo": "GTA 6 Online: qué se sabe del modo en línea",
+    "resumen": "Lo confirmado, lo filtrado y lo que nadie sabe todavía del modo en línea.",
+    "publicada": "2026-11-17",
+    "actualizado": "2026-11-17",
+    "productos": ["audifonos", "dualsense"],
+    "intro": "Rockstar casi no ha hablado del modo en línea, pero las pistas apuntan a algo enorme. Esto es lo que hay hasta hoy.",
+    "secciones": [
+      { "titulo": "Confirmado", "lista": ["Rockstar es dueña de Cfx.re, el equipo detrás de FiveM y RedM, los servidores de roleplay de GTA 5.", "Rockstar está contratando personal para una 'Creator Platform' de contenido creado por jugadores."] },
+      { "titulo": "No confirmado", "lista": ["Que existan servidores de roleplay oficiales en GTA 6.", "Que FiveM funcione con GTA 6."] },
+      { "titulo": "Rumores", "lista": ["Un sistema de contenido de jugadores parecido a Roblox o Fortnite, con objetos creados por la comunidad."] }
+    ],
+    "fuentes": [
+      { "t": "Eklipse: qué está confirmado", "u": "https://blog.eklipse.gg/gaming-news/gta-6-rp-fivem.html" },
+      { "t": "TweakTown: Creator Platform", "u": "https://www.tweaktown.com/news/110968/gta-6-may-have-robust-roblox-like-ugc-economy-or-even-sixm-support-from-cfx-rockstar-hiring-four-creator-platform-roles/index.html" }
+    ]
+  },
+  { "slug": "trucos-gta-6", "estado": "pronto", "cat": "Trucos", "ico": "🎯", "titulo": "Trucos y claves de GTA 6", "resumen": "Todos los trucos en cuanto se descubran, para PS5 y Xbox." },
+  { "slug": "lo-primero-en-gta-6", "estado": "pronto", "cat": "Primeros pasos", "ico": "🚦", "titulo": "Lo primero que debes hacer en GTA 6", "resumen": "Las primeras horas deciden tu ventaja. No empieces sin leer esto." },
+  { "slug": "ajustes-gta-6", "estado": "pronto", "cat": "Primeros pasos", "ico": "⚙️", "titulo": "Ajustes y controles recomendados", "resumen": "La configuración que hace la diferencia en PS5 y Xbox." },
+  { "slug": "dinero-rapido-gta-6", "estado": "pronto", "cat": "Dinero", "ico": "💵", "titulo": "Cómo ganar dinero rápido en GTA 6", "resumen": "Los métodos que más pagan en las primeras horas." },
+  { "slug": "en-que-gastar-gta-6", "estado": "pronto", "cat": "Dinero", "ico": "🏝️", "titulo": "En qué gastar tu dinero (y en qué no)", "resumen": "Las compras que de verdad valen la pena." },
+  { "slug": "coches-gratis-gta-6", "estado": "pronto", "cat": "Coches", "ico": "🏎️", "titulo": "Coches gratis y dónde encontrarlos", "resumen": "Ubicaciones exactas de los mejores coches de Leonida." },
+  { "slug": "coche-mas-rapido-gta-6", "estado": "pronto", "cat": "Coches", "ico": "🏁", "titulo": "El coche más rápido de GTA 6", "resumen": "Probamos los coches en la misma recta." },
+  { "slug": "secretos-vice-city", "estado": "pronto", "cat": "Secretos", "ico": "🕵️", "titulo": "Secretos de Vice City", "resumen": "Lugares escondidos y detalles que casi nadie va a ver." },
+  { "slug": "online-dinero-gta-6", "estado": "pronto", "cat": "Online", "ico": "💰", "titulo": "Cómo ganar dinero en GTA 6 Online", "resumen": "Lista para el día que se abra el modo en línea." }
+]
