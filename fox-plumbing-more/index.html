@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fox Plumbing &amp; More · Lawrenceburg, TN</title>
+<meta name="description" content="Fox Plumbing & More: locally owned, licensed and insured plumbing in Lawrenceburg and Lawrence County, TN. Water heaters, tankless, leaks, drains and bathroom remodels.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0E2233;--navy2:#163349;--bp:#1B4A6B;--line:rgba(160,205,240,.16);--cu:#C8692C;--cu2:#A4521D;--hot:#D9412B;--cold:#2E86DE;--paper:#F5F1EA;--paper2:#EAE3D6;--ink:#152230;--mut:#4C5B68;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font:16px/1.6 'Public Sans',system-ui,sans-serif}
+a{color:inherit}
+img,svg{max-width:100%;display:block}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.05;letter-spacing:-.01em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase}
+
+/* Aviso */
+.notice{background:#0A1824;color:#CFE3F3;font-size:13.5px;text-align:center;padding:8px 16px}
+.notice a{color:#FFB37E;font-weight:700}
+
+/* Encabezado */
+header{position:sticky;top:0;z-index:40;background:rgba(14,34,51,.96);backdrop-filter:blur(6px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand .mark{width:38px;height:38px;flex:none}
+.brand b{font:800 20px/1 'Bricolage Grotesque',sans-serif;white-space:nowrap}
+.brand b em{font-style:normal;color:var(--cu)}
+.brand small{display:block;font-size:11.5px;color:#9FB8CC;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+.tools{display:flex;align-items:center;gap:8px;flex:none}
+.lang{border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:8px;padding:8px 12px;font:600 14px 'Public Sans',sans-serif;cursor:pointer}
+.lang:hover{border-color:#fff}
+.callsm{display:flex;align-items:center;gap:6px;background:var(--cu);color:#fff;text-decoration:none;font-weight:700;border-radius:8px;padding:9px 14px;font-size:14.5px}
+.callsm:hover{background:var(--cu2)}
+@media(max-width:560px){.wrap{padding:0 16px}.callsm span{display:none}.callsm{padding:9px 12px}.brand small{display:none}.brand b{font-size:16px;white-space:normal;line-height:1.1}.brand .mark{width:34px;height:34px}.lang{padding:7px 10px;font-size:13.5px}}
+
+/* Portada: plano (blueprint) */
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(120deg,#0E2233 0%,#173E5C 40%,#0E2233 70%,#1A4566 100%);background-size:240% 240%}
+.hero .grid{position:absolute;inset:-60px;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px),linear-gradient(rgba(160,205,240,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(160,205,240,.07) 1px,transparent 1px);background-size:120px 120px,120px 120px,24px 24px,24px 24px;pointer-events:none}
+.hero .glow{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.hero .g1{width:420px;height:420px;background:rgba(200,105,44,.32);top:-120px;right:-80px}
+.hero .g2{width:360px;height:360px;background:rgba(46,134,222,.28);bottom:-140px;left:-100px}
+.hin{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-top:72px;padding-bottom:80px}
+.tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 14px;color:#D6E6F2}
+.tag i{width:8px;height:8px;border-radius:50%;background:#5BE08F;display:inline-block}
+.hero h1{font-size:clamp(40px,6.4vw,74px);font-weight:800;margin:18px 0 16px}
+.hero h1 .cu{color:#FF9A5A}
+.hero p.lead{font-size:18.5px;color:#D1DFEA;max-width:560px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;border-radius:10px;padding:14px 20px;font-size:16px;border:2px solid transparent}
+.btn.p{background:var(--cu);color:#fff}
+.btn.p:hover{background:var(--cu2)}
+.btn.g{border-color:rgba(255,255,255,.4);color:#fff}
+.btn.g:hover{border-color:#fff}
+.hero .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:26px;color:#A9C2D6;font-size:14.5px}
+.hero .meta span::before{content:"✓ ";color:#5BE08F;font-weight:700}
+.scene{position:relative;aspect-ratio:1/1;max-width:440px;width:100%;justify-self:center}
+.scene svg{width:100%;height:100%;overflow:visible}
+.scene .lbl{font:500 11px 'JetBrains Mono',monospace;fill:#9FC3E0;letter-spacing:.08em}
+@media(max-width:860px){.hin{grid-template-columns:1fr;padding-top:44px;padding-bottom:52px;gap:24px}.scene{max-width:320px}}
+
+/* Franja de confianza */
+.trust{background:var(--white);border-bottom:1px solid var(--paper2)}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.fact{padding:22px 18px;border-right:1px solid var(--paper2)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font:800 22px/1.1 'Bricolage Grotesque',sans-serif;color:var(--navy)}
+.fact span{font-size:14px;color:var(--mut)}
+@media(max-width:860px){.tgrid{grid-template-columns:1fr 1fr}.fact:nth-child(2){border-right:0}.fact:nth-child(-n+2){border-bottom:1px solid var(--paper2)}}
+
+/* Secciones */
+section.blk{padding:76px 0}
+.kicker{color:var(--cu2);display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.kicker::before{content:"";width:28px;height:2px;background:var(--cu)}
+.blk h2{font-size:clamp(30px,4.2vw,46px);color:var(--navy);max-width:720px}
+.blk .sub{color:var(--mut);max-width:640px;margin-top:12px;font-size:17px}
+
+/* Servicios como fichas de plano */
+.svcs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.svc{position:relative;background:var(--white);border:1.5px solid var(--paper2);border-radius:14px;padding:24px 22px 22px;overflow:hidden}
+.svc::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cold)}
+.svc.hotc::after{background:var(--hot)}
+.svc .no{position:absolute;top:16px;right:18px;color:#A8B3BC}
+.svc .ic{width:46px;height:46px;border-radius:10px;background:#EEF4F9;display:grid;place-items:center;margin-bottom:14px}
+.svc.hotc .ic{background:#FBEDE8}
+.svc h3{font-size:22px;color:var(--navy);margin-bottom:6px}
+.svc p{color:var(--mut);font-size:15.5px}
+@media(max-width:900px){.svcs{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.svcs{grid-template-columns:1fr}}
+
+/* Trabajo reciente */
+.job{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.job .grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;opacity:.7}
+.jin{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.job h2{color:#fff}
+.job .sub{color:#C7D8E5}
+.spec{background:rgba(255,255,255,.05);border:1.5px dashed rgba(160,205,240,.4);border-radius:14px;padding:22px}
+.spec dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px}
+.spec dt{color:#8FB3CF}
+.spec dd{font-weight:600}
+.spec .src{margin-top:16px;font-size:13px;color:#8FB3CF}
+.spec .src a{color:#FFB37E}
+@media(max-width:860px){.jin{grid-template-columns:1fr}}
+
+/* Pasos */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px;counter-reset:s}
+.step{background:var(--white);border-radius:14px;padding:22px;border:1.5px solid var(--paper2)}
+.step .n{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:800 17px 'Bricolage Grotesque',sans-serif;margin-bottom:12px}
+.step h3{font-size:20px;color:var(--navy);margin-bottom:4px}
+.step p{color:var(--mut);font-size:15.5px}
+.price{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;background:#FFF7EF;border:1.5px solid #F1D5BE;border-radius:12px;padding:16px 18px}
+.price b{font:800 26px 'Bricolage Grotesque',sans-serif;color:var(--cu2)}
+.price span{color:var(--mut)}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* Zona y reseñas */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:36px}
+.card{background:var(--white);border:1.5px solid var(--paper2);border-radius:14px;padding:24px}
+.card h3{font-size:22px;color:var(--navy);margin-bottom:8px}
+.card p{color:var(--mut)}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips li{background:#EEF4F9;color:var(--bp);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px}
+.score{display:flex;align-items:baseline;gap:10px;margin:6px 0 4px}
+.score b{font:800 44px/1 'Bricolage Grotesque',sans-serif;color:var(--cu2)}
+.card a.lnk{color:var(--bp);font-weight:700}
+@media(max-width:760px){.two{grid-template-columns:1fr}}
+
+/* Visita / contacto */
+.visit{background:var(--white);border-radius:18px;border:1.5px solid var(--paper2);display:grid;grid-template-columns:1.1fr .9fr;overflow:hidden;margin-top:36px}
+.vl{padding:30px}
+.vl dl{display:grid;grid-template-columns:auto 1fr;gap:14px 20px;margin-top:6px}
+.vl dt{font-weight:700;color:var(--navy)}
+.vl dd{color:var(--mut);word-break:break-word}
+.vl dd a{color:var(--bp);font-weight:600}
+.vl .cta .btn.g{color:var(--navy);border-color:var(--navy)}
+.vr{background:var(--navy);color:#fff;padding:30px;position:relative;overflow:hidden}
+.vr .grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:28px 28px}
+.vr>*:not(.grid){position:relative}
+.vr h3{font-size:26px;margin-bottom:8px}
+.vr p{color:#C7D8E5}
+.vr .big{display:block;font:800 clamp(28px,4vw,38px)/1.1 'Bricolage Grotesque',sans-serif;color:#FFB37E;text-decoration:none;margin:16px 0}
+@media(max-width:860px){.visit{grid-template-columns:1fr}.vl,.vr{padding:22px}}
+
+footer{background:#0A1824;color:#9FB8CC;padding:32px 0 96px;font-size:14px}
+footer .fin{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{color:#FFB37E}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero{animation:sheen 22s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero .grid{animation:gridpan 40s linear infinite}
+@keyframes gridpan{from{transform:translate(0,0)}to{transform:translate(120px,120px)}}
+.mo.g1{animation:drift1 17s ease-in-out infinite}
+.mo.g2{animation:drift2 21s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,60px) scale(1.12)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(70px,-40px) scale(1.08)}}
+.scene .flow{stroke-dasharray:10 16;animation:flow 1.6s linear infinite}
+.scene .flow.c{animation-duration:2.1s}
+@keyframes flow{to{stroke-dashoffset:-52}}
+.scene .drop{animation:drip 2.8s ease-in infinite;transform-box:fill-box;transform-origin:50% 0}
+@keyframes drip{0%{transform:translateY(0) scale(.2);opacity:0}25%{transform:translateY(0) scale(1);opacity:1}55%{transform:translateY(0) scale(1,1.15);opacity:1}85%{transform:translateY(74px) scale(.9);opacity:1}100%{transform:translateY(84px) scale(.4);opacity:0}}
+.scene .ripple{animation:ripple 2.8s ease-out infinite;transform-box:fill-box;transform-origin:center;opacity:0}
+@keyframes ripple{0%,84%{transform:scale(.2);opacity:0}88%{opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.scene .wrench{animation:turn 4s ease-in-out infinite;transform-box:fill-box;transform-origin:18% 50%}
+@keyframes turn{0%,100%{transform:rotate(0)}35%,55%{transform:rotate(-18deg)}}
+.scene .gauge{animation:needle 3.6s ease-in-out infinite;transform-box:view-box;transform-origin:318px 118px}
+@keyframes needle{0%,100%{transform:rotate(-40deg)}50%{transform:rotate(35deg)}}
+.hin>div:first-child>*{animation:rise .8s ease both}
+.hin>div:first-child>*:nth-child(2){animation-delay:.1s}.hin>div:first-child>*:nth-child(3){animation-delay:.2s}.hin>div:first-child>*:nth-child(4){animation-delay:.3s}.hin>div:first-child>*:nth-child(5){animation-delay:.4s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hero,.hero .grid,.mo,.scene .flow,.scene .drop,.scene .ripple,.scene .wrench,.scene .gauge,.hin>div:first-child>*,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.scene .drop{opacity:1}}
+:root{--bc:#C8692C;--bc2:#0E2233;--bi:#0E2233;--bb:#F5F1EA;--bf:'Public Sans',system-ui,sans-serif;--bd:'Bricolage Grotesque',system-ui,sans-serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="notice"><span data-en='Sample page created by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> for Fox Plumbing &amp; More' data-es='Página de muestra creada por <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> para Fox Plumbing &amp; More'>Sample page created by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> for Fox Plumbing &amp; More</span></div>
+
+<header>
+  <div class="wrap hbar">
+    <a class="brand" href="#top" aria-label="Fox Plumbing &amp; More">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="9" fill="#C8692C"/><path d="M9 12l6 5h10l6-5-2 12-9 7-9-7z" fill="#fff"/><path d="M15 21l3 2M25 21l-3 2" stroke="#C8692C" stroke-width="2" stroke-linecap="round"/><path d="M20 26v3" stroke="#C8692C" stroke-width="2" stroke-linecap="round"/></svg>
+      <span><b>Fox <em>Plumbing</em> &amp; More</b><small data-en="Lawrenceburg, TN" data-es="Lawrenceburg, TN">Lawrenceburg, TN</small></span>
+    </a>
+    <div class="tools"><button class="lang" type="button" data-lang="es" aria-label="Cambiar idioma">Español</button><a class="callsm" href="tel:+19312920248">📞 <span>(931) 292-0248</span></a></div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="grid" aria-hidden="true"></div>
+  <div class="glow g1 mo" aria-hidden="true"></div>
+  <div class="glow g2 mo" aria-hidden="true"></div>
+  <div class="wrap hin">
+    <div>
+      <span class="tag mono"><i></i><span data-en="Locally owned &amp; operated" data-es="Negocio local y familiar">Locally owned &amp; operated</span></span>
+      <h1 data-en='Lawrence County’s <span class="cu">local plumber.</span>' data-es='El <span class="cu">plomero local</span> del condado de Lawrence.'>Lawrence County’s <span class="cu">local plumber.</span></h1>
+      <p class="lead" data-en="Water heaters, tankless, water leaks, drain services, bathroom remodels &amp; more. Licensed and insured, serving Lawrenceburg and the surrounding areas." data-es="Calentadores de agua, tankless (sin tanque), fugas de agua, destapes de drenaje, remodelación de baños y más. Con licencia y seguro, en Lawrenceburg y sus alrededores.">Water heaters, tankless, water leaks, drain services, bathroom remodels &amp; more. Licensed and insured, serving Lawrenceburg and the surrounding areas.</p>
+      <div class="cta">
+        <a class="btn p" href="tel:+19312920248">📞 <span data-en="Call (931) 292-0248" data-es="Llama al (931) 292-0248">Call (931) 292-0248</span></a>
+        <a class="btn g" href="mailto:Foxplumbinganddrain@gmail.com">✉️ <span data-en="Email us" data-es="Escríbenos">Email us</span></a>
+      </div>
+      <div class="meta"><span data-en="Licensed &amp; insured" data-es="Con licencia y seguro">Licensed &amp; insured</span><span data-en="Owner: Austin Fox" data-es="Dueño: Austin Fox">Owner: Austin Fox</span><span data-en="Lawrence County &amp; nearby" data-es="Condado de Lawrence y alrededores">Lawrence County &amp; nearby</span></div>
+    </div>
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <!-- marco de plano -->
+        <rect x="14" y="14" width="372" height="372" rx="10" fill="none" stroke="rgba(160,205,240,.35)" stroke-dasharray="4 6"/>
+        <text class="lbl" x="28" y="40">DWG · FOX-01 · WATER HEATER</text>
+        <!-- tubo frío (azul) -->
+        <path d="M40 300 H120 V110 H170" fill="none" stroke="#1D5E9C" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="flow c" d="M40 300 H120 V110 H170" fill="none" stroke="#7FC1FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- tubo caliente (rojo) -->
+        <path d="M230 110 H280 V250 H360" fill="none" stroke="#A02E1E" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="flow" d="M230 110 H280 V250 H360" fill="none" stroke="#FF8B6B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- calentador -->
+        <rect x="150" y="96" width="100" height="196" rx="22" fill="#E9EEF2" stroke="#0E2233" stroke-width="4"/>
+        <rect x="150" y="96" width="100" height="30" rx="14" fill="#C8692C" stroke="#0E2233" stroke-width="4"/>
+        <rect x="172" y="168" width="56" height="34" rx="6" fill="#0E2233"/>
+        <text x="200" y="191" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="14" fill="#FFB37E">120°</text>
+        <circle cx="200" cy="244" r="10" fill="#0E2233"/>
+        <rect x="160" y="292" width="12" height="16" fill="#0E2233"/><rect x="228" y="292" width="12" height="16" fill="#0E2233"/>
+        <!-- manómetro -->
+        <circle cx="318" cy="118" r="26" fill="#F5F1EA" stroke="#0E2233" stroke-width="4"/>
+        <path d="M300 128 A20 20 0 1 1 336 128" fill="none" stroke="#C8692C" stroke-width="3"/>
+        <line class="gauge" x1="318" y1="118" x2="318" y2="99" stroke="#0E2233" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="318" cy="118" r="4" fill="#0E2233"/>
+        <!-- llave de agua y gota -->
+        <path d="M352 250 v18 h-10" fill="none" stroke="#A02E1E" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="drop" d="M342 282 c-6 9 -9 14 -9 18 a9 9 0 0 0 18 0 c0 -4 -3 -9 -9 -18z" fill="#7FC1FF"/>
+        <ellipse class="ripple" cx="342" cy="372" rx="16" ry="4" fill="none" stroke="#7FC1FF" stroke-width="2"/>
+        <!-- llave inglesa -->
+        <g class="wrench">
+          <path d="M40 222 l70 -28" stroke="#C9D3DB" stroke-width="12" stroke-linecap="round"/>
+          <path d="M104 182 a16 16 0 1 0 14 22 l-10 -2 -4 -10 6 -8z" fill="#C9D3DB"/>
+        </g>
+        <text class="lbl" x="40" y="330">COLD IN</text>
+        <text class="lbl" x="290" y="232">HOT OUT</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap tgrid">
+    <div class="fact"><b data-en="Licensed &amp; insured" data-es="Licencia y seguro">Licensed &amp; insured</b><span data-en="Stated on our Facebook page" data-es="Así lo indicamos en Facebook">Stated on our Facebook page</span></div>
+    <div class="fact"><b>100%</b><span data-en="of 25 Facebook reviewers recommend us" data-es="de 25 reseñas en Facebook nos recomiendan">of 25 Facebook reviewers recommend us</span></div>
+    <div class="fact"><b data-en="Neighborhood Favorite" data-es="Favorito del vecindario">Neighborhood Favorite</b><span data-en="On Nextdoor, in 3 neighborhoods" data-es="En Nextdoor, en 3 vecindarios">On Nextdoor, in 3 neighborhoods</span></div>
+    <div class="fact"><b data-en="Locally owned" data-es="Dueño local">Locally owned</b><span data-en="Owner Austin Fox, Lawrenceburg" data-es="Dueño Austin Fox, Lawrenceburg">Owner Austin Fox, Lawrenceburg</span></div>
+  </div>
+</div>
+
+<section class="blk" id="services">
+  <div class="wrap">
+    <div class="kicker mono" data-en="Services" data-es="Servicios">Services</div>
+    <h2 data-en="Hot water, cold water, and everything in between." data-es="Agua caliente, agua fría y todo lo de en medio.">Hot water, cold water, and everything in between.</h2>
+    <p class="sub" data-en="From a leak at the meter to a full bathroom remodel, call one local, licensed and insured plumber." data-es="Desde una fuga en el medidor hasta remodelar el baño completo, llama a un plomero local con licencia y seguro.">From a leak at the meter to a full bathroom remodel, call one local, licensed and insured plumber.</p>
+    <div class="svcs">
+      <article class="svc hotc"><span class="no mono">01</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9412B" stroke-width="2" stroke-linecap="round"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="M10 8h4M12 13v4"/></svg></div><h3 data-en="Water heaters" data-es="Calentadores de agua">Water heaters</h3><p data-en="Water heater installation and repair for your home." data-es="Instalación y reparación de calentadores de agua para tu casa.">Water heater installation and repair for your home.</p></article>
+      <article class="svc hotc"><span class="no mono">02</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9412B" stroke-width="2" stroke-linecap="round"><rect x="5" y="4" width="14" height="10" rx="2"/><path d="M9 14v6M15 14v6M9 9h6"/></svg></div><h3 data-en="Tankless" data-es="Tankless (sin tanque)">Tankless</h3><p data-en="Tankless water heater installs. Call to ask if tankless is right for your home." data-es="Instalación de calentadores tankless. Llama para ver si te conviene en tu casa.">Tankless water heater installs. Call to ask if tankless is right for your home.</p></article>
+      <article class="svc"><span class="no mono">03</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2E86DE" stroke-width="2" stroke-linecap="round"><path d="M12 3c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z"/></svg></div><h3 data-en="Water leaks" data-es="Fugas de agua">Water leaks</h3><p data-en="Water leaks found and fixed, including leaks at the meter." data-es="Encontramos y reparamos fugas de agua, incluso en el medidor.">Water leaks found and fixed, including leaks at the meter.</p></article>
+      <article class="svc"><span class="no mono">04</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2E86DE" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8M9.5 9.5l5 5M14.5 9.5l-5 5"/></svg></div><h3 data-en="Drain services" data-es="Drenajes">Drain services</h3><p data-en="Drain services for slow or clogged drains. Call and tell us what’s backing up." data-es="Servicio para drenajes lentos o tapados. Llama y cuéntanos qué se está tapando.">Drain services for slow or clogged drains. Call and tell us what’s backing up.</p></article>
+      <article class="svc"><span class="no mono">05</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2E86DE" stroke-width="2" stroke-linecap="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M6 12V6a2 2 0 0 1 4 0"/><path d="M8 19l-1 2M16 19l1 2"/></svg></div><h3 data-en="Bathroom remodels" data-es="Remodelación de baños">Bathroom remodels</h3><p data-en="Planning a bathroom remodel? Call to talk about your project." data-es="¿Planeas remodelar tu baño? Llama para platicar de tu proyecto.">Planning a bathroom remodel? Call to talk about your project.</p></article>
+      <article class="svc hotc"><span class="no mono">06</span><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D9412B" stroke-width="2" stroke-linecap="round"><path d="M3 8h7v8h11"/><path d="M3 5v6M21 13v6"/></svg></div><h3 data-en="&amp; more: water lines" data-es="Y más: líneas de agua">&amp; more: water lines</h3><p data-en="New water lines with PEX pipe, including runs from a well house into the home." data-es="Líneas de agua nuevas con tubo PEX, incluso desde la caseta del pozo hasta la casa.">New water lines with PEX pipe, including runs from a well house into the home.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="blk job">
+  <div class="grid" aria-hidden="true"></div>
+  <div class="wrap jin">
+    <div>
+      <div class="kicker mono" style="color:#FFB37E" data-en="Recent job" data-es="Trabajo reciente">Recent job</div>
+      <h2 data-en="About 100 feet of new water line." data-es="Unos 100 pies de línea de agua nueva.">About 100 feet of new water line.</h2>
+      <p class="sub" data-en="In November 2026 we ran 1-inch PEX pipe from a well house into a home. Water lines are part of the “&amp; More.”" data-es="En noviembre de 2026 instalamos tubo PEX de 1 pulgada desde la caseta del pozo hasta una casa. Las líneas de agua son parte del “&amp; More”.">In November 2026 we ran 1-inch PEX pipe from a well house into a home. Water lines are part of the “&amp; More.”</p>
+    </div>
+    <div class="spec">
+      <dl>
+        <dt class="mono" data-en="Pipe" data-es="Tubo">Pipe</dt><dd data-en="1-inch PEX" data-es="PEX de 1 pulgada">1-inch PEX</dd>
+        <dt class="mono" data-en="Length" data-es="Largo">Length</dt><dd data-en="About 100 ft" data-es="Unos 100 pies">About 100 ft</dd>
+        <dt class="mono" data-en="From" data-es="Desde">From</dt><dd data-en="Well house" data-es="Caseta del pozo">Well house</dd>
+        <dt class="mono" data-en="To" data-es="Hasta">To</dt><dd data-en="Into the home" data-es="Dentro de la casa">Into the home</dd>
+      </dl>
+      <p class="src" data-en='As posted on our <a href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener">Facebook page</a>, Nov. 10, 2026.' data-es='Publicado en nuestra <a href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener">página de Facebook</a>, 10 de nov. de 2026.'>As posted on our <a href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener">Facebook page</a>, Nov. 10, 2026.</p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="how">
+  <div class="wrap">
+    <div class="kicker mono" data-en="How it works" data-es="Cómo funciona">How it works</div>
+    <h2 data-en="Three steps to fixed." data-es="Tres pasos y listo.">Three steps to fixed.</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3 data-en="Call or email" data-es="Llama o escribe">Call or email</h3><p data-en="Tell us what’s going on: no hot water, a leak, a slow drain or a project." data-es="Cuéntanos qué pasa: no hay agua caliente, una fuga, un drenaje lento o un proyecto.">Tell us what’s going on: no hot water, a leak, a slow drain or a project.</p></div>
+      <div class="step"><div class="n">2</div><h3 data-en="Get a quote" data-es="Recibe tu cotización">Get a quote</h3><p data-en="Every job is different, so we quote it for your home." data-es="Cada trabajo es distinto, así que lo cotizamos para tu casa.">Every job is different, so we quote it for your home.</p></div>
+      <div class="step"><div class="n">3</div><h3 data-en="We fix it" data-es="Lo arreglamos">We fix it</h3><p data-en="Licensed and insured work from a locally owned plumber." data-es="Trabajo con licencia y seguro de un plomero local.">Licensed and insured work from a locally owned plumber.</p></div>
+    </div>
+    <div class="price"><b>$—</b><span data-en="Prices aren’t posted online. Call (931) 292-0248 for a quote on your job." data-es="Los precios no están publicados. Llama al (931) 292-0248 para cotizar tu trabajo.">Prices aren’t posted online. Call (931) 292-0248 for a quote on your job.</span></div>
+  </div>
+</section>
+
+<section class="blk" id="area" style="padding-top:0">
+  <div class="wrap">
+    <div class="two" style="margin-top:0">
+      <div class="card">
+        <div class="kicker mono" data-en="Service area" data-es="Zona de servicio">Service area</div>
+        <h3 data-en="Lawrence County &amp; surrounding areas" data-es="Condado de Lawrence y alrededores">Lawrence County &amp; surrounding areas</h3>
+        <p data-en="Based in Lawrenceburg, TN. We come to you. Not sure if we reach your address? Just call." data-es="Estamos en Lawrenceburg, TN, y vamos a tu casa. ¿No sabes si llegamos a tu dirección? Solo llama.">Based in Lawrenceburg, TN. We come to you. Not sure if we reach your address? Just call.</p>
+        <ul class="chips"><li>Lawrenceburg</li><li data-en="Lawrence County" data-es="Condado de Lawrence">Lawrence County</li><li data-en="Surrounding areas" data-es="Alrededores">Surrounding areas</li></ul>
+      </div>
+      <div class="card">
+        <div class="kicker mono" data-en="What neighbors say" data-es="Lo que dicen los vecinos">What neighbors say</div>
+        <div class="score"><b>100%</b><span data-en="recommend · 25 Facebook reviews" data-es="recomiendan · 25 reseñas en Facebook">recommend · 25 Facebook reviews</span></div>
+        <p data-en="Named a Nextdoor “Neighborhood Favorite” in East Side of Springer, Beechwood Estates and Mars Hill." data-es="Nombrado “Neighborhood Favorite” en Nextdoor en East Side of Springer, Beechwood Estates y Mars Hill.">Named a Nextdoor “Neighborhood Favorite” in East Side of Springer, Beechwood Estates and Mars Hill.</p>
+        <p style="margin-top:10px"><a class="lnk" href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener" data-en="Read the reviews on Facebook →" data-es="Lee las reseñas en Facebook →">Read the reviews on Facebook →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="contact" style="padding-top:0">
+  <div class="wrap">
+    <div class="kicker mono" data-en="Contact" data-es="Contacto">Contact</div>
+    <h2 data-en="Got a leak? Let’s talk." data-es="¿Tienes una fuga? Hablemos.">Got a leak? Let’s talk.</h2>
+    <div class="visit">
+      <div class="vl">
+        <dl>
+          <dt data-en="Phone" data-es="Teléfono">Phone</dt><dd><a href="tel:+19312920248">(931) 292-0248</a></dd>
+          <dt data-en="Email" data-es="Correo">Email</dt><dd><a href="mailto:Foxplumbinganddrain@gmail.com">Foxplumbinganddrain@gmail.com</a></dd>
+          <dt data-en="Hours" data-es="Horario">Hours</dt><dd data-en="Call us for hours" data-es="Llámanos para horario">Call us for hours</dd>
+          <dt data-en="Based in" data-es="Ubicación">Based in</dt><dd data-en="Lawrenceburg, TN 38464 · we come to you" data-es="Lawrenceburg, TN 38464 · vamos a tu casa">Lawrenceburg, TN 38464 · we come to you</dd>
+          <dt>Facebook</dt><dd><a href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener">Fox Plumbing &amp; More</a></dd>
+        </dl>
+        <div class="cta">
+          <a class="btn p" href="tel:+19312920248">📞 <span data-en="Call now" data-es="Llamar ahora">Call now</span></a>
+          <a class="btn g" href="https://www.google.com/maps/search/?api=1&amp;query=Fox%20Plumbing%20%26%20More%20Lawrenceburg%20TN" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+        </div>
+      </div>
+      <div class="vr">
+        <div class="grid" aria-hidden="true"></div>
+        <h3 data-en="No hot water? Water where it shouldn’t be?" data-es="¿Sin agua caliente? ¿Agua donde no debe?">No hot water? Water where it shouldn’t be?</h3>
+        <p data-en="Call Austin at Fox Plumbing &amp; More." data-es="Llama a Austin de Fox Plumbing &amp; More.">Call Austin at Fox Plumbing &amp; More.</p>
+        <a class="big" href="tel:+19312920248">(931) 292-0248</a>
+        <p data-en="Licensed and insured · Locally owned and operated" data-es="Con licencia y seguro · Negocio local">Licensed and insured · Locally owned and operated</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap fin">
+    <span>© 2026 Fox Plumbing &amp; More · Lawrenceburg, TN</span>
+    <span data-en='Sample page by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a>' data-es='Página de muestra por <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a>'>Sample page by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  let lang="en";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=lang==="en"?"Español":"English";b.dataset.lang=lang==="en"?"es":"en"});
+    document.title=lang==="en"?"Fox Plumbing & More · Lawrenceburg, TN":"Fox Plumbing & More · Plomería en Lawrenceburg, TN";
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".fact, .svc, .step, .card, .spec, .price, .visit"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Fox Plumbing & More assistant" hidden>
+  <div class="bh"><div><b>Fox Plumbing & More</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Fox Plumbing & More",color:"#C8692C",color2:"#0E2233",ink:"#0E2233",bg:"#F5F1EA",font:"'Public Sans',system-ui,sans-serif",display:"'Bricolage Grotesque',system-ui,sans-serif",
+  tel:"+19312920248",telTxt:"(931) 292-0248",maps:"https://www.google.com/maps/search/?api=1&query=Fox%20Plumbing%20%26%20More%20Lawrenceburg%20TN",address:"Lawrenceburg, TN 38464",
+  H:[null,null,null,null,null,null,null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAIL=`<a href="mailto:Foxplumbinganddrain@gmail.com">Foxplumbinganddrain@gmail.com</a>`,FB=`<a href="https://www.facebook.com/p/Fox-Plumbing-More-61559927008900/" target="_blank" rel="noopener">Facebook</a>`,MAP=`<a href="${CFG.maps}" target="_blank" rel="noopener">Google Maps</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))\b/i,en:()=>"Hi! 👋 Ask me about water heaters, leaks, drains, remodels, our service area or how to get a quote.",es:()=>"¡Hola! 👋 Pregúntame por calentadores, fugas, drenajes, remodelaciones, la zona que cubrimos o cómo pedir cotización."},
+  {k:"thanks",re:/gracias|thank|thx|appreciate/i,en:()=>"You're welcome! Call anytime you need a plumber. 🔧",es:()=>"¡Con gusto! Llámanos cuando necesites un plomero. 🔧"},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|speak|idioma|language/i,en:()=>`This website works in English and Spanish. To ask which languages we speak on the phone, call ${TEL}. 🗣️`,es:()=>`Esta página está en inglés y español. Para preguntar en qué idiomas atendemos por teléfono, llama al ${TEL}. 🗣️`},
+  {k:"emergency",re:/emergen|urgen|flood|inund|burst|revent|broke|rot[oa]|gushing|24\/?7|night|noche|tonight|after hours/i,en:()=>`If water is running where it shouldn't, shut off the main water valve first, then call ${TEL}. We haven't posted after-hours or emergency availability here, so please call to check. 🚨`,es:()=>`Si sale agua donde no debe, primero cierra la llave principal del agua y luego llama al ${TEL}. No tenemos publicado servicio de emergencia o fuera de horario, así que llama para confirmar. 🚨`},
+  {k:"open",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today|trabajan hoy/i,en:()=>`We're a plumbing service that comes to you, and our hours aren't posted online yet. Call ${TEL} to check today's availability. ⏰`,es:()=>`Somos un servicio de plomería que va a tu casa, y el horario todavía no está publicado. Llama al ${TEL} para ver si hay lugar hoy. ⏰`},
+  {k:"hours",re:/hora|horario|abre|abren|cierra|cierran|hours|close|weekend|fin de semana|s[aá]bado|domingo|saturday|sunday|qu[eé] d[ií]as|what days/i,en:()=>`Our hours aren't posted online yet. Call ${TEL} and we'll find a time that works. 📅`,es:()=>`El horario todavía no está publicado. Llama al ${TEL} y buscamos una hora que te funcione. 📅`},
+  {k:"time",re:/cu[aá]nto (tarda|tiempo|dura)|tardan|duraci|how long|how soon|wait|espera|soon|pronto|same day|mismo d[ií]a|today|hoy/i,en:()=>`How soon we can come and how long a job takes depends on the job and the schedule. Call ${TEL} for the soonest opening. ⏱️`,es:()=>`Qué tan pronto podemos ir y cuánto tarda depende del trabajo y de la agenda. Llama al ${TEL} para el primer espacio disponible. ⏱️`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|tarifa|price|how much|cost|rate|quote|cotiza|estimate|presupuesto|charge|fee/i,en:()=>`Prices aren't posted online because every job is different. Call ${TEL} or email ${MAIL} with what's going on and we'll quote your job. 💵`,es:()=>`Los precios no están publicados porque cada trabajo es distinto. Llama al ${TEL} o escribe a ${MAIL} con lo que pasa y te damos la cotización. 💵`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|venmo|zelle|cash ?app|paypal|check|cheque|payment|financ/i,en:()=>`To confirm which payment methods we take, call ${TEL}. 💳`,es:()=>`Para confirmar qué formas de pago aceptamos, llama al ${TEL}. 💳`},
+  {k:"license",re:/licen|insur|asegur|seguro|bonded|certif/i,en:()=>"Yes, Fox Plumbing & More is licensed and insured. ✅",es:()=>"Sí, Fox Plumbing & More tiene licencia y seguro. ✅"},
+  {k:"guarantee",re:/garant[ií]a|guarant|warrant|satisf|not happy|no qued|si falla|callback/i,en:()=>`For questions about warranties or what happens if something isn't right after a job, please call ${TEL} and talk with us directly. 🛡️`,es:()=>`Para preguntas sobre garantías o qué pasa si algo no queda bien después del trabajo, llama al ${TEL} y habla directamente con nosotros. 🛡️`},
+  {k:"tankless",re:/tankless|sin tanque|on.?demand/i,en:()=>`Yes, we install tankless water heaters. Call ${TEL} to talk about whether tankless fits your home. 🔥`,es:()=>`Sí, instalamos calentadores tankless (sin tanque). Llama al ${TEL} para ver si te conviene en tu casa. 🔥`},
+  {k:"heater",re:/water heater|calentador|boiler|hot water|agua caliente|no hot|heater|boiler/i,en:()=>`We install and repair water heaters, including tankless. No hot water? Call ${TEL}. 🔥`,es:()=>`Instalamos y reparamos calentadores de agua, también tankless. ¿Sin agua caliente? Llama al ${TEL}. 🔥`},
+  {k:"leak",re:/leak|fuga|gotea|drip|meter|medidor|wet|mojad|humedad|charco|puddle/i,en:()=>`We find and fix water leaks, including leaks at the meter. Call ${TEL}, and if it's bad, shut off the main valve first. 💧`,es:()=>`Encontramos y reparamos fugas de agua, incluso en el medidor. Llama al ${TEL}, y si es grave, primero cierra la llave principal. 💧`},
+  {k:"drain",re:/drain|drenaje|desag|clog|tapad|tapa|slow|lento|toilet|inodoro|ba[ñn]o tapado|sink|fregadero|lavabo/i,en:()=>`Yes, we do drain services for slow or clogged drains. Call ${TEL} and tell us what's backing up. 🚿`,es:()=>`Sí, damos servicio a drenajes lentos o tapados. Llama al ${TEL} y cuéntanos qué se está tapando. 🚿`},
+  {k:"remodel",re:/remodel|bathroom|ba[ñn]o|renov|shower|regadera|tub|tina/i,en:()=>`Yes, we do bathroom remodels. Call ${TEL} or email ${MAIL} to talk about your project. 🛁`,es:()=>`Sí, hacemos remodelaciones de baño. Llama al ${TEL} o escribe a ${MAIL} para platicar de tu proyecto. 🛁`},
+  {k:"waterline",re:/pex|water line|l[ií]nea de agua|well|pozo|pipe|tuber|tubo|main line/i,en:()=>`Yes, water lines are part of the "& More." In November 2026 we ran about 100 feet of 1-inch PEX from a well house into a home. Call ${TEL} about yours. 🚰`,es:()=>`Sí, las líneas de agua son parte del "& More". En noviembre de 2026 instalamos unos 100 pies de tubo PEX de 1 pulgada desde la caseta del pozo hasta una casa. Llama al ${TEL} para la tuya. 🚰`},
+  {k:"commercial",re:/comercial|negocio|empresa|business|commercial|restaurant|office|oficina|rental|renta|landlord|due[ñn]o de casa|large|grande|big job|varias casas|multiple|new construction|construcci[oó]n nueva|evento|event/i,en:()=>`For bigger jobs, rentals, businesses or new construction, call ${TEL} to see if it's a fit. 🏗️`,es:()=>`Para trabajos grandes, rentas, negocios o construcción nueva, llama al ${TEL} para ver si lo podemos hacer. 🏗️`},
+  {k:"special",re:/special|especial|promo|descuento|discount|deal|oferta|coupon|cup[oó]n|senior|military|militar/i,en:()=>`We don't have specials posted here. Call ${TEL} to ask about any current offers. 🏷️`,es:()=>`No tenemos promociones publicadas aquí. Llama al ${TEL} para preguntar si hay alguna. 🏷️`},
+  {k:"services",re:/servicio|qu[eé] hacen|ofrecen|services|what do you|plumb|plomer|fix|arregl|repar|recomien|recommend|install|instal/i,en:()=>"We handle water heaters (tank and tankless), water leaks, drain services, bathroom remodels and more, like new PEX water lines. 🔧 Ask me about prices or our service area.",es:()=>"Hacemos calentadores de agua (con tanque y tankless), fugas de agua, drenajes, remodelación de baños y más, como líneas de agua nuevas de PEX. 🔧 Pregúntame por precios o la zona que cubrimos."},
+  {k:"reviews",re:/rese[ñn]a|opini|review|rating|recomendad|nextdoor|good|buen[oa]s?|trust|confiable/i,en:()=>`On Facebook, 100% of 25 reviewers recommend us, and Nextdoor named us a Neighborhood Favorite in 3 neighborhoods. Read the reviews on our ${FB} page. ⭐`,es:()=>`En Facebook, el 100% de 25 reseñas nos recomiendan, y Nextdoor nos nombró Neighborhood Favorite en 3 vecindarios. Lee las reseñas en nuestra página de ${FB}. ⭐`},
+  {k:"area",re:/zona|[aá]rea|cubren|llegan|lawrence|county|condado|loretto|leoma|summertown|ethridge|pulaski|columbia|waynesboro|serve|come to|far|lejos|travel|near me|cerca/i,en:()=>`We're based in Lawrenceburg and serve Lawrence County and the surrounding areas. To check if we reach your address, call ${TEL}. 🗺️`,es:()=>`Estamos en Lawrenceburg y trabajamos en el condado de Lawrence y sus alrededores. Para saber si llegamos a tu dirección, llama al ${TEL}. 🗺️`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion|shop|tienda/i,en:()=>`We're based in Lawrenceburg, TN 38464, and we come to you, so there's no shop to visit or park at. Find us on ${MAP} or call ${TEL}. 🚐`,es:()=>`Estamos en Lawrenceburg, TN 38464, y nosotros vamos a tu casa, así que no hay local que visitar ni dónde estacionarse. Búscanos en ${MAP} o llama al ${TEL}. 🚐`},
+  {k:"book",re:/cita|agendar|programar|reserv|appointment|book|schedule|visit|visita|come out|venir|send someone/i,en:()=>`Service visits are set up directly with us. Call ${TEL} or email ${MAIL} with your address and what's going on. 🗓️`,es:()=>`Las visitas se acuerdan directamente con nosotros. Llama al ${TEL} o escribe a ${MAIL} con tu dirección y lo que pasa. 🗓️`},
+  {k:"email",re:/correo|email|e-mail|mail|escribir|write|message|mensaje|facebook|text|texto/i,en:()=>`You can email us at ${MAIL} or message us on ${FB}. ✉️`,es:()=>`Puedes escribirnos a ${MAIL} o mandarnos mensaje por ${FB}. ✉️`},
+  {k:"person",re:/persona|humano|due[ñn]o|encargad|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|austin|manager|call|phone/i,en:()=>`Of course! Call Austin at ${TEL} or email ${MAIL}. 📞`,es:()=>`¡Claro! Llama a Austin al ${TEL} o escribe a ${MAIL}. 📞`}
+];
+const CHIPS={en:[["services","What we do"],["heater","Water heaters"],["leak","Leaks"],["price","Prices"],["area","Area we serve"],["book","Set up a visit"],["reviews","Reviews"],["person","Talk to us"]],
+             es:[["services","Qué hacemos"],["heater","Calentadores"],["leak","Fugas"],["price","Precios"],["area","Zona que cubrimos"],["book","Pedir una visita"],["reviews","Reseñas"],["person","Hablar con nosotros"]]};
+const TXT={en:{hi:"Hi! 👋 I'm the Fox Plumbing & More assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} or email ${MAIL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Fox Plumbing & More. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} o escribe a ${MAIL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
