@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emerald Cake &amp; Co. · Columbia, TN</title>
+<meta name="description" content="Emerald Cake & Co. — made-from-scratch custom cakes, cupcakes and cookies on Culleoka Hwy in Columbia, Tennessee.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--em:#0E5B45;--em2:#0A3F31;--mint:#CFEDE0;--mint2:#E8F6EF;--cream:#FFF8EE;--blush:#F4B8C5;--blush2:#E78AA0;--gold:#C9973A;--ink:#17312A;--soft:#4D6A61;--fd:'Yeseva One',Georgia,serif;--fb:'Nunito',system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{background:var(--cream);color:var(--ink);font:17px/1.6 var(--fb)}
+a{color:var(--em)}
+img,svg{max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.note{background:var(--em2);color:#fff;text-align:center;font-size:14px;padding:8px 16px}
+.note a{color:var(--blush);font-weight:700}
+header{position:sticky;top:0;z-index:40;background:rgba(255,248,238,.94);backdrop-filter:blur(6px);border-bottom:1px solid rgba(14,91,69,.12)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--em2);font:22px/1 var(--fd);min-width:0}
+.brand .gem{flex:none;width:34px;height:34px}
+.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+.lang{border:2px solid var(--em);background:transparent;color:var(--em);font:800 14px var(--fb);border-radius:999px;padding:7px 14px;cursor:pointer}
+.callsm{background:var(--em);color:#fff;text-decoration:none;font-weight:800;font-size:14px;border-radius:999px;padding:9px 14px;white-space:nowrap}
+@media(max-width:560px){.callsm span{display:none}.brand{font-size:17px;gap:7px}.brand .gem{width:26px;height:26px}header .wrap{padding-left:16px;padding-right:16px}.lang{padding:7px 11px}}
+
+/* Portada */
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,var(--em2),var(--em) 40%,#13785C 60%,var(--em2));background-size:260% 260%;color:#fff}
+.hero .mo.b{position:absolute;border-radius:50%;filter:blur(40px);opacity:.45;pointer-events:none}
+.hero .b1{width:340px;height:340px;background:var(--blush);top:-90px;right:-60px}
+.hero .b2{width:300px;height:300px;background:var(--mint);bottom:-120px;left:-80px;opacity:.3}
+.hin{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:64px 20px 86px}
+.kick{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 14px;font-weight:700;font-size:14px;letter-spacing:.04em}
+h1{font:clamp(40px,7vw,74px)/1.02 var(--fd);margin:16px 0 14px;letter-spacing:.005em}
+h1 em{font-style:normal;color:var(--blush)}
+.lead{font-size:19px;max-width:34em;color:rgba(255,255,255,.92);margin:0 0 24px}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:800;border-radius:14px;padding:13px 20px;border:2px solid currentColor;color:inherit}
+.btn.p{background:var(--blush);color:var(--em2);border-color:var(--blush)}
+.btn.w{background:#fff;color:var(--em2);border-color:#fff}
+.scene{position:relative;max-width:380px;justify-self:center;width:100%}
+.scene svg{display:block;width:100%;height:auto;overflow:visible}
+.scallop{height:26px;background:radial-gradient(circle at 13px 0,transparent 12px,var(--cream) 13px) 0 0/26px 26px repeat-x;margin-top:-26px;position:relative}
+
+/* Secciones */
+section{padding:64px 0}
+.eyebrow{color:var(--blush2);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:13px;margin:0}
+h2{font:clamp(30px,4.5vw,46px)/1.1 var(--fd);color:var(--em2);margin:6px 0 14px}
+.sub{color:var(--soft);max-width:40em;margin:0 0 30px}
+.menu{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:#fff;border-radius:22px;padding:22px;border:1px solid rgba(14,91,69,.12);box-shadow:0 10px 24px rgba(14,91,69,.07);position:relative}
+.card .ic{width:58px;height:58px;border-radius:18px;background:var(--mint2);display:grid;place-items:center;font-size:30px;margin-bottom:12px}
+.card h3{font:22px/1.2 var(--fd);color:var(--em2);margin:0 0 6px}
+.card p{margin:0 0 12px;color:var(--soft);font-size:16px}
+.price{font-weight:800;color:var(--em)}
+.price small{font-weight:600;color:var(--soft)}
+.steps{background:var(--mint2)}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.step{background:#fff;border-radius:22px;padding:24px;border:2px dashed rgba(14,91,69,.25)}
+.step b{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--em);color:#fff;font:20px var(--fd);margin-bottom:10px}
+.step h3{margin:0 0 6px;font:21px var(--fd);color:var(--em2)}
+.step p{margin:0;color:var(--soft);font-size:16px}
+.band{background:var(--em2);color:#fff;padding:54px 0}
+.bin{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:center}
+.band h2{color:#fff}
+.band p{color:rgba(255,255,255,.88);margin:0 0 14px}
+.quote{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:22px;padding:24px}
+.quote q{font:26px/1.3 var(--fd);color:var(--blush);display:block;margin-bottom:8px}
+.quote small{color:rgba(255,255,255,.75)}
+.class{display:flex;gap:16px;align-items:flex-start;background:#fff;border-radius:22px;padding:22px;border:1px solid rgba(14,91,69,.12)}
+.class .ic{font-size:34px;flex:none}
+.class h3{margin:0 0 4px;font:22px var(--fd);color:var(--em2)}
+.class p{margin:0;color:var(--soft)}
+.visit .vg{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.vcard{background:#fff;border-radius:22px;padding:26px;border:1px solid rgba(14,91,69,.12)}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 16px}
+dt{font-weight:800;color:var(--em2)}
+dd{margin:0;color:var(--soft);overflow-wrap:anywhere}
+.hrs{width:100%;border-collapse:collapse}
+.hrs td{padding:7px 0;border-bottom:1px dashed rgba(14,91,69,.2)}
+.hrs td:last-child{text-align:right;font-weight:700}
+.hrs tr.off td:last-child{color:var(--blush2)}
+.tiny{font-size:14px;color:var(--soft);margin:12px 0 0}
+.visit .ctas{margin-top:18px}
+.visit .btn{color:var(--em)}
+.visit .btn.p{background:var(--em);color:#fff;border-color:var(--em)}
+footer{background:var(--em2);color:rgba(255,255,255,.85);text-align:center;padding:28px 20px 96px;font-size:15px}
+footer a{color:var(--blush)}
+@media(max-width:900px){.menu{grid-template-columns:repeat(2,1fr)}.hin{grid-template-columns:1fr;padding-top:44px}.scene{max-width:300px}.bin,.visit .vg{grid-template-columns:1fr}.sgrid{grid-template-columns:1fr}}
+@media(max-width:520px){.menu{grid-template-columns:1fr}.btn{padding:12px 16px}.lead{font-size:17px}section{padding:50px 0}.class{flex-direction:column}}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero{animation:sheen 20s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero .b1{animation:drift1 17s ease-in-out infinite}
+.hero .b2{animation:drift2 21s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,60px) scale(1.12)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-40px) scale(1.08)}}
+.scene .flame{animation:flick 1.3s ease-in-out infinite;transform-origin:50% 100%;transform-box:fill-box}
+@keyframes flick{0%,100%{transform:scale(1,1) rotate(-2deg)}30%{transform:scale(.9,1.12) rotate(3deg)}60%{transform:scale(1.05,.92) rotate(-3deg)}}
+.scene .glow{animation:glow 1.3s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:.6}}
+.scene .cake{animation:bob 5s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.scene .spr{animation:fall 6s linear infinite;opacity:0}
+@keyframes fall{0%{transform:translateY(-30px) rotate(0);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateY(170px) rotate(260deg);opacity:0}}
+.scene .drip{animation:drip 4s ease-in-out infinite;transform-origin:50% 0;transform-box:fill-box}
+@keyframes drip{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.25)}}
+.hin>div:first-child>*{animation:rise .8s ease both}
+.hin>div:first-child>*:nth-child(2){animation-delay:.1s}.hin>div:first-child>*:nth-child(3){animation-delay:.2s}.hin>div:first-child>*:nth-child(4){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hero,.hero .mo,.scene *,.hin>div:first-child>*,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.scene .spr{opacity:.9}}
+:root{--bc:#0E5B45;--bc2:#0A3F31;--bi:#17312A;--bb:#E8F6EF;--bf:'Nunito',system-ui,sans-serif;--bd:'Yeseva One',Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="note"><span data-en="Sample page created by Dakra Studio for Emerald Cake &amp; Co." data-es="Página de muestra creada por Dakra Studio para Emerald Cake &amp; Co.">Sample page created by Dakra Studio for Emerald Cake &amp; Co.</span> · <a href="https://dakrastudio.com">dakrastudio.com</a></div>
+<header>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Emerald Cake &amp; Co.">
+      <svg class="gem" viewBox="0 0 40 40" aria-hidden="true"><path d="M12 6h16l8 10-16 20L4 16z" fill="#0E5B45"/><path d="M12 6l8 10 8-10M4 16h32M20 16v20" stroke="#CFEDE0" stroke-width="1.6" fill="none"/></svg>
+      <span>Emerald Cake &amp; Co.</span>
+    </a>
+    <div class="tools"><button class="lang" type="button" data-lang="es">Español</button><a class="callsm" href="tel:+19315051736">📞 <span>(931) 505-1736</span></a></div>
+  </div>
+</header>
+<main id="top">
+<section class="hero" style="padding:0">
+  <div class="mo b b1" aria-hidden="true"></div><div class="mo b b2" aria-hidden="true"></div>
+  <div class="wrap hin">
+    <div>
+      <span class="kick" data-en="Scratch bakery · Columbia, TN" data-es="Repostería desde cero · Columbia, TN">Scratch bakery · Columbia, TN</span>
+      <h1 data-en="Cakes made from <em>scratch</em>, made for you" data-es="Pasteles hechos <em>desde cero</em>, hechos para ti">Cakes made from <em>scratch</em>, made for you</h1>
+      <p class="lead" data-en="Custom cakes, cupcakes, cookies and made-to-order sweets, baked fresh on Culleoka Highway. Stop in for treats Tuesday to Saturday, or message us about your next celebration." data-es="Pasteles personalizados, cupcakes, galletas y postres por encargo, horneados frescos en Culleoka Highway. Pasa por algo dulce de martes a sábado, o escríbenos para tu próxima celebración.">Custom cakes, cupcakes, cookies and made-to-order sweets, baked fresh on Culleoka Highway. Stop in for treats Tuesday to Saturday, or message us about your next celebration.</p>
+      <div class="ctas">
+        <a class="btn p" href="tel:+19315051736">📞 <span data-en="Call to order" data-es="Llama para pedir">Call to order</span></a>
+        <a class="btn w" href="mailto:emeraldcakenco@gmail.com?subject=Custom%20cake%20order">✉️ <span data-en="Email a cake idea" data-es="Envía tu idea de pastel">Email a cake idea</span></a>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=1440%20Culleoka%20Hwy%2C%20Columbia%2C%20TN%2038401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+      </div>
+    </div>
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 320 320">
+        <ellipse cx="160" cy="292" rx="120" ry="14" fill="rgba(0,0,0,.18)"/>
+        <g class="cake">
+          <circle class="glow" cx="160" cy="44" r="30" fill="#FFE29A"/>
+          <!-- vela -->
+          <rect x="153" y="58" width="14" height="44" rx="4" fill="#fff"/>
+          <path d="M153 66l14-6M153 78l14-6M153 90l14-6" stroke="#E78AA0" stroke-width="3"/>
+          <path class="flame" d="M160 30c7 9 9 15 9 20a9 9 0 0 1-18 0c0-5 3-11 9-20z" fill="#FFB547"/>
+          <!-- piso superior -->
+          <rect x="96" y="100" width="128" height="62" rx="12" fill="#F4B8C5"/>
+          <path d="M96 112c0-8 6-12 12-12h104c6 0 12 4 12 12v8c-8 0-8 12-16 12s-8-16-16-16-8 22-16 22-8-14-16-14-8 18-16 18-8-12-16-12-8 16-16 16-8-12-16-12z" fill="#FFF8EE"/>
+          <path class="drip" d="M188 128c0 10 4 14 4 18a4 4 0 0 1-8 0c0-4 4-8 4-18z" fill="#FFF8EE"/>
+          <circle cx="114" cy="99" r="8" fill="#fff"/><circle cx="137" cy="97" r="8" fill="#fff"/><circle cx="183" cy="97" r="8" fill="#fff"/><circle cx="206" cy="99" r="8" fill="#fff"/>
+          <!-- piso inferior -->
+          <rect x="64" y="160" width="192" height="92" rx="14" fill="#0E5B45"/>
+          <rect x="64" y="160" width="192" height="92" rx="14" fill="url(#st)" opacity=".35"/>
+          <path d="M64 174c0-8 6-14 14-14h164c8 0 14 6 14 14v6c-10 0-10 14-20 14s-10-18-20-18-10 24-20 24-10-16-20-16-10 20-20 20-10-14-20-14-10 18-20 18-10-14-20-14-10 16-20 16-10-12-18-12z" fill="#CFEDE0"/>
+          <path class="drip" d="M110 196c0 12 4 16 4 20a4 4 0 0 1-8 0c0-4 4-8 4-20z" fill="#CFEDE0" style="animation-delay:1.2s"/>
+          <path d="M64 236h192v4a12 12 0 0 1-12 12H76a12 12 0 0 1-12-12z" fill="#0A3F31"/>
+          <g fill="#C9973A"><circle cx="90" cy="224" r="4"/><circle cx="130" cy="224" r="4"/><circle cx="170" cy="224" r="4"/><circle cx="210" cy="224" r="4"/><circle cx="240" cy="224" r="4"/></g>
+          <!-- base -->
+          <rect x="44" y="252" width="232" height="12" rx="6" fill="#fff"/>
+          <rect x="146" y="264" width="28" height="22" fill="#fff"/>
+          <rect x="112" y="282" width="96" height="8" rx="4" fill="#fff"/>
+        </g>
+        <defs><pattern id="st" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="16" fill="#fff"/></pattern></defs>
+        <!-- chispitas -->
+        <rect class="spr" x="40" y="20" width="10" height="4" rx="2" fill="#F4B8C5"/>
+        <rect class="spr" x="270" y="10" width="10" height="4" rx="2" fill="#FFE29A" style="animation-delay:1.5s"/>
+        <rect class="spr" x="80" y="0" width="10" height="4" rx="2" fill="#CFEDE0" style="animation-delay:3s"/>
+        <rect class="spr" x="240" y="30" width="10" height="4" rx="2" fill="#fff" style="animation-delay:4.2s"/>
+        <rect class="spr" x="20" y="60" width="10" height="4" rx="2" fill="#FFE29A" style="animation-delay:2.3s"/>
+        <rect class="spr" x="292" y="70" width="10" height="4" rx="2" fill="#F4B8C5" style="animation-delay:5s"/>
+      </svg>
+    </div>
+  </div>
+</section>
+<div class="scallop" aria-hidden="true"></div>
+
+<section id="menu">
+  <div class="wrap">
+    <p class="eyebrow" data-en="From our kitchen" data-es="De nuestra cocina">From our kitchen</p>
+    <h2 data-en="What we bake" data-es="Lo que horneamos">What we bake</h2>
+    <p class="sub" data-en="Everything is made from scratch. Prices change with size and design, so ask us for a quote on custom work." data-es="Todo se hace desde cero. Los precios cambian según el tamaño y el diseño, así que pídenos cotización para trabajos personalizados.">Everything is made from scratch. Prices change with size and design, so ask us for a quote on custom work.</p>
+    <div class="menu">
+      <div class="card"><div class="ic">🎂</div><h3 data-en="Custom cakes" data-es="Pasteles personalizados">Custom cakes</h3><p data-en="Birthdays, showers, weddings and any day worth celebrating, designed around your idea." data-es="Cumpleaños, baby showers, bodas y cualquier día que valga la pena celebrar, diseñados con tu idea.">Birthdays, showers, weddings and any day worth celebrating, designed around your idea.</p><div class="price">$— <small data-en="quote by design" data-es="cotización según diseño">quote by design</small></div></div>
+      <div class="card"><div class="ic">🧁</div><h3 data-en="Cupcakes" data-es="Cupcakes">Cupcakes</h3><p data-en="Fresh in the case on shop days, or ordered by the dozen for your party." data-es="Frescos en la vitrina los días de tienda, o por docena para tu fiesta.">Fresh in the case on shop days, or ordered by the dozen for your party.</p><div class="price">$— <small data-en="ask for today's flavors" data-es="pregunta los sabores del día">ask for today's flavors</small></div></div>
+      <div class="card"><div class="ic">🍪</div><h3 data-en="Cookies" data-es="Galletas">Cookies</h3><p data-en="Sugar, confetti, snickerdoodle and more, baked in small batches." data-es="De azúcar, confeti, snickerdoodle y más, horneadas en tandas pequeñas.">Sugar, confetti, snickerdoodle and more, baked in small batches.</p><div class="price">$— <small data-en="call for prices" data-es="llama para precios">call for prices</small></div></div>
+      <div class="card"><div class="ic">🥧</div><h3 data-en="Sweets to order" data-es="Postres por encargo">Sweets to order</h3><p data-en="Holiday pre-orders and made-to-order treats. We post pre-order dates on Facebook." data-es="Pedidos anticipados de temporada y postres por encargo. Publicamos las fechas en Facebook.">Holiday pre-orders and made-to-order treats. We post pre-order dates on Facebook.</p><div class="price">$— <small data-en="see current menu" data-es="ver menú actual">see current menu</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Custom orders" data-es="Pedidos personalizados">Custom orders</p>
+    <h2 data-en="How to order your cake" data-es="Cómo pedir tu pastel">How to order your cake</h2>
+    <div class="sgrid">
+      <div class="step"><b>1</b><h3 data-en="Send your idea" data-es="Manda tu idea">Send your idea</h3><p data-en="Email emeraldcakenco@gmail.com or message us on Facebook with the date, servings and any inspiration photos." data-es="Escribe a emeraldcakenco@gmail.com o mándanos mensaje por Facebook con la fecha, porciones y fotos de inspiración.">Email emeraldcakenco@gmail.com or message us on Facebook with the date, servings and any inspiration photos.</p></div>
+      <div class="step"><b>2</b><h3 data-en="Get your quote" data-es="Recibe tu cotización">Get your quote</h3><p data-en="We'll confirm flavors, design and price with you before we start baking." data-es="Confirmamos contigo sabores, diseño y precio antes de empezar a hornear.">We'll confirm flavors, design and price with you before we start baking.</p></div>
+      <div class="step"><b>3</b><h3 data-en="Pick it up" data-es="Pasa por él">Pick it up</h3><p data-en="Collect your order at the shop at 1440 Culleoka Hwy on the agreed day." data-es="Recoge tu pedido en la tienda, 1440 Culleoka Hwy, el día acordado.">Collect your order at the shop at 1440 Culleoka Hwy on the agreed day.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap bin">
+    <div>
+      <p class="eyebrow" style="color:var(--blush)" data-en="Kind words" data-es="Lo que dicen">Kind words</p>
+      <h2 data-en="Sweet reviews from Columbia" data-es="Reseñas dulces de Columbia">Sweet reviews from Columbia</h2>
+      <p data-en="Neighbors stop by for treats in the case and come back for their celebration cakes." data-es="Los vecinos pasan por algo de la vitrina y regresan por sus pasteles de celebración.">Neighbors stop by for treats in the case and come back for their celebration cakes.</p>
+    </div>
+    <div class="quote"><q>The cupcakes were outstanding.</q><small data-en="— Yelp review" data-es="— Reseña en Yelp">— Yelp review</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="class">
+      <div class="ic">🎨</div>
+      <div><h3 data-en="Cake decorating classes" data-es="Clases de decoración de pasteles">Cake decorating classes</h3><p data-en="We host hands-on decorating nights at the bakery, like our Galentine's Cake Decorating class. Follow us on Facebook to catch the next one." data-es="Organizamos noches de decoración en la pastelería, como nuestra clase de Galentine's. Síguenos en Facebook para enterarte de la próxima.">We host hands-on decorating nights at the bakery, like our Galentine's Cake Decorating class. Follow us on Facebook to catch the next one.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit" style="padding-top:0">
+  <div class="wrap">
+    <p class="eyebrow" data-en="Come see us" data-es="Ven a vernos">Come see us</p>
+    <h2 data-en="Visit the bakery" data-es="Visita la pastelería">Visit the bakery</h2>
+    <div class="vg">
+      <div class="vcard">
+        <dl>
+          <dt data-en="Address" data-es="Dirección">Address</dt><dd>1440 Culleoka Hwy, Columbia, TN 38401</dd>
+          <dt data-en="Phone" data-es="Teléfono">Phone</dt><dd><a href="tel:+19315051736">(931) 505-1736</a></dd>
+          <dt data-en="Email" data-es="Correo">Email</dt><dd><a href="mailto:emeraldcakenco@gmail.com">emeraldcakenco@gmail.com</a></dd>
+          <dt>Facebook</dt><dd><a href="https://www.facebook.com/EmeraldCakenCo" target="_blank" rel="noopener">Emerald Cake &amp; Co.</a></dd>
+        </dl>
+        <div class="ctas">
+          <a class="btn p" href="tel:+19315051736">📞 <span data-en="Call" data-es="Llamar">Call</span></a>
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=1440%20Culleoka%20Hwy%2C%20Columbia%2C%20TN%2038401" target="_blank" rel="noopener">📍 <span data-en="Get directions" data-es="Cómo llegar">Get directions</span></a>
+        </div>
+      </div>
+      <div class="vcard">
+        <h3 style="margin:0 0 10px;font:24px var(--fd);color:var(--em2)" data-en="Shop hours" data-es="Horario de tienda">Shop hours</h3>
+        <table class="hrs">
+          <tr><td data-en="Tuesday – Friday" data-es="Martes a viernes">Tuesday – Friday</td><td>9:30 am – 4:30 pm</td></tr>
+          <tr><td data-en="Saturday" data-es="Sábado">Saturday</td><td>9:00 am – 3:00 pm</td></tr>
+          <tr class="off"><td data-en="Sunday &amp; Monday" data-es="Domingo y lunes">Sunday &amp; Monday</td><td data-en="Closed" data-es="Cerrado">Closed</td></tr>
+        </table>
+        <p class="tiny" data-en="Hours can change for holidays and events. Call us to confirm before you drive over." data-es="El horario puede cambiar en días festivos y eventos. Llámanos para confirmar antes de venir.">Hours can change for holidays and events. Call us to confirm before you drive over.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer>Emerald Cake &amp; Co. · 1440 Culleoka Hwy, Columbia, TN 38401 · <a href="tel:+19315051736">(931) 505-1736</a> · <a href="mailto:emeraldcakenco@gmail.com">emeraldcakenco@gmail.com</a><br><span data-en="Sample page created by" data-es="Página de muestra creada por">Sample page created by</span> <a href="https://dakrastudio.com">Dakra Studio</a></footer>
+<script>
+(function(){
+  let lang="en";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=lang==="en"?"Español":"English";b.dataset.lang=lang==="en"?"es":"en"});
+    document.title=lang==="en"?"Emerald Cake & Co. · Columbia, TN":"Emerald Cake & Co. · Pastelería en Columbia, TN";
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang==="es"?"es":"en";render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".card, .step, .quote, .class, .vcard"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Emerald Cake & Co. assistant" hidden>
+  <div class="bh"><div><b>Emerald Cake & Co.</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Emerald Cake & Co.",color:"#0E5B45",color2:"#0A3F31",ink:"#17312A",bg:"#E8F6EF",font:"'Nunito',system-ui,sans-serif",display:"'Yeseva One',Georgia,serif",
+  tel:"+19315051736",telTxt:"(931) 505-1736",maps:"https://www.google.com/maps/search/?api=1&query=1440%20Culleoka%20Hwy%2C%20Columbia%2C%20TN%2038401",address:"1440 Culleoka Hwy, Columbia, TN 38401",
+  H:[null,null,[9.5,16.5],[9.5,16.5],[9.5,16.5],[9.5,16.5],[9,15]]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAIL=`<a href="mailto:emeraldcakenco@gmail.com">emeraldcakenco@gmail.com</a>`,FB=`<a href="https://www.facebook.com/EmeraldCakenCo" target="_blank" rel="noopener">Facebook</a>`,MAP=`<a href="${CFG.maps}" target="_blank" rel="noopener">${CFG.address}</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))\b/i,en:()=>"Hi! 👋 Ask me about our cakes, hours, custom orders or how to find us.",es:()=>"¡Hola! 👋 Pregúntame por nuestros pasteles, horario, pedidos personalizados o cómo llegar."},
+  {k:"holiday",re:/thanksgiving|acci[oó]n de gracias|navidad|christmas|holiday|festiv|pre.?order|preorder|pedido anticipado|easter|pascua|valentin|halloween|special|especial|promo|descuento|discount|deal|oferta|sale/i,en:()=>`We announce holiday pre-orders and specials on our ${FB} page, with the pickup days. For what's on right now, call ${TEL}. 🦃🎄`,es:()=>`Anunciamos pedidos anticipados de temporada y especiales en nuestra página de ${FB}, con los días para recoger. Para lo que hay ahorita, llama al ${TEL}. 🦃🎄`},
+  {k:"thanks",re:/gracias|\bthanks?\b|thank you|\bthx\b|\bty\b/i,en:()=>"You're so welcome! Have a sweet day 🧁",es:()=>"¡Con mucho gusto! Que tengas un día dulce 🧁"},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|speak/i,en:()=>`This website works in English and Spanish. To ask which languages we speak at the shop, call ${TEL}. 🗣️`,es:()=>`Esta página está en inglés y español. Para preguntar qué idiomas se hablan en la tienda, llama al ${TEL}. 🗣️`},
+  {k:"allergy",re:/alerg|allerg|gluten|celiac|cel[ií]ac|\bnuts?\b|nut-free|nuez|nueces|man[ií]|peanut|vegan|vegano|dairy|l[aá]cteo|lactos|egg|huevo|sugar.?free|sin az[uú]car|diabet|keto|diet/i,en:()=>`We can't confirm allergen details in this chat. For allergy or diet requests (gluten-free, nut-free, vegan…), please call ${TEL} before ordering so we can tell you honestly what we can do. ⚠️`,es:()=>`No podemos confirmar detalles de alérgenos en este chat. Para alergias o dietas (sin gluten, sin nueces, vegano…), llama al ${TEL} antes de pedir y te decimos con honestidad qué podemos hacer. ⚠️`},
+  {k:"wedding",re:/boda|wedding|evento|event|fiesta grande|catering|banquete|corporat|empresa|church|iglesia|graduaci|graduation|large|grande|mayoreo|bulk|docenas|dozens/i,en:()=>`We'd love to be part of it! For weddings, events or big orders, email ${MAIL} with the date, number of guests and your ideas, or call ${TEL}. Book early, since custom dates fill up. 💍`,es:()=>`¡Nos encantaría ser parte! Para bodas, eventos o pedidos grandes, escribe a ${MAIL} con la fecha, número de invitados y tus ideas, o llama al ${TEL}. Reserva con tiempo, que las fechas se llenan. 💍`},
+  {k:"class",re:/clase|class|taller|workshop|decorat|decorar|lesson|curso/i,en:()=>`Yes! We host cake decorating classes at the bakery, like our Galentine's Cake Decorating class. Watch our ${FB} page for the next date, or call ${TEL}. 🎨`,es:()=>`¡Sí! Organizamos clases de decoración de pasteles en la pastelería, como la de Galentine's. Revisa nuestra página de ${FB} para la próxima fecha, o llama al ${TEL}. 🎨`},
+  {k:"open",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today/i,en:()=>{const s=STATUS();return `${s.en}\n\n${HOURS("en")}`},es:()=>{const s=STATUS();return `${s.es}\n\n${HOURS("es")}`}},
+  {k:"hours",re:/hora|horario|abre|abren|cierra|cierran|hours|close|when|weekend|fin de semana|s[aá]bado|domingo|lunes|saturday|sunday|monday|qu[eé] d[ií]as|what days/i,en:()=>`Our shop hours:\n${HOURS("en")}\n\nHours can change for holidays, so call ${TEL} to confirm. ⏰`,es:()=>`Nuestro horario de tienda:\n${HOURS("es")}\n\nPuede cambiar en días festivos; llama al ${TEL} para confirmar. ⏰`},
+  {k:"deliver",re:/entreg|domicilio|deliver|ship|env[ií]o|enviar|mandan|bring it|traen|doordash|uber/i,en:()=>`Orders are picked up at the shop. If you need delivery, call ${TEL} and ask; we don't want to promise something we haven't confirmed. 🚗`,es:()=>`Los pedidos se recogen en la tienda. Si necesitas entrega, llama al ${TEL} y pregunta; no queremos prometer algo que no hemos confirmado. 🚗`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|vale|price|how much|cost|\$/i,en:()=>`Custom cake prices depend on size and design, so we quote each one. For current prices on cupcakes and cookies, call ${TEL} or email ${MAIL}. 💵`,es:()=>`El precio de un pastel personalizado depende del tamaño y el diseño, así que cotizamos cada uno. Para precios actuales de cupcakes y galletas, llama al ${TEL} o escribe a ${MAIL}. 💵`},
+  {k:"order",re:/pedido|pedir|encargar|encargo|ordenar|order|custom|personaliz|cake for|pastel para|cumplea|birthday|baby shower|shower|recoger|pick ?up|cotiza|quote|anticipaci|in advance|ahead|notice/i,en:()=>`Custom orders are easy: email ${MAIL} or message us on ${FB} with your date, number of servings, flavor and any inspiration photos. We'll confirm the design and price, and you pick it up at the shop. For lead time, ask when you message us. 🎂`,es:()=>`Pedir es fácil: escribe a ${MAIL} o mándanos mensaje por ${FB} con la fecha, número de porciones, sabor y fotos de inspiración. Confirmamos diseño y precio, y lo recoges en la tienda. Pregunta con cuánta anticipación al escribirnos. 🎂`},
+  {k:"wait",re:/cu[aá]nto (tarda|tiempo)|tardan|how long|espera|wait|hoy mismo|same day|mismo d[ií]a|last.?minute|[uú]ltima hora|urgent|urgente|tomorrow|ma[ñn]ana/i,en:()=>`Treats in the case are ready to take home when the shop is open. For a custom cake on short notice, call ${TEL} and we'll tell you honestly if we can fit it in. ⏱️`,es:()=>`Lo que está en la vitrina está listo para llevar cuando la tienda está abierta. Para un pastel personalizado de último momento, llama al ${TEL} y te decimos con honestidad si alcanzamos. ⏱️`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|venmo|zelle|cash ?app|paypal|check|cheque|payment|deposit|dep[oó]sito/i,en:()=>`To confirm which payment methods we take, and whether a custom order needs a deposit, call ${TEL}. 💳`,es:()=>`Para confirmar qué formas de pago aceptamos, y si un pedido personalizado lleva depósito, llama al ${TEL}. 💳`},
+  {k:"recommend",re:/recomien|recommend|best|mejor|favorit|popular|qu[eé] (me )?(sugier|pido)|what should|try/i,en:()=>"A Yelp reviewer said: “The cupcakes were outstanding.” 🧁 Stop by and grab a few, or pair them with sugar, confetti or snickerdoodle cookies.",es:()=>"Un cliente en Yelp escribió: “The cupcakes were outstanding.” (¡Los cupcakes estuvieron buenísimos!) 🧁 Pasa por unos, o acompáñalos con galletas de azúcar, confeti o snickerdoodle."},
+  {k:"menu",re:/men[uú]|qu[eé] (venden|tienen|hacen|hornean)|ofrecen|what do you|sell|cupcake|galleta|cookie|pastel|cake|postre|dessert|sweet|dulce|pan|bak/i,en:()=>"Everything is made from scratch: custom cakes 🎂, cupcakes 🧁, cookies 🍪 and other made-to-order sweets. On shop days (Tue–Sat) there are treats in the case. Ask me about custom orders or prices.",es:()=>"Todo se hace desde cero: pasteles personalizados 🎂, cupcakes 🧁, galletas 🍪 y otros postres por encargo. Los días de tienda (mar–sáb) hay postres en la vitrina. Pregúntame por pedidos o precios."},
+  {k:"reviews",re:/rese[ñn]a|opini|review|rating|estrellas|stars|buen[oa]s?/i,en:()=>`On Yelp, one customer wrote: “The cupcakes were outstanding.” You can read more reviews on our ${FB} page. ⭐`,es:()=>`En Yelp un cliente escribió: “The cupcakes were outstanding.” Puedes leer más reseñas en nuestra página de ${FB}. ⭐`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|park|estacion|culleoka/i,en:()=>`We're at ${MAP}, on Culleoka Highway in Columbia. 📍 Tap the address for directions. For parking details, call ${TEL}.`,es:()=>`Estamos en ${MAP}, sobre Culleoka Highway en Columbia. 📍 Toca la dirección para ver cómo llegar. Para detalles de estacionamiento, llama al ${TEL}.`},
+  {k:"email",re:/correo|email|e-mail|mail|escribir|write|message|mensaje|facebook|instagram/i,en:()=>`Email us at ${MAIL} or message us on ${FB}. ✉️`,es:()=>`Escríbenos a ${MAIL} o mándanos mensaje por ${FB}. ✉️`},
+  {k:"person",re:/persona|humano|due[ñn]a?o?|encargad|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|manager|call|phone/i,en:()=>`Of course! Call ${TEL} during shop hours or email ${MAIL}. 📞`,es:()=>`¡Claro! Llama al ${TEL} en horario de tienda o escribe a ${MAIL}. 📞`}
+];
+const CHIPS={en:[["menu","What we bake"],["open","Open now?"],["order","Custom order"],["price","Prices"],["where","Location"],["class","Classes"],["person","Talk to us"]],
+             es:[["menu","Qué horneamos"],["open","¿Abiertos?"],["order","Pedido especial"],["price","Precios"],["where","Ubicación"],["class","Clases"],["person","Hablar con nosotros"]]};
+const TXT={en:{hi:"Hi! 👋 I'm Emerald Cake & Co.'s assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} or email ${MAIL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Emerald Cake & Co. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} o escribe a ${MAIL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
