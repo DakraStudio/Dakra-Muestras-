@@ -151,6 +151,7 @@ a{color:var(--bay)}
 .login .hint{font-size:13px;opacity:.75;text-align:center}
 .demo-banner{display:flex;flex-direction:column;gap:3px;background:rgba(233,217,168,.14);border:1px solid rgba(233,217,168,.45);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.4}
 .demo-banner b{color:#e9d9a8;font-size:15px}
+.inst{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px}.inst li{padding-left:4px}
 .pin-chip{margin-top:4px;font-size:12px;font-weight:700;letter-spacing:.04em;background:#e9d9a8;color:#3d3420;border-radius:999px;padding:2px 8px}
 .login a{color:#fff;opacity:.8}
 .login .pill-btn{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.25)}
@@ -744,37 +745,124 @@ const genCount=o=>ANG.filter(a=>o.photosGen&&o.photosGen[a]).length;
 
 /* ================== Inicio de sesión ================== */
 let pickUser=null,pinBuf="";
+function pinPad(){return`<div class="pinrow" id="pinrow">${[0,1,2,3].map(i=>`<i class="${i<pinBuf.length?"f":""}"></i>`).join("")}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map(k=>k===""?"<span></span>":`<button data-k="${k}" aria-label="${k}">${k}</button>`).join("")}</div>`}
+function pinShake(msg){const r=$("#pinrow");if(!r)return;r.classList.add("shake");toast(msg||t("wrongPin"));setTimeout(()=>{pinBuf="";r.classList.remove("shake");r.querySelectorAll("i").forEach(d=>d.classList.remove("f"))},450)}
 function renderLogin(){
-  if(!pickUser&&S.users.length===1)pickUser=S.users[0].id;
   $("#root").innerHTML=`<div class="login"><div class="login-card">
     <div><span class="tape">ColorBay Shop</span></div>
-    <div><h1>${t("who")}</h1><div class="shopname">${esc(S.settings.shop)}</div></div>
-    ${S.demo?`<div class="demo-banner"><b>${t("demoT")}</b><span>${t("demoP")}</span></div>`:""}
-    <div class="users">${S.users.map(u=>`<button class="user ${pickUser===u.id?"on":""}" data-u="${u.id}">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small>${S.demo&&u.pin?`<span class="pin-chip">PIN ${esc(u.pin)}</span>`:""}</button>`).join("")}</div>
-    ${pickUser&&S.demo?`<button class="btn btn-paint" id="demo-fill" type="button" style="width:100%">${t("demoFill")}</button>`:""}
-    ${pickUser?`<div style="text-align:center;opacity:.85">${t("enterPin")}</div>
-    <div class="pinrow" id="pinrow">${[0,1,2,3].map(i=>`<i class="${i<pinBuf.length?"f":""}"></i>`).join("")}</div>
-    <div class="pad">${[1,2,3,4,5,6,7,8,9,"",0,"⌫"].map(k=>k===""?"<span></span>":`<button data-k="${k}" aria-label="${k}">${k}</button>`).join("")}</div>`:""}
+    <div><h1>${t("enterPin")}</h1><div class="shopname">${esc(S.settings.shop)}</div></div>
+    ${pinPad()}
+    ${S.demo?`<div class="demo-banner"><b>${t("demoT")}</b><span>${t("demoP2")}</span></div>
+    <div class="users">${S.users.filter(u=>u.pin).map(u=>`<button class="user" data-u="${u.id}" type="button">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small><span class="pin-chip">PIN ${esc(u.pin)}</span></button>`).join("")}</div>`:""}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><a href="index.html">${t("backWeb")}</a>
      <span style="display:flex;gap:6px"><button class="pill-btn ${S.settings.lang==="es"?"on":""}" data-lang="es">ES</button><button class="pill-btn ${S.settings.lang==="en"?"on":""}" data-lang="en">EN</button></span></div>
   </div></div>`;
-  document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{pickUser=b.dataset.u;pinBuf="";renderLogin()});
   document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>pinKey(b.dataset.k));
-  const df=$("#demo-fill");if(df)df.onclick=()=>{const u=S.users.find(x=>x.id===pickUser);if(!u||!u.pin)return;df.disabled=true;pinBuf="";
-    [...String(u.pin)].forEach((d,i)=>setTimeout(()=>pinKey(d),180*(i+1)))};
+  /* en la demo, tocar a una persona escribe su PIN solito */
+  document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{const u=S.users.find(x=>x.id===b.dataset.u);if(!u||!u.pin)return;pinBuf="";
+    document.querySelectorAll("#pinrow i").forEach(d=>d.classList.remove("f"));[...String(u.pin)].forEach((d,i)=>setTimeout(()=>pinKey(d),170*(i+1)))});
 }
 function pinKey(k){
-  if(!pickUser)return;
+  if(LOCKED){lockKey(k);return}
   if(k==="⌫")pinBuf=pinBuf.slice(0,-1);else if(pinBuf.length<4)pinBuf+=k;
   document.querySelectorAll("#pinrow i").forEach((d,i)=>d.classList.toggle("f",i<pinBuf.length));
-  if(pinBuf.length===4){const u=user(pickUser);
-    if(u&&u.pin===pinBuf){ME=u;try{sessionStorage.setItem(SKEY,u.id)}catch(e){}pinBuf="";view="inicio";setTimeout(render,150)}
-    else{const r=$("#pinrow");r.classList.add("shake");toast(t("wrongPin"));setTimeout(()=>{pinBuf="";r.classList.remove("shake");r.querySelectorAll("i").forEach(d=>d.classList.remove("f"))},450)}}
+  if(pinBuf.length===4){const u=S.users.find(x=>x.pin&&x.pin===pinBuf);
+    if(u){ME=u;try{sessionStorage.setItem(SKEY,u.id)}catch(e){}pinBuf="";view="inicio";setTimeout(render,150)}
+    else pinShake()}
 }
-document.addEventListener("keydown",e=>{if(!ME&&/^[0-9]$/.test(e.key))pinKey(e.key);if(!ME&&e.key==="Backspace")pinKey("⌫")});
+document.addEventListener("keydown",e=>{if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if((!ME||LOCKED)&&/^[0-9]$/.test(e.key))pinKey(e.key);if((!ME||LOCKED)&&e.key==="Backspace")pinKey("⌫")});
 function logout(){closeSheet(true);closeOver();
-  if(!DEMO){if(CH)sb.removeChannel(CH);CH=null;sb.auth.signOut().finally(()=>{ME=null;SHOP=null;S=emptyState(S.settings.lang);cloudErr="";render()});return}
-  ME=null;pickUser=null;try{sessionStorage.removeItem(SKEY)}catch(e){}render()}
+  if(!DEMO){LOCKED=false;if(CH)sb.removeChannel(CH);CH=null;sb.auth.signOut().finally(()=>{ME=null;SHOP=null;S=emptyState(S.settings.lang);cloudErr="";render()});return}
+  ME=null;pickUser=null;LOCKED=false;try{sessionStorage.removeItem(SKEY)}catch(e){}render()}
+
+
+/* ================== Candado con PIN (cada vez que se abre la app) ================== */
+let LOCKED=false,LOCK_OFF=false,lockBusy=false,hiddenAt=0;
+const LOCK_AFTER=5*60*1000; /* si la app estuvo cerrada o en segundo plano 5 minutos, pide el PIN otra vez */
+function lockNow(){if(DEMO||LOCK_OFF||!SHOP||!ME)return;closeSheet(true);closeOver();if(typeof closeModal==="function")try{closeModal()}catch(e){}LOCKED=true;pinBuf="";render()}
+function renderLock(){
+  renderShell(`<div><h1>${t("enterPin")}</h1><div class="shopname">${esc(S.settings.shop||SHOP?.name||"")}</div></div>
+   ${pinPad()}
+   <div class="hint" style="text-align:center"><a href="#" id="lk-sw">${t("lockSwitch")}</a></div>`);
+  document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>pinKey(b.dataset.k));
+  const sw=$("#lk-sw");if(sw)sw.onclick=e=>{e.preventDefault();logout()};
+}
+async function lockKey(k){
+  if(lockBusy)return;
+  if(k==="⌫")pinBuf=pinBuf.slice(0,-1);else if(pinBuf.length<4)pinBuf+=k;
+  document.querySelectorAll("#pinrow i").forEach((d,i)=>d.classList.toggle("f",i<pinBuf.length));
+  if(pinBuf.length<4)return;
+  const pin=pinBuf;lockBusy=true;
+  try{
+    const{data,error}=await sb.rpc("check_pin",{p_shop:SHOP.id,p_pin:pin});
+    if(error){
+      if(/check_pin|function|PGRST202|404/i.test((error.code||"")+" "+(error.message||""))){LOCK_OFF=true;LOCKED=false;pinBuf="";render();return}
+      pinShake(t("errNet"));return}
+    if(data?.ok){LOCKED=false;pinBuf="";render();setTimeout(()=>installGuide(false),500);return}
+    if(data?.other){
+      /* el PIN es de otra persona del taller: en un teléfono de trabajador, cambia de persona sin escribir el código */
+      if(ME.role!=="owner"&&data.role!=="owner"&&SHOP.join_code){
+        const r=await sb.rpc("join_shop",{p_code:SHOP.join_code,p_pin:pin});
+        if(!r.error&&!r.data?.error){LOCKED=false;pinBuf="";enterShop();return}}
+      pinShake(t(data.role==="owner"?"lockOwner":"lockOther"));return}
+    pinShake(t(data?.error==="too_many_attempts"?"errMany":"wrongPin"));
+  }catch(e){pinShake(t("errNet"))}
+  finally{lockBusy=false}
+}
+document.addEventListener("visibilitychange",()=>{
+  if(DEMO)return;
+  if(document.hidden){hiddenAt=Date.now();return}
+  if(hiddenAt&&Date.now()-hiddenAt>LOCK_AFTER&&SHOP&&ME&&!LOCKED&&!LOCK_OFF)lockNow();
+});
+
+/* ================== Ponerla en la pantalla de inicio (como app) ================== */
+let INSTALL_EVT=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();INSTALL_EVT=e});
+window.addEventListener("appinstalled",()=>{INSTALL_EVT=null;try{localStorage.setItem("colorbay-install-seen","1")}catch(e){}});
+const isStandalone=()=>(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const isAndroid=()=>/Android/i.test(navigator.userAgent);
+const shareIc=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-5px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg>`;
+const plusIc=`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-5px"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>`;
+const dotsIc=`<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-5px"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>`;
+function installSteps(){
+  if(isIOS())return`<ol class="inst">${t("instIos").map((x,i)=>`<li>${x.replace("{share}",shareIc).replace("{plus}",plusIc)}</li>`).join("")}</ol>`;
+  if(isAndroid()&&INSTALL_EVT)return`<p style="margin:0">${t("instAndBtnP")}</p>`;
+  if(isAndroid())return`<ol class="inst">${t("instAnd").map(x=>`<li>${x.replace("{dots}",dotsIc)}</li>`).join("")}</ol>`;
+  return`<ol class="inst">${t("instPc").map(x=>`<li>${x}</li>`).join("")}</ol>`;
+}
+function installGuide(force){
+  if(isStandalone())return;
+  let seen=false;try{seen=localStorage.getItem("colorbay-install-seen")==="1"}catch(e){}
+  if(seen&&!force)return;
+  const done=()=>{try{localStorage.setItem("colorbay-install-seen","1")}catch(e){}if(ME&&ME.role==="owner"){S.settings.ob={...(S.settings.ob||{}),install:1};save()}};
+  openModal(`<div class="sec-h"><h2>${t("instT")}</h2><button class="del" id="in-x">×</button></div>
+   <div class="mb" style="display:flex;flex-direction:column;gap:14px;font-size:16px;line-height:1.45">
+    <p style="margin:0;color:var(--muted)">${t("instP")}</p>
+    ${installSteps()}
+    ${isAndroid()&&INSTALL_EVT?`<button class="btn btn-paint" id="in-go">${t("instBtn")}</button>`:`<button class="btn btn-paint" id="in-ok">${t("instDone")}</button>`}
+    <button class="btn btn-ghost" id="in-later">${t("instLater")}</button></div>`,()=>{
+    const later=()=>{try{localStorage.setItem("colorbay-install-seen","1")}catch(e){}closeModal()};
+    $("#in-x").onclick=later;$("#in-later").onclick=later;
+    const ok=$("#in-ok");if(ok)ok.onclick=()=>{done();closeModal();render();toast(t("saved"))};
+    const g=$("#in-go");if(g)g.onclick=async()=>{const ev=INSTALL_EVT;if(!ev)return;ev.prompt();try{const c=await ev.userChoice;if(c&&c.outcome==="accepted")done()}catch(e){}INSTALL_EVT=null;closeModal();render()};
+  });
+}
+Object.assign(L.es,{demoP2:"Explora con confianza: nada es real. Escribe el PIN de una persona o tócala abajo: el PIN dice quién eres y cada puesto ve cosas distintas.",
+  lockNow:"Bloquear",lockSwitch:"¿Otro taller o entrar con correo? Cerrar sesión",lockOther:"Ese PIN es de otra persona del taller.",lockOwner:"Ese es el PIN del dueño: entra con su correo en “Cerrar sesión”.",
+  instT:"Pon ColorBay en tu pantalla de inicio",instP:"Así la abres con un toque, como cualquier app, y entras solo con tu PIN.",
+  instIos:["Abre esta página en <b>Safari</b>.","Toca el botón <b>Compartir</b> {share} (abajo en el centro o arriba a la derecha).","Baja y toca <b>Agregar a inicio</b> {plus}.","Toca <b>Agregar</b>. Listo: ya tienes el ícono de ColorBay."],
+  instAnd:["Abre esta página en <b>Chrome</b>.","Toca el menú {dots} (arriba a la derecha).","Toca <b>Instalar app</b> o <b>Agregar a la pantalla principal</b>.","Confirma. Listo: ya tienes el ícono de ColorBay."],
+  instPc:["En Chrome o Edge, busca el ícono de <b>instalar</b> en la barra de direcciones (una pantallita con flecha).","Haz clic en <b>Instalar</b>.","ColorBay se abre en su propia ventana, como programa."],
+  instAndBtnP:"Toca el botón y confirma. Se instala en segundos.",instBtn:"Instalar ColorBay",instDone:"Ya lo hice",instLater:"Ahora no",instAgain:"Ver cómo ponerla en mi pantalla"});
+Object.assign(L.en,{demoP2:"Explore freely: nothing here is real. Type someone's PIN or tap them below: the PIN tells the app who you are, and each role sees something different.",
+  lockNow:"Lock",lockSwitch:"Different shop or log in with email? Log out",lockOther:"That PIN belongs to someone else in the shop.",lockOwner:"That's the owner's PIN: log in with the owner's email from “Log out”.",
+  instT:"Put ColorBay on your home screen",instP:"Open it with one tap, like any app, and get in with just your PIN.",
+  instIos:["Open this page in <b>Safari</b>.","Tap the <b>Share</b> button {share} (bottom center or top right).","Scroll down and tap <b>Add to Home Screen</b> {plus}.","Tap <b>Add</b>. Done: the ColorBay icon is on your screen."],
+  instAnd:["Open this page in <b>Chrome</b>.","Tap the menu {dots} (top right).","Tap <b>Install app</b> or <b>Add to Home screen</b>.","Confirm. Done: the ColorBay icon is on your screen."],
+  instPc:["In Chrome or Edge, look for the <b>install</b> icon in the address bar (a small screen with an arrow).","Click <b>Install</b>.","ColorBay opens in its own window, like a program."],
+  instAndBtnP:"Tap the button and confirm. It installs in seconds.",instBtn:"Install ColorBay",instDone:"I did it",instLater:"Not now",instAgain:"Show me how to add it to my screen"});
 
 /* ================== Navegación ================== */
 const NAV=[
@@ -808,14 +896,15 @@ const brandHtml=`<div class="brand-mark"><svg width="18" height="18" viewBox="0 
 function render(){
   setTimeout(()=>syncHelpBtn(),0);
   if(TERMS_GATE){TERMS_GATE.draw();return}
+  if(LOCKED&&ME&&!DEMO){renderLock();return}
   if(!ME){DEMO?renderLogin():renderCloudLogin();return}
   if(!navOk(view))view=PAINTER()?"pintura":"inicio";
   $("#root").innerHTML=`<div class="app">
    <aside class="side"><div class="brand">${brandHtml}</div><nav>${navHtml()}</nav>
     <div class="side-foot"><div class="me">${ava(ME)}<div><b>${esc(ME.name)}</b><small>${t("roles")[ME.role]}</small></div></div>
-     <div style="display:flex;justify-content:space-between;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()">${t("logout")}</button></div>
+     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">${langBtns()}<span style="display:flex;gap:6px">${!DEMO&&!LOCK_OFF?`<button class="pill-btn" onclick="lockNow()" title="${t("lockNow")}">🔒</button>`:""}<button class="pill-btn" onclick="logout()">${t("logout")}</button></span></div>
      <a href="index.html" style="font-size:13px;color:var(--muted)">${t("backWeb")}</a></div></aside>
-   <main id="main"><div class="mobile-top"><div class="brand" style="padding:0">${brandHtml}</div><span style="display:flex;gap:6px;align-items:center">${langBtns()}<button class="pill-btn" onclick="logout()" aria-label="${t("logout")}">${ava(ME,"mini-ava")}</button></span></div>
+   <main id="main"><div class="mobile-top"><div class="brand" style="padding:0">${brandHtml}</div><span style="display:flex;gap:6px;align-items:center">${langBtns()}${!DEMO&&!LOCK_OFF?`<button class="pill-btn" onclick="lockNow()" aria-label="${t("lockNow")}">🔒</button>`:""}<button class="pill-btn" onclick="logout()" aria-label="${t("logout")}">${ava(ME,"mini-ava")}</button></span></div>
     <div class="view">${({inicio:vHome,ordenes:vOrders,tablero:vBoard,citas:vAppts,pintura:vPaint,clientes:vCust,reportes:vReports,ajustes:vSet})[view]()}</div></main></div>
    <nav class="bottom">${navHtml(true)}</nav>`;
   const m=$("#main");
@@ -1144,7 +1233,7 @@ function vSet(){const s=S.settings;const tier=DEMO?(s.tier||"shop"):(SHOP?.tier|
    <a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("terms")}" style="text-decoration:none">${t("legalTerms")} ↗</a><a class="btn btn-ghost" target="_blank" rel="noopener" href="${legalUrl("privacy")}" style="text-decoration:none">${t("legalPrivacy")} ↗</a></div></div>
   <div class="card"><div class="sec-h"><h2>${t("helpBtnSet")}</h2></div><div class="box-b"><button class="btn btn-ghost" id="s-help">${helpOff?t("helpShow"):t("helpHide")}</button></div></div>
   <div class="card" id="quick-card"><div class="sec-h"><h2>${t("quick")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:8px;font-size:14px">
-   <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div></div></div>
+   <div>${t("quickIos")}</div><div>${t("quickAnd")}</div><div style="color:var(--muted)">${t("quickNote")}</div>${isStandalone()?"":`<button class="btn btn-ghost" type="button" onclick="installGuide(true)">${t("instAgain")}</button>`}</div></div>
   <div class="card"><div class="sec-h"><h2>${t("data")}</h2></div><div class="box-b" style="display:flex;flex-direction:column;gap:12px">
    <p style="margin:0;color:var(--muted)">${DEMO?t("dataNote"):t("cloudNote")}</p>
    <button class="btn btn-ghost" id="s-copy">${t("copyData")}</button>
@@ -1865,10 +1954,10 @@ Object.assign(L.es,{refQ:"¿Te recomendó alguien? Escribe su código y ganas d�
 Object.assign(L.en,{refQ:"Did someone refer you? Enter their code to get extra free days",refBtn:"Apply",refOk:"Code applied ✓ Your extra days are added",refBad:"That code doesn't exist. Please check it.",refLate:"A code can only be added in your first 30 days.",refUsed:"Referred by:"});
 Object.assign(L.es,{payFounder:"Fundador (Taller)",perMo:"/mes",yearly:"Pago anual (2 meses gratis)",payNote:"Pago seguro con Stripe. Tu plan se activa solo en unos segundos. Cancelas cuando quieras.",
   manageBill:"Ver o cancelar mi suscripción",paidUntil:"Pagado hasta el",payThanks:"¡Gracias! Activando tu plan…",payActive:"Tu plan ya está activo ✓",
-  payDueT:"Tu pago está pendiente",payKeep:"Escoge un plan para seguir usando ColorBay:",dataSafe:"Tus datos están guardados y seguros; no se borra nada.",orText:"¿Dudas? Mándanos mensaje de texto:"});
+  payDueT:"Tu pago está pendiente",payKeep:"Escoge un plan para seguir usando ColorBay:",dataSafe:"Tus datos están guardados y seguros; no se borra nada.",orText:"¿Dudas? Escríbenos:"});
 Object.assign(L.en,{payFounder:"Founder (Shop)",perMo:"/mo",yearly:"Yearly (2 months free)",payNote:"Secure payment with Stripe. Your plan turns on by itself in a few seconds. Cancel anytime.",
   manageBill:"View or cancel my subscription",paidUntil:"Paid through",payThanks:"Thanks! Turning on your plan…",payActive:"Your plan is active ✓",
-  payDueT:"Your payment is past due",payKeep:"Pick a plan to keep using ColorBay:",dataSafe:"Your data is saved and safe; nothing gets deleted.",orText:"Questions? Text us:"});
+  payDueT:"Your payment is past due",payKeep:"Pick a plan to keep using ColorBay:",dataSafe:"Your data is saved and safe; nothing gets deleted.",orText:"Questions? Email us:"});
 
 /* ================== Términos y privacidad ==================
    Si cambias TERMS_V (y legal.html), todos — dueños y trabajadores — lo vuelven a aceptar al entrar. Queda guardado en la nube. */
@@ -1967,7 +2056,7 @@ function obGo(k){
   else if(k==="order")newOrder();
   else if(k==="photos"){if(!last)return newOrder();openOrder(last.id);setTimeout(()=>{const tb=document.querySelector(`#sheet .tab[onclick*="'inspection'"]`);tb&&tb.click()},150)}
   else if(k==="pdf"){if(!last)return newOrder();openDoc(last.id,"estimate")}
-  else if(k==="install")toSet("#quick-card");
+  else if(k==="install"){if(isStandalone())toSet("#quick-card");else installGuide(true)}
   else if(k==="toners")openLab({tab:"tintes"});
   else if(k==="formula")openLab({});
 }
@@ -1989,8 +2078,8 @@ Object.assign(L.en,{obT:"Getting started",obP:"Finish these steps and your shop 
 /* ================== Ayuda dentro de la app ================== */
 const HKEY="colorbay-help-off";
 let helpOff=false;try{helpOff=localStorage.getItem(HKEY)==="1"}catch(e){}
-Object.assign(L.es,{help:"Ayuda",helpSearch:"¿Qué quieres hacer?",takeMe:"Llévame ahí",helpHide:"Ocultar el botón de ayuda",helpShow:"Mostrar el botón de ayuda",helpBtnSet:"Botón de ayuda",helpNone:"No encontré nada. Mándanos mensaje de texto:",helpContact:"¿Algo no funciona? Mándanos mensaje de texto:"});
-Object.assign(L.en,{help:"Help",helpSearch:"What do you want to do?",takeMe:"Take me there",helpHide:"Hide the help button",helpShow:"Show the help button",helpBtnSet:"Help button",helpNone:"Nothing found. Text us:",helpContact:"Something not working? Text us:"});
+Object.assign(L.es,{help:"Ayuda",helpSearch:"¿Qué quieres hacer?",takeMe:"Llévame ahí",helpHide:"Ocultar el botón de ayuda",helpShow:"Mostrar el botón de ayuda",helpBtnSet:"Botón de ayuda",helpNone:"No encontré nada. Escríbenos:",helpContact:"¿Algo no funciona? Escríbenos:"});
+Object.assign(L.en,{help:"Help",helpSearch:"What do you want to do?",takeMe:"Take me there",helpHide:"Hide the help button",helpShow:"Show the help button",helpBtnSet:"Help button",helpNone:"Nothing found. Email us:",helpContact:"Something not working? Email us:"});
 function helpOrder(tabName){const o=openId?S.orders.find(x=>x.id===openId):[...S.orders].filter(x=>PH[x.phase]!=="out").sort((a,b)=>b.id.localeCompare(a.id))[0];
   if(!o){go("ordenes");return}if(openId!==o.id)openOrder(o.id);tab=tabName;renderSheet()}
 const HELP=[
@@ -2047,14 +2136,14 @@ function openHelp(){
   const list=HELP.filter(helpVisible);
   const draw=q=>{const w=q.trim().toLowerCase();const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");const ww=norm(w);const items=list.filter(h=>!ww||norm(h.es.concat(h.en).join(" ")).includes(ww));
     $("#help-list").innerHTML=items.map(h=>{const i=HELP.indexOf(h);const[title,...steps]=h[lang];
-      return`<details class="htopic"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>${h.act?`<button class="btn btn-pri btn-sm go" data-hgo="${i}">${t("takeMe")} →</button>`:""}</details>`}).join("")||`<p style="color:var(--muted)">${t("helpNone")} <b>+1 (931) 292-2496</b></p>`;
+      return`<details class="htopic"><summary>${esc(title)}</summary><ol>${steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>${h.act?`<button class="btn btn-pri btn-sm go" data-hgo="${i}">${t("takeMe")} →</button>`:""}</details>`}).join("")||`<p style="color:var(--muted)">${t("helpNone")} <b>dakrastudio@gmail.com</b></p>`;
     document.querySelectorAll("[data-hgo]").forEach(b=>b.onclick=()=>{closeModal();setTimeout(()=>HELP[+b.dataset.hgo].act(),80)});
     if(w&&items.length===1)$("#help-list details").open=true};
   openModal(`<div class="sec-h"><h2>${t("help")}</h2><button class="del" onclick="closeModal()" aria-label="${t("close")}">×</button></div>
    <div class="mb"><input class="input" id="help-q" placeholder="${t("helpSearch")}" autocomplete="off" style="margin-bottom:6px"><div id="help-list"></div>
-   <p style="font-size:13px;color:var(--muted);margin:14px 0 0">${t("helpContact")} <b>+1 (931) 292-2496</b></p></div>`,()=>{draw("");$("#help-q").oninput=e=>draw(e.target.value)});
+   <p style="font-size:13px;color:var(--muted);margin:14px 0 0">${t("helpContact")} <b>dakrastudio@gmail.com</b></p></div>`,()=>{draw("");$("#help-q").oninput=e=>draw(e.target.value)});
 }
-function syncHelpBtn(){const b=$("#helpBtn");if(!b)return;b.hidden=!ME||helpOff;b.title=t("help")}
+function syncHelpBtn(){const b=$("#helpBtn");if(!b)return;b.hidden=!ME||LOCKED||helpOff;b.title=t("help")}
 $("#helpBtn").onclick=openHelp;
 
 /* ================== Nube (Supabase) ================== */
@@ -2063,7 +2152,7 @@ Object.assign(L.es,{quick:"Acceso rápido",quickIos:"iPhone: en Safari toca el b
   newPass:"Nueva contraseña",setPass:"Guardar contraseña",seeDemo:"Ver la demo",loading:"Cargando tu taller…",
   errLogin:"Correo o contraseña incorrectos.",errCode:"Ese código de taller no existe.",errPin:"PIN incorrecto.",errMany:"Demasiados intentos. Espera 15 minutos.",
   errClosed:"Este taller no está activo.",errNet:"No hay conexión. Revisa tu internet.",errAnon:"El acceso de trabajadores no está activado todavía.",noShop:"Esta cuenta no tiene taller todavía.",
-  pausedT:"Este taller está pausado",trialT:"Terminó tu prueba gratis",pausedP:"Para seguir usando ColorBay, mándanos un mensaje de texto:",
+  pausedT:"Este taller está pausado",trialT:"Terminó tu prueba gratis",pausedP:"Para seguir usando ColorBay, escríbenos:",
   syncOk:"Guardado",syncSaving:"Guardando…",syncErr:"Sin conexión · reintentando",
   joinCode:"Código para tus trabajadores",joinHow:"Cada trabajador abre esta página, toca “Trabajador” y escribe este código y su PIN.",
   plan:"Plan",plans:{trial:"Prueba gratis",paid:"Pagando",founder:"Fundador",courtesy:"Cortesía"},daysLeft:"días restantes",
@@ -2074,7 +2163,7 @@ Object.assign(L.en,{quick:"Quick access",quickIos:"iPhone: in Safari tap Share (
   newPass:"New password",setPass:"Save password",seeDemo:"See the demo",loading:"Loading your shop…",
   errLogin:"Wrong email or password.",errCode:"That shop code doesn't exist.",errPin:"Wrong PIN.",errMany:"Too many tries. Wait 15 minutes.",
   errClosed:"This shop is not active.",errNet:"No connection. Check your internet.",errAnon:"Worker access isn't turned on yet.",noShop:"This account has no shop yet.",
-  pausedT:"This shop is paused",trialT:"Your free trial ended",pausedP:"To keep using ColorBay, text us:",
+  pausedT:"This shop is paused",trialT:"Your free trial ended",pausedP:"To keep using ColorBay, email us:",
   syncOk:"Saved",syncSaving:"Saving…",syncErr:"Offline · retrying",
   joinCode:"Code for your workers",joinHow:"Each worker opens this page, taps “Worker” and types this code and their PIN.",
   plan:"Plan",plans:{trial:"Free trial",paid:"Paid",founder:"Founder",courtesy:"Courtesy"},daysLeft:"days left",
@@ -2192,9 +2281,8 @@ function renderCloudLogin(){
 }
 function renderBlocked(s,role){const canPay=role==="owner"&&s.status==="active"&&stripeOn();
   renderShell(`<h1>${s.status!=="active"?t("pausedT"):s.plan!=="trial"?t("payDueT"):t("trialT")}</h1><div class="shopname">${esc(s.name)}</div>
-  ${canPay?`<p style="opacity:.85;margin:0">${t("payKeep")}</p>${payBtns(true)}<p style="opacity:.7;margin:0;font-size:14px">${t("dataSafe")}</p><p style="opacity:.85;margin:0">${t("orText")}</p>`:`<p style="opacity:.85;margin:0">${t("pausedP")}</p>`}<div style="font-family:var(--display);font-size:30px;font-weight:700">+1 (931) 292-2496</div>
-  <div style="opacity:.75">dakrastudio@gmail.com</div><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`)}
-async function enterShop(){
+  ${canPay?`<p style="opacity:.85;margin:0">${t("payKeep")}</p>${payBtns(true)}<p style="opacity:.7;margin:0;font-size:14px">${t("dataSafe")}</p><p style="opacity:.85;margin:0">${t("orText")}</p>`:`<p style="opacity:.85;margin:0">${t("pausedP")}</p>`}<div style="font-family:var(--display);font-size:26px;font-weight:700">dakrastudio@gmail.com</div><button class="btn btn-ghost" onclick="logout()">${t("logout")}</button>`)}
+async function enterShop(opts){opts=opts||{};
   renderShell(`<h1 style="font-size:32px">${t("loading")}</h1>`);
   const{data:{user}}=await sb.auth.getUser();if(!user){renderCloudLogin();return}
   let{data:mem,error}=await sb.from("members").select("shop_id,worker_id,role").eq("user_id",user.id);
@@ -2227,7 +2315,9 @@ async function enterShop(){
   CLOUD.snap.doc=stable(cloudDoc());CLOUD.snap.orders={};CLOUD.snap.money={};MONEY_ON=false;S.orders.forEach(o=>CLOUD.snap.orders[o.id]=stable(o));
   ME=S.users.find(u=>u.id===m.worker_id)||{id:m.worker_id,name:user.email||"?",role:m.role};
   if(can("money"))await loadMoney();
+  if(opts.boot&&!LOCK_OFF)LOCKED=true;
   applyTheme();subscribe();flushUploads();render();purgeTrash();paidReturn();
+  if(!LOCKED)setTimeout(()=>installGuide(false),700);
   if(MONEY_ON&&S.orders.some(o=>stable(splitOrder(o).pub)!==CLOUD.snap.orders[o.id]))scheduleSync();
 }
 function subscribe(){
@@ -2258,7 +2348,7 @@ async function bootCloud(){
   const{data:{session}}=await sb.auth.getSession();
   if(recovering)return;
   if(!session){renderCloudLogin();return}
-  enterShop();
+  enterShop({boot:true});
 }
 
 /* ================== Arranque ================== */
