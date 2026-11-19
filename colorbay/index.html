@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>/* Acceso rápido: si en este teléfono ya hay una sesión abierta de ColorBay, abre directo el teclado del PIN. ?home muestra esta página de todos modos. */
+(function(){try{if(/[?&]home\b/.test(location.search))return;var a=JSON.parse(localStorage.getItem("colorbay-app-auth")||"null");if(a&&(a.refresh_token||(a.currentSession&&a.currentSession.refresh_token)))location.replace("app.html")}catch(e){}})();</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ColorBay Shop · Run your body shop from your phone</title>
@@ -191,7 +194,7 @@ footer b{color:#fff}
   <nav class="links">
     <a class="hide" href="info.html#funciones" data-en="Features">Funciones</a>
     <a class="hide" href="info.html#precios" data-en="Pricing">Precios</a>
-    <a href="app.html" data-en="Log in">Entrar</a>
+    <a href="app.html?login" data-en="Log in">Entrar</a>
     <span class="lang"><button data-lang="toggle" aria-label="English">EN</button></span>
     <a class="btn btn-paint" href="info.html#prueba" data-en="Free trial">Prueba gratis</a>
   </nav></div></header>

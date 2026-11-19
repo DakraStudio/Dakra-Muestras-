@@ -755,7 +755,7 @@ function renderLogin(){
     ${pinPad()}
     ${S.demo?`<div class="demo-banner"><b>${t("demoT")}</b><span>${t("demoP2")}</span></div>
     <div class="users">${S.users.filter(u=>u.pin).map(u=>`<button class="user" data-u="${u.id}" type="button">${ava(u)}<span style="font-weight:600;font-size:14px">${esc(u.name.split(" ")[0])}</span><small>${t("roles")[u.role]}</small><span class="pin-chip">PIN ${esc(u.pin)}</span></button>`).join("")}</div>`:""}
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><a href="index.html">${t("backWeb")}</a>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><a href="index.html?home">${t("backWeb")}</a>
      <span style="display:flex;gap:6px"><button class="pill-btn ${S.settings.lang==="es"?"on":""}" data-lang="es">ES</button><button class="pill-btn ${S.settings.lang==="en"?"on":""}" data-lang="en">EN</button></span></div>
   </div></div>`;
   document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>pinKey(b.dataset.k));
@@ -903,7 +903,7 @@ function render(){
    <aside class="side"><div class="brand">${brandHtml}</div><nav>${navHtml()}</nav>
     <div class="side-foot"><div class="me">${ava(ME)}<div><b>${esc(ME.name)}</b><small>${t("roles")[ME.role]}</small></div></div>
      <div style="display:flex;justify-content:space-between;align-items:center;gap:6px">${langBtns()}<span style="display:flex;gap:6px">${!DEMO&&!LOCK_OFF?`<button class="pill-btn" onclick="lockNow()" title="${t("lockNow")}">🔒</button>`:""}<button class="pill-btn" onclick="logout()">${t("logout")}</button></span></div>
-     <a href="index.html" style="font-size:13px;color:var(--muted)">${t("backWeb")}</a></div></aside>
+     <a href="index.html?home" style="font-size:13px;color:var(--muted)">${t("backWeb")}</a></div></aside>
    <main id="main"><div class="mobile-top"><div class="brand" style="padding:0">${brandHtml}</div><span style="display:flex;gap:6px;align-items:center">${langBtns()}${!DEMO&&!LOCK_OFF?`<button class="pill-btn" onclick="lockNow()" aria-label="${t("lockNow")}">🔒</button>`:""}<button class="pill-btn" onclick="logout()" aria-label="${t("logout")}">${ava(ME,"mini-ava")}</button></span></div>
     <div class="view">${({inicio:vHome,ordenes:vOrders,tablero:vBoard,citas:vAppts,pintura:vPaint,clientes:vCust,reportes:vReports,ajustes:vSet})[view]()}</div></main></div>
    <nav class="bottom">${navHtml(true)}</nav>`;
@@ -2250,7 +2250,7 @@ document.addEventListener("focusout",()=>{if(softPending)setTimeout(softRender,5
 /* entrar y cargar */
 function shopBlocked(s){return s.status!=="active"||(s.plan==="trial"&&new Date(s.trial_ends)<new Date())||((s.plan==="paid"||s.plan==="founder")&&s.paid_until&&new Date(s.paid_until).getTime()+7*DAY<Date.now())}
 function renderShell(inner){$("#root").innerHTML=`<div class="login"><div class="login-card"><div><span class="tape">ColorBay Shop</span></div>${inner}
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px"><a href="index.html">${t("backWeb")}</a>${langBtns()}</div></div></div>`}
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px"><a href="index.html?home">${t("backWeb")}</a>${langBtns()}</div></div></div>`}
 function renderCloudLogin(){
   if(recovering){renderShell(`<h1>${t("newPass")}</h1><form id="rp" class="cform"><input class="cin" id="rp-p" type="password" minlength="6" autocomplete="new-password" placeholder="${t("newPass")}" required>
     <div class="cerr">${esc(cloudErr)}</div><button class="btn btn-paint">${t("setPass")}</button></form>`);
@@ -2347,8 +2347,14 @@ async function bootCloud(){
   sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){recovering=true;ME=null;renderCloudLogin()}});
   const{data:{session}}=await sb.auth.getSession();
   if(recovering)return;
-  if(!session){renderCloudLogin();return}
-  enterShop({boot:true});
+  if(!session){
+    const q=location.search,h=location.hash;
+    const wantsLogin=/[?&](login|paid)\b/.test(q)||/access_token|error_description|type=/.test(h)||isStandalone();
+    if(!wantsLogin){location.replace("index.html");return}
+    renderCloudLogin();return}
+  /* recién creada la cuenta (o recién confirmado el correo) no pide el PIN otra vez */
+  const fresh=/[?&]new\b/.test(location.search)||/access_token/.test(location.hash);
+  enterShop({boot:!fresh});
 }
 
 /* ================== Arranque ================== */

@@ -146,7 +146,7 @@ footer b{color:#fff}
 <body>
 <header class="nav"><div class="wrap">
   <a class="logo" href="index.html"><i></i>ColorBay</a>
-  <nav class="links"><a class="hide" href="index.html" data-en="Home">Inicio</a><a href="app.html" data-en="Log in">Entrar</a>
+  <nav class="links"><a class="hide" href="index.html" data-en="Home">Inicio</a><a href="app.html?login" data-en="Log in">Entrar</a>
    <span class="lang"><button data-lang="toggle" aria-label="English">EN</button></span></nav></div></header>
 
 <div class="head"><div class="wrap">
@@ -302,7 +302,7 @@ async function cloudSignup(f,err,btn){
     try{await sb.rpc("accept_terms",{p_version:TERMS_V,p_shop:r.data,p_agent:navigator.userAgent})}catch(e){}
     if(ref)try{await sb.rpc("set_referral",{p_shop:r.data,p_code:ref})}catch(e){}
     const tier=(document.querySelector('[name="t-tier"]:checked')||{}).value||"shop";if(tier==="painter")try{await sb.rpc("set_my_tier",{p_shop:r.data,p_tier:"painter"})}catch(e){}
-    location.href="app.html";
+    location.href="app.html?login&new=1";
   }catch(e){btn.disabled=false;msg("No hay conexión. Intenta de nuevo.","No connection. Try again.")}
 }
 document.getElementById("tf").addEventListener("submit",e=>{e.preventDefault();
