@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dillard's Solutions · Tree Service · Lawrenceburg, TN</title>
+<meta name="description" content="Tree trimming, tree removal and stump grinding in Lawrenceburg, Tennessee. Free quotes.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bevan&family=Libre+Franklin:wght@400;500;600;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bark:#2A1C13;--bark2:#3B2819;--pine:#23402C;--moss:#5E7B3A;--saw:#E8641B;--saw2:#C9500F;--dust:#F4EBDA;--dust2:#E9DCC2;--ring:#C9A87A;--ink:#22170F;
+--df:'Bevan',Georgia,serif;--bf:'Libre Franklin',system-ui,sans-serif;--mf:'Courier Prime','Courier New',monospace}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--dust);color:var(--ink);font:17px/1.6 var(--bf);overflow-x:hidden}
+a{color:inherit}
+.demo{background:var(--saw);color:#1B110A;font-size:13.5px;text-align:center;padding:7px 16px;font-weight:500}
+.demo a{color:#1B110A;font-weight:800}
+header{background:var(--bark);color:var(--dust);position:sticky;top:0;z-index:40;border-bottom:3px solid var(--saw)}
+.bar{max-width:1140px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.logo svg{flex:none}
+.logo b{font:400 21px/1 var(--df);display:block;white-space:nowrap}
+.logo small{display:block;font:700 11px var(--mf);letter-spacing:2px;text-transform:uppercase;color:var(--ring);margin-top:3px}
+.tools{display:flex;gap:8px;align-items:center;flex:none}
+.lang{border:1.5px solid var(--ring);background:transparent;color:var(--dust);font:700 13px var(--mf);padding:7px 11px;border-radius:4px;cursor:pointer;letter-spacing:.5px}
+.callsm{background:var(--saw);color:#1B110A;text-decoration:none;font:800 14px var(--bf);padding:9px 14px;border-radius:4px;white-space:nowrap}
+
+/* Portada */
+.hero{position:relative;overflow:hidden;color:var(--dust);background:linear-gradient(120deg,#1C2E20,#2A1C13 40%,#23402C 70%,#1E140D);background-size:300% 300%}
+.blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.35;pointer-events:none}
+.blob.a{width:340px;height:340px;background:#5E7B3A;left:-80px;top:20px}
+.blob.b{width:280px;height:280px;background:#E8641B;right:10%;bottom:-120px;opacity:.22}
+.rings{position:absolute;right:-140px;top:50%;width:560px;height:560px;margin-top:-280px;opacity:.16;pointer-events:none}
+.hin{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:64px 16px 120px;display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center}
+.stamp{display:inline-block;font:700 13px var(--mf);letter-spacing:3px;text-transform:uppercase;color:var(--saw);border:1.5px dashed var(--saw);padding:5px 10px;border-radius:3px}
+h1{font:400 clamp(40px,7.4vw,78px)/1.02 var(--df);margin:18px 0 16px;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--saw)}
+.lead{font-size:19px;max-width:36ch;color:#E6DCC8;margin:0 0 26px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:800 16px var(--bf);padding:14px 20px;border-radius:4px;border:2px solid transparent}
+.btn.s{background:var(--saw);color:#1B110A}.btn.s:hover{background:#F07A35}
+.btn.o{border-color:var(--dust);color:var(--dust)}.btn.o:hover{background:rgba(244,235,218,.1)}
+.btn.d{background:var(--bark);color:var(--dust)}
+.tagcard{position:relative;background:var(--dust);color:var(--ink);padding:26px 24px 22px;border-radius:6px;box-shadow:0 22px 50px rgba(0,0,0,.4);transform:rotate(-1.5deg)}
+.tagcard:before{content:"";position:absolute;top:14px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:#1C2E20;box-shadow:inset 0 0 0 3px var(--ring)}
+.tagcard h2{font:400 24px/1.1 var(--df);margin:18px 0 12px;text-align:center}
+.tagcard dl{margin:0;font:15px/1.4 var(--mf)}
+.tagcard .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #BFA985;padding:8px 0}
+.tagcard dt{color:#6B5640;text-transform:uppercase;letter-spacing:1px;font-size:13px}
+.tagcard dd{margin:0;font-weight:700;text-align:right}
+.tagcard dd a{color:var(--saw2)}
+.ground{position:absolute;left:0;bottom:-1px;width:100%;height:70px;display:block;z-index:1;pointer-events:none}
+.leaf{position:absolute;top:-40px;width:22px;height:22px;pointer-events:none;z-index:0;opacity:.85}
+
+/* Secciones */
+section{max-width:1140px;margin:0 auto;padding:70px 16px}
+.kicker{font:700 13px var(--mf);letter-spacing:3px;text-transform:uppercase;color:var(--saw2)}
+h2.t{font:400 clamp(30px,4.6vw,48px)/1.08 var(--df);margin:8px 0 28px;max-width:22ch}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.svc{background:#FFF9EE;border:2px solid var(--bark);border-radius:6px;padding:22px 22px 18px;position:relative;box-shadow:6px 6px 0 var(--bark)}
+.svc .no{font:700 13px var(--mf);color:var(--saw2);letter-spacing:2px}
+.svc h3{font:400 24px/1.15 var(--df);margin:8px 0 8px}
+.svc p{margin:0 0 14px;color:#4A3A2C}
+.svc .price{font:700 14px var(--mf);border-top:1px dashed #BFA985;padding-top:10px;color:#4A3A2C}
+.svc svg{position:absolute;right:16px;top:16px;width:46px;height:46px}
+
+.log{background:var(--bark);color:var(--dust);position:relative;overflow:hidden}
+.log .in{max-width:1140px;margin:0 auto;padding:64px 16px;display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:center}
+.log .kicker{color:var(--saw)}
+.log h2.t{color:var(--dust)}
+.entry{background:#3B2819;border-left:6px solid var(--saw);padding:22px 24px;border-radius:4px;font:16px/1.6 var(--mf)}
+.entry b{color:var(--saw);display:block;letter-spacing:2px;text-transform:uppercase;font-size:13px;margin-bottom:6px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.fact{background:#3B2819;border-radius:4px;padding:16px}
+.fact strong{font:400 34px/1 var(--df);color:var(--saw);display:block}
+.fact span{font-size:14.5px;color:#D8CBB3}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
+.step{border-top:4px solid var(--pine);padding-top:14px}
+.step:before{counter-increment:s;content:"0" counter(s);font:400 30px var(--df);color:var(--moss)}
+.step h3{font:800 18px var(--bf);margin:6px 0 4px}
+.step p{margin:0;color:#4A3A2C;font-size:16px}
+
+.band{background:var(--saw);color:#1B110A}
+.band .in{max-width:1140px;margin:0 auto;padding:36px 16px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.band p{font:400 clamp(22px,3.6vw,34px)/1.15 var(--df);margin:0;max-width:26ch}
+
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+.card{background:#FFF9EE;border:2px solid var(--bark);border-radius:6px;padding:24px}
+.card h3{font:400 26px var(--df);margin:0 0 10px}
+.card p{margin:0 0 12px}
+.card .btn{margin:4px 8px 4px 0}
+.card .mono{font:15px var(--mf);color:#4A3A2C}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
+.chips li{border:1.5px solid var(--pine);color:var(--pine);font-weight:600;border-radius:999px;padding:4px 13px;font-size:15px}
+footer{background:var(--bark);color:#CBBDA4;text-align:center;padding:28px 16px 100px;font-size:14px}
+footer a{color:var(--saw)}
+@media(max-width:860px){.hin{grid-template-columns:1fr;padding-top:44px}.grid{grid-template-columns:1fr 1fr}.log .in{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.visit{grid-template-columns:1fr}.rings{width:420px;height:420px;margin-top:-210px;right:-180px;top:30%}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.callsm span{display:none}.logo b{font-size:17px}.logo small{letter-spacing:1px}.logo svg{display:none}.tagcard{transform:none}.steps{grid-template-columns:1fr}}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero{animation:drift 26s ease-in-out infinite}
+@keyframes drift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.mo.blob.a{animation:float 14s ease-in-out infinite}
+.mo.blob.b{animation:float 18s ease-in-out infinite reverse}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}
+.mo.rings{animation:spin 90s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mo.grinder{animation:spin 2.4s linear infinite;transform-origin:50% 50%;transform-box:fill-box}
+.mo.leaf{animation:fall linear infinite}
+@keyframes fall{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(30px,25vh) rotate(90deg)}50%{transform:translate(-20px,50vh) rotate(200deg)}75%{transform:translate(25px,75vh) rotate(290deg)}100%{transform:translate(-10px,105vh) rotate(400deg)}}
+.mo.sway{animation:sway 6s ease-in-out infinite;transform-origin:50% 100%;transform-box:fill-box}
+@keyframes sway{0%,100%{transform:rotate(-1.6deg)}50%{transform:rotate(1.6deg)}}
+.hero h1{animation:rise .8s ease both}.hero .lead{animation:rise .8s .15s ease both}.hero .ctas{animation:rise .8s .3s ease both}.hero .tagcard{animation:rise .9s .4s ease both}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;translate:0 22px}to{opacity:1;translate:0 0}}
+@media (prefers-reduced-motion:reduce){.hero,.mo,.mo *,.rv,.hero h1,.hero .lead,.hero .ctas,.hero .tagcard{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.mo.leaf{display:none}}
+:root{--bc:#C9500F;--bc2:#2A1C13;--bi:#22170F;--bb:#F4EBDA;--bf:'Libre Franklin',system-ui,sans-serif;--bd:'Bevan',Georgia,serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="demo"><span data-en="Sample website made by" data-es="Página de muestra creada por">Sample website made by</span> <a href="https://dakrastudio.com">Dakra Studio</a> <span data-en="for Dillard's Solutions" data-es="para Dillard's Solutions">for Dillard's Solutions</span></div>
+<header id="top"><div class="bar">
+  <a class="logo" href="#top"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#C9A87A" stroke-width="1.6"><circle cx="20" cy="20" r="18"/><circle cx="21" cy="19" r="13"/><circle cx="21.5" cy="19.5" r="8.5"/><circle cx="21" cy="20" r="4"/></g><circle cx="21" cy="20" r="1.4" fill="#E8641B"/></svg><span><b>Dillard's Solutions</b><small data-en="Tree service · Lawrenceburg" data-es="Árboles · Lawrenceburg">Tree service · Lawrenceburg</small></span></a>
+  <div class="tools"><button class="lang" type="button" data-lang aria-label="Cambiar idioma">Español</button><a class="callsm" href="tel:+19316983505">📞 <span>(931) 698-3505</span></a></div>
+</div></header>
+
+<main>
+<div class="hero">
+  <div class="mo blob a" aria-hidden="true"></div><div class="mo blob b" aria-hidden="true"></div>
+  <svg class="mo rings" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="#E9DCC2" stroke-width="1.4"><circle cx="100" cy="100" r="96"/><ellipse cx="102" cy="98" rx="86" ry="84"/><ellipse cx="103" cy="99" rx="76" ry="73"/><ellipse cx="101" cy="100" rx="66" ry="64"/><ellipse cx="103" cy="98" rx="56" ry="53"/><ellipse cx="102" cy="100" rx="46" ry="44"/><ellipse cx="104" cy="99" rx="36" ry="34"/><ellipse cx="103" cy="100" rx="26" ry="25"/><ellipse cx="104" cy="100" rx="16" ry="15"/><circle cx="104" cy="100" r="6"/><path d="M104 100 L196 82" stroke-width="2"/></g></svg>
+  <svg class="mo leaf" style="left:12%;animation-duration:13s;animation-delay:-2s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 6 4 12 6 18c2 2 6 3 9 1 4-3 5-10-3-17z" fill="#C9822B"/><path d="M12 4 L9 20" stroke="#6B3E14" stroke-width="1"/></svg>
+  <svg class="mo leaf" style="left:38%;animation-duration:17s;animation-delay:-9s;width:18px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 6 4 12 6 18c2 2 6 3 9 1 4-3 5-10-3-17z" fill="#8FA34A"/><path d="M12 4 L9 20" stroke="#40501E" stroke-width="1"/></svg>
+  <svg class="mo leaf" style="left:62%;animation-duration:15s;animation-delay:-5s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 6 4 12 6 18c2 2 6 3 9 1 4-3 5-10-3-17z" fill="#E8641B"/><path d="M12 4 L9 20" stroke="#7A3208" stroke-width="1"/></svg>
+  <svg class="mo leaf" style="left:84%;animation-duration:19s;animation-delay:-12s;width:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 6 4 12 6 18c2 2 6 3 9 1 4-3 5-10-3-17z" fill="#D9A441"/><path d="M12 4 L9 20" stroke="#6B4A14" stroke-width="1"/></svg>
+  <svg class="mo leaf" style="left:24%;animation-duration:21s;animation-delay:-15s;width:15px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6 6 4 12 6 18c2 2 6 3 9 1 4-3 5-10-3-17z" fill="#A4471A"/><path d="M12 4 L9 20" stroke="#4E1F08" stroke-width="1"/></svg>
+  <div class="hin">
+    <div>
+      <span class="stamp" data-en="Trim · Remove · Grind" data-es="Podar · Quitar · Triturar">Trim · Remove · Grind</span>
+      <h1 data-en="Big trees, tight spots, <em>clean</em> finish." data-es="Árboles grandes, espacios justos, <em>todo</em> limpio.">Big trees, tight spots, <em>clean</em> finish.</h1>
+      <p class="lead" data-en="Tree trimming, tree removal and stump grinding in Lawrenceburg, Tennessee. Tell us what's leaning over your roof and we'll give you a free quote." data-es="Poda de árboles, retiro de árboles y triturado de tocones en Lawrenceburg, Tennessee. Cuéntanos qué árbol está encima de tu techo y te damos una cotización gratis.">Tree trimming, tree removal and stump grinding in Lawrenceburg, Tennessee. Tell us what's leaning over your roof and we'll give you a free quote.</p>
+      <div class="ctas">
+        <a class="btn s" href="tel:+19316983505">📞 <span data-en="Call (931) 698-3505" data-es="Llamar (931) 698-3505">Call (931) 698-3505</span></a>
+        <a class="btn o" href="mailto:Dillardssolutions@gmail.com?subject=Free%20tree%20quote">✉️ <span data-en="Email for a free quote" data-es="Pedir cotización por correo">Email for a free quote</span></a>
+      </div>
+    </div>
+    <div class="tagcard">
+      <h2 data-en="Job ticket" data-es="Ficha de trabajo">Job ticket</h2>
+      <dl>
+        <div class="row"><dt data-en="Based in" data-es="Ubicados en">Based in</dt><dd>Lawrenceburg, TN</dd></div>
+        <div class="row"><dt data-en="Quotes" data-es="Cotización">Quotes</dt><dd data-en="Free" data-es="Gratis">Free</dd></div>
+        <div class="row"><dt data-en="Hours" data-es="Horario">Hours</dt><dd data-en="Call for hours" data-es="Llama para el horario">Call for hours</dd></div>
+        <div class="row"><dt data-en="Phone" data-es="Teléfono">Phone</dt><dd><a href="tel:+19316983505">(931) 698-3505</a></dd></div>
+        <div class="row"><dt data-en="Email" data-es="Correo">Email</dt><dd><a href="mailto:Dillardssolutions@gmail.com">Dillardssolutions@gmail.com</a></dd></div>
+      </dl>
+    </div>
+  </div>
+  <svg class="ground" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 50 Q150 30 300 46 T600 44 T900 40 T1200 46 V70 H0Z" fill="#F4EBDA"/>
+  </svg>
+</div>
+
+<section id="services">
+  <div class="kicker" data-en="What we do" data-es="Lo que hacemos">What we do</div>
+  <h2 class="t" data-en="Three jobs, done right from the first cut to the last rake." data-es="Tres trabajos, bien hechos del primer corte a la última barrida.">Three jobs, done right from the first cut to the last rake.</h2>
+  <div class="grid">
+    <div class="svc">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><g class="mo sway"><path d="M24 44 V28" stroke="#3B2819" stroke-width="3"/><circle cx="24" cy="18" r="13" fill="#5E7B3A"/><circle cx="16" cy="22" r="7" fill="#23402C"/><circle cx="31" cy="14" r="6" fill="#8FA34A"/></g></svg>
+      <div class="no">No. 01</div>
+      <h3 data-en="Tree trimming" data-es="Poda de árboles">Tree trimming</h3>
+      <p data-en="Limbs over the house, the roof or the driveway? We cut them back so the tree stays and the problem goes." data-es="¿Ramas sobre la casa, el techo o la entrada? Las cortamos para que el árbol se quede y el problema se vaya.">Limbs over the house, the roof or the driveway? We cut them back so the tree stays and the problem goes.</p>
+      <div class="price"><span data-en="Price:" data-es="Precio:">Price:</span> $— · <span data-en="free quote" data-es="cotización gratis">free quote</span></div>
+    </div>
+    <div class="svc">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40 H40" stroke="#3B2819" stroke-width="3"/><rect x="18" y="26" width="12" height="14" fill="#8A5A34"/><ellipse cx="24" cy="26" rx="6" ry="2.4" fill="#E9C893" stroke="#8A5A34"/><path d="M30 18 L42 8" stroke="#E8641B" stroke-width="4" stroke-linecap="round"/></svg>
+      <div class="no">No. 02</div>
+      <h3 data-en="Tree removal" data-es="Retiro de árboles">Tree removal</h3>
+      <p data-en="Dead, leaning or just in the way, we take trees down, even close to cabins and homes, and clean up when we're done." data-es="Secos, inclinados o simplemente estorbando: tumbamos árboles, aun cerca de cabañas y casas, y limpiamos al terminar.">Dead, leaning or just in the way, we take trees down, even close to cabins and homes, and clean up when we're done.</p>
+      <div class="price"><span data-en="Price:" data-es="Precio:">Price:</span> $— · <span data-en="free quote" data-es="cotización gratis">free quote</span></div>
+    </div>
+    <div class="svc">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><g class="mo grinder"><circle cx="24" cy="24" r="15" fill="#3B2819"/><g fill="#E8641B"><rect x="22" y="5" width="4" height="7"/><rect x="22" y="36" width="4" height="7"/><rect x="5" y="22" width="7" height="4"/><rect x="36" y="22" width="7" height="4"/><rect x="9" y="9" width="5" height="5" transform="rotate(45 11.5 11.5)"/><rect x="34" y="34" width="5" height="5" transform="rotate(45 36.5 36.5)"/><rect x="34" y="9" width="5" height="5" transform="rotate(45 36.5 11.5)"/><rect x="9" y="34" width="5" height="5" transform="rotate(45 11.5 36.5)"/></g><circle cx="24" cy="24" r="4" fill="#E9DCC2"/></g></svg>
+      <div class="no">No. 03</div>
+      <h3 data-en="Stump grinding" data-es="Triturado de tocones">Stump grinding</h3>
+      <p data-en="Get your yard back. We grind stumps down so you can mow, plant or build right over the spot." data-es="Recupera tu patio. Trituramos el tocón para que puedas podar el pasto, sembrar o construir encima.">Get your yard back. We grind stumps down so you can mow, plant or build right over the spot.</p>
+      <div class="price"><span data-en="Price:" data-es="Precio:">Price:</span> $— · <span data-en="free quote" data-es="cotización gratis">free quote</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="log"><div class="in">
+  <div>
+    <div class="kicker" data-en="From the job log" data-es="De la bitácora">From the job log</div>
+    <h2 class="t" data-en="Tight work, clean yard." data-es="Trabajo preciso, patio limpio.">Tight work, clean yard.</h2>
+    <div class="facts">
+      <div class="fact"><strong>100%</strong><span data-en="of Facebook reviewers recommend us (5 reviews)" data-es="de las reseñas en Facebook nos recomiendan (5 reseñas)">of Facebook reviewers recommend us (5 reviews)</span></div>
+      <div class="fact"><strong data-en="Free" data-es="Gratis">Free</strong><span data-en="quotes on every job" data-es="cotización en cada trabajo">quotes on every job</span></div>
+    </div>
+  </div>
+  <div class="entry"><b data-en="Recent job" data-es="Trabajo reciente">Recent job</b><span data-en="12 trees taken down over a cabin, and everything cleaned up afterward. That's the kind of careful work we're proud of." data-es="12 árboles tumbados encima de una cabaña, y todo limpio al terminar. Ese es el trabajo cuidadoso del que estamos orgullosos.">12 trees taken down over a cabin, and everything cleaned up afterward. That's the kind of careful work we're proud of.</span></div>
+</div></div>
+
+<section id="how">
+  <div class="kicker" data-en="How it works" data-es="Cómo funciona">How it works</div>
+  <h2 class="t" data-en="From first call to clean ground" data-es="De la primera llamada al terreno limpio">From first call to clean ground</h2>
+  <div class="steps">
+    <div class="step"><h3 data-en="Call or email" data-es="Llama o escribe">Call or email</h3><p data-en="Tell us about the tree, the stump or the limbs. Photos help." data-es="Cuéntanos del árbol, el tocón o las ramas. Las fotos ayudan.">Tell us about the tree, the stump or the limbs. Photos help.</p></div>
+    <div class="step"><h3 data-en="Free quote" data-es="Cotización gratis">Free quote</h3><p data-en="We look at the job and give you a price before any work starts." data-es="Revisamos el trabajo y te damos el precio antes de empezar.">We look at the job and give you a price before any work starts.</p></div>
+    <div class="step"><h3 data-en="We cut" data-es="Cortamos">We cut</h3><p data-en="Trimming, removal or grinding, done with care around your home." data-es="Poda, retiro o triturado, con cuidado alrededor de tu casa.">Trimming, removal or grinding, done with care around your home.</p></div>
+    <div class="step"><h3 data-en="We clean up" data-es="Limpiamos">We clean up</h3><p data-en="We leave the yard clean when the job is done." data-es="Dejamos el patio limpio al terminar.">We leave the yard clean when the job is done.</p></div>
+  </div>
+</section>
+
+<div class="band"><div class="in"><p data-en="Got a tree that's worrying you? Get a free quote." data-es="¿Tienes un árbol que te preocupa? Pide tu cotización gratis.">Got a tree that's worrying you? Get a free quote.</p><a class="btn d" href="tel:+19316983505">📞 (931) 698-3505</a></div></div>
+
+<section id="contact">
+  <div class="visit">
+    <div>
+      <div class="kicker" data-en="Where we work" data-es="Dónde trabajamos">Where we work</div>
+      <h2 class="t" data-en="Rooted in Lawrenceburg" data-es="Con raíces en Lawrenceburg">Rooted in Lawrenceburg</h2>
+      <p data-en="We're based in Lawrenceburg, Tennessee, and we come to your property. Not sure if we reach your town? Just call and ask." data-es="Estamos en Lawrenceburg, Tennessee, y vamos a tu propiedad. ¿No sabes si llegamos a tu pueblo? Solo llama y pregunta.">We're based in Lawrenceburg, Tennessee, and we come to your property. Not sure if we reach your town? Just call and ask.</p>
+      <ul class="chips"><li>Lawrenceburg</li><li data-en="Lawrence County" data-es="Condado de Lawrence">Lawrence County</li><li data-en="Nearby towns: call to ask" data-es="Pueblos cercanos: llama y pregunta">Nearby towns: call to ask</li></ul>
+    </div>
+    <div class="card">
+      <h3 data-en="Get your free quote" data-es="Pide tu cotización gratis">Get your free quote</h3>
+      <p class="mono">📞 <a href="tel:+19316983505">(931) 698-3505</a><br>✉️ <a href="mailto:Dillardssolutions@gmail.com">Dillardssolutions@gmail.com</a><br>🕒 <span data-en="Call for hours" data-es="Llama para el horario">Call for hours</span></p>
+      <a class="btn s" href="tel:+19316983505">📞 <span data-en="Call now" data-es="Llamar ahora">Call now</span></a>
+      <a class="btn d" href="mailto:Dillardssolutions@gmail.com?subject=Free%20tree%20quote">✉️ <span data-en="Send an email" data-es="Mandar correo">Send an email</span></a>
+      <a class="btn d" href="https://www.facebook.com/people/Dillards-Solutions/61557541210727/" target="_blank" rel="noopener">Facebook</a>
+      <a class="btn d" href="https://www.google.com/maps/search/?api=1&query=Dillard%27s%20Solutions%20Lawrenceburg%20TN" target="_blank" rel="noopener">📍 <span data-en="Directions" data-es="Cómo llegar">Directions</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p>Dillard's Solutions · Lawrenceburg, TN · <a href="tel:+19316983505">(931) 698-3505</a></p>
+  <p><span data-en="Sample website made by" data-es="Página de muestra creada por">Sample website made by</span> <a href="https://dakrastudio.com">Dakra Studio</a></p>
+</footer>
+
+<script>
+(function(){
+  let lang="en";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>b.textContent=lang==="en"?"Español":"English");
+    document.title=lang==="en"?"Dillard's Solutions · Tree Service · Lawrenceburg, TN":"Dillard's Solutions · Servicio de Árboles · Lawrenceburg, TN";
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".svc, .fact, .entry, .step, .visit .card, .chips li"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Dillard's Solutions assistant" hidden>
+  <div class="bh"><div><b>Dillard's Solutions</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Dillard's Solutions",color:"#C9500F",color2:"#2A1C13",ink:"#22170F",bg:"#F4EBDA",font:"'Libre Franklin',system-ui,sans-serif",display:"'Bevan',Georgia,serif",
+  tel:"+19316983505",telTxt:"(931) 698-3505",maps:"https://www.google.com/maps/search/?api=1&query=Dillard%27s%20Solutions%20Lawrenceburg%20TN",address:"Lawrenceburg, TN",
+  H:[null,null,null,null,null,null,null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAIL=`<a href="mailto:Dillardssolutions@gmail.com">Dillardssolutions@gmail.com</a>`,FB=`<a href="https://www.facebook.com/people/Dillards-Solutions/61557541210727/" target="_blank" rel="noopener">Facebook</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))\b/i,en:()=>"Hi! 👋 Ask me about tree trimming, removal, stump grinding, free quotes or how to reach us.",es:()=>"¡Hola! 👋 Pregúntame por poda, retiro de árboles, triturado de tocones, cotizaciones gratis o cómo contactarnos."},
+  {k:"thanks",re:/gracias|thank|thx/i,en:()=>"You're welcome! 🌳 Call anytime you need a hand with a tree.",es:()=>"¡Con gusto! 🌳 Llámanos cuando necesites ayuda con un árbol."},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|speak/i,en:()=>`This website works in English and Spanish. To ask which languages the crew speaks, call ${TEL}. 🗣️`,es:()=>`Esta página está en inglés y español. Para preguntar qué idiomas habla el equipo, llama al ${TEL}. 🗣️`},
+  {k:"emergency",re:/emergen|storm|tormenta|fell|fallen|cay[oó]|ca[ií]do|on (my|the) (house|roof|car)|sobre (mi|la) (casa|techo|carro)|urgent|urgente|tonight|esta noche/i,en:()=>`A tree down or hanging over something? Call ${TEL} right away and tell us what happened. Please stay clear of the tree and of any downed power lines. ⚠️`,es:()=>`¿Un árbol caído o colgando sobre algo? Llama al ${TEL} de inmediato y cuéntanos qué pasó. Mantente lejos del árbol y de cualquier cable de luz caído. ⚠️`},
+  {k:"time",re:/cu[aá]nto (tarda|tiempo|dura)|tardan|how long|take long|duraci/i,en:()=>`How long it takes depends on the size and number of trees. We'll tell you when we give your free quote, or call ${TEL}. ⏱️`,es:()=>`Lo que tarda depende del tamaño y la cantidad de árboles. Te lo decimos al darte la cotización gratis, o llama al ${TEL}. ⏱️`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|tarifa|price|how much|cost|rate|quote|cotiza|estimate|presupuesto|free|gratis/i,en:()=>`Every tree is different, so we price each job after seeing it, and the quote is free. Call ${TEL} or email ${MAIL} (photos help!). 💵`,es:()=>`Cada árbol es distinto, así que damos el precio al ver el trabajo, y la cotización es gratis. Llama al ${TEL} o escribe a ${MAIL} (¡las fotos ayudan!). 💵`},
+  {k:"stump",re:/stump|tocón|tocon|toc[oó]n|grind|tritur|ra[ií]z|root/i,en:()=>`Yes, we do stump grinding, so you can mow or plant over the spot again. For a free quote, call ${TEL}. 🪵`,es:()=>`Sí, trituramos tocones para que puedas volver a podar el pasto o sembrar en ese lugar. Para tu cotización gratis, llama al ${TEL}. 🪵`},
+  {k:"removal",re:/remov|take down|cut down|tumb|quitar|retir|derrib|dead tree|[aá]rbol seco|muerto|leaning|inclinad|cabin|caba[ñn]a/i,en:()=>`Yes, we take trees down, including tight spots near homes and cabins. One recent job: 12 trees taken down over a cabin, all cleaned up. Call ${TEL} for a free quote. 🌲`,es:()=>`Sí, tumbamos árboles, incluso en espacios justos cerca de casas y cabañas. Un trabajo reciente: 12 árboles tumbados encima de una cabaña, todo limpio al final. Llama al ${TEL} para tu cotización gratis. 🌲`},
+  {k:"trim",re:/trim|prun|pod(a|ar)|rama|limb|branch|recort|cortar ramas|overhang/i,en:()=>`Yes, we trim trees: limbs over the house, roof or driveway. Call ${TEL} for a free quote. ✂️`,es:()=>`Sí, podamos árboles: ramas sobre la casa, el techo o la entrada. Llama al ${TEL} para tu cotización gratis. ✂️`},
+  {k:"cleanup",re:/clean|limpi|debris|escombro|haul|leave|dejan|lle?van|firewood|leña|le[ñn]a|wood|madera|chip/i,en:()=>`We clean up when the job is done. If you'd like to keep the wood or have questions about hauling, call ${TEL} and ask. 🧹`,es:()=>`Limpiamos al terminar el trabajo. Si quieres quedarte con la leña o tienes preguntas sobre llevarse los restos, llama al ${TEL} y pregunta. 🧹`},
+  {k:"when",re:/cu[aá]ndo (pueden|vienen|llegan)|when can|how soon|soon|pronto|this week|esta semana|availab|disponib|schedule|agendar|programar|cita|appointment|come out|venir/i,en:()=>`Scheduling is set up directly with us. Call ${TEL} and we'll find the soonest day we can come look at the job. 📅`,es:()=>`Las fechas se acuerdan directamente con nosotros. Llama al ${TEL} y buscamos el primer día en que podamos ir a ver el trabajo. 📅`},
+  {k:"hours",re:/hora|horario|abre|abren|cierra|cierran|hours|open|abierto|close|weekend|fin de semana|s[aá]bado|domingo|saturday|sunday|qu[eé] d[ií]as|what days/i,en:()=>`Our hours aren't posted here yet. Please call ${TEL} for hours and availability. 🕒`,es:()=>`El horario todavía no está publicado aquí. Llama al ${TEL} para saber horario y disponibilidad. 🕒`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|venmo|zelle|cash ?app|paypal|check|cheque|payment|financ/i,en:()=>`To confirm which payment methods we take, please call ${TEL}. 💳`,es:()=>`Para confirmar qué formas de pago aceptamos, llama al ${TEL}. 💳`},
+  {k:"guarantee",re:/garant[ií]a|guarant|warrant|satisf|insur|asegur|seguro|licen|bonded|damage|da[ñn]o/i,en:()=>`For questions about insurance, licensing or what happens if something isn't right, please call ${TEL} and talk with us directly. 🛡️`,es:()=>`Para preguntas sobre seguro, licencias o qué pasa si algo no queda bien, llama al ${TEL} y habla directamente con nosotros. 🛡️`},
+  {k:"season",re:/temporada|season|invierno|\bwinter\b|oto[ñn]o|\bfall\b|primavera|\bspring\b|verano|\bsummer\b|best time|mejor (época|epoca|momento)|year.?round|todo el a[ñn]o/i,en:()=>`Trees can be trimmed or removed in most seasons. To find the best timing for your job, call ${TEL}. 🍂`,es:()=>`Los árboles se pueden podar o quitar en casi cualquier temporada. Para saber el mejor momento para tu trabajo, llama al ${TEL}. 🍂`},
+  {k:"other",re:/landscap|jard[ií]n|mow|pasto|lawn|grass|cerca|fence|lot|terreno|clearing|desmont|brush|maleza|gutter|canaleta/i,en:()=>`Our main work is tree trimming, tree removal and stump grinding. For other outdoor jobs, call ${TEL} and ask if we can help. 🌿`,es:()=>`Nuestro trabajo principal es poda, retiro de árboles y triturado de tocones. Para otros trabajos al aire libre, llama al ${TEL} y pregunta si podemos ayudar. 🌿`},
+  {k:"services",re:/servicio|qu[eé] hacen|ofrecen|services|what do you|do you do|tree|[aá]rbol/i,en:()=>"We do three things: 🌳 tree trimming, 🌲 tree removal and 🪵 stump grinding, with free quotes. Ask me about any of them!",es:()=>"Hacemos tres cosas: 🌳 poda de árboles, 🌲 retiro de árboles y 🪵 triturado de tocones, con cotización gratis. ¡Pregúntame por cualquiera!"},
+  {k:"reviews",re:/rese[ñn]a|opini|review|rating|recomend|recommend|good|buen[oa]s?/i,en:()=>`On Facebook, 100% of reviewers recommend Dillard's Solutions (5 reviews). You can read them on our ${FB} page. ⭐`,es:()=>`En Facebook, el 100% de las reseñas recomiendan a Dillard's Solutions (5 reseñas). Puedes leerlas en nuestra página de ${FB}. ⭐`},
+  {k:"area",re:/zona|[aá]rea|cubren|llegan|lawrence|county|condado|loretto|leoma|ethridge|summertown|columbia|pulaski|waynesboro|serve|come to|far|lejos|travel|near/i,en:()=>`We're based in Lawrenceburg, TN, and we come to your property. To check if we reach your address, call ${TEL}. 🗺️`,es:()=>`Estamos en Lawrenceburg, TN, y vamos a tu propiedad. Para saber si llegamos a tu dirección, llama al ${TEL}. 🗺️`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction/i,en:()=>`We're in Lawrenceburg, TN, and we come to you. Here's a <a href="${CFG.maps}" target="_blank" rel="noopener">map</a>, or call ${TEL}. 📍`,es:()=>`Estamos en Lawrenceburg, TN, y nosotros vamos a ti. Aquí está el <a href="${CFG.maps}" target="_blank" rel="noopener">mapa</a>, o llama al ${TEL}. 📍`},
+  {k:"email",re:/correo|email|e-mail|mail|escribir|write|message|mensaje|facebook|photo|foto/i,en:()=>`Email us at ${MAIL} (send photos of the tree!) or message us on ${FB}. ✉️`,es:()=>`Escríbenos a ${MAIL} (¡manda fotos del árbol!) o mándanos mensaje por ${FB}. ✉️`},
+  {k:"person",re:/persona|humano|due[ñn]a?o?|encargad|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|manager|call|phone/i,en:()=>`Of course! Call ${TEL} or email ${MAIL}. 📞`,es:()=>`¡Claro! Llama al ${TEL} o escribe a ${MAIL}. 📞`}
+];
+const CHIPS={en:[["services","What we do"],["price","Free quote"],["stump","Stump grinding"],["when","When can you come?"],["area","Area we serve"],["reviews","Reviews"],["person","Talk to us"]],
+             es:[["services","Qué hacemos"],["price","Cotización gratis"],["stump","Tocones"],["when","¿Cuándo pueden venir?"],["area","Zona que cubrimos"],["reviews","Reseñas"],["person","Hablar con nosotros"]]};
+const TXT={en:{hi:"Hi! 👋 I'm the Dillard's Solutions assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} or email ${MAIL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Dillard's Solutions. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} o escribe a ${MAIL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>

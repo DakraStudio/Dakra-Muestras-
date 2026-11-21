@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Done Right Electrical · Lawrenceburg, TN</title>
+<meta name="description" content="Done Right Electrical: residential electrician in Lawrenceburg, TN. Underground and overhead service, panel upgrades and relocations, standby generators.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16181B;--coal:#1E2125;--steel:#2B2F35;--panel:#ECE8DF;--paper:#F6F3EC;--volt:#FFC21A;--volt2:#FFD866;--copper:#C8662B;--line:rgba(22,24,27,.14);--muted:#5A5F66;
+--fd:'Big Shoulders Display',Impact,sans-serif;--fb:'IBM Plex Sans',system-ui,sans-serif;--fm:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 var(--fb);overflow-x:hidden}
+img,svg{max-width:100%}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.notice{background:var(--volt);color:var(--ink);font:600 13px/1.4 var(--fm);text-align:center;padding:8px 16px}
+.notice a{font-weight:700}
+header{position:sticky;top:0;z-index:40;background:rgba(22,24,27,.94);backdrop-filter:blur(8px);color:#fff;border-bottom:3px solid var(--volt)}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand b{font:900 24px/0.95 var(--fd);letter-spacing:.02em;text-transform:uppercase;display:block}
+.brand b em{font-style:normal;color:var(--volt)}
+.brand small{font:500 11px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:#B9BEC4}
+.tools{display:flex;gap:8px;align-items:center}
+.lang{border:1.5px solid rgba(255,255,255,.4);background:transparent;color:#fff;font:600 13px var(--fm);padding:9px 12px;border-radius:6px;cursor:pointer}
+.lang:hover{border-color:var(--volt);color:var(--volt)}
+.callsm{background:var(--volt);color:var(--ink);text-decoration:none;font:700 14px var(--fb);padding:10px 14px;border-radius:6px;white-space:nowrap}
+@media(max-width:560px){.callsm span{display:none}.brand b{font-size:21px}}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(120deg,#121417 0%,#22262C 35%,#1A1D21 60%,#2A2418 100%);background-size:260% 260%}
+.hero .grid{position:absolute;inset:-140px;opacity:.22;background-image:linear-gradient(rgba(255,194,26,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,194,26,.35) 1px,transparent 1px);background-size:70px 70px}
+.mo{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.mo.g1{width:420px;height:420px;background:rgba(255,194,26,.28);top:-120px;right:-80px}
+.mo.g2{width:360px;height:360px;background:rgba(200,102,43,.30);bottom:-140px;left:-100px}
+.hin{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:72px 20px 84px;max-width:1160px;margin:0 auto}
+.tag{display:inline-flex;gap:8px;align-items:center;font:600 12px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--volt);border:1px solid rgba(255,194,26,.5);padding:6px 10px;border-radius:4px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--volt);box-shadow:0 0 10px var(--volt)}
+h1{font:900 clamp(52px,9vw,112px)/.86 var(--fd);text-transform:uppercase;margin:18px 0 18px;letter-spacing:.005em}
+h1 span{color:var(--volt);display:block}
+.lead{font-size:clamp(17px,2.2vw,20px);color:#D5D8DC;max-width:560px;margin:0 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 16px var(--fb);padding:15px 22px;border-radius:6px;min-height:52px}
+.btn.y{background:var(--volt);color:var(--ink);box-shadow:0 0 0 0 rgba(255,194,26,.6)}
+.btn.y:hover{background:var(--volt2)}
+.btn.o{border:2px solid rgba(255,255,255,.55);color:#fff}
+.btn.o:hover{border-color:var(--volt);color:var(--volt)}
+.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;font:500 13px var(--fm);color:#AEB3B9}
+.meta b{color:#fff;font-weight:600}
+.scene{width:100%;max-width:420px;justify-self:center}
+.scene svg{display:block;width:100%;height:auto}
+@media(max-width:860px){.hin{grid-template-columns:1fr;padding:48px 20px 60px;gap:28px}.scene{max-width:300px}}
+
+/* SECTIONS */
+section{padding:76px 0}
+.kick{font:600 12px var(--fm);letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin:0 0 8px}
+h2{font:800 clamp(38px,6vw,64px)/.92 var(--fd);text-transform:uppercase;margin:0 0 14px}
+.sub{color:var(--muted);max-width:640px;margin:0 0 34px}
+
+/* Panel directory */
+.panel{background:var(--coal);border-radius:14px;padding:22px;box-shadow:inset 0 0 0 2px #3A3F46,0 18px 40px rgba(0,0,0,.18)}
+.panel .ptop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#B9BEC4;font:600 12px var(--fm);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;flex-wrap:wrap}
+.panel .ptop b{color:var(--volt)}
+.bkrs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.svc{background:var(--panel);border-radius:8px;padding:16px 16px 16px 76px;position:relative;min-height:118px;border:1px solid #CFC9BC}
+.svc .sw{position:absolute;left:14px;top:16px;width:46px;height:78px;border-radius:6px;background:#2B2F35;box-shadow:inset 0 0 0 2px #121417}
+.svc .sw::after{content:"";position:absolute;left:7px;right:7px;top:8px;height:30px;border-radius:4px;background:linear-gradient(#3B4048,#2A2E34);border-top:4px solid var(--volt)}
+.svc .num{font:600 11px var(--fm);color:var(--copper);letter-spacing:.12em}
+.svc h3{font:800 25px/1 var(--fd);text-transform:uppercase;margin:4px 0 6px}
+.svc p{margin:0;font-size:15px;color:#3E4349}
+@media(max-width:720px){.bkrs{grid-template-columns:1fr}}
+
+/* how */
+.how{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;counter-reset:s}
+.step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px;position:relative}
+.step::before{counter-increment:s;content:"0" counter(s);font:900 46px/1 var(--fd);color:var(--volt);-webkit-text-stroke:1.5px var(--ink);display:block;margin-bottom:8px}
+.step h3{font:800 24px/1 var(--fd);text-transform:uppercase;margin:0 0 6px}
+.step p{margin:0;color:var(--muted);font-size:15px}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:34px}
+.fact{border-left:4px solid var(--volt);padding:6px 0 6px 14px}
+.fact{min-width:0}.fact b{font:900 clamp(24px,6.4vw,34px)/1 var(--fd);display:block;text-transform:uppercase;overflow-wrap:break-word}
+.fact span{font:500 13px var(--fm);color:var(--muted)}
+@media(max-width:820px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.facts{grid-template-columns:1fr}}
+
+/* visit */
+.visit{background:var(--ink);color:#fff;border-radius:16px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.visit h2{color:#fff;font-size:clamp(30px,8.4vw,60px)}
+.visit .kick{color:var(--volt)}
+.hrs{font:500 15px var(--fm);border-collapse:collapse;width:100%}
+.hrs td{padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.18)}
+.hrs td:last-child{text-align:right;color:var(--volt2)}
+.visit>*{min-width:0}.visit .small a{overflow-wrap:anywhere}.addr{font-size:18px;margin:0 0 18px;color:#D5D8DC}
+.small{font:500 12px var(--fm);color:#9AA0A7;margin-top:12px}
+@media(max-width:820px){.visit{grid-template-columns:1fr;padding:24px}}
+
+footer{padding:34px 0 100px;font:500 13px var(--fm);color:var(--muted)}
+.fin{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---- Movimiento (Dakra Studio) ---- */
+.hero{animation:sheen 24s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero .grid{animation:gridpan 40s linear infinite}
+@keyframes gridpan{from{transform:translate(0,0)}to{transform:translate(70px,70px)}}
+.mo.g1{animation:drift1 17s ease-in-out infinite}
+.mo.g2{animation:drift2 21s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,60px) scale(1.12)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(70px,-40px) scale(1.08)}}
+.scene .flow{stroke-dasharray:8 18;animation:flow 1.4s linear infinite}
+.scene .flow.b{animation-duration:1.9s}
+@keyframes flow{to{stroke-dashoffset:-52}}
+.scene .glow{animation:glow 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes glow{0%,100%{opacity:.35;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
+.scene .bulb{animation:bulb 3.2s ease-in-out infinite}
+@keyframes bulb{0%,100%{fill:#E9D9A6}50%{fill:#FFD866}}
+.scene .spark{animation:spark 2.4s steps(1) infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spark{0%,62%{opacity:0;transform:scale(.6)}64%{opacity:1;transform:scale(1.15)}70%{opacity:0}74%{opacity:1;transform:scale(.9) rotate(12deg)}80%,100%{opacity:0}}
+.scene .lever{animation:flip 6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flip{0%,40%{transform:translateY(0)}48%,88%{transform:translateY(22px)}96%,100%{transform:translateY(0)}}
+.btn.y{animation:hum 3s ease-in-out infinite}
+@keyframes hum{0%,100%{box-shadow:0 0 0 0 rgba(255,194,26,0)}50%{box-shadow:0 0 22px 2px rgba(255,194,26,.45)}}
+.hin>div:first-child>*{animation:rise .8s ease both}
+.hin>div:first-child>*:nth-child(2){animation-delay:.1s}.hin>div:first-child>*:nth-child(3){animation-delay:.2s}.hin>div:first-child>*:nth-child(4){animation-delay:.3s}.hin>div:first-child>*:nth-child(5){animation-delay:.4s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hero,.hero .grid,.mo,.scene .flow,.scene .glow,.scene .bulb,.scene .spark,.scene .lever,.btn.y,.hin>div:first-child>*,.rv{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.scene .glow{opacity:.8}}
+:focus-visible{outline:3px solid var(--volt);outline-offset:2px}
+:root{--bc:#C8662B;--bc2:#16181B;--bi:#16181B;--bb:#F6F3EC;--bf:'IBM Plex Sans',system-ui,sans-serif;--bd:'Big Shoulders Display',Impact,sans-serif}
+/* ---- Asistente de chat (Dakra Studio) ---- */
+.bot-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;border:0;cursor:pointer;background:var(--bc);color:#fff;font:700 15px var(--bf);padding:12px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px}
+.bot-btn .ping{width:10px;height:10px;border-radius:50%;background:#7CFFB2;box-shadow:0 0 0 4px rgba(124,255,178,.3)}
+.bot{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:61;width:min(370px,calc(100vw - 32px));height:min(540px,calc(100vh - 140px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;border:2px solid var(--bi)}
+.bot[hidden]{display:none}
+.bot .bh{background:var(--bc2);color:#fff;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bot .bh b{font:400 22px/1 var(--bd);display:block;color:#fff}
+.bot .bh small{font:13px var(--bf);color:rgba(255,255,255,.85)}
+.bot .x{background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:2px 8px}
+.bot .log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--bb)}
+.bm{max-width:86%;padding:9px 12px;border-radius:14px;font:15px/1.4 var(--bf);white-space:pre-line;color:var(--bi)}
+.bm.b{background:#fff;border:1px solid rgba(0,0,0,.12);align-self:flex-start;border-bottom-left-radius:4px}
+.bm.u{background:var(--bc);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.bm a{color:var(--bc2);font-weight:700;text-decoration:underline}
+.bot .chips2{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid rgba(0,0,0,.1);background:#fff}
+.bot .chips2 button{flex:none;border:1.5px solid var(--bi);background:#fff;border-radius:999px;padding:6px 12px;font:600 13px var(--bf);cursor:pointer;color:var(--bi)}
+.bot form{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid rgba(0,0,0,.1)}
+.bot input{flex:1;min-width:0;border:1.5px solid rgba(0,0,0,.2);border-radius:10px;padding:10px 12px;font:16px var(--bf);color:var(--bi)}
+.bot form button{border:0;background:var(--bc);color:#fff;font:700 14px var(--bf);border-radius:10px;padding:0 16px;cursor:pointer}
+.bot .demo-tag{font:11px var(--bf);text-align:center;color:#666;padding:4px 0 8px;background:#fff}
+@media(max-width:640px){.bot{height:min(500px,calc(100vh - 120px))}}
+</style>
+</head>
+<body>
+<div class="notice"><span data-en='Sample page created by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> for Done Right Electrical' data-es='Página de muestra creada por <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> para Done Right Electrical'>Sample page created by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a> for Done Right Electrical</span></div>
+
+<header>
+  <div class="wrap hbar">
+    <a class="brand" href="#top" aria-label="Done Right Electrical">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="6" fill="#FFC21A"/><path d="M23 5L11 22h8l-3 13 13-18h-8z" fill="#16181B"/></svg>
+      <span><b>Done Right <em>Electrical</em></b><small>Lawrenceburg, TN</small></span>
+    </a>
+    <div class="tools"><button class="lang" type="button" data-lang="es" aria-label="Cambiar idioma / Change language">Español</button><a class="callsm" href="tel:+19313345395">⚡ <span>(931) 334-5395</span></a></div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" style="padding:0">
+  <div class="grid" aria-hidden="true"></div>
+  <div class="mo g1" aria-hidden="true"></div>
+  <div class="mo g2" aria-hidden="true"></div>
+  <div class="hin">
+    <div>
+      <p class="tag"><i></i><span data-en="Residential electrician · Since 2019" data-es="Electricista residencial · Desde 2019">Residential electrician · Since 2019</span></p>
+      <h1 data-en='Wired once.<span>Done right.</span>' data-es='Bien hecho.<span>A la primera.</span>'>Wired once.<span>Done right.</span></h1>
+      <p class="lead" data-en="A full-service electrical company in Lawrenceburg, serving Middle Tennessee: underground and overhead service, panel upgrades and relocations, and standby generators." data-es="Una compañía eléctrica de servicio completo en Lawrenceburg, que trabaja en Middle Tennessee: acometidas subterráneas y aéreas, cambio y reubicación de paneles, y generadores de respaldo.">A full-service electrical company in Lawrenceburg, serving Middle Tennessee: underground and overhead service, panel upgrades and relocations, and standby generators.</p>
+      <div class="cta">
+        <a class="btn y" href="tel:+19313345395" data-en="⚡ Call (931) 334-5395" data-es="⚡ Llamar al (931) 334-5395">⚡ Call (931) 334-5395</a>
+        <a class="btn o" href="mailto:donerightelectrical6@gmail.com" data-en="✉ Email us" data-es="✉ Escríbenos">✉ Email us</a>
+      </div>
+      <div class="meta"><span data-en="<b>Mon–Fri</b> 7 am – 3 pm" data-es="<b>Lun–Vie</b> 7 am – 3 pm"><b>Mon–Fri</b> 7 am – 3 pm</span><span data-en="<b>215 E Gaines St</b> · Lawrenceburg" data-es="<b>215 E Gaines St</b> · Lawrenceburg"><b>215 E Gaines St</b> · Lawrenceburg</span></div>
+    </div>
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 420 420">
+        <!-- breaker panel -->
+        <rect x="30" y="70" width="150" height="270" rx="10" fill="#2B2F35" stroke="#454B53" stroke-width="3"/>
+        <rect x="46" y="88" width="118" height="234" rx="6" fill="#1A1D21"/>
+        <g fill="#3B4048"><rect x="58" y="102" width="40" height="34" rx="4"/><rect x="112" y="102" width="40" height="34" rx="4"/><rect x="58" y="150" width="40" height="34" rx="4"/><rect x="112" y="150" width="40" height="34" rx="4"/><rect x="58" y="246" width="40" height="34" rx="4"/><rect x="112" y="246" width="40" height="34" rx="4"/></g>
+        <rect x="58" y="198" width="94" height="40" rx="4" fill="#3B4048"/>
+        <g class="lever"><rect x="88" y="196" width="34" height="18" rx="3" fill="#FFC21A"/></g>
+        <g fill="#FFC21A"><rect x="66" y="106" width="24" height="10" rx="2"/><rect x="120" y="106" width="24" height="10" rx="2"/><rect x="66" y="154" width="24" height="10" rx="2"/><rect x="120" y="164" width="24" height="10" rx="2"/><rect x="66" y="250" width="24" height="10" rx="2"/><rect x="120" y="260" width="24" height="10" rx="2"/></g>
+        <!-- wires -->
+        <path d="M180 120 H250 Q270 120 270 100 V60 H320" fill="none" stroke="#5A3A20" stroke-width="7" stroke-linecap="round"/>
+        <path class="flow" d="M180 120 H250 Q270 120 270 100 V60 H320" fill="none" stroke="#FFC21A" stroke-width="3" stroke-linecap="round"/>
+        <path d="M180 290 H230 Q250 290 250 310 V370 H360" fill="none" stroke="#5A3A20" stroke-width="7" stroke-linecap="round"/>
+        <path class="flow b" d="M180 290 H230 Q250 290 250 310 V370 H360" fill="none" stroke="#C8662B" stroke-width="3" stroke-linecap="round"/>
+        <!-- bulb -->
+        <defs><radialGradient id="halo"><stop offset="0" stop-color="#FFC21A" stop-opacity=".85"/><stop offset=".55" stop-color="#FFC21A" stop-opacity=".25"/><stop offset="1" stop-color="#FFC21A" stop-opacity="0"/></radialGradient></defs><circle class="glow" cx="340" cy="155" r="78" fill="url(#halo)"/>
+        <path d="M320 60 V82" stroke="#5A3A20" stroke-width="6"/>
+        <rect x="324" y="82" width="32" height="26" rx="4" fill="#8B9097"/>
+        <path class="bulb" d="M340 108 C300 112 296 160 316 182 C324 192 326 200 326 206 H354 C354 200 356 192 364 182 C384 160 380 112 340 108Z" fill="#FFD866" stroke="#16181B" stroke-width="3"/>
+        <path d="M332 206 V176 L340 166 L348 176 V206" fill="none" stroke="#C8662B" stroke-width="3"/>
+        <!-- spark -->
+        <g class="spark"><path d="M360 352 l10 -22 l4 16 l14 -10 l-8 22 l-6 -10z" fill="#FFF3B0" stroke="#FFC21A" stroke-width="2"/></g>
+        <rect x="350" y="356" width="40" height="30" rx="5" fill="#8B9097"/><circle cx="362" cy="371" r="3" fill="#16181B"/><circle cx="378" cy="371" r="3" fill="#16181B"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <p class="kick" data-en="Panel directory" data-es="Directorio del panel">Panel directory</p>
+    <h2 data-en="What we wire" data-es="Lo que hacemos">What we wire</h2>
+    <p class="sub" data-en="Our specialties, laid out like the circuit directory inside your panel door." data-es="Nuestras especialidades, como el directorio de circuitos dentro de la puerta de tu panel.">Our specialties, laid out like the circuit directory inside your panel door.</p>
+    <div class="panel">
+      <div class="ptop"><span>Done Right Electrical</span><b data-en="Circuit list" data-es="Lista de circuitos">Circuit list</b></div>
+      <div class="bkrs">
+        <div class="svc"><span class="sw"></span><span class="num">CKT 01</span><h3 data-en="Underground service" data-es="Acometida subterránea">Underground service</h3><p data-en="Residential underground electrical service installations, from the meter to the house." data-es="Instalación de acometidas eléctricas subterráneas para casas, del medidor a la vivienda.">Residential underground electrical service installations, from the meter to the house.</p></div>
+        <div class="svc"><span class="sw"></span><span class="num">CKT 02</span><h3 data-en="Overhead service repair" data-es="Reparación de acometida aérea">Overhead service repair</h3><p data-en="Repairs to overhead service lines and the connection at your home." data-es="Reparación de líneas aéreas de servicio y su conexión en tu casa.">Repairs to overhead service lines and the connection at your home.</p></div>
+        <div class="svc"><span class="sw"></span><span class="num">CKT 03</span><h3 data-en="Panel updates & relocations" data-es="Cambio y reubicación de paneles">Panel updates &amp; relocations</h3><p data-en="Upgrading old electrical panels or moving them to a better spot." data-es="Cambiamos paneles eléctricos viejos o los movemos a un mejor lugar.">Upgrading old electrical panels or moving them to a better spot.</p></div>
+        <div class="svc"><span class="sw"></span><span class="num">CKT 04</span><h3 data-en="Standby generators" data-es="Generadores de respaldo">Standby generators</h3><p data-en="Standby generator systems so the lights stay on when the power goes out." data-es="Sistemas de generador de respaldo para que no te quedes sin luz cuando se va la corriente.">Standby generator systems so the lights stay on when the power goes out.</p></div>
+        <div class="svc"><span class="sw"></span><span class="num">CKT 05</span><h3 data-en="Wiring" data-es="Cableado">Wiring</h3><p data-en="Electrical wiring for homes, including work tied to panel upgrades." data-es="Cableado eléctrico para casas, incluido el trabajo ligado al cambio de panel.">Electrical wiring for homes, including work tied to panel upgrades.</p></div>
+        <div class="svc"><span class="sw"></span><span class="num">CKT 06</span><h3 data-en="Additions & remodels" data-es="Ampliaciones y remodelaciones">Additions &amp; remodels</h3><p data-en="Electrical for a home addition or remodel. Pricing: $— (call for a quote)." data-es="Instalación eléctrica para ampliaciones o remodelaciones. Precio: $— (llama para cotizar).">Electrical for a home addition or remodel. Pricing: $— (call for a quote).</p></div>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>2019</b><span data-en="Serving Middle TN since" data-es="En Middle TN desde">Serving Middle TN since</span></div>
+      <div class="fact"><b data-en="Residential" data-es="Residencial">Residential</b><span data-en="Homes are our focus" data-es="Nos enfocamos en casas">Homes are our focus</span></div>
+      <div class="fact"><b>Local</b><span data-en="Based in Lawrenceburg" data-es="Con base en Lawrenceburg">Based in Lawrenceburg</span></div>
+      <div class="fact"><b>$—</b><span data-en="Every job quoted by phone" data-es="Cada trabajo se cotiza por teléfono">Every job quoted by phone</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <p class="kick" data-en="How it works" data-es="Cómo funciona">How it works</p>
+    <h2 data-en="Three steps to power" data-es="Tres pasos a la corriente">Three steps to power</h2>
+    <div class="steps">
+      <div class="step"><h3 data-en="Call or email" data-es="Llama o escribe">Call or email</h3><p data-en="Tell us what you need: a new service, a panel, a generator or a repair." data-es="Cuéntanos qué necesitas: acometida nueva, panel, generador o una reparación.">Tell us what you need: a new service, a panel, a generator or a repair.</p></div>
+      <div class="step"><h3 data-en="We take a look" data-es="Lo revisamos">We take a look</h3><p data-en="We set up a time to see the job and talk through the work and the price." data-es="Acordamos una hora para ver el trabajo y platicar del trabajo y el precio.">We set up a time to see the job and talk through the work and the price.</p></div>
+      <div class="step"><h3 data-en="Done right" data-es="Bien hecho">Done right</h3><p data-en="The work gets done the way the name says, and your power is back on." data-es="El trabajo se hace como dice el nombre, y tu casa vuelve a tener corriente.">The work gets done the way the name says, and your power is back on.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap">
+    <div class="visit">
+      <div>
+        <p class="kick" data-en="Find us" data-es="Encuéntranos">Find us</p>
+        <h2 data-en="Get in touch" data-es="Contáctanos">Get in touch</h2>
+        <p class="addr">215 E Gaines St<br>Lawrenceburg, TN 38464</p>
+        <div class="cta">
+          <a class="btn y" href="tel:+19313345395" data-en="⚡ Call now" data-es="⚡ Llamar ahora">⚡ Call now</a>
+          <a class="btn o" href="https://www.google.com/maps/search/?api=1&query=215%20E%20Gaines%20St%2C%20Lawrenceburg%2C%20TN%2038464" target="_blank" rel="noopener" data-en="📍 Directions" data-es="📍 Cómo llegar">📍 Directions</a>
+        </div>
+        <p class="small"><a href="mailto:donerightelectrical6@gmail.com">donerightelectrical6@gmail.com</a> · <a href="https://www.facebook.com/DoneRight2018/" target="_blank" rel="noopener">Facebook</a></p>
+      </div>
+      <div>
+        <p class="kick" data-en="Hours" data-es="Horario">Hours</p>
+        <table class="hrs">
+          <tr><td data-en="Monday – Friday" data-es="Lunes a viernes">Monday – Friday</td><td>7:00 am – 3:00 pm</td></tr>
+          <tr><td data-en="Saturday – Sunday" data-es="Sábado y domingo">Saturday – Sunday</td><td data-en="Call to ask" data-es="Llama para preguntar">Call to ask</td></tr>
+        </table>
+        <p class="small" data-en="Hours as listed publicly; please call to confirm before you come by." data-es="Horario según lo publicado; llama para confirmar antes de pasar.">Hours as listed publicly; please call to confirm before you come by.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap fin">
+    <span>© 2026 Done Right Electrical · Lawrenceburg, TN</span>
+    <span data-en='Sample page by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a>' data-es='Página de muestra por <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a>'>Sample page by <a href="https://dakrastudio.com" target="_blank" rel="noopener">Dakra Studio</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  let lang="en";
+  function render(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll("[data-en]").forEach(e=>{e.innerHTML=e.dataset[lang]});
+    document.querySelectorAll("[data-lang]").forEach(b=>{b.textContent=lang==="en"?"Español":"English";b.dataset.lang=lang==="en"?"es":"en"});
+    document.title=lang==="en"?"Done Right Electrical · Lawrenceburg, TN":"Done Right Electrical · Electricista en Lawrenceburg, TN";
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=lang==="en"?"es":"en";render()}));
+  render();
+})();
+</script>
+<script>/* Dakra Studio · movimiento: aparece al bajar */
+(function(){var els=[].slice.call(document.querySelectorAll(".svc, .step, .fact, .visit"));if(!els.length)return;
+var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+els.forEach(function(e,i){e.classList.add("rv");e.style.transitionDelay=(i%4)*90+"ms"});
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in")});return}
+var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.15});
+els.forEach(function(e){io.observe(e)})})();</script>
+
+<button class="bot-btn" id="botBtn" type="button" aria-controls="bot" aria-expanded="false"><span class="ping" aria-hidden="true"></span><span class="bot-l" data-es="¿Preguntas? Chatea" data-en="Questions? Chat">¿Preguntas? Chatea</span></button>
+<div class="bot" id="bot" role="dialog" aria-label="Done Right Electrical assistant" hidden>
+  <div class="bh"><div><b>Done Right Electrical</b><small class="bot-l" data-es="Asistente · responde al instante" data-en="Assistant · instant answers">Asistente · responde al instante</small></div><button class="x" id="botX" type="button" aria-label="Cerrar">×</button></div>
+  <div class="log" id="botLog" aria-live="polite"></div>
+  <div class="chips2" id="botChips"></div>
+  <form id="botForm"><input id="botIn" autocomplete="off" aria-label="Escribe tu pregunta"><button type="submit" class="bot-l" data-es="Enviar" data-en="Send">Enviar</button></form>
+  <div class="demo-tag bot-l" data-es="Asistente de demostración creado por Dakra Studio" data-en="Demo assistant built by Dakra Studio">Asistente de demostración creado por Dakra Studio</div>
+</div>
+<script>
+const CFG={name:"Done Right Electrical",color:"#C8662B",color2:"#16181B",ink:"#16181B",bg:"#F6F3EC",font:"'IBM Plex Sans',system-ui,sans-serif",display:"'Big Shoulders Display',Impact,sans-serif",
+  tel:"+19313345395",telTxt:"(931) 334-5395",maps:"https://www.google.com/maps/search/?api=1&query=215%20E%20Gaines%20St%2C%20Lawrenceburg%2C%20TN%2038464",address:"215 E Gaines St, Lawrenceburg, TN 38464",
+  H:[null,[7,15],[7,15],[7,15],[7,15],[7,15],null]};
+const TEL=`<a href="tel:${CFG.tel}">${CFG.telTxt}</a>`,MAIL=`<a href="mailto:donerightelectrical6@gmail.com">donerightelectrical6@gmail.com</a>`,FB=`<a href="https://www.facebook.com/DoneRight2018/" target="_blank" rel="noopener">Facebook</a>`,MAP=`<a href="${CFG.maps}" target="_blank" rel="noopener">Google Maps</a>`;
+const INTENTS=[
+  {k:"hi",re:/^(hola|buenas|buen d[ií]a|buenos|qu[eé] tal|hi|hello|hey|howdy|good (morning|afternoon|evening))\b/i,en:()=>"Hi! 👋 Ask me about panels, underground or overhead service, standby generators, our hours or how to get a quote.",es:()=>"¡Hola! 👋 Pregúntame por paneles, acometidas subterráneas o aéreas, generadores de respaldo, el horario o cómo pedir cotización."},
+  {k:"thanks",re:/gracias|thank|thx|appreciate/i,en:()=>"You're welcome! Call anytime you need an electrician. ⚡",es:()=>"¡Con gusto! Llámanos cuando necesites un electricista. ⚡"},
+  {k:"lang",re:/ingl[eé]s|espa[ñn]ol|english|spanish|hablan|speak|idioma|language/i,en:()=>`This website works in English and Spanish. To ask which languages we speak on the phone, call ${TEL}. 🗣️`,es:()=>`Esta página está en inglés y español. Para preguntar en qué idiomas atendemos por teléfono, llama al ${TEL}. 🗣️`},
+  {k:"emergency",re:/emergen|urgen|sparks?|chispa|humo|smoke|burning|quem|fire|fuego|incendi|shock|toques?|descarga|no power|sin luz|sin corriente|power out|se fue la luz|24\/?7|night|noche|tonight|after hours/i,en:()=>`If you see smoke, sparks or smell burning, get everyone away and call 911 first. If the power company's line is down, call your utility. For anything else urgent, call ${TEL}; we haven't posted after-hours availability here, so please call to check. 🚨`,es:()=>`Si ves humo, chispas o huele a quemado, aleja a todos y llama primero al 911. Si se cayó la línea de la compañía de luz, llama a tu compañía eléctrica. Para otra urgencia, llama al ${TEL}; no tenemos publicado servicio fuera de horario, así que llama para confirmar. 🚨`},
+  {k:"open",re:/abierto|abren hoy|est[aá]n abiertos|open now|are you open|open today|trabajan hoy/i,en:()=>"Based on our listed hours: "+STATUS().en+` Call ${TEL} to confirm.`,es:()=>"Según el horario publicado: "+STATUS().es+` Llama al ${TEL} para confirmar.`},
+  {k:"hours",re:/hora|horario|abre|abren|cierra|cierran|hours|close|weekend|fin de semana|s[aá]bado|domingo|saturday|sunday|qu[eé] d[ií]as|what days/i,en:()=>`Our listed hours are Monday to Friday, 7 am to 3 pm. Weekend hours aren't posted, so call ${TEL} to ask. 📅`,es:()=>`El horario publicado es de lunes a viernes, de 7 am a 3 pm. El fin de semana no está publicado, así que llama al ${TEL} para preguntar. 📅`},
+  {k:"time",re:/cu[aá]nto (tarda|tiempo|dura)|tardan|duraci|how long|how soon|wait|espera|soon|pronto|same day|mismo d[ií]a|today|hoy|tomorrow|ma[ñn]ana/i,en:()=>`How soon we can come and how long a job takes depends on the job and our schedule. Call ${TEL} for the soonest opening. ⏱️`,es:()=>`Qué tan pronto podemos ir y cuánto tarda depende del trabajo y de la agenda. Llama al ${TEL} para el primer espacio disponible. ⏱️`},
+  {k:"price",re:/precio|cu[aá]nto|cuesta|cobran|tarifa|price|how much|cost|rate|quote|cotiza|estimate|presupuesto|charge|fee/i,en:()=>`Prices aren't posted online because every electrical job is different. Call ${TEL} or email ${MAIL} with what you need and we'll talk about the price for your job. 💵`,es:()=>`Los precios no están publicados porque cada trabajo eléctrico es distinto. Llama al ${TEL} o escribe a ${MAIL} con lo que necesitas y platicamos del precio de tu trabajo. 💵`},
+  {k:"pay",re:/pago|pagar|tarjeta|efectivo|cash|card|credit|debit|venmo|zelle|cash ?app|paypal|check|cheque|payment|financ/i,en:()=>`To confirm which payment methods we take, call ${TEL}. 💳`,es:()=>`Para confirmar qué formas de pago aceptamos, llama al ${TEL}. 💳`},
+  {k:"license",re:/licen|insur|asegur|seguro|bonded|certif|permit|permiso|inspec/i,en:()=>`For licensing, insurance or permit questions, please call ${TEL} and ask us directly. 📄`,es:()=>`Para preguntas sobre licencia, seguro o permisos, llama al ${TEL} y pregúntanos directamente. 📄`},
+  {k:"guarantee",re:/garant[ií]a|guarant|warrant|satisf|not happy|no qued|si falla|callback/i,en:()=>`For questions about warranties or what happens if something isn't right after a job, please call ${TEL} and talk with us directly. 🛡️`,es:()=>`Para preguntas sobre garantías o qué pasa si algo no queda bien después del trabajo, llama al ${TEL} y habla directamente con nosotros. 🛡️`},
+  {k:"generator",re:/generator|generador|generac|standby|respaldo|back.?up power|planta/i,en:()=>`Yes, we do standby generator systems, so your home keeps power when the grid goes down. Call ${TEL} to talk about your house. 🔋`,es:()=>`Sí, instalamos sistemas de generador de respaldo, para que tu casa siga con luz cuando se va la corriente. Llama al ${TEL} para platicar de tu casa. 🔋`},
+  {k:"panel",re:/panel|breaker|interruptor|pastilla|fuse|fusible|caja de luz|amp|amperaje|upgrade|relocat|reubic|mover el panel|move the panel/i,en:()=>`Yes, panel updates and relocations are one of our specialties: replacing an old panel or moving it to a better spot. Call ${TEL} for a quote. 🔌`,es:()=>`Sí, cambiar y reubicar paneles es una de nuestras especialidades: reemplazar un panel viejo o moverlo a un mejor lugar. Llama al ${TEL} para cotizar. 🔌`},
+  {k:"underground",re:/underground|subterr[aá]ne|bajo tierra|trench|zanja|buried|enterrad|meter base|base del medidor|medidor|meter/i,en:()=>`Yes, we specialize in residential underground electrical service installations. Call ${TEL} to set up a look at your property. ⛏️`,es:()=>`Sí, nos especializamos en instalar acometidas eléctricas subterráneas para casas. Llama al ${TEL} para que revisemos tu propiedad. ⛏️`},
+  {k:"overhead",re:/overhead|a[eé]re[ao]|service drop|mast|m[aá]stil|weatherhead|cable de la calle|line to the house|l[ií]nea a la casa|storm|tormenta|tree|[aá]rbol/i,en:()=>`Yes, we do overhead service repairs. If a line is down or sparking, stay away and call your power company or 911 first, then call us at ${TEL}. 🌩️`,es:()=>`Sí, reparamos acometidas aéreas. Si hay un cable caído o sacando chispas, aléjate y llama primero a la compañía de luz o al 911, y luego a nosotros al ${TEL}. 🌩️`},
+  {k:"remodel",re:/remodel|addition|ampliaci|cuarto nuevo|new room|renov|garage|garaje|shop|taller|barn|granero/i,en:()=>`Yes, we do electrical for home additions and remodels. Call ${TEL} or email ${MAIL} to talk about your project. 🏠`,es:()=>`Sí, hacemos la instalación eléctrica para ampliaciones y remodelaciones. Llama al ${TEL} o escribe a ${MAIL} para platicar de tu proyecto. 🏠`},
+  {k:"commercial",re:/comercial|negocio|empresa|business|commercial|industrial|restaurant|office|oficina|new construction|construcci[oó]n nueva|whole house|casa completa/i,en:()=>`Our focus is residential work. For businesses, new construction or bigger jobs, call ${TEL} to see if it's a fit. 🏗️`,es:()=>`Nos enfocamos en trabajo residencial. Para negocios, construcción nueva o trabajos grandes, llama al ${TEL} para ver si lo podemos hacer. 🏗️`},
+  {k:"special",re:/special|especial|promo|descuento|discount|deal|oferta|coupon|cup[oó]n|senior|military|militar/i,en:()=>`We don't have specials posted here. Call ${TEL} to ask. 🏷️`,es:()=>`No tenemos promociones publicadas aquí. Llama al ${TEL} para preguntar. 🏷️`},
+  {k:"services",re:/servicio|qu[eé] hacen|ofrecen|services|what do you|electric|el[eé]ctric|wiring|cable|outlet|enchufe|contacto|switch|apagador|light|luz|l[aá]mpara|fix|arregl|repar|install|instal/i,en:()=>"We're a full-service residential electrical company. Our specialties: underground service installations, overhead service repairs, panel updates and relocations, and standby generators, plus wiring and electrical for additions and remodels. ⚡ For a specific job, just call.",es:()=>"Somos una compañía eléctrica residencial de servicio completo. Especialidades: acometidas subterráneas, reparación de acometidas aéreas, cambio y reubicación de paneles y generadores de respaldo, además de cableado y electricidad para ampliaciones y remodelaciones. ⚡ Para un trabajo en específico, llámanos."},
+  {k:"reviews",re:/rese[ñn]a|opini|review|rating|recomendad|good|buen[oa]s?|trust|confiable/i,en:()=>`On Facebook, 100% of 14 reviewers recommend us. Read the reviews on our ${FB} page. ⭐`,es:()=>`En Facebook, el 100% de 14 reseñas nos recomiendan. Lee las reseñas en nuestra página de ${FB}. ⭐`},
+  {k:"area",re:/zona|[aá]rea|cubren|llegan|county|condado|loretto|leoma|summertown|ethridge|pulaski|columbia|waynesboro|hohenwald|serve|come to|far|lejos|travel|near me|cerca|middle tennessee/i,en:()=>`We're based in Lawrenceburg and serve Middle Tennessee. To check if we reach your address, call ${TEL}. 🗺️`,es:()=>`Estamos en Lawrenceburg y trabajamos en Middle Tennessee. Para saber si llegamos a tu dirección, llama al ${TEL}. 🗺️`},
+  {k:"where",re:/d[oó]nde|direcci|ubica|llegar|mapa|where|address|location|direction|lawrenceburg/i,en:()=>`We're at 215 E Gaines St, Lawrenceburg, TN 38464. Get directions on ${MAP}, and call ${TEL} before coming by. 📍`,es:()=>`Estamos en 215 E Gaines St, Lawrenceburg, TN 38464. Busca cómo llegar en ${MAP} y llama al ${TEL} antes de pasar. 📍`},
+  {k:"book",re:/cita|agendar|programar|reserv|appointment|book|schedule|visit|visita|come out|venir|send someone/i,en:()=>`Jobs are set up directly with us. Call ${TEL} or email ${MAIL} with your address and what you need. 🗓️`,es:()=>`Los trabajos se acuerdan directamente con nosotros. Llama al ${TEL} o escribe a ${MAIL} con tu dirección y lo que necesitas. 🗓️`},
+  {k:"email",re:/correo|email|e-mail|mail|escribir|write|message|mensaje|facebook|text|texto/i,en:()=>`You can email us at ${MAIL} or message us on ${FB}. ✉️`,es:()=>`Puedes escribirnos a ${MAIL} o mandarnos mensaje por ${FB}. ✉️`},
+  {k:"person",re:/persona|humano|due[ñn]o|encargad|hablar con|llamar|tel[eé]fono|n[uú]mero|human|person|someone|talk to|speak to|owner|manager|call|phone/i,en:()=>`Of course! Call ${TEL} or email ${MAIL}. 📞`,es:()=>`¡Claro! Llama al ${TEL} o escribe a ${MAIL}. 📞`}
+];
+const CHIPS={en:[["services","What we do"],["panel","Panels"],["generator","Generators"],["price","Prices"],["hours","Hours"],["area","Area we serve"],["emergency","Emergency"],["person","Talk to us"]],
+             es:[["services","Qué hacemos"],["panel","Paneles"],["generator","Generadores"],["price","Precios"],["hours","Horario"],["area","Zona que cubrimos"],["emergency","Emergencia"],["person","Hablar con nosotros"]]};
+const TXT={en:{hi:"Hi! 👋 I'm the Done Right Electrical assistant. Tap a question or type your own.",ph:"Type your question…",fb:`I don't know that one yet 😅. Call ${TEL} or email ${MAIL} and we'll gladly help.`},
+           es:{hi:"¡Hola! 👋 Soy el asistente de Done Right Electrical. Toca una pregunta o escribe la tuya.",ph:"Escribe tu pregunta…",fb:`Esa no me la sé todavía 😅. Llama al ${TEL} o escribe a ${MAIL} y con gusto te ayudamos.`}};
+
+
+(function(){
+  const L=()=>(document.documentElement.lang||"").slice(0,2)==="en"?"en":"es";
+
+
+  const DN={es:["domingo","lunes","martes","miércoles","jueves","viernes","sábado"],en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]};
+  const fmt=h=>{const hr=Math.floor(h),m=Math.round((h-hr)*60);return(((hr+11)%12)+1)+(m?":"+String(m).padStart(2,"0"):"")+(hr>=12?" pm":" am")};
+  function now(){const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Chicago",weekday:"short",hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(g("weekday")),h:(parseInt(g("hour"),10)%24)+parseInt(g("minute"),10)/60}}
+  window.STATUS=function(){const t=now(),r=CFG.H[t.d];
+    if(r&&t.h>=r[0]&&t.h<r[1])return{en:`Yes, we're open right now ✅ until ${fmt(r[1])}.`,es:`¡Sí! Ahorita estamos abiertos ✅ hasta las ${fmt(r[1])}.`};
+    let d=t.d,first=true;for(let i=0;i<8;i++){const x=CFG.H[d];if(x&&(!first||t.h<x[0]))break;d=(d+1)%7;first=false}
+    const today=d===t.d;return{en:`We're closed right now. We open ${today?"today":DN.en[d]} at ${fmt(CFG.H[d][0])}.`,es:`Ahorita estamos cerrados. Abrimos ${today?"hoy":"el "+DN.es[d]} a las ${fmt(CFG.H[d][0])}.`}};
+  window.HOURS=l=>[1,2,3,4,5,6,0].map(d=>{const r=CFG.H[d],n=DN[l][d];return `${n[0].toUpperCase()+n.slice(1)}: ${r?fmt(r[0])+" – "+fmt(r[1]):(l==="es"?"cerrado":"closed")}`}).join("\n");
+
+  const log=document.getElementById("botLog"),HIST=[];
+  const chipLabel=(k,l)=>{const c=CHIPS[l].find(x=>x[0]===k);return c?c[1]:null};
+  function answer(q,k){const l=L();if(k){const it=INTENTS.find(i=>i.k===k);return it?it[l]():TXT[l].fb}const it=INTENTS.find(i=>i.re.test(q));return it?it[l]():TXT[l].fb}
+  function bubble(w,h,t){const m=document.createElement("div");m.className="bm "+w;if(t)m.textContent=h;else m.innerHTML=h;log.appendChild(m)}
+  function draw(){const l=L();log.innerHTML="";HIST.forEach(h=>{if(h.who==="hi")bubble("b",TXT[l].hi);else if(h.who==="u")bubble("u",h.k?(chipLabel(h.k,l)||h.q):h.q,true);else if(h.pending)bubble("b","…",true);else bubble("b",answer(h.q,h.k))});log.scrollTop=log.scrollHeight}
+  function ask(q,k){HIST.push({who:"u",q,k});const r={who:"b",q,k,pending:true};HIST.push(r);draw();setTimeout(()=>{r.pending=false;draw()},450)}
+  function chips(){const l=L();document.getElementById("botChips").innerHTML=CHIPS[l].map(([k,t])=>`<button type="button" data-k="${k}">${t}</button>`).join("");
+    document.querySelectorAll("#botChips button").forEach(b=>b.addEventListener("click",()=>ask(b.textContent,b.dataset.k)));
+    const i=document.getElementById("botIn");i.placeholder=TXT[l].ph;i.setAttribute("aria-label",TXT[l].ph);
+    document.querySelectorAll(".bot-l").forEach(e=>e.textContent=e.dataset[l])}
+  const bot=document.getElementById("bot"),btn=document.getElementById("botBtn");
+  function open(o){bot.hidden=!o;btn.setAttribute("aria-expanded",o);if(o&&!HIST.length)HIST.push({who:"hi"});if(o)draw()}
+  btn.addEventListener("click",()=>open(bot.hidden));
+  document.getElementById("botX").addEventListener("click",()=>open(false));
+  document.getElementById("botForm").addEventListener("submit",e=>{e.preventDefault();const i=document.getElementById("botIn"),q=i.value.trim();if(!q)return;i.value="";ask(q,null)});
+  /* Cuando la página cambia de idioma, el chat también */
+  new MutationObserver(()=>{chips();draw()}).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
+  chips();
+})();
+
+</script>
+</body>
+</html>
